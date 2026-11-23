@@ -4,7 +4,7 @@
 
 ## Before you open the map
 
-1. Confirm layers exist (see [LAYER-PATHS.md](LAYER-PATHS.md)). On a thin clone, skip to [Cases via PNGs](#cases-via-pngs).
+1. Confirm layers exist (see [LAYER-PATHS.md](LAYER-PATHS.md)). On Jordan’s Mac workstation (23 Nov 2026) all required paths are present. On a thin clone, skip to [Cases via PNGs](#cases-via-pngs).
 2. Remember: **GO ≠ approval.** Class is physical / land-cover suitability only. Legal / tenure flags are incomplete; elevation-check is a separate flag.
 
 ## Open in QGIS

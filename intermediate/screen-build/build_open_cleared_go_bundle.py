@@ -140,6 +140,35 @@ def feature_props(
     }
 
 
+def _round_coords(obj, nd: int = 5):
+    """Round nested GeoJSON coordinates (≈1 m at equator for nd=5)."""
+    if isinstance(obj, (list, tuple)):
+        if obj and isinstance(obj[0], (int, float)):
+            return [round(float(x), nd) for x in obj]
+        return [_round_coords(x, nd) for x in obj]
+    return obj
+
+
+def compact_feature_collection(fc: dict, *, coord_decimals: int = 5) -> dict:
+    """Drop indent bloat and quantise coordinates for git-safe GeoJSON."""
+    out = {"type": "FeatureCollection", "features": []}
+    for feat in fc.get("features", []):
+        geom = feat.get("geometry")
+        if geom and "coordinates" in geom:
+            geom = {
+                **geom,
+                "coordinates": _round_coords(geom["coordinates"], coord_decimals),
+            }
+        out["features"].append(
+            {
+                "type": "Feature",
+                "properties": feat.get("properties", {}),
+                "geometry": geom,
+            }
+        )
+    return out
+
+
 def write_bundle(
     out_dir: Path,
     *,
@@ -157,8 +186,13 @@ def write_bundle(
     schema_dir.mkdir(parents=True, exist_ok=True)
 
     go_caut_path = layers_dir / "go-caution.geojson"
-    go_caut_path.write_text(json.dumps(features_fc, indent=2) + "\n")
-
+    # Compact + 5-dp coords keeps full GO±CAUTION under GitHub's soft size limit.
+    fc_out = compact_feature_collection(features_fc) if not stub else features_fc
+    if stub:
+        go_caut_path.write_text(json.dumps(fc_out, indent=2) + "\n")
+    else:
+        go_caut_path.write_text(json.dumps(fc_out, separators=(",", ":")) + "\n")
+    features_fc = fc_out  # stats / counts use the written geometry set
     layer_index = [
         {
             "id": "go-caution",
