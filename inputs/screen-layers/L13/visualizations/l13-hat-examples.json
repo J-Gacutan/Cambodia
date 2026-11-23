@@ -1,0 +1,70 @@
+{
+  "sites": [
+    {
+      "site": "Koh Kong coast (Peam Krasop area)",
+      "lon": 103.05,
+      "lat": 11.45,
+      "m2_m": 0.118,
+      "s2_m": 0.06,
+      "k1_m": 0.353,
+      "o1_m": 0.221,
+      "spring_range_m": 0.357,
+      "hat_amp_sum_m": 1.034
+    },
+    {
+      "site": "Sihanoukville Bay",
+      "lon": 103.55,
+      "lat": 10.62,
+      "m2_m": 0.11,
+      "s2_m": 0.05,
+      "k1_m": 0.233,
+      "o1_m": 0.177,
+      "spring_range_m": 0.319,
+      "hat_amp_sum_m": 0.797
+    },
+    {
+      "site": "Kep",
+      "lon": 104.32,
+      "lat": 10.48,
+      "m2_m": 0.099,
+      "s2_m": 0.011,
+      "k1_m": 0.194,
+      "o1_m": 0.141,
+      "spring_range_m": 0.221,
+      "hat_amp_sum_m": 0.72
+    },
+    {
+      "site": "Koh Rong approaches",
+      "lon": 103.3,
+      "lat": 10.7,
+      "m2_m": 0.109,
+      "s2_m": 0.051,
+      "k1_m": 0.247,
+      "o1_m": 0.186,
+      "spring_range_m": 0.321,
+      "hat_amp_sum_m": 0.829
+    },
+    {
+      "site": "Kampot coast",
+      "lon": 104.18,
+      "lat": 10.6,
+      "m2_m": 0.084,
+      "s2_m": 0.012,
+      "k1_m": 0.196,
+      "o1_m": 0.143,
+      "spring_range_m": 0.193,
+      "hat_amp_sum_m": 0.701
+    }
+  ],
+  "hat_proxy_min_m": 0.0,
+  "hat_proxy_max_m": 1.2619401361234484,
+  "hat_proxy_median_m": 0.7294793925061821,
+  "timeseries_sihanoukville": {
+    "min_m": -0.6922480991470622,
+    "max_m": 0.47738647360643455,
+    "period": "2026-11-01 to 2026-11-07 UTC"
+  },
+  "tif": "inputs/screen-layers/L13/hat_amplitude_sum_proxy_kh.tif",
+  "map_png": "inputs/screen-layers/L13/visualizations/hat_proxy_map.png",
+  "ts_png": "inputs/screen-layers/L13/visualizations/examples_timeseries.png"
+}

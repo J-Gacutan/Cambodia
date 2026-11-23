@@ -1,0 +1,10 @@
+L18 — Ramsar Sites Information Service (Cambodia extract)
+Source: RSIS GeoServer WFS
+Polygons: ramsar_cambodia_rsis.geojson / .zip — features_published, CQL_FILTER iso3='KHM'
+  Sites with published polygons (3): Boeng Chhmar (997), Prek Toal (2245), Stung Sen (2365)
+Centroids: ramsar_cambodia_centroids.geojson — features_centroid_published, iso3='KHM'
+  All five Cambodia sites (adds Koh Kapik and Associated Islets 998; Middle Stretches of Mekong 999)
+Gap: Koh Kapik (998) and Mekong (999) have no polygon in features_published as of 22 Nov 2026;
+  use centroid for screen location until MoE / RSIS publishes geometry
+Licence: CC BY 4.0 — https://www.ramsar.org/licence-information
+Fetched: 22 Nov 2026 (ywdp.8.1.3)

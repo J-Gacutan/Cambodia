@@ -1,0 +1,4 @@
+L2 — GMW v3.0 1996 baseline (Zenodo 6894273, CC BY 4.0)
+Files: gmw_v3_1996_vec.zip and/or gmw_v3_1996_gtiff.zip
+Record: https://zenodo.org/records/6894273
+Staged 22 Nov 2026 for ywdp.8.1.3.

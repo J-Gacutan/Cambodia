@@ -1,0 +1,23 @@
+L13 — FES2022 extrapolated tide heights (AVISO)
+Fetcher: intermediate/screen-build/fetch_l13_fes2022_curl_ftp.sh
+  (disk-streaming FTP with resume loop; extrapolated heights only — no currents)
+pyTMD model key: FES2022_extrapolated
+Staged: inputs/screen-layers/L13/pytmd/fes2022b/ocean_tide_extrapolated/*.nc
+FTP: ftp-access.aviso.altimetry.fr/auxiliary/tide_model/fes2022b/ocean_tide_extrapolated/
+Licence: AVISO Licence Issue 20 — heights/loading all uses; currents not downloaded
+Citation: CNES, 2024. FES2022 DOI 10.24400/527896/A01-2024.004
+Purpose: highest astronomical tide for Note 3b elevation check (ywdp.8.1.2)
+
+Processed (ywdp.8.1.4, 23 Nov 2026), verified in place and not rebuilt:
+  hat_amplitude_sum_proxy_kh.tif
+    Sum of all 34 constituent amplitudes (metres) over W 102.5-E 105.2, S 9.8-N 12.3.
+    Screening ceiling (coincident peaks). Not a chart-datum HAT.
+    Grid range 0.00-1.26 m, median 0.73 m (6232 cells, EPSG:4326, 1/30 degree).
+  visualizations/l13-hat-examples.md
+  visualizations/hat_proxy_map.png
+  visualizations/examples_timeseries.png
+  visualizations/l13-hat-examples.json
+  Script: intermediate/screen-build/process_l13_hat_examples_map.py
+  Example amp-sum (m): Peam Krasop 1.034; Sihanoukville Bay 0.797; Kep 0.720;
+    Koh Rong approaches 0.829; Kampot coast 0.701.
+  Spring range proxy 2*(M2+S2) is in the examples note, not in the GeoTIFF.

@@ -1,0 +1,4 @@
+GMW v4.1.12 coastal Cambodia tiles extracted 22 Nov 2026 from
+/Users/z5238824/Documents/GitHub/IND-MSP/docs/research/carrying-capacity/ref/geo/gmw-v4112/gmw_mng_ext_v4112_stack.tar.gz
+(original Zenodo 21346457; recorded in IND-MSP ref/txt/gmw-v4112-zenodo*.txt and idn-mmaf-reporting pipeline/build_bundle.py).
+Tiles: N11E103, N11E104, N12E102, N12E103, N13E102.

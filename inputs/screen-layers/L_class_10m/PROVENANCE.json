@@ -1,0 +1,40 @@
+{
+  "grid": "L_class_10m_firstpass / L_ponds_10m",
+  "sources": "L8_L11_10m",
+  "classes": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "preserve": [
+    3,
+    5,
+    6,
+    7
+  ],
+  "stop_overrides": [
+    1,
+    2
+  ],
+  "class5_l10_limb": "unclassified and H and (crops or (trees and not C))",
+  "water_percent": 90,
+  "built_percent": 50,
+  "l8_epoch_used": 2025,
+  "l11_epoch": "2014-2016",
+  "y1_y2": [
+    2024,
+    2025
+  ],
+  "flag_bits": {
+    "1": "L10 built, L9 not 50",
+    "2": "L10 built, L8<50",
+    "4": "L9 or L8 built, L10 not"
+  }
+}

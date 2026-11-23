@@ -1,0 +1,12 @@
+L17 WDPA/WDOECM Cambodia — research / non-commercial use OK for this screen.
+File: WDPA_WDOECM_Nov2026_Public_KHM_shp.zip (14.4 MB)
+Source: https://www.protectedplanet.net/en/country/KHM non-commercial SHP
+Release: November 2026 Public KHM
+Terms: https://www.protectedplanet.net/en/legal
+Staged 22 Nov 2026 for ywdp.8 Phase 0.
+
+Merged polygon parts 0–2 → WDPA_KHM_polygons_merged_INTERNAL.gpkg
+  (layer wdpa_khm, EPSG:4326, 68 polygons). Filename keeps _INTERNAL from Phase 0.
+23 Nov 2026 (ywdp.8.8): purpose is public/government research; non-commercial
+use confirmed for permit / STOP (legal) flags. Not for commercial or
+revenue-linked packages without a fresh terms check.

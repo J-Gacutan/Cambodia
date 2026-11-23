@@ -1,0 +1,26 @@
+{
+  "crs": "EPSG:32648",
+  "resolution_m": 10.0,
+  "width": 19457,
+  "height": 15661,
+  "transform": [
+    10.0,
+    0.0,
+    271570.0,
+    0.0,
+    -10.0,
+    1306810.0
+  ],
+  "bounds_utm48n": [
+    271570.0,
+    1150206.2902628274,
+    466138.5487955729,
+    1306810.0
+  ],
+  "mmu_ha": 0.5,
+  "mmu_pixels": 50,
+  "buffer_m": 5000.0,
+  "note": "Note 3b Step 2 pond footprint processing; CAP L5 not used for footprints",
+  "y1": 2024,
+  "y2": 2025
+}

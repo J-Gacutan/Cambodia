@@ -1,0 +1,26 @@
+L_ponds_10m — Note 3b Step 2 pond footprints on screen grid
+Built by: intermediate/screen-build/process_pond_layers_note3b.py
+Date: see filesystem mtime
+
+Inputs
+  L20 coastal-four-provinces.geojson
+  L_Jiang_ponds Cambodia shapefiles 1990/2000/2010/2020
+  L_Clark_aquaculture landcover 1999/2014/2018/2020/2022 + change layers
+
+Methods (from Note 3b)
+  CRS EPSG:32648; 10 m; nearest-neighbour for Clark reproject
+  Clip to L20; AOI = 5 km buffer of Jiang∪Clark pond footprints ∩ L20
+  Binary pond masks sieved to MMU 0.5 ha (50 pixels)
+  Step 2 candidates: jiang2020, clark2022, union, agree
+  CAP L5 not used (1° grids only)
+
+Values
+  Binary pond rasters: 1 = pond, 0 = non-pond inside AOI, 255 = outside AOI/nodata
+  clark_landcover_*: 1 mangrove, 2 coastal wetland, 3 pond, 4 water, 5 other (Clark legend)
+  clark_change_*: Clark change codes 1–15 (see L_Clark_aquaculture/README.txt)
+
+Not done here (still Note 3b Step 2)
+  L6 Sentinel water-frequency; wet / dry / intermittent for Y1=2024 Y2=2025
+  Salt-field separation
+
+L6 classified 22 Nov 2026: waterfreq 2024/2025 (10 m Drive), dryseason 30 m; l6_pond_state_*, activity, salt_field

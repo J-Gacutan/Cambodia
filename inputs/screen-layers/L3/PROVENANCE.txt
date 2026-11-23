@@ -1,0 +1,4 @@
+L3 — GMW Mangrove Habitat Mask v28 (Zenodo 17989832, CC BY 4.0)
+File: gmw_hab_msk_v28.gpkg (from .gpkg.gz)
+Record: https://zenodo.org/records/17989832
+Staged 22 Nov 2026 for ywdp.8.1.3.

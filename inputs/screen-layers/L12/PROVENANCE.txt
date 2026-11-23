@@ -1,0 +1,10 @@
+L12 DeltaDTM v1.1 — Cambodia coastal tiles via Google Earth Engine
+Asset: projects/sat-io/open-datasets/DELTARES/deltadtm_v1-1
+Catalogue: https://gee-community-catalog.org/projects/delta_dtm/
+EE project: gee-gmw-lka-extract
+Tiles: N10E103, N10E104, N11E102, N11E103, N11E104, N11E105
+Format: int16 decimetres (metres x 10), nodata -32768; ~1 arc-second EPSG:4326
+Licence: CC BY 4.0; Copernicus WorldDEM-30 notice (DLR / Airbus / Copernicus).
+Citation: Pronk et al. 2024 Sci Data; Pronk 2024 4TU DeltaDTM v1.1.
+Export: ee.data.computePixels in 0.5° quarters then mosaic; coastal bbox clip also written.
+Staged 22 Nov 2026 for ywdp.8.1.1.

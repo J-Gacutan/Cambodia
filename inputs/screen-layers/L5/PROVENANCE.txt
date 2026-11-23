@@ -1,0 +1,14 @@
+L5 Global coastal aquaculture pond (CAP) dataset v1
+Source: Mendeley https://data.mendeley.com/datasets/6p6ccgts6d/1 (CC BY 4.0)
+Downloaded 22 Nov 2026 to ~/Downloads as:
+  Global coastal aquaculture pond (CAP) dataset (199.zip  (16,517 bytes)
+  containing Data.7z (16,282 bytes)
+Extracted with bsdtar: World_1990/2000/2010/2020_merge1.tif (~261 KB each uncompressed)
+
+FINDING (22 Nov 2026): Data.7z is a valid 7-zip archive. Contents are four global
+GeoTIFFs at 1 degree resolution (360 x 180, EPSG:4326, float32, nodata -999),
+named World_YYYY_merge1.tif for 1990, 2000, 2010, 2020. Values look like
+aggregated pond counts or area per cell, not pond footprints.
+NOT usable for Note 3b Step 2 (needs pond polygons / ~10–30 m footprints).
+Screen pond detection must rely on L6 Sentinel water-frequency + visual
+training until a fine-scale pond layer is obtained.

@@ -32,3 +32,6 @@ __pycache__/
 .dolt/
 *.db
 .beads-credential-key
+*.gpkg.gz
+**/fetch.pid
+**/fetch.log

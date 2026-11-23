@@ -1,0 +1,22 @@
+{
+  "grid": "class_firstpass / L_ponds_10m",
+  "crs": "EPSG:32648",
+  "crs_transform": [
+    10.0,
+    0.0,
+    271570.0,
+    0.0,
+    -10.0,
+    1306810.0
+  ],
+  "width": 19457,
+  "height": 15661,
+  "ee_project": "gee-gmw-lka-extract",
+  "y1_y2": "2024-01-01 inclusive to 2026-01-01 exclusive",
+  "l8": "JRC/GHSL/P2023A/GHS_BUILT_S built_surface/100, epochs 2025 and 2020",
+  "l9": "ESA/WorldCover/v200 Map",
+  "l10": "GOOGLE/DYNAMICWORLD/V1 label mode, water percent, count cap 254",
+  "l10_tie": "Earth Engine Reducer.mode returns the lowest class on a tie",
+  "l11": "UQ/murray/Intertidal/v1_1/global_intertidal 2014-2016 classification == 1",
+  "resampling": "nearest, export crsTransform locked to the screen grid"
+}

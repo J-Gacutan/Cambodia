@@ -1,0 +1,5 @@
+L_Peng — Peng et al. 2026 global 10 m seagrass (Zenodo 18612240, CC BY 4.0)
+DOI: 10.5281/zenodo.18612240
+Tile: -0000851968-0003145728 (covers Cambodia coast ~102.6–108.5 E, 7.6–13.5 N)
+Files: peng_seagrass_2019_2020_tile_*.tif ; peng_seagrass_2023_2024_tile_*.tif
+Restaged 22 Nov 2026 from nested path under L1/ (cwd misplace during earlier fetch).

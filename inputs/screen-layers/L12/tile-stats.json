@@ -1,0 +1,74 @@
+[
+  {
+    "tile": "N10E103",
+    "file": "DeltaDTM_v1_1_N10E103.tif",
+    "bytes": 122002,
+    "width": 3600,
+    "height": 3600,
+    "valid_pixels": 4391,
+    "min_m": -6.5,
+    "max_m": 30.0,
+    "mean_m": 7.814097016624915,
+    "sha256": "5f767e174f319985b1eeb68fc7ee27d4223f486546926435f760a052a5fbe01b"
+  },
+  {
+    "tile": "N10E104",
+    "file": "DeltaDTM_v1_1_N10E104.tif",
+    "bytes": 1007680,
+    "width": 3600,
+    "height": 3600,
+    "valid_pixels": 1338888,
+    "min_m": -6.1,
+    "max_m": 30.0,
+    "mean_m": 1.294631813863445,
+    "sha256": "bfc766ed8116aa3d7e205ec1ee58951a2d63c4de9c2538efb82f21674404fa6b"
+  },
+  {
+    "tile": "N11E102",
+    "file": "DeltaDTM_v1_1_N11E102.tif",
+    "bytes": 113984,
+    "width": 3600,
+    "height": 3600,
+    "valid_pixels": 696,
+    "min_m": -0.4,
+    "max_m": 29.9,
+    "mean_m": 14.855890804597701,
+    "sha256": "fb18b680aa721ba60d06d0161a37b9580021bbde4b2edb3b7adf3bd1b1605ae7"
+  },
+  {
+    "tile": "N11E103",
+    "file": "DeltaDTM_v1_1_N11E103.tif",
+    "bytes": 1927680,
+    "width": 3600,
+    "height": 3600,
+    "valid_pixels": 1827399,
+    "min_m": -6.4,
+    "max_m": 30.0,
+    "mean_m": 10.067354639025194,
+    "sha256": "a8bc763ccf509b07c9f9ba6f30994757840b6fea4b1d5ff140065dab959d1c2f"
+  },
+  {
+    "tile": "N11E104",
+    "file": "DeltaDTM_v1_1_N11E104.tif",
+    "bytes": 3905132,
+    "width": 3600,
+    "height": 3600,
+    "valid_pixels": 6057566,
+    "min_m": -20.4,
+    "max_m": 30.0,
+    "mean_m": 6.8411976196379864,
+    "sha256": "dc7f131b2d6f531bfd04b99fb9c366155d6fe0b9ce95fe6d0eaa1b38eae6b349"
+  },
+  {
+    "tile": "N11E105",
+    "file": "DeltaDTM_v1_1_N11E105.tif",
+    "bytes": 7006890,
+    "width": 3600,
+    "height": 3600,
+    "valid_pixels": 12322173,
+    "min_m": -14.5,
+    "max_m": 30.0,
+    "mean_m": 2.2864642624316343,
+    "sha256": "00ca7cf4739ac0f02dbe6da70e7ffa8ded87c03e42d24d52cfbbf76efa63ac12"
+  }
+]

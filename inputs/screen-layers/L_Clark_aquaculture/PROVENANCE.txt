@@ -1,0 +1,52 @@
+L_Clark_aquaculture — Clark Labs Cambodia pond aquaculture and coastal habitat maps
+Product: Land Cover and Change Maps (Cambodia), Center for Geospatial Analytics / Clark Labs
+Partnership: Gordon and Betty Moore Foundation Oceans and Seafood Markets Initiative
+Download page: https://www.clarku.edu/geospatial-analytics/aquaculture-data-download/
+Direct zip: https://clarkcga-aquaculture.s3.amazonaws.com/data/v1.0/zip/cambodia/Cambodia_Landcover_Change_Maps_1999_2014_2018_2020_2022.zip
+
+Staged 22 Nov 2026 from ~/Downloads/Cambodia_Landcover_Change_Maps_1999_2014_2018_2020_2022.zip
+  Size 10,363,281 bytes; md5 9c4ef9d40701886ecc66401243bd7a12
+Extracted in place (same folder as zip). README.docx also converted to README.txt.
+
+Contents
+  Cambodia_Landcover_YYYY_*exp.tif — years 1999 (v5), 2014 (v6), 2018 (v4), 2020 (v2), 2022 (v1)
+  cambodia_change_persistence_1999_2022exp.tif
+  cambodia_change_persistence_2020_2022exp.tif
+  cylea15.prj, README.docx / README.txt, sidecars (.tfw, .aux.xml, .ovr, .vat.dbf)
+
+Geometry
+  15 m pixels; uint8 thematic; nodata 0
+  CRS: Normal Aspect Cylindrical Equal Area (WGS84, standard parallel 15°, central meridian 0°)
+  Grid 17,516 x 18,622; bounds (CEA metres) E 11,042,280–11,305,020, N 1,114,110–1,393,440
+  Approx WGS84 envelope: 102.67–105.11 E, 9.78–12.27 N (covers four coastal provinces)
+
+Landcover classes (README + VAT)
+  1 Mangrove
+  2 Coastal Wetland
+  3 Pond Aquaculture
+  4 Water
+  5 Other Landcover
+  6 Missing (listed in README; not present in Cambodia VATs inspected)
+
+Pond aquaculture area (class 3, equal-area ha = count x 225 m2 / 10,000)
+  1999: 447 ha
+  2014: 1,595 ha
+  2018: 1,585 ha
+  2020: 1,804 ha
+  2022: 1,844 ha
+
+Change layers (selected classes, 1999–2022 persistence)
+  Mangrove -> Pond (2): 58 ha
+  Pond Persistence (5): 366 ha
+  Pond -> Mangrove (6): 1.3 ha
+  Other -> Pond (9): 1,255 ha
+
+Licence (conflict to resolve before redistribution)
+  README.txt (in zip): "This data is licensed under a Creative Commons Attribution 4.0 International License" © 2014-2022 Clark Labs
+  Download page (22 Nov 2026): "licensed under a Creative Commons Attribution 4.0 International License. You are free to use these data for non-commercial purposes only. All other applications require permission."
+  Treat as FLAG / non-commercial until Clark Labs confirms whether the page rider or the README alone governs.
+
+Screen use
+  Class 3 = pond mask at 15 m (finer than Jiang polygons). Reproject to screen 10 m EPSG:4326 stack before overlay.
+  Change classes 2 / 6 / 9 useful for mangrove-to-pond and pond-to-mangrove checks.
+  Prefer internal screen build; do not package into a public MoE deliverable until licence clarified.

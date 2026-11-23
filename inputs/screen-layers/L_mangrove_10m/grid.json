@@ -1,0 +1,27 @@
+{
+  "crs": "EPSG:32648",
+  "resolution_m": 10.0,
+  "width": 21232,
+  "height": 20426,
+  "transform": [
+    10.0,
+    0.0,
+    257850.0,
+    0.0,
+    -10.0,
+    1339880.0
+  ],
+  "bounds_utm48n": [
+    257850.0,
+    1135620.0,
+    470170.0,
+    1339880.0
+  ],
+  "mmu_ha": 0.5,
+  "mmu_pixels": 50,
+  "y1": 2024,
+  "y2": 2025,
+  "c_year": 2025,
+  "baseline_year": 1996,
+  "note": "Note 3b Step 1 H/C; AOI = L20 coastal four \u2229 L1 v4.1.12 coastal tiles"
+}

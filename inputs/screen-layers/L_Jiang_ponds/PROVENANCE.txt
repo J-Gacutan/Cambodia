@@ -1,0 +1,32 @@
+L_Jiang_ponds — Jiang et al. coastal aquaculture pond polygons, Cambodia extract
+Source record: Zenodo 10.5281/zenodo.8344132
+  Title: Fine-detailed coastal aquaculture pond dataset in China and Southeast Asia
+         from 1990 to 2020 at a 30 m resolution
+  Authors: Jiang, Yufeng; Li, Jing; Zhang, Zhen; Li, Yi
+  Published: 14 Sep 2023, v1
+  Paper: Jiang et al. 2024, Int. J. Appl. Earth Obs. Geoinf. 127:103654
+         (DOI 10.1016/j.jag.2024.103654). One Earth 2025 (DOI 10.1016/j.oneear.2024.11.003)
+         cites this deposit as the coastal aquaculture ponds cover used in the
+         restoration-feasibility study.
+Download (22 Nov 2026):
+  https://zenodo.org/api/records/8344132/files/Cambodia.rar/content
+  -> Cambodia.rar (2,959,686 bytes; md5 99457631a3a1c90d787dcdedd50f9284)
+Extracted with unar to A_Cambodia/{90,00,10,20}/ (years 1990, 2000, 2010, 2020).
+Each year has WGS84 (EPSG:4326) shapefile plus Albers and Web Mercator copies.
+
+Licence: Zenodo API and record page state access_right=open but carry NO licence
+field (checked 22 Nov 2026). Treat as U until authors confirm terms. Companion
+feasibility product (zenodo.11206627) is CC BY 4.0; that licence does not
+automatically cover this pond deposit. Paper VOR is CC BY-NC-ND 4.0 (article text).
+
+Inspected contents (fiona, 22 Nov 2026):
+  1990 cambodia90.shp     910 polygons, props {ID}
+  2000 cambodia_00.shp   1907 polygons, props {ID}
+  2010 cambodia_10.shp   1984 polygons, props {ID}
+  2020 cambodia_20.shp   2754 polygons, props {ID, GRIDCODE}
+  Bounds (2020): 102.62–104.64 E, 10.43–12.30 N (covers Koh Kong–Kep coast)
+  Geometry: Polygon footprints (not 1-degree area grids). No active/abandoned
+  or salt-field class in attributes.
+
+Screen use: candidate replacement for L5 in Note 3b Step 2 pond mask.
+Keep CAP L5 as coarse corroboration only.

@@ -1,0 +1,1087 @@
+August 2024
+
+
+
+
+Legal Analysis: An
+Examination of Cambodia’s
+Environment and Natural
+Resources Code (2023)
+Changes to Governance of Protected Area and Community
+Protected Area Management and Remaining Challenges
+
+
+
+
+CLIENTEARTH.ASIA
+                                                            Legal Analysis: An Examination of Cambodia’s
+                                                               Environment and Natural Resources Code
+                                                                                            August 2024
+
+
+
+
+Introduction
+With the promulgation of Cambodia’s 2023 Environment and Natural Resources Code (ENR Code),
+there have been changes to the legal framework governing protected areas (PAs) and community
+protected areas (CPAs). Reform of the Protected Area Law (PA Law) – initially planned as a separate
+amendment – has been incorporated into the ENR Code. Thus, the ENR Code now stands as a primary
+legal instrument governing PAs and CPAs. In this context, this legal analysis provides an assessment
+of the ENR Code, focusing on governance of PA and CPA management and changes wrought through
+the ENR Code, concentrating on a select number of topics deemed to be of high interest to affected
+stakeholders.
+This analysis may be useful to civil society, governmental authorities, and other stakeholders involved
+in PA and CPA management to any degree, who are interested in understanding and evaluating the
+impact of the ENR Code and challenges that still remain.
+
+
+
+
+                                                   2
+                                                               Legal Analysis: An Examination of Cambodia’s
+                                                                  Environment and Natural Resources Code
+                                                                                               August 2024
+
+
+Summary
+This analysis focuses on 5 key topics that relate
+to the ENR Code and governance of PAs and
+CPAs:
+  (1) responsible authorities,
+  (2) land tenure,
+  (3) PA establishment and zoning,
+  (4) CPA establishment and management, and
+  (5) ecotourism development.
+
+
+ Some key recommendations include:
+   ⏹ Implementation of the transfer of                      ⏹ Addressing renewal of CPA management
+     authority to sub-national authorities as                 agreements in the legal framework and
+     mandated by the ENR Code, including                      provision of guidance related to CPA
+     more detailed allocation of roles and                    compliance determinations (with clear
+     responsibilities amongst the 3 tiers of                  conditions and criteria), as well as
+     sub-national authorities that exist in                   establishment of complaint/appeal
+     Cambodia (i.e., the capital/provincial level,            mechanisms for communities
+     the khan/municipal/district level, and the
+                                                            ⏹ Development of a clear and
+     sangkat/commune level)
+                                                              comprehensive legal framework on
+   ⏹ Registration of established CPAs in the                  ecotourism, including careful
+     land registration system, enhancing                      consideration of and clear processes
+     completeness of PA registration data as                  regulating how ecotourism
+     well as strengthening CPA communities’                   establishment and implementation
+     tenure security, and addressing CPA                      interacts with PAs/CPAs and impacted
+     registration in the legal framework                      communities, as well as proper
+                                                              limitations
+   ⏹ Incorporation of free, prior and informed
+     consent into the PA establishment and
+     zoning process, as such decisions could
+     directly and/or indirectly affect the
+     integrity of, access to, and utilisation of
+     Indigenous Peoples’ and local
+     communities’ territories and resources, as
+     well as cultural practices and traditions
+
+
+More broadly, there is a need to develop and             stakeholders still reliant on the previous legal
+provide training, education, and guidance to             framework, rather than exercising their
+relevant governmental officials (especially sub-         functions pursuant to the legislation that is in
+national authorities) and civil society on the ENR       force.
+Code, as it appears that there currently exists an
+implementation gap in practice – with many
+
+
+
+
+                                                     3
+                                                           Legal Analysis: An Examination of Cambodia’s
+                                                              Environment and Natural Resources Code
+                                                                                           August 2024
+
+
+
+
+1. Responsible authorities
+  The ENR Code has transformed the governance of PAs and CPAs through a substantial transfer of
+  authority to sub-national authorities. A significant task that remains is implementation of the
+  transfer of authority to sub-national authorities, which will need to include more detailed allocation
+  of roles and responsibilities amongst the 3 tiers of sub-national authorities that exist in Cambodia
+  (i.e., the capital/provincial level, the khan/municipal/district level, and the sangkat/commune level).
+  Implementation of delegated functions will also have to incorporate provision of necessary
+  support, resources, and capacity building to ensure successful and effective transfer of
+  responsibilities to sub-national authorities.
+  Under the ENR Code, some of the duties related to PA and CPA management that sub-national
+  authorities shall be responsible for are:
+    ⏹ Ensuring sustainable management of PAs and increasing reforestation on degraded or
+      empty forest land (Art 352(2)(a));
+    ⏹ Developing and implementing PA management action plans in their jurisdictions (Art
+      352(2)(b));
+    ⏹ Taking actions to control, prevent, research, and crack down on natural resource crimes in
+      PAs and take cases to court following applicable legal procedures (Art 352(2)(c));
+    ⏹ Preventing and taking actions against all activities that damage or adversely impact PAs (Art
+      352(2)(d));
+
+
+                                                  4
+                                                     Legal Analysis: An Examination of Cambodia’s
+                                                        Environment and Natural Resources Code
+                                                                                     August 2024
+
+
+⏹ Controlling permits and other relevant documents as provided in the ENR Code (Art
+  352(2)(e));
+⏹ Controlling all exportation and importation of animals, plants, plant seeds, and samples in
+  PAs (Art 352(2)(f));
+⏹ Supporting local communities’ traditional and customary use of natural resources in
+  Conservation Zones and Sustainable Use Zones of PAs (Art 352(2)(g));
+⏹ Providing permission principles and recognising CPA establishment in Sustainable Use
+  Zones and Community Zones that receive approval from the Ministry of Environment (MoE)
+  (Art 352(2)(h));
+⏹ Managing and developing CPAs and ecotourism (Art 352(2)(i));
+⏹ Educating and disseminating information to raise awareness among citizens about the
+  importance of biodiversity management and conservation, environmental restoration, and
+  sustainable use of natural resources (Art 352(2)(j));
+⏹ Mobilising resources to support biodiversity protection, conservation, and restoration (Art
+  352(2)(k));
+⏹ Cooperating with relevant ministries or institutions, development partners, national
+  organisations, international organisations, civil society organisations, and donors to
+  strengthen capacity for management, conservation, and development of natural resources
+  (Art 352(2)(l));
+⏹ Implementing additional or modified functions concerning the management of PAs (Art
+  352(3));
+⏹ With the MoE, developing action plans for PA management in compliance with national
+  strategic plans on PAs in consultation with local communities and stakeholders (Art 357(1));
+⏹ Proposing PA establishment to the MoE (Art 358);
+⏹ Proposing modification of PAs (Art 360);
+⏹ Assisting the MoE in developing an official map of each PA, including identifying and
+  determining zoning within PAs, demarcating boundaries, and registering PA land (Art 367);
+⏹ Administratively managing CPAs (Art 371(1));
+⏹ Initiating, coordinating, supporting, giving permission principles, and recognising
+  establishment of CPAs after receiving approval from the MoE – this shall include studying
+  the possibility of designating CPAs and determining specific appropriate locations and sizes
+  in consultation and coordination with local communities and relevant stakeholders (Art
+  371(2),(3));
+⏹ Entering into agreements with CPA communities (i.e., via CPA management agreements) in
+  which the agreements’ validity shall not exceed 25 years (Art 371(4));
+⏹ Suspending operation of CPAs to review and reassess, if CPA communities do not comply
+  with CPA management agreements and CPA management plans (Art 371(5));
+⏹ Revoking CPA management agreements, after receiving approval from the MoE, in cases of
+  community noncompliance with CPA management agreements and CPA management plans
+  (Art 371(6),(7));
+
+                                             5
+                                                        Legal Analysis: An Examination of Cambodia’s
+                                                           Environment and Natural Resources Code
+                                                                                        August 2024
+
+
+  ⏹ Recognising CPA management plans (Art 374);
+  ⏹ Integrating CPA management plans into sub-national administration planning (Art 374);
+  ⏹ Issuing permits or entering into agreements or contracts for activities or projects in PAs by
+    requesting prior approval from the MoE (Art 378(2));
+  ⏹ Along with the MoE, consulted prior to development of all construction and public
+    infrastructure projects in PAs (Art 379(1));
+  ⏹ Providing permits prior to all private construction or building projects in PAs (Art 379(2));
+  ⏹ Bringing compensation claims for environmental and natural resources harm, environmental
+    restoration, or complaints to prevent activities that will harm or pollute the environment and
+    natural resources (Art 802(b));
+  ⏹ Appointing sub-national level officials responsible for PAs management within their
+    jurisdiction, who shall have duties to monitor, control, and enforce the laws within PAs and
+    may be qualified as judicial police officers who shall control natural resources offences
+    within their jurisdiction and have the power to search, seize evidence, summon relevant
+    persons, and fulfil other procedural tasks in compliance with the Criminal Procedural Code
+    (Art 810); and
+  ⏹ Appointing environmental inspection officers, who will be responsible for inspection
+    concerning environmental crime prevention and protection and may be qualified as judicial
+    police officers to enforce natural resources offences within their jurisdictions and have the
+    power to search, seize evidence, summon relevant persons, and fulfil other procedural tasks
+    in compliance with the Criminal Procedural Code (Art 814, 816).
+
+Delegation of PA/CPA-related responsibilities to sub-national authorities should include
+consideration of collaboration with Provincial Departments of Environment (PDoEs), which
+represent the MoE at the provincial level. Although PDoEs are technically considered national
+rather than sub-national authorities as they are part of the MoE, implementation of delegated
+functions by sub-national authorities should involve close collaboration with PDoEs, as PDoEs are
+responsible for implementation and facilitation activities relevant to the environmental sector and
+currently play an active, hands-on role.
+Delegation of PA/CPA management-related responsibilities under the ENR Code to sub-national
+authorities should also be aligned with the imminent revision of the 2017 Prakas on Guideline on
+Procedure and Process of Community Protected Area (CPA) Establishment, as well as an
+anticipated sub-decree on CPAs (currently in development).
+For further information, see ClientEarth’s analysis entitled “Decentralisation in Cambodia: A look at
+current and future environmental and natural resources governance” (July 2024).
+
+
+
+
+                                               6
+                                                                                    Legal Analysis: An Examination of Cambodia’s
+                                                                                       Environment and Natural Resources Code
+                                                                                                                    August 2024
+
+
+
+
+2. Land tenure
+        The ENR Code dictates that PAs shall be registered as public state land. 1 As a part of PA
+        registration, it would enhance the completeness of PA registration data as well as the strength of
+        CPA communities’ tenure security to include CPA registration. CPA management rights could be
+        registered as rights of use/residence, or alternatively, CPA registration could treat CPAs as
+        ‘perpetual leases’ on PA land. The ENR Code does not address CPA registration, and it is
+        recommended that CPA registration be addressed in other legal instruments and/or in any future
+        revisions of the ENR Code.
+
+        CPAs may be established in Sustainable Use Zones and Community Zones of PAs. 2 CPAs may be
+        established for a period not exceeding 25 years, and are established in writing via CPA
+        management agreements.3 Without a mechanism to register CPAs as proprietary rights, such
+        rights and responsibilities exist in contract only, and therefore lack the tenure security of a
+        registered proprietary interest.
+        CPA registration should provide/create a real (proprietary) right to CPA communities – a right that
+        can be asserted against all persons.4 Real rights that could pertain to CPA communities include
+        usufructuary real rights: perpetual lease, usufruct, and right of use/right of residence. 5 Of all the
+
+1   See Environment and Natural Resources Code (2023), Articles 351, 367
+2 Environment and Natural Resources Code (2023), Article 371; Prakas on Guideline on Procedure and Process of Community Protected Area
+
+  (CPA) Establishment (2017) (“CPA Guideline”), Article 2. Presumably the CPA Guideline will include similar content in its revised version,
+  which is expected to be promulgated sometime in the near future.
+3 Environment and Natural Resources Code (2023), Article 371
+4 See Civil Code (2007), Article 130
+5 See Civil Code (2007), Article 132
+
+
+
+                                                                       7
+                                                                                        Legal Analysis: An Examination of Cambodia’s
+                                                                                           Environment and Natural Resources Code
+                                                                                                                        August 2024
+
+
+      options, granting CPA communities with rights of use/residence may be the most straightforward
+      option. However, granting perpetual lease rights could better serve CPA communities in terms of
+      strength of tenure security.
+
+      Right of use / right of residence
+      Right of use/right of residence6 could be a relatively simpler option for strengthening CPA
+      management rights. Rights of use/residence may be created in writing, and the CPA management
+      agreement could serve as the written basis for the granting of the rights of use/residence to CPA
+      communities. Granting CPA communities with rights of use/residence in writing would ensure that
+      notice of extinguishment by the State could not occur at any time; there would be a set period of
+      time during which the rights of use/residence would remain in effect.7 In order for the rights of
+      use/residence to be held up against third parties, the holder of the right(s) must actually use their
+      right(s).8 If CPA communities were granted rights of use/residence, and ownership of a CPA area
+      were transferred, CPA communities’ rights of use/residence could be held up against the
+      transferee if the CPA communities were using their rights of use/residence. 9 This would prevent
+      CPA communities losing their rights simply because a CPA area is transferred – instead the CPA
+      communities’ rights would continue after the transfer, provided that they are using those rights.
+      CPA communities’ rights of use/residence could be extinguished via the terms of the CPA
+      management agreement or the State could demand that the court extinguish CPA communities’
+      rights of use/residence if CPA communities inflict significant damage to the CPA area, do not
+      properly preserve the CPA area, or otherwise breach the spirit of the rights.10
+      However, such authorisations to use or occupy state public property cannot be rights in rem11 for
+      the benefit of such rights holders.12 Thus, if CPA management rights were deemed as rights to
+      use/occupy, such rights could not be exerted against third parties in all instances, significantly
+      weakening CPA communities’ tenure security.
+
+      Perpetual lease
+      If granting perpetual lease rights to CPA communities is an option, it could potentially offer CPA
+      communities stronger tenure security. Given the recognised link between stronger land tenure
+      structures and better conservation outcomes,13 granting perpetual lease rights could be one way
+      to draw on existing legal provisions to grant more secure tenure rights to CPA communities,
+      thereby paving the way for improved environmental and sustainable development outcomes.
+
+
+
+
+6 “Right of use” refers to the right to collect the fruits of immovable property, to the extent of the needs of the right holder and his/her family.
+
+  “Right of residence” refers to the right to occupy part of the property, to the extent required for residence by the right holder and his/her
+  family. See Civil Code (2007), Article 274. However, it is unclear whether such rights would extend to encompass agroforestry activities,
+  farming activities, profit-generating activities, etc.
+7 See Civil Code (2007), Article 276
+8 Civil Code (2007), Article 277
+9 See Civil Code (2007), Article 277
+10 See Civil Code (2007), Articles 282-283
+11 Rights in rem mean rights that relate to a specific property and can be enforced against anyone who interferes with that property,
+
+  regardless of the owner. Rights in rem are distinguished from rights in personam, which are rights held by an individual. For example, rights
+  contained in a contract that are enforceable by and against an individual are rights in personam.
+12 See Land Law (2001), Article 16
+13 Robinson, B.E., Masuda, Y.J., Kelly, A., Holland, M.B., Bedford, C., Childress, M., Fletschner, D., Game, E.T., Ginsburg, C., Hilhorst, T., Lawry, S.,
+
+  Miteva, D.A., Musengezi, J., Naughton-Treves, L., Nolte, C., Sunderlin, W.D. and Veit, P. (2018), Incorporating Land Tenure Security into
+  Conservation. CONSERVATION LETTERS, 11: e12383. https://doi.org/10.1111/conl.12383
+
+                                                                           8
+                                                                                   Legal Analysis: An Examination of Cambodia’s
+                                                                                      Environment and Natural Resources Code
+                                                                                                                   August 2024
+
+
+      State public property may be leased if it has been registered.14 All state land—both public and
+      private—is meant to be registered in the Land Register and State Property Inventory.15 Leasing of
+      state public property must not change the intended usage nor cause damage to the property, and
+      must not affect or change its public function.16
+      A perpetual lease, also known as a long-term lease, is a lease of land (and anything immovably
+      fixed to that land, such as structures, crops, timber, etc) for a renewable term of not less than 15
+      years and not more than 50 years.17 A perpetual lease is not valid unless it is established by
+      writing, and it can only be held up against third parties if the perpetual lessee registers the
+      perpetual lease.18 If CPA establishment is treated akin to granting perpetual leases, CPA
+      registration would be important as a way to strengthen CPA communities’ land tenure by enabling
+      them to hold up their CPA-derived rights against third parties.19 Perpetual leases may also be
+      assigned without consideration.20
+      Perpetual lease rights stemming from CPA establishment would differ from typical perpetual
+      leases by the non-application of stipulated rental payments and the inability to sublease the
+      leased land.21
+      Leasing of state public property must not exceed 15 years.22 As mentioned above, CPAs can be
+      established in certain zones of PAs (which are to be registered as state public land) for periods up
+      to 25 years. The government should consider defining CPAs as a special category of long-term
+      lease that is exempt from the 15-year restriction. This would be a better approach than
+      discouraging CPA establishment duration for the maximum 25 years (in order to enable long-term
+      lease rights), and also more suitable than exploring options of requiring reclassification of CPA
+      areas from state public land to state private land (it would be best to overall maintain legally-
+      mandated protective measures of state public land, to prevent additional delays to establishing
+      CPAs by adding an additional reclassification process, etc).
+      If CPA establishment and registration are treated as providing real rights akin to long-term lease
+      rights, the CPA management agreement should serve as the “lease” and it would need to be
+      signed by the Minister of the Ministry of Economy and Finance (MEF), along with the MoE and/or
+      relevant sub-national authorities.23 Furthermore, the Ministry of Land Management, Urban
+      Planning and Construction (MLMUPC) should issue certificates of long-term lease to CPA
+      communities, which should specify the category of immovable property, its size, location, the
+
+
+
+14 Sub-Decree on Rules and Procedures on Reclassification of State Public Properties and Public Entities (2006), Articles 2-4 (refers to State
+
+  Property Inventory); Sub-Decree on the Mortgage and Transfer of the Rights Over a Long-Term Lease or an Economic Land Concession
+  (2007), Article 5 (refers to Master Land Register). The State Land Map and Database (under the management of Provincial/Municipal State
+  Land Management Committees), the State Property Inventory (under the management of the Ministry of Economy and Finance), and the
+  Land Register (under the management of the Ministry of Land Management, Urban Planning and Construction) all complement one another.
+  Sub-Decree on State Land Management (2005), Article 17.
+15 Sub-Decree on State Land Management (2005), Article 3; Sub-Decree on Rules and Procedures on Reclassification of State Public
+
+  Properties and Public Entities (2006), Article 5
+16 Sub-Decree on Rules and Procedures on Reclassification of State Public Properties and Public Entities (2006), Article 16
+17 Civil Code (2007), Articles 120, 244, 247
+18 Civil Code (2007), Articles 134, 245, 246. If a perpetual lease is not registered, it may be held up against a subsequent acquirer of any real
+
+  right over the leased land if the lessee has occupied and continuously used and profited from the leased land; however, this only applies up
+  to fifteen (15) years. Civil Code (2007), Articles 246, 598. Registration of perpetual leases is addressed in the Inter-ministerial Prakas
+  Concerning Real Rights Registration Procedure Pertaining to the Civil Code (2013).
+19 Leases of an immovable (such as CPA areas) can be held up against subsequent acquirers of any real rights over the immovable by virtue
+
+  of the fact that the lessee (such as CPA communities) has occupied and continuously used and profited from the leased immovable. See
+  Civil Code (2007), Article 598.
+20 Civil Code (2007), Article 252
+21 See Civil Code (2007), Articles 248, 252; Environment and Natural Resources Code (2023), Article 372; Sub-Decree on the Mortgage and
+
+  Transfer of the Rights Over a Long-Term Lease or an Economic Land Concession (2007), Articles 7-8
+22 Sub-Decree on Rules and Procedures on Reclassification of State Public Properties and Public Entities (2006), Article 18
+23 See Environment and Natural Resources Code (2023), Articles 352, 371; Sub-Decree on the Mortgage and Transfer of the Rights Over a
+
+  Long-Term Lease or an Economic Land Concession (2007), Article 5
+
+                                                                       9
+                                                                                      Legal Analysis: An Examination of Cambodia’s
+                                                                                         Environment and Natural Resources Code
+                                                                                                                      August 2024
+
+
+      identity of the owner of the land, the identity of the lessee (i.e., the CPA community), and the
+      duration of the lease (i.e., the CPA management duration term).24
+
+      Usufruct rights
+      A third option would be to grant CPA communities with usufruct rights. Usufruct refers to the
+      rights to use and enjoy the profits of land (and anything immovably fixed to that land) of another
+      person, for a period that may not exceed the life of the usufructuary.25 Usufructs may be
+      established by agreement or by law, and may be created in writing or otherwise. 26 Similar to
+      perpetual leases, a usufruct can only be held up against third parties if it is registered. 27
+      If CPA management rights were deemed as akin to usufruct rights, it would differ from typical
+      usufructs in that CPAs may not be assigned or leased to others.28
+
+      In general
+      CPA communities should be exempt from any fees or taxes associated with CPA registration and
+      granting of tenure rights.29 Such an exemption seems to be supported by the intentions of the
+      ENR Code – for instance, in directing the MEF to develop draft policies and legal instruments on
+      economic rules to support the environment, natural resources, society, and culture (in
+      collaboration with the MoE and other relevant ministries or institutions), the ENR Code states that
+      such economic rules shall include those relating to community-based natural resource
+      management (including exemption from value-added tax and other taxation of any income, fees,
+      funds, or other contributions received while implementing collaborative management) and
+      payments for generating or maintaining natural resources and ecosystem services to individuals
+      and communities in collaboration with sub-national administrations.30
+      The real right shall take effect in accordance with the agreement between CPA communities and
+      the MoE – i.e., the CPA management agreement.31
+      CPA registration should ensure that the holder of the real right created by the CPA management
+      agreement is the CPA community itself (rather than, for example, solely the MoE), as it is
+      presumed that a right that is registered belongs to the person to whom it is registered.32 Thus,
+      tenure security would not necessarily be strengthened if CPA registration only and/or primarily
+      included state authorities, rather than the CPA communities themselves.
+
+
+
+
+24 See Sub-Decree on the Mortgage and Transfer of the Rights Over a Long-Term Lease or an Economic Land Concession (2007), Articles 6,
+  10
+25 Civil Code (2007), Article 256
+26 Civil Code (2007), Articles 257, 258
+27 Civil Code (2007), Article 259. Registration of usufructs is addressed in the Inter-ministerial Prakas Concerning Real Rights Registration
+
+  Procedure Pertaining to the Civil Code (2013).
+28 See Civil Code (2007), Articles 263, 264; Environment and Natural Resources Code (2023), Article 372
+29 See, e.g., Civil Code (2007), Article 284 (allocation of expenses for holders of rights of use/residence); Sub-Decree on the Mortgage and
+
+  Transfer of the Rights Over a Long-Term Lease or an Economic Land Concession (2007), Article 10 (fees for issuing certificates of long-
+  term lease); Sub-Decree on Rules and Procedures on Reclassification of State Public Properties and Public Entities (2006), Article 20
+  (leasing fee on State property). It is not clear whether a registration tax, also known as ‘transfer tax’ or ‘stamp duty tax’, would be applicable
+  to CPA communities ‘leasing’ their CPA area (which is state public land).
+30 Environment and Natural Resources Code (2023), Article 759
+31 See Civil Code (2007), Article 133
+32 See Civil Code (2007), Article 137
+
+
+
+                                                                        10
+                                                                                    Legal Analysis: An Examination of Cambodia’s
+                                                                                       Environment and Natural Resources Code
+                                                                                                                    August 2024
+
+
+        Looking forward
+        Registration of CPAs would help address the ongoing issue of land disputes, as the registration
+        process includes (1) confirmation of State ownership of the land, (2) demarcation of boundaries of
+        the land, (3) resolution of the competent authorities to any dispute, and (4) registration in the Land
+        Register.33
+        PA registration should be prioritised by governmental authorities, so that CPA registration can
+        efficiently and without undue delay also occur. Registration of PAs would set the foundation for
+        registering CPAs as rights of use/residence, perpetual leases, or usufructs on PA land. This would
+        provide CPA communities with clarified rights linked to their management over CPA land, and be a
+        clear way for governmental authorities to conduct registration of PAs and CPAs. In registering
+        CPAs, the government should ensure that it does not cause additional burden on communities;
+        registration should be an automatic part of the overall CPA establishment process.34
+
+
+
+
+33   See Sub-Decree on State Land Management (2005), Article 8
+34   See generally Inter-ministerial Prakas Concerning Real Rights Registration Procedure Pertaining to the Civil Code (2013)
+
+                                                                       11
+                                                                               Legal Analysis: An Examination of Cambodia’s
+                                                                                  Environment and Natural Resources Code
+                                                                                                               August 2024
+
+
+
+
+3. PA establishment and zoning
+     Free, Prior and Informed Consent (FPIC) should be incorporated into the PA establishment and
+     zoning process. FPIC is a right granted to Indigenous Peoples (IPs) that is recognised in the United
+     Nations Declaration on the Rights of Indigenous Peoples (UNDRIP), and which aligns with their
+     universal right to self-determination. FPIC allows IPs to give, withhold or withdraw consent, at any
+     point, regarding legislation, administrative policies or projects that could impact their lands,
+     territories or rights. FPIC allows IPs to influence the design, implementation, monitoring, and
+     evaluation of projects/activities.35 It has also been recognised that FPIC is not only important for
+     IPs, but is also best practice for meaningfully engaging with local communities, as involving them
+     in the decision-making of any proposed development activity increases their engagement and
+     helps guarantee their right to development as a basic human rights principle.
+
+     ‘Free’ means that consent is given voluntarily and without coercion, intimidation, or manipulation –
+     a process that is self-directed by the community from whom consent is being sought,
+     unencumbered by duress, expectations, or timelines that are externally imposed.
+     ‘Prior’ means that consent is sought sufficiently in advance of any authorisation or
+     commencement of activities. This should allow sufficient time for relevant stakeholders to be
+     consulted and have reasonable time to review the proposal.
+
+
+35 Food and Agriculture Organization of the United Nations, “Indigenous Peoples”, https://www.fao.org/indigenous-peoples/our-
+
+ pillars/fpic/en/#:~:text=Free%2C%20Prior%2C%20and%20Informed%20Consent,universal%20right%20to%20self%2Ddetermination;
+ Conservation International, “Free, Prior and Informed Consent in Context”, https://www.conservation.org/projects/free-prior-and-informed-
+ consent-in-context#:~:text=The%20principle%20of%20Free%2C%20Prior,given%20under%20force%20or%20threat
+
+                                                                   12
+                                                                          Legal Analysis: An Examination of Cambodia’s
+                                                                             Environment and Natural Resources Code
+                                                                                                          August 2024
+
+
+     ‘Informed’ means that sufficient engagement and information (detailed, emphasising both the
+     potential positive and negative impacts of the activity, and presented in a language and format
+     understood by the community) should be provided prior to seeking consent and also as part of
+     the ongoing consent process.
+     ‘Consent’ refers to the right of the community to make a collective decision, reached through
+     customary decision-making processes of the communities, before an activity or project begins
+     and also throughout the life of the activity/project.
+     The right to FPIC is relevant for the establishment and zoning of PAs, as such decisions could
+     directly and/or indirectly affect the integrity of, access to, and utilisation of IPs’ and local
+     communities’ (IPLCs’) territories and resources, as well as cultural practices and traditions.
+     Respect for FPIC and its incorporation into the PA establishment and zoning processes should
+     include meaningful engagement with IPLCs when making a determination on PA establishment as
+     well as zoning of each PA.
+     Establishment as a PA and zoning of a PA into four (4) different types of zones – from most
+     protected/restrictive zone to least: (1) Core Zones, (2) Conservation Zones, (3) Sustainable Use
+     Zones, and (4) Community Zones36 – entail application of restrictions mandated by law, and thus
+     could impact IPLCs that reside in or near PAs, their activities, and their access to resources within
+     PAs.
+     The ENR Code does broadly require consultations with stakeholders before determination of PA
+     establishment and modification,37 although it is less clear whether non-governmental parties can
+     participate in zoning determinations of PAs.38
+
+
+
+
+36 Environment and Natural Resources Code (2023), Article 364
+37 Environment and Natural Resources Code (2023), Articles 358, 360
+38 Environment and Natural Resources Code (2023), Articles 364-365, 367
+
+
+
+                                                                  13
+                                                                     Legal Analysis: An Examination of Cambodia’s
+                                                                        Environment and Natural Resources Code
+                                                                                                     August 2024
+
+
+
+
+4. CPA establishment and management
+     The ENR Code does not address whether renewal of CPA management is permitted after the
+     initial 25-year duration (assuming the CPA management agreement term is for the maximum 25
+     years). Thus, there is no guarantee that the CPA management agreement can be renewed, nor
+     that CPA communities would be granted preferential rights to renew as long as they have been
+     abiding by their CPA management plan and CPA management agreement, relevant laws, etc.
+     Without assurance that good management of CPAs can ensure continued management of such
+     areas via renewal, tenure security for CPA communities is tenuous and relatively short-term.
+     Effective long-term management of CPAs would be incentivised if CPA renewal was guaranteed
+     (with reasonable conditions). Communities would also feel more secure, especially in a context
+     where often they face the potential risk of losing CPA land to competing governmental interests
+     and priorities, such as development, investors, etc.
+
+     The ENR Code only addresses the ability of sub-national authorities to suspend for review and
+     reassessment of CPA operations if CPA communities fail to comply with the CPA management
+     agreement and CPA management plan, and that CPA management agreements can be revoked if
+     a CPA community acts in contravention of the terms of the CPA management agreement and CPA
+     management plan.39 It does not contain provisions directly enabling CPA renewal by sub-national
+     authorities.
+
+
+
+
+39 Environment and Natural Resources Code (2023), Article 371
+
+
+
+                                                                14
+                                                    Legal Analysis: An Examination of Cambodia’s
+                                                       Environment and Natural Resources Code
+                                                                                    August 2024
+
+
+There are some concerns over the lack of guidance related to CPA communities’ compliance with
+CPA management agreement and CPA management plan terms. Such guidance—with set
+conditions and criteria—would help both CPA communities and authorities understand how
+compliance is determined, and better enable accountability and transparency in how monitoring
+and evaluation assessments are conducted. This is important as CPA communities’ compliance is
+the primary factor that governing authorities base their decisions on for whether CPA
+communities can continue managing their allocated CPA management area. Having clear
+conditions and criteria in place could help prevent inaccurate mismanagement claims by
+governing authorities, who could claim noncompliance by CPA communities. In such instances,
+CPA communities should also have access to complaint mechanisms.
+If governing authorities do decide to revoke CPA management and cancel the CPA management
+agreement, the affected community should be entitled to appeal such a significant decision.
+Procedural mechanisms should be put in place to enable appeals by CPA communities.
+
+
+
+
+                                           15
+                                                                                     Legal Analysis: An Examination of Cambodia’s
+                                                                                        Environment and Natural Resources Code
+                                                                                                                     August 2024
+
+
+
+
+5. Ecotourism development
+      Ecotourism40 appears to be an initiative that the Cambodian government is pushing to develop. 41
+      This is reflected in the ENR Code:
+
+       ⏹ The MoE is responsible for coordinating and collaborating with the Ministry of Tourism (MoT)
+         and sub-national administrations to manage ecotourism projects in PAs.42
+       ⏹ The MoE (or sub-national administrations, with prior MoE approval) has the right to issue
+         permits and enter into agreements or contracts for ecotourism development projects in PAs
+         (in consultation with relevant ministries or institutions, sub-national administrations, and
+         stakeholders).43
+
+
+
+
+40 Ecotourism, in the context of PAs, biodiversity conservation corridors (BCCs), and CPAs, refers to travel to or tourism services and
+
+  activities in PAs, BCCs, and/or CPAs that have minimal impacts on the natural environment within and surrounding the place, and are meant
+  to support conservation efforts, enhancing awareness and appreciation of the nature and culture in the area, and benefit local and regional
+  socioeconomic development in a sustainable manner. Minimal impact refers to the least impact or change upon biodiversity resources,
+  ecosystem, natural landscape, environmental condition, visual amenities of the place, sociocultural characteristics and values in the area,
+  tourist experience and quality of visit, local cost of living, as well as upon carrying capacity of the place, conservation efforts, and local and
+  regional capability for economic development and growth. Prakas no. 294 on the Implementation of Guideline on the Below 10-Hectare
+  Small Scale Ecotourism Development Projects in Natural Protected Areas and Biodiversity Conservation Corridors (2022).
+41 The Phnom Penh Post, “ASEAN and Cambodia boost ecotourism initiatives” (6 February 2024); Cambodia’s Local Community
+
+  Development Strategic Plan 2024-2028
+42 Environment and Natural Resources Code (2023), Article 607
+43 Environment and Natural Resources Code (2023), Article 378
+
+
+
+                                                                        16
+                                                                                    Legal Analysis: An Examination of Cambodia’s
+                                                                                       Environment and Natural Resources Code
+                                                                                                                    August 2024
+
+
+       ⏹ The MoE has the right to establish fishery-based ecotourism in Conservation Zones and Core
+         Zones of PAs (the 2 most protected zones of PAs) in consultation with the Ministry of
+         Agriculture, Forestry and Fisheries (MAFF) and sub-national administrations.44
+       ⏹ The MoE is responsible for developing draft policies, legal instruments, strategic plans,
+         management plans, action plans, and technical guidelines for managing ecotourism
+         development investment projects and community-based ecotourism development projects;
+         coordinating and collaborating with relevant ministries/institutions, sub-national
+         administrations, and the private sector to manage ecotourism investment projects; studying,
+         coordinating, and managing ecotourism development investment projects and community-
+         based ecotourism development projects in collaboration with relevant ministries/institutions;
+         coordinating to establish, control, monitor, and evaluate the implementation of ecotourism
+         packages to attract national and international guests to visit PAs in collaboration with relevant
+         ministries/institutions; coordinating to determine the location and install boundary markers
+         for ecotourism development investment projects in PAs; preparing, monitoring, and reviewing
+         the implementation progress of ecotourism development investment projects and
+         community-based ecotourism development projects; reviewing and adjusting master plans
+         and development programs for ecotourism development investment projects; coordinating
+         dispute resolution and irregularities involving implementing ecotourism development
+         investment programs and projects; developing income collection mechanisms from
+         ecotourism services to support PA conservation activities; mobilising financial and technical
+         assistance from development partners and the private sector to support effective
+         ecotourism development; and studying to create tourist products in PAs and strengthening
+         the capacity of sub-national administrations and local communities on ecotourism
+         development in collaboration with relevant ministries/institutions and development
+         partners.45
+       ⏹ The MoT is responsible for developing draft policies and ecotourism development plans in
+         PAs in collaboration with the MoE, sub-national administrations, and relevant stakeholders;
+         developing national and regional tourism plans and submitting them to the Royal Government
+         for review, approval, and incorporation into the National Strategic Development Plan;
+         managing and controlling the ecotourism industry in PAs with the MoE; issuing licenses and
+         permits to the ecotourism industry in PAs; collaborating with the MoE and sub-national
+         administrations to study and define potential areas for ecotourism implementation in PAs;
+         and monitoring, controlling, and inspecting the implementation of ecotourism industry
+         licenses and permits.46
+       ⏹ The MoE, in collaboration with the MoT, relevant ministries/institutions, and sub-national
+         administrations, is responsible for developing legal instruments on ecotourism development
+         and management in PAs in compliance with national and international ecotourism
+         standards.47
+      While ecotourism does not inherently pose issues, it is important to carefully consider how
+      ecotourism is implemented, especially in PAs. From a governance perspective, there appears to
+
+44 Environment and Natural Resources Code (2023), Article 603. Core Zones of PAs (      i.e., the most protected zones of PAs) are zoned as such
+  due to its high value for conservation of animal or plant species that are rare, nearly extinct, or threatened, wild animal breeding sites, and
+  fragile ecosystems. Access to Core Zones is prohibited except for officials responsible for PA management on duty and scientific
+  researchers with prior authorisation from the MoE and when it is necessary for national security and defense. Conservation Zones of PAs
+  (i.e., the 2nd most protected zones of PAs) are adjacent to Core Zones and have value for natural resource conservation, ecosystems,
+  watersheds, and natural scenery. Access to Conservation Zones requires prior authorisation from officials responsible for PA
+  management, except for national security and defense necessity. Environment and Natural Resources Code (2023), Article 364.
+45 Environment and Natural Resources Code (2023), Article 608
+46 Environment and Natural Resources Code (2023), Article 609
+47 Environment and Natural Resources Code (2023), Article 612
+
+
+
+                                                                       17
+                                                                               Legal Analysis: An Examination of Cambodia’s
+                                                                                  Environment and Natural Resources Code
+                                                                                                               August 2024
+
+
+        be a lack of a clear and comprehensive legal framework on ecotourism,48 particularly in relation to
+        how ecotourism operations of all kinds will interact with or operate in accordance with CPA
+        management.
+        The Cambodian government’s promotion of ecotourism includes the development of 3 prakas
+        (i.e., ministerial orders or proclamations): a prakas on implementation of small-scale ecotourism
+        projects covering an area less than 10 hectares in PAs for a duration of not more than 15 years via
+        a land lease agreement; a prakas on guidelines for the implementation of large-scale nature
+        tourism projects via land lease agreements for a maximum period of 50 years; and a prakas on the
+        organisation and services of ecotourism communities in PAs.49
+        There is some confusion as to the status of these prakas. There is a prakas on the implementation
+        of a guideline for small-scale ecotourism development projects less than 10 hectares in PAs.50
+        The prakas indicates in an attached model land use contract that a less than 10-hectare small-
+        scale ecotourism development project can be established for 15 years from the date of signature
+        and approval by the MoE. If the project developer wishes to extend or end the contract, the
+        developer will submit a written request to the MoE 2 years before the current contract’s validity
+        end date. The contract extension will be granted based on the results of the MoE’s assessment
+        and decision.51
+        The prakas on the implementation of a guideline for small-scale ecotourism development projects
+        less than 10 hectares in PAs states that such ecotourism development projects could operate as
+        one of 2 models: (1) a private development project or (2) a private-local community development
+        partnership project. Types of permissible services include: accommodation ( e.g., ecolodge,
+        mobile and permanent campground/tented camp, tree house, meditation and yoga facility, small
+        caravan camp, ranger lodge, community lodge, community B&B, homestay); F&B (e.g., small café &
+        restaurant, ranger kitchen, community kitchen, community B&B, vending machine using green
+        energy & technology, open space dining ground, small wooden/bamboo/semi-concrete food
+        stall); guiding service (e.g., ranger guide, community guide); transport (e.g., bicycle, electric bike,
+        electric car, horse/ox riding, hand tractor/Kor Yun riding); souvenir ( e.g., community souvenir
+        ground, small souvenir shop, small-scale handicraft exhibition center, signature product
+        craftsmanship center or selling ground); other permissible infrastructure, facility and utility ( e.g.,
+        nature viewpoint, wildlife observation tower, small parking facility/Parvis, waste management
+        facility, interpretation center, early warning facility, hiking and trekking ground, comfort facility
+        including green toilet, exhibition panel, signage, information center, research and educational
+        enrichment facility, walking/cycling trail, emergency post). Types of permissible activities include:
+        hiking and trekking; animal/wildlife watching or observation; tented camping and small caravan
+        camping; sightseeing; swimming in natural water source like waterfall/lake/river/etc; yoga and
+        meditation club; research and educational enrichment-related activities; cycling, horse/ox riding;
+        electric car/bike riding; religious procession or parade; photographing; star observation or
+        viewing; canoeing/boating/kayaking; snorkeling; scuba diving; bungee jumping; rock climbing;
+        skydiving; and other small-scale entertainment activities that have minimal impacts on the natural
+        environment, biodiversity resources and local culture. The General Directorate of Local
+        Communities (under the MoE) is responsible for facilitating and implementing small-scale
+        ecotourism development projects less than 10 hectares in PAs.52
+
+48   See Cambodia’s Local Community Development Strategic Plan 2024-2028 (ecotourism legal frameworks are not yet solid)
+49 Khmer Times, “307 small nature tourism projects approved in September” (4 October 2022)
+50 Prakas no. 294 on the Implementation of Guideline on the Below 10-Hectare Small Scale Ecotourism Development Projects in Natural
+
+ Protected Areas and Biodiversity Conservation Corridors (2022)
+51 Prakas no. 294 on the Implementation of Guideline on the Below 10-Hectare Small Scale Ecotourism Development Projects in Natural
+
+ Protected Areas and Biodiversity Conservation Corridors (2022) (model land use contract, presumably a template)
+52 Prakas no. 294 on the Implementation of Guideline on the Below 10-Hectare Small Scale Ecotourism Development Projects in Natural
+
+ Protected Areas and Biodiversity Conservation Corridors (2022)
+
+                                                                   18
+                                                                              Legal Analysis: An Examination of Cambodia’s
+                                                                                 Environment and Natural Resources Code
+                                                                                                              August 2024
+
+
+     Broadly, the prakas on the implementation of a guideline for small-scale ecotourism development
+     projects less than 10 hectares in PAs contains 2 annexes, a land use contract model, an outline
+     for the preparation of the master plan and development program for small-scale ecotourism
+     development projects less than 10 hectares in PAs, an outline for the preparation of the concept
+     note for small-scale ecotourism development projects less than 10 hectares in PAs, and sample
+     letters of proposition for small-scale ecotourism development projects less than 10 hectares in
+     PAs (2 versions: one for an individual applicant & one for a company applicant). Annex 1 covers
+     the application and implementation procedure for small-scale ecotourism development projects
+     less than 10 hectares in PAs, of which there are 4 phases. Phase 1 is the proposition process,
+     where a small-scale ecotourism development project proponent (which can be a legal person or a
+     legal entity) submits their proposition to the One Window Service Office of the MoE. Phase 2 is the
+     assessment process (duration: up to 45 working days), which entails a review of the proposition
+     documents, a site visit and study of the proposed location, and determination of a decision by the
+     MoE (resulting in a permission notification letter in principle (Sor.Chor.Nor)). Phase 3 is the
+     procedure completion process (duration: up to 180 working days after receiving Sor.Chor.Nor),
+     which entails site demarcation and pole installation, company registration and signing of site use
+     contract, master plan and development program preparation, and Environmental and Social
+     Impact Assessment (ESIA) report preparation (which results in signing of an environmental
+     protection contract). Phase 4 is the small-scale ecotourism development project implementation
+     process, which entails implementation in accordance with the approved master plan,
+     development program, and environmental protection contract; implementation progress report
+     preparation (every 6 months); and monitoring and evaluation (every 6 months and/or when
+     necessary).53
+     Annex 2 of the prakas on the implementation of a guideline for small-scale ecotourism
+     development projects less than 10 hectares in PAs covers criteria for such projects. Annex 2
+     indicates that small-scale ecotourism development projects can be established in Sustainable
+     Use Zones of PAs; the site of such projects should have minimal impacts on biodiversity
+     resources and the ecosystem; the site should be located a suitable distance from nearby formal
+     villages or local settlements; the site should be accessible, have suitable access to water sources,
+     have access to power supply or have the ability to generate energy, and have access to phone
+     service; any proposed products and services should be eco-friendly, reflect local culture,
+     prioritise local involvement, and focus on the quality of the visitor experience; and the project’s
+     development activities and infrastructure plan will utilise not more than 30% of the total allocated
+     land area (leaving the rest of the area unspoiled). Annex 2 further instructs that the master plan
+     and development program of small-scale ecotourism development projects are to be suitable for
+     and supportive of natural and cultural attributes and values in the relevant PA ( e.g., size and
+     infrastructure design are eco-friendly, suitable to natural landscape, and acceptable to local
+     culture; infrastructure and facility construction plan and methods will generate minimal
+     environmental and social impacts; project prioritises using local materials and skills; etc); such
+     projects will have minimal impacts on the relevant PA (e.g., limits of acceptable change studies are
+     conducted and targets are carefully set and fully enforced (including consultations with relevant
+     institutions, authorities, and local community/ies); environmental and social impacts are carefully
+     conducted and enforced (including consultations with relevant institutions, authorities, and local
+     community/ies); environmental management plan is incorporated into the ESIA report; etc); and
+     project operation should incorporate environmental and cultural best practices (e.g., ecotourism
+     products and services are developed and operated based on environmental, economic, and
+     social sustainability; such projects engage relevant stakeholders, local community/ies, and IPs
+
+53 Prakas no. 294 on the Implementation of Guideline on the Below 10-Hectare Small Scale Ecotourism Development Projects in Natural
+
+ Protected Areas and Biodiversity Conservation Corridors (2022)
+
+                                                                  19
+                                                                                Legal Analysis: An Examination of Cambodia’s
+                                                                                   Environment and Natural Resources Code
+                                                                                                                August 2024
+
+
+     living in and around the relevant PA in socioeconomic studies as well as project operation;
+     projects provide fair and equal opportunities for local communities and IPs living in and around the
+     relevant PA to be employed by and/or supply services or goods with reasonable remuneration;
+     etc).54
+     The prakas on the implementation of a guideline for small-scale ecotourism development projects
+     less than 10 hectares in PAs indicates that multiple entities are involved in development and
+     implementation of such projects, including the MoE (including the Department of Ecotourism,
+     General Directorate of Local Communities, Department of Environmental Impact Assessment,
+     General Directorate of Protected Areas), working groups in target provinces, sub-national
+     administrations (including provincial administrations), and Provincial Departments of Environment
+     (which technically are also under the MoE).55
+     The other 2 prakas do not yet appear to exist. Based on practice, it seems that ecotourism
+     projects that are 10 hectares or larger in size seem to be established for 50 years.56
+     Where ecotourism can be developed in PAs is partially addressed in the current legal framework,
+     at least for small-scale ecotourism development projects less than 10 hectares in size.57 Based on
+     where ecotourism projects are being established in practice, it appears that ecotourism
+     development is permitted in Sustainable Use Zones of PAs (regardless of size).58 According to the
+     ENR Code, Sustainable Use Zones are areas of PAs that have economic value for national
+     economic development, and along with conservation as a PA could contribute to improving local
+     communities’ livelihood. The Royal Government may allow sustainable biodiversity development
+     in the area as proposed by the MoE in consultation with relevant ministries/institutions, sub-
+     national administrations, and local communities in compliance with legal procedures. 59
+     In addition, ecotourism seems to be treated as a type of land concession. One issue with
+     ecotourism being treated akin to a land concession is that land concessions can only be granted
+     on private state land.60 Protected areas, on the other hand, are technically public state land. 61
+     Thus, it appears that areas of PAs (i.e., public state land) are being reclassified to private state land
+     in order to grant ecotourism concessions.62 Reclassifying parts of PAs to private state land means
+     that such areas no longer benefit from certain protections afforded to public state land. 63 Also, it
+     is unclear whether such areas, once reclassified as private state land, are still considered PAs
+     (which would present a legal conflict, as PAs are technically public state land by law); if not, that
+     means that ecotourism projects could progressively reduce areas that were originally designated
+     as PAs in Cambodia. Additionally, it is uncertain whether areas where ecotourism is developed
+     (i.e., areas of PAs reclassified as private state land) automatically revert back to public state
+     land/PAs once the ecotourism concession expires.
+
+
+
+54 Prakas no. 294 on the Implementation of Guideline on the Below 10-Hectare Small Scale Ecotourism Development Projects in Natural
+
+ Protected Areas and Biodiversity Conservation Corridors (2022)
+55 Prakas no. 294 on the Implementation of Guideline on the Below 10-Hectare Small Scale Ecotourism Development Projects in Natural
+
+  Protected Areas and Biodiversity Conservation Corridors (2022)
+56 See Sub-Decree no. 259 on the Demarcation of Sustainable Use Zones and the Reclassification of State Public Property to State Private
+  Property in Kep National Park, Sangkat Prey Thum and Sangkat Kep, Kep City, Kep Province for 2 Ecotourism Projects (2023) (2 ecotourism
+  projects that are greater than 10 hectares in size were established in (originally designated) Sustainable Use Zones of PAs for 50 years)
+57 See Prakas no. 294 on the Implementation of Guideline on the Below 10-Hectare Small Scale Ecotourism Development Projects in Natural
+
+  Protected Areas and Biodiversity Conservation Corridors (2022) (Sustainable Use Zones of PAs)
+58 See Sub-Decree no. 259 on the Demarcation of Sustainable Use Zones and the Reclassification of State Public Property to State Private
+
+  Property in Kep National Park, Sangkat Prey Thum and Sangkat Kep, Kep City, Kep Province for 2 Ecotourism Projects (2023)
+59 Environment and Natural Resources Code (2023), Article 364
+60 Land Law (2001), Articles 17, 58
+61 Land Law (2001), Article 15
+62 See Sub-Decree no. 259 on the Demarcation of Sustainable Use Zones and the Reclassification of State Public Property to State Private
+
+  Property in Kep National Park, Sangkat Prey Thum and Sangkat Kep, Kep City, Kep Province for 2 Ecotourism Projects (2023)
+63 This also potentially raises questions about the governance and administration of land and resources by relevant government agencies.
+
+
+
+                                                                    20
+                                                                                     Legal Analysis: An Examination of Cambodia’s
+                                                                                        Environment and Natural Resources Code
+                                                                                                                     August 2024
+
+
+      Furthermore, it is unclear if the reclassification of PAs to private state land to grant ecotourism
+      concessions has proper legal basis and is going through the required reclassification process. For
+      instance, public state land can be reclassified to private state land if the public state land loses its
+      public interest use.64 When it comes to ecotourism development in PAs, ecotourism is built
+      around the public interest use of the PAs, and thus those areas have not lost their public interest
+      use. Therefore, the legal basis of reclassification of PAs for ecotourism concessions is unclear.65
+      Procedurally, reclassification may be initiated by a ministry, institution or territorial authority filing
+      a written request with the relevant Provincial/Municipal State Land Management Committee. 66 The
+      request must include specific reasons for the requested classification.67 A panel comprised of
+      representatives of relevant technical departments to review and make recommendations on the
+      request is designated, and the panel must publicly post the reclassification request for at least 30
+      days, during which time interested parties (e.g., other ministries, institutions, territorial authorities,
+      non-governmental organisations, civil society groups, local residents) may submit comments. 68
+      The review panel provides recommendations on the request to the Provincial/Municipal State
+      Land Management Committee, which then provides its own recommendation to the Council for
+      Land Policy to accept, reject, or modify the request.69 The Council for Land Policy will then submit
+      its own recommendations to the Council of Ministers, and following the adoption of a sub-decree
+      on reclassification of the land or promulgation of a law on reclassification of the land (as
+      appropriate), the MLMUPC will enter the reclassification information onto the State Land Map and
+      Database and accordingly register in the Land Register.70
+      There is some lack of clarity as to whether the reclassification procedure laid out above is
+      overridden by Royal Decree NS/RKT/0806/339 on Principles and Transitional Provisions on
+      Transferring Public Properties of the State and Public Legal Entities (2006) and Sub-Decree no.
+      129 on Rules and Procedures on Reclassification of State Public Properties and Public Entities
+      (2006). Royal Decree NS/RKT/0806/339 allows reclassification of public property only if the land
+      no longer serves the public interest, has lost its originally intended function, or is no longer used
+      directly by the public.71 Sub-Decree no. 129 states that reclassification of public property must
+      comply with Royal Decree NS/RKT/0806/339, but does not provide a more detailed procedure.72
+      Notably, there are no provisions requiring disclosure or public comment in Royal Decree
+      NS/RKT/0806/339 or Sub-Decree no. 129.
+      It is unclear what procedure reclassification of PAs for ecotourism concessions is going through.
+      It should be made clear what is procedurally required for ecotourism development in PAs, and
+      implemented and followed accordingly.
+      Interestingly, the prakas on the implementation of a guideline for small-scale ecotourism
+      development projects less than 10 hectares in PAs does not address reclassification of PAs
+      (public state land) to private state land. If this is a gap in the current legal framework, it should be
+      addressed in a timely manner – and ecotourism development in PAs of all kinds (e.g., sizes, types,
+      etc) should be considered when filling this gap.
+
+64 Land Law (2001), Article 16
+65 Such ambiguity risks undermining the integrity of PAs as a category of public land serving a specified function, if reclassification does not
+
+  occur through proper legal processes and for permissible reasons, and also risks undermining Cambodia’s calculation of Nationally
+  Determined Contributions as part of its commitments under the Paris Agreement
+66 Sub-Decree No. 118 on State Land Management (2005), Article 15
+67 Sub-Decree No. 118 on State Land Management (2005), Article 15
+68 Sub-Decree No. 118 on State Land Management (2005), Article 15
+69 Sub-Decree No. 118 on State Land Management (2005), Article 15
+70 Sub-Decree No. 118 on State Land Management (2005), Article 15
+71 As the author could not access the full text of this law, the author relied on the following source: Surya P. Subedi, Report of the Special
+
+  Rapporteur on the situation of human rights in Cambodia, Human Rights Council (24 September 2012), p. 11, available at
+  https://www.ohchr.org/Documents/HRBodies/HRCouncil/RegularSession/Session21/A-HRC-21-63-Add1_en.pdf
+72 Sub-Decree No. 129 on Rules and Procedures on Reclassification of State Public Properties and Public Entities (2006), Articles 40-41
+
+
+
+                                                                       21
+                                                                                  Legal Analysis: An Examination of Cambodia’s
+                                                                                     Environment and Natural Resources Code
+                                                                                                                  August 2024
+
+
+     If ecotourism is treated more akin to leases, rather than concessions, ecotourism projects that
+     are 10 hectares or greater in size that last for up to 50 years would be perpetual leases by law, and
+     ecotourism projects that are less than 10 hectares in size that last for up to 15 years would be
+     leases under the law.73 The legal framework on ecotourism should clearly address what type of
+     legal right/arrangement is created when ecotourism development projects are established.
+     Furthermore, it remains somewhat unclear whether CPA communities have any influence or
+     recourse if proposed ecotourism development projects overlap with their CPA areas. Although
+     uncertain what would exactly result from such a scenario, it appears that in such an instance CPA
+     communities may be limited to raising an objection—with no ultimate control over determining
+     impact mitigation measures, resettlement, etc—and effectively development projects could
+     proceed despite any raised objections.74 The lack of proprietary rights, combined with the
+     absence of a clear dispute resolution mechanism, substantially limits the extent to which
+     communities can assert their rights enabling their management of CPAs and the sustainable
+     development of their communities.
+     In general, environmental impact assessments (EIAs) and social impact assessments (SIAs) must
+     be conducted before the MoE grants approval on a proposed ecotourism development project. 75
+     ESIAs are also mandated as part of the process for establishing small-scale ecotourism
+     development projects that are less than 10 hectares in PAs (final step before implementation). 76
+     ESIA processes should be properly conducted with robust public participation.77
+     Some provisions which facilitate public participation enable stakeholders to inform competent
+     authorities on activities or decisions that may impact the environment and natural resources; raise
+     questions about, request clarification on, object to, and meet to discuss activities or decisions
+     that may impact the environment and natural resources; and file complaints or objections against
+     activities or decisions.78 Additionally, prior to any decision or approval on a development project,
+     relevant ministries/institutions, sub-national administrations, and project owners must notify,
+     provide necessary information, and give relevant stakeholders reasonable time for public
+     participation; provide necessary information to relevant stakeholders in a language that can be
+     understood by all stakeholders and in a culturally appropriate format; pay attention to the needs
+     and values of stakeholders in public participation processes; provide a fair and reasonable
+     amount of time to evaluate and respond to information relevant to any proposed project,
+     activities, plans, and decisions; ensure the extent of public participation is proportionate to the
+     size of stakeholder interests; ensure that the public participation process is flexible and adaptive
+     in keeping with reasonable expectations of stakeholders; and take into consideration all
+     comments from the public in the decision-making process, acceptance or rejection of which shall
+     be explained with appropriate reasons.79
+     All comments from public participation processes must be recorded, attention must be paid to all
+     issues raised by affected parties, projects’ impacts on the public and the public’s acceptance or
+     rejection of proposed projects must be considered, and a clear justification must be provided if
+     project owners reject any comments/proposals made by the public.80 The public participation
+     process must include a prior consultation with stakeholders affected by the project regarding
+73 Civil Code (2007), Articles 244, 247, 599 (perpetual leases are long-term leases for terms of minimum 15 years and maximum 50 years;
+
+ general leases do not have set duration limits)
+74 Environment and Natural Resources Code (2023), Articles 690-691
+75 Prakas no. 227 on Procedures and Implementation of Guidelines for the Verification Table in Preparing the Initial Environmental and Social
+
+ Impact Assessment Report on Tourism Development Projects (2021); Environment and Natural Resources Code (2023), Article 654
+76 Prakas no. 294 on the Implementation of Guideline on the Below 10-Hectare Small Scale Ecotourism Development Projects in Natural
+
+  Protected Areas and Biodiversity Conservation Corridors (2022)
+77 See Environment and Natural Resources Code (2023), Article 687
+78 Environment and Natural Resources Code (2023), Article 688
+79 Environment and Natural Resources Code (2023), Article 689
+80 Environment and Natural Resources Code (2023), Article 690
+
+
+
+                                                                     22
+                                                                                   Legal Analysis: An Examination of Cambodia’s
+                                                                                      Environment and Natural Resources Code
+                                                                                                                   August 2024
+
+
+      proposed impact mitigation measures based on prior and informed consultation. For impact
+      mitigation measures, the project owner shall (a) determine various measures to promote
+      livelihood and assist those affected by the project and (b) ensure that affected stakeholders
+      participate in resettlement planning to minimise adverse resettlement impacts, that
+      compensation for property loss has been addressed fairly, appropriately, and justly before
+      resettlement, and that impact mitigation measures are appropriate.81 Agreement on proposed
+      impact mitigation measures must be sought from affected stakeholders through public
+      participation processes, and public participation must also be included in the monitoring process
+      (incorporated into the environmental management plan).82 It should be noted that consultation is
+      not commensurate with ‘consent’ under FPIC – the best approach would be to fully incorporate
+      FPIC into the approval process.
+      Development projects may continue even if affected local communities object to proposed
+      mitigation measures, but the project owner must determine alternative mitigation measures or
+      address impacts on local communities. Grievance procedures for affected local communities and
+      resettlement procedures are to be determined by legal instruments of the MoE, and the format
+      and procedure for compensation for damages to affected local communities shall be determined
+      in an inter-ministerial prakas between the MoE and the MEF.83
+      A concern raised by some stakeholders has been that there does not seem to be any
+      preventative measures in the regulatory framework inhibiting individuals, companies, etc, from
+      obtaining a larger ecotourism concession by pooling together multiple individual ecotourism
+      concessions. There does not seem to be a prohibition against one applicant being granted
+      multiple ecotourism concessions. The only legal limitation is that one individual or multiple legal
+      entities controlled by the same individual(s) must not be granted land concession areas totaling
+      more than 10,000 hectares.84 This is particularly concerning given the ambiguity as to how CPAs
+      will function alongside ecotourism operations in smaller areas: without clarifying how these two
+      schemes will interact, there is a risk that community interests may be subverted, or communities
+      may be prevented from complying with CPA management plans and/or CPA management
+      agreements by the ecotourism operations. Clarifying the rights, procedures and government
+      entities governing this space is in the interests of both communities and ecotourism operators.
+      While development of a comprehensive and enabling regulatory framework is still in progress and
+      has yet to be completed, as of September 2023 the MoE has approved 493 ecotourism projects
+      (including agro-tourism development projects), encompassing 32 projects of special economic
+      zones greater than 10 hectares in size (covering a total area of 89,418 hectares) and 461 small-
+      scale ecotourism development projects less than 10 hectares in size (covering a total area of
+      4,145 hectares).85
+
+
+
+
+81 Environment and Natural Resources Code (2023), Article 691
+82 Environment and Natural Resources Code (2023), Article 692
+83 Environment and Natural Resources Code (2023), Article 691
+84 Land Law (2001), Article 59. However, whether this limitation is strictly followed/enforced is unclear, as there have been large-scale
+
+  ecotourism development projects exceeding 10,000 hectares in size, such as an ecotourism enterprise under Union Development Group
+  Co., Ltd., at “Botum Sakor NP” Koh Kong encompassing an area of 36,000 hectares for 99 years, and another under SOKIMEX Investment
+  Group at “Bokor NP” Kampot-Preah Sihanouk encompassing an area of 18,987 hectares for 99 years. See Neth Baromey, Report:
+  Ecotourism Development and Management Models in Cambodian Protected Areas, World Bank (May 2019)
+85 Cambodia’s Local Community Development Strategic Plan 2024-2028
+
+
+
+                                                                      23
+Authors
+This analysis was developed by lead author
+Yena Kwon, International Environmental
+Law and Policy Consultant, and co-author
+Kanyara Sath, Independent Consultant
+based in Cambodia, for ClientEarth.
+It benefitted from peer review, technical
+contributions, and comments by Babette
+Tachibana-Brophy (ClientEarth) and
+Amalia Rodriguez Fajardo (ClientEarth).
+
+
+
+
+ClientEarth is a registered charity that uses the power of the law to protect
+people and the planet.
+ClientEarth is funded by the generous support of philanthropic foundations,
+institutional donors and engaged individuals.
+

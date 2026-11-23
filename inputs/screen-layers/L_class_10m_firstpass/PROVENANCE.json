@@ -1,0 +1,18 @@
+{
+  "grid": "L_ponds_10m",
+  "classes_assigned": [
+    3,
+    5,
+    6,
+    7
+  ],
+  "deferred": [
+    1,
+    2,
+    4,
+    8,
+    9,
+    10
+  ],
+  "note": "First pass only; not the full Note 3b screen"
+}

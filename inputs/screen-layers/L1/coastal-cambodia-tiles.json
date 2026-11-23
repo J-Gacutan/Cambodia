@@ -1,0 +1,31 @@
+{
+  "bbox": [
+    102.7,
+    10.2,
+    104.9,
+    12.1
+  ],
+  "count": 5,
+  "tiles": [
+    {
+      "gmw_tilename": "GMW_N16E081",
+      "tilename": "N11E103"
+    },
+    {
+      "gmw_tilename": "GMW_N16E081",
+      "tilename": "N13E102"
+    },
+    {
+      "gmw_tilename": "GMW_N16E081",
+      "tilename": "N11E104"
+    },
+    {
+      "gmw_tilename": "GMW_N16E081",
+      "tilename": "N12E102"
+    },
+    {
+      "gmw_tilename": "GMW_N16E081",
+      "tilename": "N12E103"
+    }
+  ]
+}

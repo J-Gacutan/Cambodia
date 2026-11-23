@@ -1,0 +1,17 @@
+metric,pixels,ha
+tested,25045963,250459.63
+flagged_caution,22049823,220498.23
+within_allowance,2996140,29961.40
+not_tested,279670114,2796701.14
+not_tested_hat_fill_zero,13106153,131061.53
+not_tested_no_elev,266563961,2665639.61
+tested_on_aoi,10193987,101939.87
+flagged_on_aoi,8163376,81633.76
+within_allowance_on_aoi,2030611,20306.11
+class6_go_total,36749,367.49
+class6_flagged_caution,1309,13.09
+class6_within_allowance,6549,65.49
+class6_not_tested,28891,288.91
+class6_not_tested_no_elev,24356,243.56
+class6_not_tested_hat_fill_zero,4535,45.35
+class6_flagged_if_E_0.43m,3949,39.49

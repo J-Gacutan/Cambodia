@@ -1,0 +1,11 @@
+L14 — GEBCO_2026 Grid, Cambodia coastal subset (elevation + TID)
+DOI: 10.5285/4f68d5c7-45eb-f999-e063-7086abc036fa
+Terms: https://www.gebco.net/data-products/gridded-bathymetry/terms-of-use (PDF also in this folder)
+Box: W 102.5–E 105.2, S 9.8–N 12.3 (15 arc-second; 601×649)
+Route: CEDA/BODC THREDDS NetcdfSubset (LKA-MSP/tools/fetch_gebco.py pattern)
+  elevation: …/ice_surface_elevation/netcdf/GEBCO_2026.nc
+  TID: …/type_identifier_grid/netcdf/gebco_2026_tid.nc
+Script: intermediate/screen-build/fetch_l14_gebco_cambodia.py
+Files: GEBCO_2026_KH_elevation.nc/.tif, GEBCO_2026_KH_tid.nc/.tif
+Elevation range in subset: −72 to 1739 m. Public domain; not for navigation.
+Staged: 22 Nov 2026 (ywdp.8.1.3)

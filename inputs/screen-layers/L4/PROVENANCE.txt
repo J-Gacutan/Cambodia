@@ -1,0 +1,16 @@
+L4 — Goldberg et al. Mangrove Loss Drivers v1 (ORNL DAAC 1768)
+DOI: https://doi.org/10.3334/ORNLDAAC/1768
+CMR: C2389103604-ORNL_CLOUD — Cambodia IS covered (3 granules):
+  loss_driver_class_KHM.tif
+  land_cover_change_class_KHM.tif
+  loss_epoch_KHM.tif
+URLs (Earthdata login required; 401/403 without netrc for urs.earthdata.nasa.gov):
+  https://data.ornldaac.earthdata.nasa.gov/protected/cms/CMS_Global_Mangrove_Loss/data/<file>
+Staged (23 Nov 2026): all three KHM GeoTIFFs + public docs CMS_Global_Mangrove_Loss.pdf, Mangrove_Loss_Driver_ErrorMatrix.pdf
+  sha256 loss_driver_class_KHM.tif = 65f754bfdf9cc99e6045f19300d27a5aa245ff3cd7ca63eb96534a6585704121
+  sha256 land_cover_change_class_KHM.tif = c86ae4a3714bf5d8c09f2e600b81c3fb50f3a2393ee8a26c68a72273ce680816
+  sha256 loss_epoch_KHM.tif = 7bb5fa212f4e31df10481ac87e643cddb519cd1eddc72c823bc7c251e6f366bb
+Fetch: intermediate/screen-build/fetch_l4_goldberg_khm.sh (curl -n --location-trusted + ~/.urs_cookies; plain curl -n redirects loop)
+GEE: mangrovelossdrivers.app export code / earthengine.app — asset not found from gee-gmw-lka-extract (22 Nov 2026)
+Licence: authors CC BY 4.0; US government works on portal
+Action: DONE (23 Nov 2026) — Earthdata ~/.netrc present; granules staged

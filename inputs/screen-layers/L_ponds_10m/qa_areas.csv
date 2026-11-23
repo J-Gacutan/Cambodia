@@ -1,0 +1,65 @@
+layer,year,source,pond_pixels,pond_ha
+jiang_pond_1990,1990,Jiang zenodo.8344132,436790,4367.9
+jiang_pond_2000,2000,Jiang zenodo.8344132,520981,5209.81
+jiang_pond_2010,2010,Jiang zenodo.8344132,631627,6316.27
+jiang_pond_2020,2020,Jiang zenodo.8344132,535894,5358.94
+clark_pond_1999,1999,Clark Labs,43757,437.57
+clark_landcover_1999_mangrove,1999,Clark Labs,4010964,40109.64
+clark_landcover_1999_coastal_wetland,1999,Clark Labs,30731,307.31
+clark_landcover_1999_pond,1999,Clark Labs,43641,436.41
+clark_landcover_1999_water,1999,Clark Labs,1650717,16507.17
+clark_landcover_1999_other,1999,Clark Labs,29507361,295073.61
+clark_pond_2014,2014,Clark Labs,158188,1581.88
+clark_landcover_2014_mangrove,2014,Clark Labs,3889013,38890.13
+clark_landcover_2014_coastal_wetland,2014,Clark Labs,13637,136.37
+clark_landcover_2014_pond,2014,Clark Labs,158136,1581.36
+clark_landcover_2014_water,2014,Clark Labs,1634898,16348.98
+clark_landcover_2014_other,2014,Clark Labs,29547730,295477.3
+clark_pond_2018,2018,Clark Labs,157228,1572.28
+clark_landcover_2018_mangrove,2018,Clark Labs,3877441,38774.41
+clark_landcover_2018_coastal_wetland,2018,Clark Labs,13637,136.37
+clark_landcover_2018_pond,2018,Clark Labs,157164,1571.64
+clark_landcover_2018_water,2018,Clark Labs,1646873,16468.73
+clark_landcover_2018_other,2018,Clark Labs,29548299,295482.99
+clark_pond_2020,2020,Clark Labs,179088,1790.88
+clark_landcover_2020_mangrove,2020,Clark Labs,3756521,37565.21
+clark_landcover_2020_coastal_wetland,2020,Clark Labs,13637,136.37
+clark_landcover_2020_pond,2020,Clark Labs,179112,1791.12
+clark_landcover_2020_water,2020,Clark Labs,1652503,16525.03
+clark_landcover_2020_other,2020,Clark Labs,29641641,296416.41
+clark_pond_2022,2022,Clark Labs,183074,1830.74
+clark_landcover_2022_mangrove,2022,Clark Labs,3748283,37482.83
+clark_landcover_2022_coastal_wetland,2022,Clark Labs,13637,136.37
+clark_landcover_2022_pond,2022,Clark Labs,183098,1830.98
+clark_landcover_2022_water,2022,Clark Labs,1651345,16513.45
+clark_landcover_2022_other,2022,Clark Labs,29647051,296470.51
+clark_change_1999_2022_mangrove_to_pond,1999_2022,Clark Labs,5810,58.1
+clark_change_1999_2022_pond_persistence,1999_2022,Clark Labs,36451,364.51
+clark_change_1999_2022_pond_to_mangrove,1999_2022,Clark Labs,125,1.25
+clark_change_1999_2022_other_to_pond,1999_2022,Clark Labs,125517,1255.17
+clark_change_2020_2022_mangrove_to_pond,2020_2022,Clark Labs,431,4.31
+clark_change_2020_2022_pond_persistence,2020_2022,Clark Labs,179711,1797.11
+clark_change_2020_2022_pond_to_mangrove,2020_2022,Clark Labs,152,1.52
+clark_change_2020_2022_other_to_pond,2020_2022,Clark Labs,4037,40.37
+step2_pond_jiang2020,2020,Jiang,535894,5358.94
+step2_pond_clark2022,2022,Clark,183074,1830.74
+step2_pond_union,,Jiang2020|Clark2022,691841,6918.41
+step2_pond_agree,,Jiang2020&Clark2022,26855,268.55
+step2_pond_jiang_only,,Jiang only,508750,5087.5
+step2_pond_clark_only,,Clark only,155930,1559.3
+province_Koh Kong_jiang2020,,by province,149138,1491.38
+province_Koh Kong_clark2022,,by province,44932,449.32
+province_Koh Kong_union,,by province,177430,1774.3
+province_Koh Kong_agree,,by province,16368,163.68
+province_Kep_jiang2020,,by province,76469,764.69
+province_Kep_clark2022,,by province,834,8.34
+province_Kep_union,,by province,76522,765.22
+province_Kep_agree,,by province,781,7.81
+province_Kampot_jiang2020,,by province,276343,2763.43
+province_Kampot_clark2022,,by province,108306,1083.06
+province_Kampot_union,,by province,381593,3815.93
+province_Kampot_agree,,by province,3056,30.56
+province_Preah Sihanouk_jiang2020,,by province,33944,339.44
+province_Preah Sihanouk_clark2022,,by province,29002,290.02
+province_Preah Sihanouk_union,,by province,56296,562.96
+province_Preah Sihanouk_agree,,by province,6650,66.5
