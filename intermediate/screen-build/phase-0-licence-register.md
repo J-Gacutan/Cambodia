@@ -18,8 +18,11 @@
 | **Research / non-commercial OK** | **L17 WDPA** | This build is public/government research, not a credit project. Non-commercial use of the Protected Planet download is allowed for the permit and STOP (legal) flags. Cite Protected Planet; do not pass WDPA into a commercial or revenue-linked package without a fresh terms check. Filename `*_INTERNAL.gpkg` is historical. |
 | **Booklet only (GIS closed)** | **L19 MoE Forest Cover 2018** | Public booklet staged. Digital GIS **will not be provided** (user, 23 Nov 2026). Do not chase NFMS. Do not substitute SERVIR/GLAD as MoE. |
 | **Internal screening only** | L15 (UNEP-WCMC seagrass), L21 (Google Earth imagery) | May inform flags and labels. Do not redistribute geometries or imagery. |
+| **HOLD / FLAG — do not release** | **L_Jiang_ponds** (U), **L_Clark_aquaculture** (FLAG non-commercial rider), **`L_ponds_10m`**, Step 3 **classes 6–7**, salt limb of class 5 | Combined `class_step3` product inherits these. Not for public Pages until cleared or replaced by an open-only rebuild. |
 
 L15 commercial-use and redistribute bans still apply. L17 is usable in this research screen under non-commercial terms; credit-project or commercial redistribution remains barred.
+
+**First client/Pages share.** Go/no-go matrix (GO GeoJSON, case PNGs, method notes) and Jordan decision checklist: [`first-public-share-gate.md`](first-public-share-gate.md) (`khm-i6e.2`). **Public Pages = NO-GO** until that gate records an open-cleared path (P2) and an open-only bundle. Do not invent clearances.
 
 ---
 
@@ -356,3 +359,4 @@ Manual browser or `curl` where the host allows. Save under `inputs/screen-layers
 | 23 Nov 2026 | Elevation-check flag (`ywdp.8.5`): L12 vs L13 on the 10 m grid, `E_L12` = 0.74 m (Pronk et al. 2024 Table 6 RMSE). Class 6: 13.09 ha caution, 65.49 ha within allowance, 288.91 ha not tested |
 | 23 Nov 2026 | L19 digital GIS closed: MoE will not provide. L17 WDPA confirmed for non-commercial research use; staged at `L17/` (zip + merged gpkg, 68 polygons). `ywdp.8.8` |
 | 23 Nov 2026 | Step 3 L8-L11 (`ywdp.8.6`): L8, L9, L10 (2024 and 2025) and L11 (2014-2016) on the pond grid in `L8_L11_10m/`. Classes in `L_class_10m/class_step3.tif`. Class 1 is 151,176 ha, 130,074 ha with neither corroborator. Class 2 replaces 1,144 ha of first-pass existing mangrove. |
+| 23 Nov 2026 | `khm-i6e.2` first-public-share gate: matrix in `first-public-share-gate.md`. Pages NO-GO; full class/pond GO NO-GO on public remote; class 8 ± 4 open-only CONDITIONAL; case PNGs INTERNAL/DECISION; no new clearances. |

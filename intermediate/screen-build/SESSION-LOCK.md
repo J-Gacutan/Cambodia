@@ -4,7 +4,7 @@
 
 ## Active lock
 
-None.
+None. (`khm-i6e.2` gate matrix filed; bead left OPEN for Jordan decisions — see `first-public-share-gate.md`.)
 
 ## Cleared / closed recently (do not reopen)
 
