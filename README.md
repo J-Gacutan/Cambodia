@@ -17,10 +17,10 @@ Heavy rasters under `inputs/screen-layers/` are gitignored (~**13 GB** on a full
 | Module | Status | Entry |
 | --- | --- | --- |
 | Policy notes (1–3, 3b) | In `outputs/`; consistency pass done; awaiting Jordan sign-off. Not sent to CI. | [outputs/](outputs/README.md) · [docs/02](docs/02-policy-notes.md) |
-| Restoration screen | Phase 0 QGIS pack usable offline on workstation (`outputs/qgis-bridge/` + staged rasters). Steps 1–3 + elevation-check closed. Open-cleared GO±CAUTION `delivery/open-cleared/v0.2.0/` (`public_ready` false). Next: permit/STOP via L17; licence gate `khm-i6e.2`. | [docs/03](docs/03-restoration-screen.md) · [SESSION-LOCK](intermediate/screen-build/SESSION-LOCK.md) |
+| Restoration screen | Phase 0 QGIS pack + open-cleared `v0.2.1` (Phase 2 flags; `public_ready` false). Licence gate `khm-i6e.2`. | [docs/03](docs/03-restoration-screen.md) · [SESSION-LOCK](intermediate/screen-build/SESSION-LOCK.md) |
 | Data / licences | Living register; FLAG rows. Full stack ≈13 GB when staged. | [docs/04](docs/04-data-and-licences.md) |
 | Build pipeline | Scripts + lock in `intermediate/screen-build/`. | [docs/05](docs/05-build-pipeline.md) |
-| Screen console (MVP) | React + PF6 + MapLibre on open-cleared `v0.2.0`; public Pages gated on `public_ready`. | [app/](app/README.md) |
+| Screen console | React + PF6 + MapLibre on `v0.2.1`; contract pin; `#licence` panel; Pages gated on `public_ready`. | [app/](app/README.md) · [docs/08](docs/08-handoff.md) |
 
 ## Map
 
@@ -56,6 +56,7 @@ Heavy rasters under `inputs/screen-layers/` are gitignored (~**13 GB** on a full
 | [05-build-pipeline.md](docs/05-build-pipeline.md) | Scripts, phases, session discipline |
 | [06-related-artifacts.md](docs/06-related-artifacts.md) | Work outside / copied into `related/` |
 | [07-migration.md](docs/07-migration.md) | Cut list; what lifts vs stays on disk |
+| [08-handoff.md](docs/08-handoff.md) | Phase 3 handoff: pin, licence panel, Pages gate |
 
 ### outputs/
 
@@ -148,6 +149,7 @@ GEE-only / often no folder: L6, L7, L9, L10, L11, L16 (see Note 3b §3 + licence
 - Screen how-to-read (A–C) → [docs/03-restoration-screen.md](docs/03-restoration-screen.md)
 - Licence register → [phase-0-licence-register.md](intermediate/screen-build/phase-0-licence-register.md)
 - Migration / data handling → [docs/07-migration.md](docs/07-migration.md)
+- Console handoff → [docs/08-handoff.md](docs/08-handoff.md)
 
 ## Audience
 

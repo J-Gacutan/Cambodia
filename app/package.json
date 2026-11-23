@@ -8,10 +8,12 @@
   },
   "scripts": {
     "sync:bundle": "node scripts/sync-bundle.mjs",
+    "check:bundle": "node scripts/check-bundle.mjs",
     "predev": "node scripts/sync-bundle.mjs",
     "dev": "vite",
     "prebuild": "node scripts/sync-bundle.mjs",
     "build": "tsc --noEmit && vite build",
+    "postbuild": "node scripts/check-bundle.mjs",
     "preview": "vite preview",
     "lint": "tsc --noEmit --pretty false"
   },

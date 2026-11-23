@@ -33,6 +33,9 @@ import {
   type FeatureProps,
   type MapLayer
 } from "../lib/bundle";
+import { LayerProvenance } from "../common/LayerProvenance";
+import { EvidenceBadge, IllustrativeBadge } from "../common/Evidence";
+import { parseEvidenceClass } from "../lib/evidence";
 import { meaningForClass, suitabilityLabel } from "../lib/classMeaning";
 import {
   downloadText,
@@ -460,7 +463,16 @@ export default function MapPage() {
                 {layers.error && <p role="alert">{layers.error}</p>}
                 {screenLayer && (
                   <>
-                    <p className="pf-v6-u-font-size-sm">{screenLayer.title}</p>
+                    <p className="pf-v6-u-font-size-sm">
+                      {screenLayer.title}{" "}
+                      {(() => {
+                        const cls = parseEvidenceClass(screenLayer.evidence_class);
+                        return cls ? <EvidenceBadge cls={cls} /> : null;
+                      })()}{" "}
+                      <IllustrativeBadge
+                        publicReady={manifest.data?.public_ready === true && screenLayer.public_ready}
+                      />
+                    </p>
                     <Checkbox id="show-go" isChecked={showGo} label="Show GO" onChange={(_e, on) => setShowGo(on)} />
                     <Checkbox
                       id="show-caution"
@@ -468,7 +480,10 @@ export default function MapPage() {
                       label="Show CAUTION"
                       onChange={(_e, on) => setShowCaution(on)}
                     />
-                    <p className="pf-v6-u-font-size-sm pf-v6-u-mt-sm">{screenLayer.licence_plain}</p>
+                    <LayerProvenance
+                      layer={screenLayer}
+                      publicReady={manifest.data?.public_ready === true}
+                    />
                   </>
                 )}
                 <Title headingLevel="h2" className="pf-v6-u-mt-md">
@@ -508,14 +523,22 @@ export default function MapPage() {
                       Context overlays
                     </Title>
                     {contextLayers.map((layer) => (
-                      <Checkbox
-                        key={layer.id}
-                        id={`ctx-${layer.id}`}
-                        isChecked={contextOn[layer.id] !== false}
-                        label={layer.title}
-                        onChange={(_e, on) => setContextOn((prev) => ({ ...prev, [layer.id]: on }))}
-                      />
+                      <div key={layer.id} className="khm-context-layer">
+                        <Checkbox
+                          id={`ctx-${layer.id}`}
+                          isChecked={contextOn[layer.id] !== false}
+                          label={layer.title}
+                          onChange={(_e, on) => setContextOn((prev) => ({ ...prev, [layer.id]: on }))}
+                        />
+                        <LayerProvenance
+                          layer={layer}
+                          publicReady={manifest.data?.public_ready === true}
+                        />
+                      </div>
                     ))}
+                    <p className="pf-v6-u-font-size-sm">
+                      Full licence matrix: <a href="#licence">Licence and evidence</a>
+                    </p>
                   </>
                 )}
                 <Title headingLevel="h2" className="pf-v6-u-mt-md">

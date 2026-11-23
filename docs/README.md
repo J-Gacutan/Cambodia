@@ -1,6 +1,6 @@
 # Cambodia package docs
 
-Documentation for the Cambodia blue carbon package (Seed Fund scoping, REDD+ two tracks, project selection, restoration-potential screen). Seven modules under one index.
+Documentation for the Cambodia blue carbon package (Seed Fund scoping, REDD+ two tracks, project selection, restoration-potential screen). Eight modules under one index.
 
 **Do not read a module in isolation for build or release decisions.** Dependency order:
 
@@ -22,6 +22,7 @@ Status lives in [../README.md](../README.md) only. After a folder move, links **
 | 05 | [Build pipeline](05-build-pipeline.md) | Scripts, phases, session lock, how to extend a step | 01, 04, SESSION-LOCK |
 | 06 | [Related artifacts](06-related-artifacts.md) | Adjacent Cambodia work that is not inside this tree | 01 |
 | 07 | [Migration](07-migration.md) | Cut list, what lifts, what stays, post-move checklist | 01, 04 |
+| 08 | [Handoff](08-handoff.md) | Phase 3: contract pin, licence panel, Pages gate runbook | 01, 04, app README |
 
 ## Package root
 
@@ -31,3 +32,5 @@ Status lives in [../README.md](../README.md) only. After a folder move, links **
 - [../outputs/README.md](../outputs/README.md) — note cover sheet
 - [../red-team/cambodia-product-docs-red-team-2026-11-23.md](../red-team/cambodia-product-docs-red-team-2026-11-23.md) — docs red team
 - [../related/moe-roadmap-letter/](../related/moe-roadmap-letter/) — MoE roadmap letter (adjacent)
+- [../contract/platform.json](../contract/platform.json) — LKA-style open-cleared sha256 pin
+- [../app/](../app/README.md) — screening console

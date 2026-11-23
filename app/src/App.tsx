@@ -29,11 +29,13 @@ import { useBundle } from "./lib/useBundle";
 
 const MapPage = lazy(() => import("./pages/MapPage"));
 const CasesPage = lazy(() => import("./pages/CasesPage"));
+const LicencePage = lazy(() => import("./pages/LicencePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 
 const NAV = [
   ["#map", "Map"],
   ["#cases", "Cases A–C"],
+  ["#licence", "Licence"],
   ["#about", "About"]
 ] as const;
 
@@ -53,6 +55,8 @@ function route(hash: string) {
   switch (path) {
     case "cases":
       return <CasesPage />;
+    case "licence":
+      return <LicencePage />;
     case "about":
       return <AboutPage />;
     case "map":
@@ -194,7 +198,10 @@ export default function App() {
         <footer className="khm-footer">
           <p>Research prototype for CI Seed Fund / REDD+ scoping. Not a CI product endorsement.</p>
           <p>{`Data version ${version}. Quote the original source register, not this site.`}</p>
-          <p>FLAG rasters and INTERNAL case PNGs are kept offline — not in the public Pages artifact.</p>
+          <p>
+            FLAG rasters and INTERNAL case PNGs are kept offline — not in the public Pages artifact.{" "}
+            <a href="#licence">Licence and evidence</a>
+          </p>
         </footer>
       </FlexItem>
     </Flex>

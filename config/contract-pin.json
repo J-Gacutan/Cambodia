@@ -1,0 +1,19 @@
+{
+  "bundle_version": "v0.2.1",
+  "cambodia_commit": "6fdf535",
+  "public_ready": false,
+  "licence_gate": "blocked_pending_khm-i6e.2",
+  "files": {
+    "cases/cases.json": "5cbd5c1af8458c6125d163f36d4ee6abdd57ec309cc3b111d67f3ba57c403a69",
+    "flags/coverage.json": "023382a128d84d0f4a0ea037836f1b4ea42c05c33d3a4b5676b3c86f71f564f8",
+    "flags/GAPS.md": "7683083d16a75902b0188f86be9551665f25510176ec3881b2ca82a7aaab8b12",
+    "layers/go-caution.geojson": "f9fe6cbeca0a9e8104668cd29422a245125eaab9e4d304e883ba1c56e66eca78",
+    "layers/index.json": "96cdeff8804a68a1630687cabedd30fc05667625d5388ad4e76da83480ecbed1",
+    "layers/project-overlap-vcs1748.geojson": "238bab03734bc06545db566a22680bab72eb58d7a0c219ba566cd1a1b83b9e71",
+    "layers/ramsar-context.geojson": "6e6b8e0dce5e900222b4c54d34f103af523444ee4dd76919ceb4df33d65765b4",
+    "layers/ramsar-gap-centroids.geojson": "1855c0f26a8536d14c003f48bc4d0623e28053810f32f0b5889190ee3f3d3782",
+    "manifest.json": "4b762b498279a5547c7e504d4c56140e3cf15b429e34fd688dfad2600067acf4",
+    "README.md": "6c887043998af2df2e5a76a23b67dbf28dcfb02532be57eea866a669be87d905",
+    "schema/feature-properties.json": "c62583d321f47a64188718d94f6136815e1bfb1f6a76a26dd2683474c30cee8b"
+  }
+}
