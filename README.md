@@ -17,7 +17,7 @@ Heavy rasters under `inputs/screen-layers/` are gitignored (~**13 GB** on a full
 | Module | Status | Entry |
 | --- | --- | --- |
 | Policy notes (1–3, 3b) | In `outputs/`; consistency pass done; awaiting Jordan sign-off. Not sent to CI. | [outputs/](outputs/README.md) · [docs/02](docs/02-policy-notes.md) |
-| Restoration screen | Phase 0 staged; Steps 1–3 + elevation-check closed; class raster `L_class_10m/class_step3.tif`. **No claim.** Next: permit/STOP via L17. No final map. | [docs/03](docs/03-restoration-screen.md) · [SESSION-LOCK](intermediate/screen-build/SESSION-LOCK.md) |
+| Restoration screen | Phase 0 QGIS pack usable offline on workstation (`outputs/qgis-bridge/` + staged rasters). Steps 1–3 + elevation-check closed. Open-cleared GO±CAUTION `delivery/open-cleared/v0.2.0/` (`public_ready` false). Next: permit/STOP via L17; licence gate `khm-i6e.2`. | [docs/03](docs/03-restoration-screen.md) · [SESSION-LOCK](intermediate/screen-build/SESSION-LOCK.md) |
 | Data / licences | Living register; FLAG rows. Full stack ≈13 GB when staged. | [docs/04](docs/04-data-and-licences.md) |
 | Build pipeline | Scripts + lock in `intermediate/screen-build/`. | [docs/05](docs/05-build-pipeline.md) |
 

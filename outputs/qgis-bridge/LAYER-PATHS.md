@@ -4,11 +4,13 @@ All paths relative to the **Cambodia repo root**. CRS for rasters: **EPSG:32648*
 
 ## Required for interactive reproduce
 
-| Role | Path | On this thin clone? | Git? |
+Verified **23 Nov 2026** on Jordan’s Mac (`~/Documents/GitHub/Cambodia`): all five required layers present; QGIS relative paths from `outputs/qgis-bridge/` resolve. No copy/link from CI Engagement D11 T3 needed — stack already lives under `inputs/screen-layers/` (~13 GB, gitignored).
+
+| Role | Path | On this workstation? | Git? |
 | --- | --- | --- | --- |
-| Class Step 3 | `inputs/screen-layers/L_class_10m/class_step3.tif` | **Missing** | gitignored (`*.tif`) |
-| Elevation-check flag | `inputs/screen-layers/L13/elevation_check_flag_10m.tif` | **Missing** | gitignored |
-| WDPA merged polygons | `inputs/screen-layers/L17/WDPA_KHM_polygons_merged_INTERNAL.gpkg` (layer `wdpa_khm`) | **Missing** | gitignored (`*.gpkg`) |
+| Class Step 3 | `inputs/screen-layers/L_class_10m/class_step3.tif` | **Present** (EPSG:32648, 10 m, 19457×15661; class 1 ≈ 151,176 ha) | gitignored (`*.tif`) |
+| Elevation-check flag | `inputs/screen-layers/L13/elevation_check_flag_10m.tif` | **Present** (same grid; values 0 / 1 / 255) | gitignored |
+| WDPA merged polygons | `inputs/screen-layers/L17/WDPA_KHM_polygons_merged_INTERNAL.gpkg` (layer `wdpa_khm`) | **Present** (68 polygons; research / non-commercial — see L17 `PROVENANCE.txt`) | gitignored (`*.gpkg`) |
 | Coastal four provinces | `inputs/screen-layers/L20/coastal-four-provinces.geojson` | Present | tracked |
 | Case bookmarks | `outputs/qgis-bridge/cases.geojson` | Present (this pack) | tracked |
 
@@ -23,11 +25,11 @@ All paths relative to the **Cambodia repo root**. CRS for rasters: **EPSG:32648*
 | WDPA zip / shp | `inputs/screen-layers/L17/` | Research / non-commercial; do not push to public remote |
 | First-pass class | `inputs/screen-layers/L_class_10m_firstpass/class_firstpass.tif` | Build artefact |
 
-## Gap (documented for `khm-i6e.1`)
+## Thin-clone / Cloud Agent note
 
-This Cloud Agent / thin clone has **no** GeoTIFF or WDPA GeoPackage on disk (~13 GB stack is workstation-local). Pack delivers everything that can be git-tracked: how-to, PNG cases A–C, QGIS project + styles pointing at the paths above, province GeoJSON, bookmarks.
+Cloud / thin clones still lack the three heavy layers (gitignored). Pack delivers how-to, PNG cases A–C, QGIS project + styles, province GeoJSON, bookmarks. On a full workstation, open `cambodia-screen-phase0.qgs` once the paths above exist — **`khm-i6e.9`** closed when verified here.
 
-**To finish interactive QGIS on a machine:** copy the three “Required” heavy layers into those paths (from the analyst workstation that closed `ywdp.8.5` / `ywdp.8.6` / `ywdp.8.8`), then open `cambodia-screen-phase0.qgs`. Tracked as follow-up **`khm-i6e.9`**.
+**Do not** push FLAG / INTERNAL GeoTIFFs or the WDPA GeoPackage to a public remote. Licence terms stay as in `docs/04-data-and-licences.md` and L17 `PROVENANCE.txt` (no invented licences).
 
 ## Rebuild pointers (if rasters must be remade)
 
