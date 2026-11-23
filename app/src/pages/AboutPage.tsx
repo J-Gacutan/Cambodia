@@ -33,17 +33,24 @@ export default function AboutPage() {
           <li>completeness: {manifest.data.completeness}</li>
         </ul>
       )}
+      <Title headingLevel="h2">Phase 2 flags</Title>
+      <p>
+        Permit gate, STOP (legal), and project-overlap attributes attach without changing class. The UI cites
+        instruments and overlaps — it never says a site is approved or refused. STOP (legal) stays{" "}
+        <em>unavailable</em> until MoE mapped core zones exist (L19 digital GIS closed). Gaps:{" "}
+        <code>delivery/open-cleared/{BUNDLE_VERSION}/flags/GAPS.md</code>.
+      </p>
       <Title headingLevel="h2">Bundle versions</Title>
       <p>
-        Default pin is <code>v0.2.0</code> (full raster vectorise). Thin clones can fall back to{" "}
+        Default pin is <code>v0.2.1</code> (Phase 2 flags on full vectorise). Fall back to <code>v0.2.0</code> or{" "}
         <code>v0.1.0-stub</code> via <code>VITE_KHM_BUNDLE_VERSION</code> or by editing{" "}
         <code>config/bundle-versions.json</code>, then <code>npm run sync:bundle</code>.
       </p>
       <Title headingLevel="h2">Public Pages</Title>
       <p>
         Kenya-style Actions → GitHub Pages is scaffolded but must not go live until the open-cleared bundle has{" "}
-        <code>public_ready=true</code> (licence gate <code>khm-i6e.2</code>). FLAG rasters and INTERNAL case PNGs
-        never enter the Pages artifact.
+        <code>public_ready=true</code> (licence gate <code>khm-i6e.2</code>). FLAG rasters, WDPA geometries, and
+        INTERNAL case PNGs never enter the Pages artifact.
       </p>
     </PageSection>
   );

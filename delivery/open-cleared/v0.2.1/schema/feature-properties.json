@@ -1,0 +1,74 @@
+{
+  "feature_properties": {
+    "id": "stable feature id (string)",
+    "class_id": "Note 3b class code: GO 6|8; CAUTION 4|5|7|9",
+    "class_name": "snake_case class label",
+    "suitability": "go | caution",
+    "area_ha": "planar area on EPSG:32648 before WGS84 export",
+    "mmu_ha": "minimum mapping unit applied at vectorise (0.5)",
+    "province": "Koh Kong | Preah Sihanouk | Kampot | Kep | null",
+    "evidence_class": "derived_screen",
+    "register_id": "note3b-step3-class",
+    "licence_plain": "human licence line; never imply public clear",
+    "licence_spdx": "null until open-cleared",
+    "redistributable": false,
+    "public_ready": false,
+    "source_raster": "path or 'sample-stub'",
+    "product_banner": "must surface in MapLibre UI",
+    "stub": "true when not from full class_step3.tif",
+    "permit_gate": "true | false | null — null when PA coverage incomplete (no invented clearance)",
+    "permit_gate_sources": "list of register ids that hit, or null",
+    "permit_instrument": "Note 3b permit-gate citation (never approved/refused)",
+    "stop_legal": "true | false | null — null until MoE core zones mapped",
+    "stop_legal_status": "unavailable | provisional | mapped",
+    "stop_legal_instrument": "ENR Code Art. 364 citation",
+    "stop_legal_note": "human-readable gap / reading rule",
+    "project_overlap": "true | false | null",
+    "project_overlap_ids": "list of project ids, or null",
+    "project_overlap_note": "coverage note",
+    "flag_sources_complete": "object of boolean coverage keys"
+  },
+  "maplibre_hint": {
+    "source_layer": "go-caution",
+    "paint_by": "suitability",
+    "go_color": "#0099AA",
+    "caution_color": "#C4A35A",
+    "filter_example": [
+      "in",
+      [
+        "get",
+        "suitability"
+      ],
+      [
+        "literal",
+        [
+          "go",
+          "caution"
+        ]
+      ]
+    ]
+  },
+  "phase2_flags": {
+    "bead": "khm-i6e.6",
+    "ui_rule": "Cite instruments and overlaps; never say approved or refused.",
+    "filter_example": [
+      "all",
+      [
+        "!=",
+        [
+          "get",
+          "permit_gate"
+        ],
+        true
+      ],
+      [
+        "!=",
+        [
+          "get",
+          "project_overlap"
+        ],
+        true
+      ]
+    ]
+  }
+}

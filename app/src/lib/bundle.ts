@@ -45,7 +45,8 @@ export const mapLayerSchema = z.object({
   public_ready: z.boolean(),
   default_visible: z.boolean(),
   note: z.string().nullable().optional(),
-  stub: z.boolean().optional()
+  stub: z.boolean().optional(),
+  flag_role: z.string().optional()
 });
 
 export const mapLayersSchema = z.array(mapLayerSchema);
@@ -76,6 +77,8 @@ const multiPolygonSchema = z.object({
   coordinates: z.array(z.array(ringSchema).min(1)).min(1)
 });
 
+const triState = z.union([z.boolean(), z.null()]).optional();
+
 export const featurePropsSchema = z
   .object({
     id: z.string(),
@@ -93,7 +96,18 @@ export const featurePropsSchema = z
     case_id: z.string().optional(),
     place: z.string().optional(),
     note: z.string().optional(),
-    product_banner: z.string().optional()
+    product_banner: z.string().optional(),
+    permit_gate: triState,
+    permit_gate_sources: z.array(z.string()).nullable().optional(),
+    permit_instrument: z.string().optional(),
+    stop_legal: triState,
+    stop_legal_status: z.string().optional(),
+    stop_legal_instrument: z.string().optional(),
+    stop_legal_note: z.string().optional(),
+    project_overlap: triState,
+    project_overlap_ids: z.array(z.string()).nullable().optional(),
+    project_overlap_note: z.string().optional(),
+    flag_sources_complete: z.record(z.boolean()).optional()
   })
   .passthrough();
 
@@ -110,10 +124,27 @@ export const layerGeometrySchema = z.object({
     .min(1)
 });
 
+const pointSchema = z.object({ type: z.literal("Point"), coordinates: lonLat });
+
+/** Context overlays may be polygon or point (e.g. Ramsar gap centroids). */
+export const contextGeometrySchema = z.object({
+  type: z.literal("FeatureCollection"),
+  features: z
+    .array(
+      z.object({
+        type: z.literal("Feature"),
+        properties: z.record(z.unknown()).nullable(),
+        geometry: z.union([polygonSchema, multiPolygonSchema, pointSchema])
+      })
+    )
+    .min(1)
+});
+
 export type Manifest = z.infer<typeof manifestSchema>;
 export type MapLayer = z.infer<typeof mapLayerSchema>;
 export type CaseStudy = z.infer<typeof caseSchema>;
 export type LayerGeometry = z.infer<typeof layerGeometrySchema>;
+export type ContextGeometry = z.infer<typeof contextGeometrySchema>;
 export type FeatureProps = z.infer<typeof featurePropsSchema>;
 
 const cache = new Map<string, Promise<unknown>>();
@@ -137,8 +168,24 @@ export const loadMapLayers = (): Promise<MapLayer[]> =>
 
 export const loadLayerGeometry = (layer: MapLayer) => load(layer.file, layerGeometrySchema);
 
+export const loadContextGeometry = (layer: MapLayer) => load(layer.file, contextGeometrySchema);
+
 export const loadCases = (): Promise<CaseStudy[] | null> =>
   loadManifest().then((m) => (m.families.includes("cases") ? load("cases/cases.json", casesSchema) : null));
+
+export function isScreenLayer(layer: MapLayer): boolean {
+  return layer.id === "go-caution" || layer.kind === "overlay";
+}
+
+export function isContextLayer(layer: MapLayer): boolean {
+  return layer.kind === "context_overlay" || Boolean(layer.flag_role);
+}
+
+export function flagLabel(value: boolean | null | undefined): string {
+  if (value === true) return "hit";
+  if (value === false) return "no hit (known sources)";
+  return "unknown / incomplete coverage";
+}
 
 /** Four coastal provinces — approximate bounds for the MVP camera. */
 export const CAMBODIA_COAST_BOUNDS: [number, number, number, number] = [102.85, 10.35, 104.55, 11.85];

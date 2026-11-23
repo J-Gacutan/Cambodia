@@ -1,0 +1,68 @@
+{
+  "version": "v0.2.1",
+  "built": "2026-11-23T07:02:12Z",
+  "stub": false,
+  "completeness": "full_raster_vectorised",
+  "public_ready": false,
+  "licence_gate": "blocked_pending_khm-i6e.2",
+  "product_banner": "Physical / land-cover suitability proxy only. GO = worth a field look. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome. Permit / STOP (legal) / project-overlap flags cite instruments and overlaps — they never mean approved or refused.",
+  "crs_geometry": "EPSG:4326",
+  "source_grid": "EPSG:32648",
+  "resolution_m": 10.0,
+  "mmu_ha": 0.5,
+  "mmu_pixels": 50,
+  "classes_included": {
+    "go": [
+      6,
+      8
+    ],
+    "caution": [
+      4,
+      5,
+      7,
+      9
+    ]
+  },
+  "source_raster": "inputs/screen-layers/L_class_10m/class_step3.tif",
+  "source_raster_sha256": "cf42f11e03b836415dc7b98385db7e5f5a15878d1243a125c76101d3269daf06",
+  "families": [
+    "layers",
+    "cases",
+    "schema",
+    "flags"
+  ],
+  "stats": {
+    "feature_count": 10503,
+    "go_features": 1330,
+    "caution_features": 9173,
+    "go_ha": 3539.0,
+    "caution_ha": 86972.95,
+    "phase2": {
+      "features": 10503,
+      "permit_gate_true": 0,
+      "permit_gate_null": 10503,
+      "permit_gate_false": 0,
+      "project_overlap_true": 115,
+      "project_overlap_false": 10388,
+      "project_overlap_null": 0,
+      "stop_legal_null": 10503
+    }
+  },
+  "notes": [
+    "Vectorised from inputs/screen-layers/L_class_10m/class_step3.tif with MMU 0.5 ha (50 px).",
+    "GO classes 6/8; CAUTION 4/5/7/9 included.",
+    "public_ready remains false until khm-i6e.2.",
+    "GeoJSON written compact with coordinates rounded to 5 dp for git-safe size.",
+    "Phase 2 flags (v0.2.1): permit_gate partial; stop_legal unavailable; project_overlap from VCS 1748 when staged. See flags/GAPS.md."
+  ],
+  "path_policy": "Ship only under delivery/open-cleared/. Do not copy FLAG rasters or inputs/screen-layers binaries into this tree or a public remote.",
+  "phase2": {
+    "bead": "khm-i6e.6",
+    "wdpa_joined": false,
+    "stop_legal_status": "unavailable",
+    "project_overlap_sources": [
+      "vcs-1748"
+    ],
+    "gaps_doc": "flags/GAPS.md"
+  }
+}
