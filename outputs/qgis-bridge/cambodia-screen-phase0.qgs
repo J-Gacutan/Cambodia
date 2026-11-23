@@ -1,0 +1,499 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis projectname="Cambodia screen — Phase 0 bridge" version="3.28.0-Firenze" saveDateTime="2026-11-23T00:00:00" saveUser="cursor-agent" saveUserFull="Cursor Agent">
+ <homePath></homePath>
+ <title>Cambodia Step 3 screen — Phase 0 QGIS bridge (INTERNAL)</title>
+ <autotransaction active="0"/>
+ <evaluateDefaultValues active="0"/>
+ <trust layer-statistics-with-project="0"/>
+ <projectCrs>
+  <spatialrefsys nativeFormat="Wkt">
+   <authid>EPSG:32648</authid>
+   <srid>32648</srid>
+   <description>WGS 84 / UTM zone 48N</description>
+   <projectionacronym>utm</projectionacronym>
+   <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+   <geographicflag>false</geographicflag>
+  </spatialrefsys>
+ </projectCrs>
+ <layer-tree-group>
+  <customproperties>
+   <Option/>
+  </customproperties>
+    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="cases_c1c34e70" source="./cases.geojson" name="Cases A–C">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="provinces_e012f6d8" source="./../../inputs/screen-layers/L20/coastal-four-provinces.geojson" name="Coastal four provinces">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="wdpa_2c519e02" source="./../../inputs/screen-layers/L17/WDPA_KHM_polygons_merged_INTERNAL.gpkg|layername=wdpa_khm" name="WDPA KHM (research / non-commercial)">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" providerKey="gdal" checked="Qt::Checked" id="elev_flag_30399178" source="./../../inputs/screen-layers/L13/elevation_check_flag_10m.tif" name="Elevation-check flag (L12 vs L13)">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" providerKey="gdal" checked="Qt::Checked" id="class_step3_d462f1c6" source="./../../inputs/screen-layers/L_class_10m/class_step3.tif" name="Class Step 3 (GO/CAUTION/STOP)">
+      <customproperties/>
+    </layer-tree-layer>
+  <custom-order enabled="1">
+      <item>cases_c1c34e70</item>
+      <item>provinces_e012f6d8</item>
+      <item>wdpa_2c519e02</item>
+      <item>elev_flag_30399178</item>
+      <item>class_step3_d462f1c6</item>
+  </custom-order>
+ </layer-tree-group>
+ <snapping-settings enabled="0"/>
+ <relations/>
+ <mapcanvas name="mapcanvas" decorations="0" annotations="0">
+  <units>meters</units>
+  <extent>
+   <xmin>200000</xmin>
+   <ymin>1140000</ymin>
+   <xmax>450000</xmax>
+   <ymax>1330000</ymax>
+  </extent>
+  <rotation>0</rotation>
+  <destinationsrs>
+   <spatialrefsys nativeFormat="Wkt">
+    <authid>EPSG:32648</authid>
+    <srid>32648</srid>
+   </spatialrefsys>
+  </destinationsrs>
+  <rendermaptile>0</rendermaptile>
+ </mapcanvas>
+ <projectModels/>
+ <legend updateDrawingOrder="true">
+  <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Cases A–C" showFeatureCount="0">
+   <filegroup open="true" hidden="false">
+    <legendlayerfile isInOverview="0" layerid="cases_c1c34e70" visible="1"/>
+   </filegroup>
+  </legendlayer>
+ </legend>
+ <mapViewDocks/>
+ <main-annotation-layer type="annotation" refreshOnNotifyEnabled="0" autoRefreshEnabled="0" autoRefreshTime="0" refreshOnNotifyMessage="" legendPlaceholderImage="" styleCategories="AllStyleCategories">
+  <id>Annotations</id>
+  <datasource></datasource>
+  <layername>Annotations</layername>
+  <srs>
+   <spatialrefsys nativeFormat="Wkt">
+    <authid>EPSG:32648</authid>
+   </spatialrefsys>
+  </srs>
+  <provider>memory</provider>
+ </main-annotation-layer>
+ <projectlayers>
+  <maplayer autoRefreshEnabled="0" autoRefreshTime="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" type="raster" legendPlaceholderImage="" styleCategories="AllStyleCategories">
+    <id>class_step3_d462f1c6</id>
+    <datasource>./../../inputs/screen-layers/L_class_10m/class_step3.tif</datasource>
+    <keywordList>
+      <value></value>
+    </keywordList>
+    <layername>Class Step 3 (GO/CAUTION/STOP)</layername>
+    <srs>
+      <spatialrefsys nativeFormat="Wkt">
+        <wkt></wkt>
+        <proj4></proj4>
+        <srsid>0</srsid>
+        <srid>32648</srid>
+        <authid>EPSG:32648</authid>
+        <description></description>
+        <projectionacronym></projectionacronym>
+        <ellipsoidacronym></ellipsoidacronym>
+        <geographicflag>false</geographicflag>
+      </spatialrefsys>
+    </srs>
+    <resourceMetadata>
+      <identifier></identifier>
+      <parentidentifier></parentidentifier>
+      <language></language>
+      <type></type>
+      <title></title>
+      <abstract></abstract>
+      <links/>
+      <fees></fees>
+      <encoding></encoding>
+      <crs>
+        <spatialrefsys nativeFormat="Wkt">
+          <authid>EPSG:32648</authid>
+        </spatialrefsys>
+      </crs>
+      <extent/>
+    </resourceMetadata>
+    <provider>gdal</provider>
+    <pipe>
+      <provider>
+        <resampling enabled="false" maxOversampling="2" zoomedInResamplingMethod="nearestNeighbour" zoomedOutResamplingMethod="nearestNeighbour"/>
+      </provider>
+      <rasterrenderer type="singlebandgray" opacity="1" alphaBand="-1" grayBand="1" gradient="BlackToWhite">
+        <rasterTransparency/>
+        <minMaxOrigin>
+          <limits>None</limits>
+          <extent>WholeRaster</extent>
+          <statAccuracy>Estimated</statAccuracy>
+          <cumulativeCutLower>0.02</cumulativeCutLower>
+          <cumulativeCutUpper>0.98</cumulativeCutUpper>
+          <stdDevFactor>2</stdDevFactor>
+        </minMaxOrigin>
+        <contrastEnhancement>
+          <minValue>0</minValue>
+          <maxValue>10</maxValue>
+          <algorithm>NoEnhancement</algorithm>
+        </contrastEnhancement>
+      </rasterrenderer>
+      <brightnesscontrast brightness="0" contrast="0" gamma="1"/>
+      <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+      <rasterresampler maxOversampling="2"/>
+    </pipe>
+    <blendMode>0</blendMode>
+  </maplayer>
+  <maplayer autoRefreshEnabled="0" autoRefreshTime="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" type="raster" legendPlaceholderImage="" styleCategories="AllStyleCategories">
+    <id>elev_flag_30399178</id>
+    <datasource>./../../inputs/screen-layers/L13/elevation_check_flag_10m.tif</datasource>
+    <keywordList>
+      <value></value>
+    </keywordList>
+    <layername>Elevation-check flag (L12 vs L13)</layername>
+    <srs>
+      <spatialrefsys nativeFormat="Wkt">
+        <wkt></wkt>
+        <proj4></proj4>
+        <srsid>0</srsid>
+        <srid>32648</srid>
+        <authid>EPSG:32648</authid>
+        <description></description>
+        <projectionacronym></projectionacronym>
+        <ellipsoidacronym></ellipsoidacronym>
+        <geographicflag>false</geographicflag>
+      </spatialrefsys>
+    </srs>
+    <resourceMetadata>
+      <identifier></identifier>
+      <parentidentifier></parentidentifier>
+      <language></language>
+      <type></type>
+      <title></title>
+      <abstract></abstract>
+      <links/>
+      <fees></fees>
+      <encoding></encoding>
+      <crs>
+        <spatialrefsys nativeFormat="Wkt">
+          <authid>EPSG:32648</authid>
+        </spatialrefsys>
+      </crs>
+      <extent/>
+    </resourceMetadata>
+    <provider>gdal</provider>
+    <pipe>
+      <provider>
+        <resampling enabled="false" maxOversampling="2" zoomedInResamplingMethod="nearestNeighbour" zoomedOutResamplingMethod="nearestNeighbour"/>
+      </provider>
+      <rasterrenderer type="singlebandgray" opacity="1" alphaBand="-1" grayBand="1" gradient="BlackToWhite">
+        <rasterTransparency/>
+        <minMaxOrigin>
+          <limits>None</limits>
+          <extent>WholeRaster</extent>
+          <statAccuracy>Estimated</statAccuracy>
+          <cumulativeCutLower>0.02</cumulativeCutLower>
+          <cumulativeCutUpper>0.98</cumulativeCutUpper>
+          <stdDevFactor>2</stdDevFactor>
+        </minMaxOrigin>
+        <contrastEnhancement>
+          <minValue>0</minValue>
+          <maxValue>10</maxValue>
+          <algorithm>NoEnhancement</algorithm>
+        </contrastEnhancement>
+      </rasterrenderer>
+      <brightnesscontrast brightness="0" contrast="0" gamma="1"/>
+      <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+      <rasterresampler maxOversampling="2"/>
+    </pipe>
+    <blendMode>0</blendMode>
+  </maplayer>
+  <maplayer autoRefreshEnabled="0" autoRefreshTime="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" type="vector" geometry="Polygon" legendPlaceholderImage="" styleCategories="AllStyleCategories">
+    <id>wdpa_2c519e02</id>
+    <datasource>./../../inputs/screen-layers/L17/WDPA_KHM_polygons_merged_INTERNAL.gpkg|layername=wdpa_khm</datasource>
+    <keywordList>
+      <value></value>
+    </keywordList>
+    <layername>WDPA KHM (research / non-commercial)</layername>
+    <srs>
+      <spatialrefsys nativeFormat="Wkt">
+        <authid>EPSG:4326</authid>
+        <srid>4326</srid>
+      </spatialrefsys>
+    </srs>
+    <resourceMetadata>
+      <identifier></identifier>
+      <parentidentifier></parentidentifier>
+      <language></language>
+      <type>dataset</type>
+      <title></title>
+      <abstract>Cambodia Phase 0 QGIS bridge — INTERNAL until licence clear. GO is not approval.</abstract>
+      <links/>
+      <fees></fees>
+      <encoding>UTF-8</encoding>
+      <crs>
+        <spatialrefsys nativeFormat="Wkt">
+          <authid>EPSG:4326</authid>
+        </spatialrefsys>
+      </crs>
+      <extent/>
+    </resourceMetadata>
+    <provider>ogr</provider>
+    <vectorjoins/>
+    <layerDependencies/>
+    <renderer-v2 type="singleSymbol" forceraster="0" enableorderby="0" symbollevels="0" referencescale="-1">
+      <symbols>
+        <symbol type="fill" name="0" alpha="0.5" force_rhr="0" clip_to_extent="1" is_animated="0" frame_rate="10">
+          <data_defined_properties>
+            <Option type="Map">
+              <Option type="QString" name="name" value=""/>
+              <Option name="properties"/>
+              <Option type="QString" name="type" value="collection"/>
+            </Option>
+          </data_defined_properties>
+          <layer pass="0" class="SimpleFill" enabled="1" locked="0">
+            <Option type="Map">
+              <Option type="QString" name="color" value="0,0,0,0"/>
+              <Option type="QString" name="outline_color" value="180,60,60,200"/>
+              <Option type="QString" name="outline_width" value="0.4"/>
+              <Option type="QString" name="style" value="no"/>
+            </Option>
+            <data_defined_properties>
+              <Option type="Map">
+                <Option type="QString" name="name" value=""/>
+                <Option name="properties"/>
+                <Option type="QString" name="type" value="collection"/>
+              </Option>
+            </data_defined_properties>
+          </layer>
+        </symbol>
+      </symbols>
+      <rotation/>
+      <sizescale/>
+    </renderer-v2>
+    <customproperties>
+      <Option/>
+    </customproperties>
+    <blendMode>0</blendMode>
+    <featureBlendMode>0</featureBlendMode>
+    <layerOpacity>0.5</layerOpacity>
+    <previewExpression></previewExpression>
+  </maplayer>
+  <maplayer autoRefreshEnabled="0" autoRefreshTime="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" type="vector" geometry="Polygon" legendPlaceholderImage="" styleCategories="AllStyleCategories">
+    <id>provinces_e012f6d8</id>
+    <datasource>./../../inputs/screen-layers/L20/coastal-four-provinces.geojson</datasource>
+    <keywordList>
+      <value></value>
+    </keywordList>
+    <layername>Coastal four provinces</layername>
+    <srs>
+      <spatialrefsys nativeFormat="Wkt">
+        <authid>EPSG:4326</authid>
+        <srid>4326</srid>
+      </spatialrefsys>
+    </srs>
+    <resourceMetadata>
+      <identifier></identifier>
+      <parentidentifier></parentidentifier>
+      <language></language>
+      <type>dataset</type>
+      <title></title>
+      <abstract>Cambodia Phase 0 QGIS bridge — INTERNAL until licence clear. GO is not approval.</abstract>
+      <links/>
+      <fees></fees>
+      <encoding>UTF-8</encoding>
+      <crs>
+        <spatialrefsys nativeFormat="Wkt">
+          <authid>EPSG:4326</authid>
+        </spatialrefsys>
+      </crs>
+      <extent/>
+    </resourceMetadata>
+    <provider>ogr</provider>
+    <vectorjoins/>
+    <layerDependencies/>
+    <renderer-v2 type="singleSymbol" forceraster="0" enableorderby="0" symbollevels="0" referencescale="-1">
+      <symbols>
+        <symbol type="fill" name="0" alpha="1" force_rhr="0" clip_to_extent="1" is_animated="0" frame_rate="10">
+          <data_defined_properties>
+            <Option type="Map">
+              <Option type="QString" name="name" value=""/>
+              <Option name="properties"/>
+              <Option type="QString" name="type" value="collection"/>
+            </Option>
+          </data_defined_properties>
+          <layer pass="0" class="SimpleFill" enabled="1" locked="0">
+            <Option type="Map">
+              <Option type="QString" name="color" value="0,0,0,0"/>
+              <Option type="QString" name="outline_color" value="40,40,40,255"/>
+              <Option type="QString" name="outline_width" value="0.6"/>
+              <Option type="QString" name="style" value="no"/>
+            </Option>
+            <data_defined_properties>
+              <Option type="Map">
+                <Option type="QString" name="name" value=""/>
+                <Option name="properties"/>
+                <Option type="QString" name="type" value="collection"/>
+              </Option>
+            </data_defined_properties>
+          </layer>
+        </symbol>
+      </symbols>
+      <rotation/>
+      <sizescale/>
+    </renderer-v2>
+    <customproperties>
+      <Option/>
+    </customproperties>
+    <blendMode>0</blendMode>
+    <featureBlendMode>0</featureBlendMode>
+    <layerOpacity>1</layerOpacity>
+    <previewExpression></previewExpression>
+  </maplayer>
+  <maplayer autoRefreshEnabled="0" autoRefreshTime="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" type="vector" geometry="Point" legendPlaceholderImage="" styleCategories="AllStyleCategories">
+    <id>cases_c1c34e70</id>
+    <datasource>./cases.geojson</datasource>
+    <keywordList>
+      <value></value>
+    </keywordList>
+    <layername>Cases A–C</layername>
+    <srs>
+      <spatialrefsys nativeFormat="Wkt">
+        <authid>EPSG:4326</authid>
+        <srid>4326</srid>
+      </spatialrefsys>
+    </srs>
+    <resourceMetadata>
+      <identifier></identifier>
+      <parentidentifier></parentidentifier>
+      <language></language>
+      <type>dataset</type>
+      <title></title>
+      <abstract>Cambodia Phase 0 QGIS bridge — INTERNAL until licence clear. GO is not approval.</abstract>
+      <links/>
+      <fees></fees>
+      <encoding>UTF-8</encoding>
+      <crs>
+        <spatialrefsys nativeFormat="Wkt">
+          <authid>EPSG:4326</authid>
+        </spatialrefsys>
+      </crs>
+      <extent/>
+    </resourceMetadata>
+    <provider>ogr</provider>
+    <vectorjoins/>
+    <layerDependencies/>
+    <renderer-v2 type="singleSymbol" forceraster="0" enableorderby="0" symbollevels="0" referencescale="-1">
+      <symbols>
+        <symbol type="marker" name="0" alpha="1" force_rhr="0" clip_to_extent="1" is_animated="0" frame_rate="10">
+          <data_defined_properties>
+            <Option type="Map">
+              <Option type="QString" name="name" value=""/>
+              <Option name="properties"/>
+              <Option type="QString" name="type" value="collection"/>
+            </Option>
+          </data_defined_properties>
+          <layer pass="0" class="SimpleMarker" enabled="1" locked="0">
+            <Option type="Map">
+              <Option type="QString" name="color" value="0,0,0,255"/>
+              <Option type="QString" name="name" value="circle"/>
+              <Option type="QString" name="outline_color" value="255,255,255,255"/>
+              <Option type="QString" name="outline_width" value="0.8"/>
+              <Option type="QString" name="size" value="3.5"/>
+            </Option>
+            <data_defined_properties>
+              <Option type="Map">
+                <Option type="QString" name="name" value=""/>
+                <Option name="properties"/>
+                <Option type="QString" name="type" value="collection"/>
+              </Option>
+            </data_defined_properties>
+          </layer>
+        </symbol>
+      </symbols>
+      <rotation/>
+      <sizescale/>
+    </renderer-v2>
+    <labeling type="simple">
+      <settings calloutType="simple">
+        <text-style fontFamily="Sans Serif" fontSize="11" textColor="0,0,0,255" namedStyle="Bold" fieldName="id" isExpression="0"/>
+        <text-format decimals="3" wrapChar="" multilineAlign="0" placeFormat="0" reverseDirectionSymbol="0" leftDirectionSymbol="&lt;" rightDirectionSymbol="&gt;" formatNumbers="0" plussign="0" addDirectionSymbol="0" autoWrapLength="0" useMaxLineLengthForAutoWrap="1"/>
+        <placement centroidWhole="0" maxCurvedCharAngleOut="-25" offsetUnits="MM" dist="2" rotationUnit="AngleDegrees" fitInPolygonOnly="0" centroidInside="0" distUnits="MM" overrunDistanceUnit="MM" preserveRotation="1" geometryGenerator="" polygonPlacementFlags="2" offsetType="0" maxCurvedCharAngleIn="25" layerType="PointGeometry" placementFlags="10" yOffset="0" overrunDistance="0" rotationAngle="0" geometryGeneratorEnabled="0" placement="0" priority="5" predefinedPositionOrder="TR,TL,BR,BL,R,L,T,B" repeatDistance="0" xOffset="0" quadOffset="4" repeatDistanceUnits="MM" distMapScale="0" geometryGeneratorType="PointGeometry" overrunDistanceMapUnitScale="3x:0,0,0,0,0,0" offsetMapUnitScale="3x:0,0,0,0,0,0" repeatDistanceMapUnitScale="3x:0,0,0,0,0,0"/>
+        <rendering scaleVisibility="0" obstacle="1" fontLimitPixelSize="0" zIndex="0" mergeLines="0" scaleMax="0" minFeatureSize="0" fontMaxPixelSize="10000" labelPerPart="0" unplacedVisibility="0" scaleMin="0" fontMinPixelSize="3" obstacleFactor="1" maxNumLabels="2000" obstacleType="1" drawLabels="1" upsidedownLabels="0" limitNumLabels="0"/>
+        <dd_properties>
+          <Option type="Map">
+            <Option type="QString" name="name" value=""/>
+            <Option name="properties"/>
+            <Option type="QString" name="type" value="collection"/>
+          </Option>
+        </dd_properties>
+      </settings>
+    </labeling>
+    <customproperties>
+      <Option type="Map">
+        <Option type="bool" name="labeling/enabled" value="true"/>
+      </Option>
+    </customproperties>
+    <previewExpression></previewExpression>
+  </maplayer>
+ </projectlayers>
+ <Bookmarks>
+    <Bookmark>
+      <id>59de7ac4-19c4-48f6-ba94-df3c7756e8eb</id>
+      <name>Case A</name>
+      <project></project>
+      <xmin>103.5657</xmin>
+      <ymin>11.156</ymin>
+      <xmax>103.6057</xmax>
+      <ymax>11.196</ymax>
+      <srs_id>4326</srs_id>
+      <group>Cases</group>
+    </Bookmark>
+    <Bookmark>
+      <id>ab3a1a21-dd13-4608-a294-b0548a8853ea</id>
+      <name>Case B</name>
+      <project></project>
+      <xmin>103.04180000000001</xmin>
+      <ymin>11.4513</ymin>
+      <xmax>103.0818</xmax>
+      <ymax>11.491299999999999</ymax>
+      <srs_id>4326</srs_id>
+      <group>Cases</group>
+    </Bookmark>
+    <Bookmark>
+      <id>212201dc-31cf-417b-8129-236496957ad8</id>
+      <name>Case C</name>
+      <project></project>
+      <xmin>103.8424</xmin>
+      <ymin>10.6236</ymin>
+      <xmax>103.88239999999999</xmax>
+      <ymax>10.663599999999999</ymax>
+      <srs_id>4326</srs_id>
+      <group>Cases</group>
+    </Bookmark>
+ </Bookmarks>
+ <Properties>
+  <Paths>
+   <Absolute>false</Absolute>
+  </Paths>
+  <Measurement>
+   <DistanceUnits>meters</DistanceUnits>
+   <AreaUnits>hectares</AreaUnits>
+  </Measurement>
+ </Properties>
+ <visibility-presets/>
+ <transformContext/>
+ <projectMetadata>
+  <identifier>cambodia-qgis-bridge-phase0</identifier>
+  <parentidentifier></parentidentifier>
+  <language>en</language>
+  <type></type>
+  <title>Cambodia Step 3 — Phase 0 QGIS bridge</title>
+  <abstract>INTERNAL CI GIS pack. Class = physical/land-cover proxy; GO is not approval. Heavy FLAG rasters stay offline — see LAYER-PATHS.md. Bead khm-i6e.1.</abstract>
+  <links/>
+  <author>Cursor Agent</author>
+  <creation>2026-11-23</creation>
+ </projectMetadata>
+</qgis>

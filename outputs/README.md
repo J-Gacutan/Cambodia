@@ -13,6 +13,10 @@ Four internal working notes for Jordan Gacutan, prepared under D11 for CI Cambod
 4. **[Note 3b: Restoration-potential screen, method spec and data list](03b-restoration-potential-screen-method.md)**: a costed method (about 59 person-days) to build a national mangrove restoration-potential screen from open data, with ten classes, five flags and a restricted seagrass analogue. No map is built.
    Gates: verify pass; hostile red team (four lenses, pond rules and validation rebuilt); director gate (revise, five fixes applied once); ywdp.9 licence rows; acronyms spelled out within the 3,000 cap.
 
+## Phase 0 QGIS bridge (client delivery)
+
+Offline analyst pack so CI GIS can reproduce cases A–C without the React app: [qgis-bridge/](qgis-bridge/) (`HOW-TO.md`, case PNGs, `cambodia-screen-phase0.qgs`, layer paths). **INTERNAL** until the licence path clears. Heavy FLAG rasters stay on the full workstation — see [qgis-bridge/LAYER-PATHS.md](qgis-bridge/LAYER-PATHS.md). Bead `khm-i6e.1`.
+
 ## Close-out
 
 A cross-note consistency pass reconciled shared facts, screen classes, acronyms and cross-references across the four notes ([../intermediate/consistency-log.md](../intermediate/consistency-log.md)). Every changed fact was traced at source, and one director gate read the set.
