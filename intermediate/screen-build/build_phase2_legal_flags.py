@@ -407,6 +407,19 @@ def annotate_features(
 
 
 def gaps_markdown(*, wdpa_present: bool, wdpa_n: int, project_n: int, ramsar_n: int, stats: dict[str, Any]) -> str:
+    wdpa_gap = (
+        "1. **WDPA geometries** — research/non-commercial OK for the screen; **must not** be pushed "
+        "to a public remote. Derived `permit_gate` attributes joined on the workstation "
+        f"(`khm-i6e.6.1`; n≈{wdpa_n} polygons). Thin/cloud clones without the gitignored gpkg "
+        "still get `permit_gate=null` until re-run locally."
+        if wdpa_present
+        else (
+            "1. **WDPA geometries** — research/non-commercial OK for the screen; **must not** be "
+            "pushed to a public remote. On thin/cloud clones the merged gpkg is gitignored/absent; "
+            "re-run this script on the workstation with `WDPA_KHM_polygons_merged_INTERNAL.gpkg` "
+            "(`khm-i6e.6.1`)."
+        )
+    )
     return f"""# Phase 2 flag gaps (`khm-i6e.6`)
 
 Built: {utc_now()}
@@ -415,7 +428,7 @@ Built: {utc_now()}
 
 | Flag | Status in this bundle | Source used |
 | --- | --- | --- |
-| **permit_gate** | Partial — boolean when a known PA/Ramsar polygon hits; **null** when WDPA absent (do not invent “clear”) | L17 WDPA gpkg when present ({"yes, n≈" + str(wdpa_n) if wdpa_present else "**absent on this host**"}); L18 Ramsar polygons ({ramsar_n} coastal-usable inland sites only) |
+| **permit_gate** | Partial — boolean when a known PA/Ramsar polygon hits; **null** when WDPA absent (do not invent “clear”) | L17 WDPA gpkg when present ({"yes, n≈" + str(wdpa_n) + "; bead `khm-i6e.6.1`" if wdpa_present else "**absent on this host**"}); L18 Ramsar polygons ({ramsar_n} coastal-usable inland sites only) |
 | **STOP (legal)** | **Unavailable** (`stop_legal=null`, `stop_legal_status=unavailable`) | MoE core-zone GIS not provided (L19 digital GIS closed). Instrument cited only: ENR Code Art. 364 |
 | **project_overlap** | Partial — Southern Cardamom REDD+ (VCS 1748) when KML present ({project_n} rings parsed) | `inputs/vcs-1748-southern-cardamom-boundary.kml`. Mangrove REDD+ / VCS 5071 **not staged** |
 | **elevation_check** | Not burned into GO attributes here | Raster already on disk (`L13/elevation_check_flag_10m.tif`); wire in a later pass if needed |
@@ -428,7 +441,7 @@ Built: {utc_now()}
 
 ## Explicit gaps (block full Note 3 gate-2)
 
-1. **WDPA geometries** — research/non-commercial OK for the screen; **must not** be pushed to a public remote. On thin/cloud clones the merged gpkg is gitignored/absent; re-run this script on the workstation with `WDPA_KHM_polygons_merged_INTERNAL.gpkg`.
+{wdpa_gap}
 2. **Koh Kapik Ramsar (998)** — RSIS publishes centroid only; no polygon for coastal permit intersection.
 3. **CFi / CPA / MFMA boundaries** — not staged; permit_gate cannot name GDF vs MoE completely.
 4. **MoE protected-area core zones** — required for STOP (legal); do **not** proxy with IUCN category alone.
@@ -669,12 +682,14 @@ def main() -> int:
         ),
         encoding="utf-8",
     )
+    wdpa_joined = bool(wdpa_present and wdpa_geoms)
     write_geojson(
         dest / "flags" / "coverage.json",
         {
             "built": utc_now(),
             "bead": "khm-i6e.6",
-            "wdpa_present": bool(wdpa_present and wdpa_geoms),
+            "wdpa_join_bead": "khm-i6e.6.1" if wdpa_joined else None,
+            "wdpa_present": wdpa_joined,
             "wdpa_polygon_count": len(wdpa_geoms),
             "ramsar_polygon_count": len(ramsar_geoms),
             "project_ring_count": len(project_geoms),
@@ -700,15 +715,17 @@ def main() -> int:
     manifest["families"] = families
     manifest["phase2"] = {
         "bead": "khm-i6e.6",
-        "wdpa_joined": bool(wdpa_present and wdpa_geoms),
+        "wdpa_joined": wdpa_joined,
+        "wdpa_join_bead": "khm-i6e.6.1" if wdpa_joined else None,
         "stop_legal_status": "unavailable",
         "project_overlap_sources": ["vcs-1748"] if project_geoms else [],
         "gaps_doc": "flags/GAPS.md",
     }
-    notes = list(manifest.get("notes") or [])
+    notes = [n for n in (manifest.get("notes") or []) if not str(n).startswith("Phase 2 flags (")]
     notes.append(
-        f"Phase 2 flags ({args.out_version}): permit_gate partial; stop_legal unavailable; "
-        f"project_overlap from VCS 1748 when staged. See flags/GAPS.md."
+        f"Phase 2 flags ({args.out_version}): permit_gate "
+        f"{'from WDPA+Ramsar (khm-i6e.6.1)' if wdpa_joined else 'partial (WDPA absent)'}; "
+        f"stop_legal unavailable; project_overlap from VCS 1748 when staged. See flags/GAPS.md."
     )
     manifest["notes"] = notes
     if "stats" in manifest and isinstance(manifest["stats"], dict):
