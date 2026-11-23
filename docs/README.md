@@ -25,8 +25,9 @@ Status lives in [../README.md](../README.md) only. After a folder move, links **
 
 ## Package root
 
-- [../README.md](../README.md) — entry point and **only** status table
+- [../README.md](../README.md) — entry point, **only** status table, path map
 - [../CONTRACT.md](../CONTRACT.md) — commissioning and day facts
 - [../prd-cambodia-blue-carbon-seed-fund-scoping.md](../prd-cambodia-blue-carbon-seed-fund-scoping.md) — plan of record
 - [../outputs/README.md](../outputs/README.md) — note cover sheet
 - [../red-team/cambodia-product-docs-red-team-2026-11-23.md](../red-team/cambodia-product-docs-red-team-2026-11-23.md) — docs red team
+- [../related/moe-roadmap-letter/](../related/moe-roadmap-letter/) — MoE roadmap letter (adjacent)

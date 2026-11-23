@@ -23,6 +23,7 @@ T3 - Cambodia blue carbon seed grant and REDD+ scoping/
   README.md
   docs/
   red-team/
+  related/             # optional cargo (e.g. moe-roadmap-letter/) — already in this tree
   prd-cambodia-blue-carbon-seed-fund-scoping.md
   CONTRACT.md          # stub exists; refresh before move
   intermediate/        # scripts, research, gates (exclude huge accidental dumps)
