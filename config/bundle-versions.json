@@ -1,0 +1,4 @@
+{
+  "current": "v0.2.0",
+  "note": "Pin the open-cleared delivery folder under delivery/open-cleared/<version>/. v0.2.0 = full raster vectorise (10,503 features; public_ready still false). Fall back to v0.1.0-stub only for thin clones without the GeoJSON. Never flip public_ready here — that is khm-i6e.2."
+}

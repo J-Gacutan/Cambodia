@@ -20,6 +20,7 @@ Heavy rasters under `inputs/screen-layers/` are gitignored (~**13 GB** on a full
 | Restoration screen | Phase 0 QGIS pack usable offline on workstation (`outputs/qgis-bridge/` + staged rasters). Steps 1–3 + elevation-check closed. Open-cleared GO±CAUTION `delivery/open-cleared/v0.2.0/` (`public_ready` false). Next: permit/STOP via L17; licence gate `khm-i6e.2`. | [docs/03](docs/03-restoration-screen.md) · [SESSION-LOCK](intermediate/screen-build/SESSION-LOCK.md) |
 | Data / licences | Living register; FLAG rows. Full stack ≈13 GB when staged. | [docs/04](docs/04-data-and-licences.md) |
 | Build pipeline | Scripts + lock in `intermediate/screen-build/`. | [docs/05](docs/05-build-pipeline.md) |
+| Screen console (MVP) | React + PF6 + MapLibre on open-cleared `v0.2.0`; public Pages gated on `public_ready`. | [app/](app/README.md) |
 
 ## Map
 
@@ -34,6 +35,8 @@ Heavy rasters under `inputs/screen-layers/` are gitignored (~**13 GB** on a full
 | [docs/](docs/) | Modular docs pack |
 | [outputs/](outputs/) | Four internal notes + cover; [qgis-bridge/](outputs/qgis-bridge/) Phase 0 pack |
 | [delivery/open-cleared/](delivery/open-cleared/) | Versioned GO±CAUTION GeoJSON for MapLibre (no FLAG rasters; `public_ready` gated) |
+| [app/](app/README.md) | Phase 1 LKA-small console (Vite + PatternFly 6 + MapLibre) |
+| [config/bundle-versions.json](config/bundle-versions.json) | Open-cleared bundle pin for the app |
 | [inputs/](inputs/) | Source PDFs/txt, desk-checks, `screen-layers/` |
 | [intermediate/](intermediate/) | Research, gates, red-team paths; `screen-build/` |
 | [red-team/](red-team/) | Docs-pack red team (assembled + verdict) |
