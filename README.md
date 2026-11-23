@@ -33,6 +33,7 @@ Heavy rasters under `inputs/screen-layers/` are gitignored (~**13 GB** on a full
 | [AGENTS.md](AGENTS.md) / [CLAUDE.md](CLAUDE.md) | Agent / beads workflow |
 | [docs/](docs/) | Modular docs pack |
 | [outputs/](outputs/) | Four internal notes + cover; [qgis-bridge/](outputs/qgis-bridge/) Phase 0 pack |
+| [delivery/open-cleared/](delivery/open-cleared/) | Versioned GO±CAUTION GeoJSON for MapLibre (no FLAG rasters; `public_ready` gated) |
 | [inputs/](inputs/) | Source PDFs/txt, desk-checks, `screen-layers/` |
 | [intermediate/](intermediate/) | Research, gates, red-team paths; `screen-build/` |
 | [red-team/](red-team/) | Docs-pack red team (assembled + verdict) |

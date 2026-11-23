@@ -18,7 +18,7 @@ Status lives in [../README.md](../README.md) only. After a folder move, links **
 | 01 | [Overview](01-overview.md) | Purpose, audience, contract basis, open gates, out of bounds | none |
 | 02 | [Policy notes](02-policy-notes.md) | Notes 1 / 2 / 3 / 3b reading order, gates, sign-off | 01 |
 | 03 | [Restoration screen](03-restoration-screen.md) | Spatial filter; **how to read the map** (user-guide start); cases A–C; classes, flags, SEEA framing | 01; Note 3b for full rules |
-| 04 | [Data and licences](04-data-and-licences.md) | Staging paths, FLAG rules, register pointer | 01; living licence register |
+| 04 | [Data and licences](04-data-and-licences.md) | Staging paths, FLAG rules, register pointer; first-public-share gate | 01; living licence register; [first-public-share-gate.md](../intermediate/screen-build/first-public-share-gate.md) |
 | 05 | [Build pipeline](05-build-pipeline.md) | Scripts, phases, session lock, how to extend a step | 01, 04, SESSION-LOCK |
 | 06 | [Related artifacts](06-related-artifacts.md) | Adjacent Cambodia work that is not inside this tree | 01 |
 | 07 | [Migration](07-migration.md) | Cut list, what lifts, what stays, post-move checklist | 01, 04 |

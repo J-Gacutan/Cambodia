@@ -1,0 +1,40 @@
+{
+  "feature_properties": {
+    "id": "stable feature id (string)",
+    "class_id": "Note 3b class code: GO 6|8; CAUTION 4|5|7|9",
+    "class_name": "snake_case class label",
+    "suitability": "go | caution",
+    "area_ha": "planar area on EPSG:32648 before WGS84 export",
+    "mmu_ha": "minimum mapping unit applied at vectorise (0.5)",
+    "province": "Koh Kong | Preah Sihanouk | Kampot | Kep | null",
+    "evidence_class": "derived_screen",
+    "register_id": "note3b-step3-class",
+    "licence_plain": "human licence line; never imply public clear",
+    "licence_spdx": "null until open-cleared",
+    "redistributable": false,
+    "public_ready": false,
+    "source_raster": "path or 'sample-stub'",
+    "product_banner": "must surface in MapLibre UI",
+    "stub": "true when not from full class_step3.tif"
+  },
+  "maplibre_hint": {
+    "source_layer": "go-caution",
+    "paint_by": "suitability",
+    "go_color": "#0099AA",
+    "caution_color": "#C4A35A",
+    "filter_example": [
+      "in",
+      [
+        "get",
+        "suitability"
+      ],
+      [
+        "literal",
+        [
+          "go",
+          "caution"
+        ]
+      ]
+    ]
+  }
+}
