@@ -1,0 +1,26 @@
+VCS project-boundary KMLs staged 23 Nov 2026 for Phase 2 project_overlap (khm-i6e.6.3).
+
+Sources (Verra registry public project documents; downloaded via registry UI):
+- vcs-5071-kep-kampot-boundary.kml
+  Registry name: "Kep, Kampot.kml"
+  Project: VCS 5071 — Mangrove afforestation and reforestation project in Cambodia
+  Page: https://registry.verra.org/verra/public/program/VCS/projects/5071
+  Note: Filename and geometry cover Kampot/Kep extents only. CI Cambodia 2026
+  also names Koh Kong for this ARR package (Trend Tech); no separate Koh Kong
+  boundary was published on the registry documents list at staging time — do not invent.
+
+- vcs-5584-krasop-blue-carbon-boundary.kml
+  Registry name: "PKWS_project_boundary.kml"
+  Project: VCS 5584 — KRASOP BLUE CARBON (CLIMATE+ PTE. LTD.)
+  Page: https://registry.verra.org/verra/public/program/VCS/projects/5584
+  Note: Matches CI Cambodia 2026 Table 6 "Mangrove REDD+ Project" (MoE and
+  Climate+, Koh Kong; Link was NA at report time). Now listed as VCS 5584.
+
+Licence / redistribution:
+- Staged for research-screen project_overlap joins only.
+- public_ready remains false (khm-i6e.2). Do not treat as open-cleared republish
+  of Verra registry extracts without a licence decision.
+- Simplified MapLibre overlays derived from these KMLs stay redistributable=false.
+
+Not staged / not invented:
+- MoE protected-area core-zone GIS (khm-i6e.6.2 / STOP legal) — unavailable.

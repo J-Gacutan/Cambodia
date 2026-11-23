@@ -5,8 +5,9 @@ Attaches Note 3b gate-2 flags to GO±CAUTION features **without changing class**
 
 - permit_gate — intersects WDPA (L17, when present) and/or Ramsar (L18)
 - stop_legal — **not invented**; stays null until MoE mapped core zones exist
-- project_overlap — intersects staged project boundaries (VCS 1748 Southern
-  Cardamom when present; Mangrove REDD+ / VCS 5071 remain gaps)
+- project_overlap — intersects staged project boundaries when present:
+  VCS 1748 (Southern Cardamom), VCS 5071 (mangrove ARR), VCS 5584
+  (Krasop / Climate+ Mangrove REDD+)
 
 Also writes optional MapLibre overlay GeoJSON for open-licence context layers
 (Ramsar CC BY; project boundary derived from staged KML) and a gaps report.
@@ -25,6 +26,10 @@ Usage::
 
   python3 intermediate/screen-build/build_phase2_legal_flags.py \\
     --source-version v0.2.0 --out-version v0.2.1
+
+  # Thin VM without WDPA gpkg: refresh project_overlap in place, keep permit_gate
+  python3 intermediate/screen-build/build_phase2_legal_flags.py \\
+    --source-version v0.2.1 --out-version v0.2.1 --preserve-permit-gate
 
 Requires shapely. Optional: fiona/geopandas for WDPA GeoPackage on a full stack.
 """
@@ -53,6 +58,45 @@ WDPA_LAYER = "wdpa_khm"
 RAMSAR_POLY = LAYERS / "L18" / "ramsar_cambodia_rsis.geojson"
 RAMSAR_CENT = LAYERS / "L18" / "ramsar_cambodia_centroids.geojson"
 VCS1748_KML = ROOT / "inputs" / "vcs-1748-southern-cardamom-boundary.kml"
+VCS5071_KML = ROOT / "inputs" / "vcs-5071-kep-kampot-boundary.kml"
+VCS5584_KML = ROOT / "inputs" / "vcs-5584-krasop-blue-carbon-boundary.kml"
+
+# Staged Verra project boundaries for project_overlap (id → path + display).
+PROJECT_KMLS: list[dict[str, Any]] = [
+    {
+        "id": "vcs-1748-southern-cardamom",
+        "register_id": "vcs-1748",
+        "name": "Southern Cardamom REDD+ (VCS 1748)",
+        "path": VCS1748_KML,
+        "overlay_file": "project-overlap-vcs1748.geojson",
+        "simplify_tol": 0.003,
+        "note": "Staged Verra/VCS 1748 KML. Illustrative overlap context.",
+    },
+    {
+        "id": "vcs-5071-mangrove-arr",
+        "register_id": "vcs-5071",
+        "name": "Mangrove ARR (VCS 5071) — Kep/Kampot staged boundary",
+        "path": VCS5071_KML,
+        "overlay_file": "project-overlap-vcs5071.geojson",
+        "simplify_tol": 0.0005,
+        "note": (
+            "From Verra document 'Kep, Kampot.kml'. Kampot/Kep extents only; "
+            "Koh Kong ARR portion (if any) not published on registry at staging — not invented."
+        ),
+    },
+    {
+        "id": "vcs-5584-krasop-mangrove-redd",
+        "register_id": "vcs-5584",
+        "name": "Krasop Blue Carbon / Mangrove REDD+ (VCS 5584, Climate+)",
+        "path": VCS5584_KML,
+        "overlay_file": "project-overlap-vcs5584.geojson",
+        "simplify_tol": 0.0005,
+        "note": (
+            "From Verra 'PKWS_project_boundary.kml'. Maps to CI Cambodia 2026 "
+            "Table 6 Mangrove REDD+ (MoE / Climate+, Koh Kong)."
+        ),
+    },
+]
 
 PRODUCT_BANNER = (
     "Physical / land-cover suitability proxy only. GO = worth a field look. "
@@ -281,6 +325,26 @@ def any_intersects(geom, tree: STRtree | None, geoms: list[Polygon]) -> bool:
     return False
 
 
+def staged_project_ids() -> list[str]:
+    return [p["id"] for p in PROJECT_KMLS if Path(p["path"]).is_file()]
+
+
+def project_overlap_note(staged_ids: list[str]) -> str:
+    bits = []
+    if "vcs-1748-southern-cardamom" in staged_ids:
+        bits.append("VCS 1748 Southern Cardamom staged")
+    if "vcs-5071-mangrove-arr" in staged_ids:
+        bits.append("VCS 5071 mangrove ARR staged (Kep/Kampot KML only)")
+    if "vcs-5584-krasop-mangrove-redd" in staged_ids:
+        bits.append("VCS 5584 Krasop / Mangrove REDD+ staged")
+    if not bits:
+        return "No project-boundary KMLs staged — project_overlap null."
+    return (
+        "; ".join(bits)
+        + ". Overlap cites staged Verra boundaries — not a registry decision or clearance."
+    )
+
+
 def flag_props(
     *,
     permit: bool | None,
@@ -288,11 +352,14 @@ def flag_props(
     overlap: bool | None,
     overlap_ids: list[str],
     wdpa_present: bool,
+    staged_ids: list[str],
 ) -> dict[str, Any]:
     stop_status = "unavailable"
     stop_note = (
-        "MoE mapped core-zone GIS not provided (L19 digital GIS closed). "
-        f"Instrument remains: {STOP_LEGAL_INSTRUMENT} Do not invent STOP from IUCN category alone."
+        "MoE mapped protected-area core-zone GIS not provided (khm-i6e.6.2). "
+        "L19 digital Forest Cover GIS is closed and is not a core-zone substitute. "
+        f"Instrument remains: {STOP_LEGAL_INSTRUMENT} "
+        "Do not invent STOP from IUCN category alone."
     )
     return {
         "permit_gate": permit,
@@ -304,10 +371,7 @@ def flag_props(
         "stop_legal_note": stop_note,
         "project_overlap": overlap,
         "project_overlap_ids": overlap_ids or None,
-        "project_overlap_note": (
-            "Southern Cardamom REDD+ (VCS 1748) boundary staged when present. "
-            "Mangrove REDD+ and VCS 5071 polygons not staged — gap."
-        ),
+        "project_overlap_note": project_overlap_note(staged_ids),
         "flag_sources_complete": {
             "wdpa_l17": wdpa_present,
             "ramsar_l18_polygons": RAMSAR_POLY.is_file(),
@@ -316,8 +380,9 @@ def flag_props(
             "cfi_cpa_boundaries": False,
             "mfma_boundaries": False,
             "vcs_1748_southern_cardamom": VCS1748_KML.is_file(),
-            "mangrove_redd": False,
-            "vcs_5071": False,
+            "mangrove_redd": VCS5584_KML.is_file(),
+            "vcs_5071": VCS5071_KML.is_file(),
+            "vcs_5584_krasop": VCS5584_KML.is_file(),
         },
         "product_banner": PRODUCT_BANNER,
     }
@@ -328,12 +393,17 @@ def annotate_features(
     *,
     wdpa_geoms: list[Polygon],
     ramsar_geoms: list[Polygon],
-    project_geoms: list[Polygon],
+    project_sources: list[dict[str, Any]],
     wdpa_present: bool,
+    preserve_permit_gate: bool = False,
 ) -> dict[str, Any]:
     wdpa_tree, wdpa_list = build_index(wdpa_geoms)
     ramsar_tree, ramsar_list = build_index(ramsar_geoms)
-    proj_tree, proj_list = build_index(project_geoms)
+    staged_ids = [p["id"] for p in project_sources]
+    proj_indexes: list[tuple[str, STRtree | None, list[Polygon]]] = []
+    for src in project_sources:
+        tree, geoms = build_index(src["geoms"])
+        proj_indexes.append((src["id"], tree, geoms))
 
     stats = {
         "features": 0,
@@ -344,6 +414,7 @@ def annotate_features(
         "project_overlap_false": 0,
         "project_overlap_null": 0,
         "stop_legal_null": 0,
+        "project_overlap_by_id": {pid: 0 for pid in staged_ids},
     }
 
     out_features = []
@@ -352,32 +423,47 @@ def annotate_features(
         props = dict(feat.get("properties") or {})
         geom = shape(feat["geometry"]) if feat.get("geometry") else None
 
-        sources: list[str] = []
-        hit_wdpa = any_intersects(geom, wdpa_tree, wdpa_list) if wdpa_present and wdpa_list else False
-        hit_ramsar = any_intersects(geom, ramsar_tree, ramsar_list)
-        if hit_wdpa:
-            sources.append("L17-WDPA")
-        if hit_ramsar:
-            sources.append("L18-Ramsar")
-
-        if hit_wdpa or hit_ramsar:
-            permit: bool | None = True
-            stats["permit_gate_true"] += 1
-        elif wdpa_present and wdpa_list:
-            # Full WDPA available: absence of hit → not inside known PA/Ramsar polys
-            # (still incomplete for CFi/CPA/MFMA).
-            permit = False
-            stats["permit_gate_false"] += 1
+        if preserve_permit_gate and not (wdpa_present and wdpa_list) and "permit_gate" in props:
+            permit = props.get("permit_gate")
+            sources = list(props.get("permit_gate_sources") or [])
+            if permit is True:
+                stats["permit_gate_true"] += 1
+            elif permit is False:
+                stats["permit_gate_false"] += 1
+            else:
+                stats["permit_gate_null"] += 1
         else:
-            # Thin clone / no WDPA: do not invent a negative clearance.
-            permit = None
-            stats["permit_gate_null"] += 1
+            sources = []
+            hit_wdpa = (
+                any_intersects(geom, wdpa_tree, wdpa_list) if wdpa_present and wdpa_list else False
+            )
+            hit_ramsar = any_intersects(geom, ramsar_tree, ramsar_list)
+            if hit_wdpa:
+                sources.append("L17-WDPA")
+            if hit_ramsar:
+                sources.append("L18-Ramsar")
 
-        if project_geoms:
-            hit_proj = any_intersects(geom, proj_tree, proj_list)
-            overlap: bool | None = bool(hit_proj)
-            overlap_ids = ["vcs-1748-southern-cardamom"] if hit_proj else []
-            if hit_proj:
+            if hit_wdpa or hit_ramsar:
+                permit = True
+                stats["permit_gate_true"] += 1
+            elif wdpa_present and wdpa_list:
+                # Full WDPA available: absence of hit → not inside known PA/Ramsar polys
+                # (still incomplete for CFi/CPA/MFMA).
+                permit = False
+                stats["permit_gate_false"] += 1
+            else:
+                # Thin clone / no WDPA: do not invent a negative clearance.
+                permit = None
+                stats["permit_gate_null"] += 1
+
+        if proj_indexes:
+            overlap_ids: list[str] = []
+            for pid, tree, geoms in proj_indexes:
+                if any_intersects(geom, tree, geoms):
+                    overlap_ids.append(pid)
+                    stats["project_overlap_by_id"][pid] += 1
+            overlap: bool | None = bool(overlap_ids)
+            if overlap_ids:
                 stats["project_overlap_true"] += 1
             else:
                 stats["project_overlap_false"] += 1
@@ -387,13 +473,18 @@ def annotate_features(
             stats["project_overlap_null"] += 1
 
         stats["stop_legal_null"] += 1
+        existing_complete = props.get("flag_sources_complete") or {}
+        wdpa_flag = bool(wdpa_present and wdpa_list) or (
+            preserve_permit_gate and existing_complete.get("wdpa_l17") is True
+        )
         props.update(
             flag_props(
                 permit=permit,
                 permit_sources=sources,
                 overlap=overlap,
                 overlap_ids=overlap_ids,
-                wdpa_present=bool(wdpa_present and wdpa_list),
+                wdpa_present=wdpa_flag,
+                staged_ids=staged_ids,
             )
         )
         # Keep geometry as-is (already compact from v0.2.0).
@@ -406,20 +497,31 @@ def annotate_features(
     }
 
 
-def gaps_markdown(*, wdpa_present: bool, wdpa_n: int, project_n: int, ramsar_n: int, stats: dict[str, Any]) -> str:
+def gaps_markdown(
+    *,
+    wdpa_present: bool,
+    wdpa_n: int,
+    project_ring_total: int,
+    staged_projects: list[str],
+    ramsar_n: int,
+    stats: dict[str, Any],
+) -> str:
     wdpa_gap = (
         "1. **WDPA geometries** — research/non-commercial OK for the screen; **must not** be pushed "
         "to a public remote. Derived `permit_gate` attributes joined on the workstation "
         f"(`khm-i6e.6.1`; n≈{wdpa_n} polygons). Thin/cloud clones without the gitignored gpkg "
-        "still get `permit_gate=null` until re-run locally."
+        "still get `permit_gate=null` until re-run locally (or use `--preserve-permit-gate` on a "
+        "bundle that already carries WDPA-joined attributes)."
         if wdpa_present
         else (
             "1. **WDPA geometries** — research/non-commercial OK for the screen; **must not** be "
             "pushed to a public remote. On thin/cloud clones the merged gpkg is gitignored/absent; "
             "re-run this script on the workstation with `WDPA_KHM_polygons_merged_INTERNAL.gpkg` "
-            "(`khm-i6e.6.1`)."
+            "(`khm-i6e.6.1`), or refresh projects with `--preserve-permit-gate` against an existing "
+            "WDPA-joined `v0.2.1`."
         )
     )
+    staged_txt = ", ".join(staged_projects) if staged_projects else "**none**"
     return f"""# Phase 2 flag gaps (`khm-i6e.6`)
 
 Built: {utc_now()}
@@ -428,9 +530,9 @@ Built: {utc_now()}
 
 | Flag | Status in this bundle | Source used |
 | --- | --- | --- |
-| **permit_gate** | Partial — boolean when a known PA/Ramsar polygon hits; **null** when WDPA absent (do not invent “clear”) | L17 WDPA gpkg when present ({"yes, n≈" + str(wdpa_n) + "; bead `khm-i6e.6.1`" if wdpa_present else "**absent on this host**"}); L18 Ramsar polygons ({ramsar_n} coastal-usable inland sites only) |
-| **STOP (legal)** | **Unavailable** (`stop_legal=null`, `stop_legal_status=unavailable`) | MoE core-zone GIS not provided (L19 digital GIS closed). Instrument cited only: ENR Code Art. 364 |
-| **project_overlap** | Partial — Southern Cardamom REDD+ (VCS 1748) when KML present ({project_n} rings parsed) | `inputs/vcs-1748-southern-cardamom-boundary.kml`. Mangrove REDD+ / VCS 5071 **not staged** |
+| **permit_gate** | Partial — boolean when a known PA/Ramsar polygon hits; **null** when WDPA absent (do not invent “clear”) | L17 WDPA gpkg when present ({"yes, n≈" + str(wdpa_n) + "; bead `khm-i6e.6.1`" if wdpa_present else "**absent on this host** / preserved from prior join when flagged"}); L18 Ramsar polygons ({ramsar_n} coastal-usable inland sites only) |
+| **STOP (legal)** | **Unavailable** (`stop_legal=null`, `stop_legal_status=unavailable`) | MoE protected-area **core-zone** GIS not provided (`khm-i6e.6.2`). L19 Forest Cover digital GIS closed and is **not** a substitute. Instrument cited only: ENR Code Art. 364 |
+| **project_overlap** | Partial — staged Verra boundaries ({project_ring_total} rings across projects) | Staged: {staged_txt}. See `inputs/vcs-5071-5584-PROVENANCE.txt`. VCS 5071 Koh Kong ARR portion (if any) not in registry KML — not invented |
 | **elevation_check** | Not burned into GO attributes here | Raster already on disk (`L13/elevation_check_flag_10m.tif`); wire in a later pass if needed |
 
 ### Counts (this run)
@@ -444,9 +546,9 @@ Built: {utc_now()}
 {wdpa_gap}
 2. **Koh Kapik Ramsar (998)** — RSIS publishes centroid only; no polygon for coastal permit intersection.
 3. **CFi / CPA / MFMA boundaries** — not staged; permit_gate cannot name GDF vs MoE completely.
-4. **MoE protected-area core zones** — required for STOP (legal); do **not** proxy with IUCN category alone.
-5. **Mangrove REDD+ and VCS 5071** — named in Note 3b / CI Cambodia 2026; polygons not in-repo.
-6. **`public_ready`** — remains false until `khm-i6e.2` (licence gate). Derived WDPA attributes stay research/INTERNAL.
+4. **MoE protected-area core zones** (`khm-i6e.6.2`) — required for STOP (legal); blocked until MoE provides mapped core zones. Do **not** proxy with IUCN category or L19 Forest Cover.
+5. **VCS 5071 Koh Kong ARR geometry** — registry document is `Kep, Kampot.kml` only; any Trend Tech Koh Kong ARR extent remains unstaged (do not invent).
+6. **`public_ready`** — remains false until `khm-i6e.2` (licence gate). Derived WDPA attributes and project-boundary overlays stay research/INTERNAL.
 
 ## Product language (UI must keep)
 
@@ -460,11 +562,70 @@ def copy_bundle(src: Path, dest: Path) -> None:
     shutil.copytree(src, dest)
 
 
+def load_project_sources(*, skip: bool) -> list[dict[str, Any]]:
+    sources: list[dict[str, Any]] = []
+    if skip:
+        print("Project KMLs skipped (--skip-project-kml)")
+        return sources
+    for meta in PROJECT_KMLS:
+        path = Path(meta["path"])
+        if not path.is_file():
+            print(f"  missing {meta['id']}: {path.name}")
+            continue
+        size_mb = path.stat().st_size / 1_000_000
+        print(f"Parsing {meta['id']} ({path.name}, {size_mb:.1f} MB)…")
+        geoms = parse_kml_polygons(path)
+        print(f"  rings={len(geoms)}")
+        sources.append({**meta, "geoms": geoms})
+    return sources
+
+
+def write_project_overlays(overlays_dir: Path, project_sources: list[dict[str, Any]]) -> None:
+    for src in project_sources:
+        simp = simplify_union(src["geoms"], tol=float(src.get("simplify_tol") or 0.003))
+        if simp is None:
+            continue
+        mapped = mapping(simp)
+        proj_fc = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "id": src["id"],
+                        "name": f"{src['name']} — staged boundary",
+                        "register_id": src["register_id"],
+                        "flag_role": "project_overlap",
+                        "licence_plain": (
+                            f"Derived from staged Verra/{src['register_id']} KML under inputs/. "
+                            "Illustrative project-overlap context for research screen; "
+                            "not a Verra registry extract republish. public_ready false."
+                        ),
+                        "licence_spdx": None,
+                        "redistributable": False,
+                        "public_ready": False,
+                        "note": f"Simplified for MapLibre. Join used full rings. {src.get('note') or ''}",
+                    },
+                    "geometry": {
+                        "type": mapped["type"],
+                        "coordinates": round_coords(mapped["coordinates"], 5),
+                    },
+                }
+            ],
+        }
+        write_geojson(overlays_dir / src["overlay_file"], proj_fc, compact=True)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--source-version", default="v0.2.0")
     ap.add_argument("--out-version", default="v0.2.1")
-    ap.add_argument("--skip-project-kml", action="store_true", help="Skip heavy VCS 1748 join (debug)")
+    ap.add_argument("--skip-project-kml", action="store_true", help="Skip project-boundary KML joins")
+    ap.add_argument(
+        "--preserve-permit-gate",
+        action="store_true",
+        help="When WDPA gpkg absent, keep existing permit_gate* on features (thin-VM refresh)",
+    )
     args = ap.parse_args()
 
     src = DELIVERY / args.source_version
@@ -472,8 +633,11 @@ def main() -> int:
     if not src.is_dir():
         raise SystemExit(f"Source bundle missing: {src}")
 
-    print(f"Copying {src} → {dest}")
-    copy_bundle(src, dest)
+    if src.resolve() == dest.resolve():
+        print(f"In-place update of {dest}")
+    else:
+        print(f"Copying {src} → {dest}")
+        copy_bundle(src, dest)
 
     go_path = dest / "layers" / "go-caution.geojson"
     fc = load_geojson(go_path)
@@ -485,22 +649,22 @@ def main() -> int:
     print("Loading WDPA (optional)…")
     wdpa_present, wdpa_geoms, _wdpa_rows = load_wdpa_polygons()
     print(f"  WDPA present={wdpa_present} polygons={len(wdpa_geoms)}")
+    if args.preserve_permit_gate and not (wdpa_present and wdpa_geoms):
+        print("  --preserve-permit-gate: keeping existing permit_gate attributes")
 
-    project_geoms: list[Polygon] = []
-    if not args.skip_project_kml and VCS1748_KML.is_file():
-        print(f"Parsing VCS 1748 KML ({VCS1748_KML.stat().st_size // 1_000_000} MB)…")
-        project_geoms = parse_kml_polygons(VCS1748_KML)
-        print(f"  rings={len(project_geoms)}")
-    else:
-        print("Project KML skipped or missing")
+    print("Loading project KMLs…")
+    project_sources = load_project_sources(skip=args.skip_project_kml)
+    project_ring_total = sum(len(p["geoms"]) for p in project_sources)
+    staged_ids = [p["id"] for p in project_sources]
 
     print("Annotating GO±CAUTION features…")
     annotated = annotate_features(
         fc,
         wdpa_geoms=wdpa_geoms,
         ramsar_geoms=ramsar_geoms,
-        project_geoms=project_geoms,
+        project_sources=project_sources,
         wdpa_present=wdpa_present,
+        preserve_permit_gate=args.preserve_permit_gate,
     )
     stats = annotated.pop("_stats")
     write_geojson(go_path, annotated, compact=True)
@@ -530,37 +694,7 @@ def main() -> int:
             compact=False,
         )
 
-    if project_geoms:
-        simp = simplify_union(project_geoms, tol=0.003)
-        if simp is not None:
-            proj_fc = {
-                "type": "FeatureCollection",
-                "features": [
-                    {
-                        "type": "Feature",
-                        "properties": {
-                            "id": "vcs-1748-southern-cardamom",
-                            "name": "Southern Cardamom REDD+ (VCS 1748) — staged boundary",
-                            "register_id": "vcs-1748",
-                            "flag_role": "project_overlap",
-                            "licence_plain": (
-                                "Derived from staged Verra/VCS 1748 KML under inputs/. "
-                                "Illustrative project-overlap context for research screen; "
-                                "not a Verra registry extract republish. public_ready false."
-                            ),
-                            "licence_spdx": None,
-                            "redistributable": False,
-                            "public_ready": False,
-                            "note": "Simplified for MapLibre. Join used full rings.",
-                        },
-                        "geometry": {
-                            "type": mapping(simp)["type"],
-                            "coordinates": round_coords(mapping(simp)["coordinates"], 5),
-                        },
-                    }
-                ],
-            }
-            write_geojson(overlays_dir / "project-overlap-vcs1748.geojson", proj_fc, compact=True)
+    write_project_overlays(overlays_dir, project_sources)
 
     # layers/index.json — keep go-caution first; append overlays
     index_path = overlays_dir / "index.json"
@@ -618,17 +752,24 @@ def main() -> int:
                 "note": "Koh Kapik (998) and Mekong (999) — location only.",
             }
         )
-    if (overlays_dir / "project-overlap-vcs1748.geojson").is_file():
+    for src in project_sources:
+        overlay_path = overlays_dir / src["overlay_file"]
+        if not overlay_path.is_file():
+            continue
+        layer_id = Path(src["overlay_file"]).stem  # e.g. project-overlap-vcs1748
         upsert(
             {
-                "id": "project-overlap-vcs1748",
-                "title": "Project overlap — Southern Cardamom (VCS 1748)",
+                "id": layer_id,
+                "title": f"Project overlap — {src['name']}",
                 "kind": "context_overlay",
-                "file": "layers/project-overlap-vcs1748.geojson",
+                "file": f"layers/{src['overlay_file']}",
                 "crs": "EPSG:4326",
                 "evidence_class": "project_boundary",
-                "register_id": "vcs-1748",
-                "licence_plain": "Staged VCS 1748 boundary (simplified). Research screen context; public_ready false.",
+                "register_id": src["register_id"],
+                "licence_plain": (
+                    f"Staged {src['register_id']} boundary (simplified). "
+                    "Research screen context; public_ready false."
+                ),
                 "licence_spdx": None,
                 "redistributable": False,
                 "public_ready": False,
@@ -637,6 +778,17 @@ def main() -> int:
                 "note": "Cites project overlap for double-counting awareness — not a registry decision.",
             }
         )
+    # Drop stale project-overlap index rows that no longer match overlay filenames.
+    valid_project_layer_ids = {Path(s["overlay_file"]).stem for s in project_sources}
+    index = [
+        x
+        for x in index
+        if not (
+            isinstance(x.get("id"), str)
+            and x["id"].startswith("project-overlap-vcs")
+            and x["id"] not in valid_project_layer_ids
+        )
+    ]
 
     write_geojson(index_path, index, compact=False)
 
@@ -661,6 +813,7 @@ def main() -> int:
     )
     schema["phase2_flags"] = {
         "bead": "khm-i6e.6",
+        "children": ["khm-i6e.6.1", "khm-i6e.6.2", "khm-i6e.6.3"],
         "ui_rule": "Cite instruments and overlaps; never say approved or refused.",
         "filter_example": [
             "all",
@@ -670,29 +823,50 @@ def main() -> int:
     }
     write_geojson(schema_path, schema, compact=False)
 
+    # WDPA status for docs: live join OR preserved attributes from prior join
+    preserved_wdpa = False
+    if args.preserve_permit_gate and not (wdpa_present and wdpa_geoms):
+        for feat in annotated.get("features", [])[:50]:
+            complete = (feat.get("properties") or {}).get("flag_sources_complete") or {}
+            if complete.get("wdpa_l17") is True:
+                preserved_wdpa = True
+                break
+    wdpa_joined = bool(wdpa_present and wdpa_geoms) or preserved_wdpa
+    wdpa_n_for_docs = len(wdpa_geoms) if (wdpa_present and wdpa_geoms) else (
+        128 if preserved_wdpa else 0
+    )
+
     gaps_path = dest / "flags" / "GAPS.md"
     gaps_path.parent.mkdir(parents=True, exist_ok=True)
     gaps_path.write_text(
         gaps_markdown(
-            wdpa_present=bool(wdpa_present and wdpa_geoms),
-            wdpa_n=len(wdpa_geoms),
-            project_n=len(project_geoms),
+            wdpa_present=wdpa_joined,
+            wdpa_n=wdpa_n_for_docs,
+            project_ring_total=project_ring_total,
+            staged_projects=staged_ids,
             ramsar_n=len(ramsar_geoms),
             stats=stats,
         ),
         encoding="utf-8",
     )
-    wdpa_joined = bool(wdpa_present and wdpa_geoms)
     write_geojson(
         dest / "flags" / "coverage.json",
         {
             "built": utc_now(),
             "bead": "khm-i6e.6",
             "wdpa_join_bead": "khm-i6e.6.1" if wdpa_joined else None,
+            "project_overlap_bead": "khm-i6e.6.3" if staged_ids else None,
+            "stop_legal_bead": "khm-i6e.6.2",
             "wdpa_present": wdpa_joined,
-            "wdpa_polygon_count": len(wdpa_geoms),
+            "wdpa_polygon_count": wdpa_n_for_docs,
+            "wdpa_join_mode": (
+                "live_gpkg"
+                if (wdpa_present and wdpa_geoms)
+                else ("preserved" if preserved_wdpa else "absent")
+            ),
             "ramsar_polygon_count": len(ramsar_geoms),
-            "project_ring_count": len(project_geoms),
+            "project_ring_count": project_ring_total,
+            "project_sources_staged": staged_ids,
             "stats": stats,
             "public_ready": False,
             "stop_legal_status": "unavailable",
@@ -713,19 +887,28 @@ def main() -> int:
         if fam not in families:
             families.append(fam)
     manifest["families"] = families
+    register_ids = [p["register_id"] for p in project_sources]
     manifest["phase2"] = {
         "bead": "khm-i6e.6",
         "wdpa_joined": wdpa_joined,
         "wdpa_join_bead": "khm-i6e.6.1" if wdpa_joined else None,
         "stop_legal_status": "unavailable",
-        "project_overlap_sources": ["vcs-1748"] if project_geoms else [],
+        "stop_legal_bead": "khm-i6e.6.2",
+        "project_overlap_bead": "khm-i6e.6.3",
+        "project_overlap_sources": register_ids,
         "gaps_doc": "flags/GAPS.md",
     }
     notes = [n for n in (manifest.get("notes") or []) if not str(n).startswith("Phase 2 flags (")]
+    permit_txt = (
+        "from WDPA+Ramsar (khm-i6e.6.1)"
+        if wdpa_joined
+        else "partial (WDPA absent)"
+    )
+    proj_txt = ", ".join(register_ids) if register_ids else "none staged"
     notes.append(
-        f"Phase 2 flags ({args.out_version}): permit_gate "
-        f"{'from WDPA+Ramsar (khm-i6e.6.1)' if wdpa_joined else 'partial (WDPA absent)'}; "
-        f"stop_legal unavailable; project_overlap from VCS 1748 when staged. See flags/GAPS.md."
+        f"Phase 2 flags ({args.out_version}): permit_gate {permit_txt}; "
+        f"stop_legal unavailable (khm-i6e.6.2 MoE core zones); "
+        f"project_overlap from {proj_txt} (khm-i6e.6.3). See flags/GAPS.md."
     )
     manifest["notes"] = notes
     if "stats" in manifest and isinstance(manifest["stats"], dict):

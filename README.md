@@ -75,6 +75,7 @@ Heavy rasters under `inputs/screen-layers/` are gitignored (~**13 GB** on a full
 | `goldstein-2020-irrecoverable-carbon.pdf` | Irrecoverable carbon paper |
 | `cambodia-article-6-2-initial-report-*.pdf` | Art. 6.2 initial report |
 | `vcs-1748-*` | Southern Cardamom VCS boundary + progress ack |
+| `vcs-5071-*` / `vcs-5584-*` | Verra mangrove ARR (5071 Kep/Kampot) + Krasop Mangrove REDD+ (5584) boundaries + provenance |
 | [desk-checks/](inputs/desk-checks/) | ENR Code, PA Law, ClientEarth, Verra announce |
 | [screen-layers/](inputs/screen-layers/) | Layer staging (gitignored binaries; see below) |
 
