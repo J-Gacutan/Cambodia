@@ -101,6 +101,7 @@ Built-up STOP (class 1) is not one of the three worked sites. It is the Dynamic 
 | [../inputs/screen-layers/](../inputs/screen-layers/) | Staged and derived layers (Note 3b IDs **L1–L21**; see [04-data-and-licences.md](04-data-and-licences.md) for staged vs GEE-only), ponds, class rasters, QA sidecars |
 | [../inputs/screen-layers/L_class_10m/](../inputs/screen-layers/L_class_10m/) | `class_step3.tif`, QA, built-up disagreement flag |
 | [../inputs/screen-layers/L_class_10m/visualizations/](../inputs/screen-layers/L_class_10m/visualizations/) | Overview and case-study PNGs (figures for this guide) |
+| [../outputs/qgis-bridge/](../outputs/qgis-bridge/) | Phase 0 QGIS pack: how-to, case PNGs, `.qgs` + styles (CI GIS offline) |
 | [../intermediate/screen-build/](../intermediate/screen-build/) | Fetch/process scripts, phase-0 registers, prompts, session lock |
 
 Layer catalogue and licence flags: [04-data-and-licences.md](04-data-and-licences.md). Scripts and step order: [05-build-pipeline.md](05-build-pipeline.md).
