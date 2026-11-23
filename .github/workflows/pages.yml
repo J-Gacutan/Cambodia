@@ -1,0 +1,103 @@
+# Kenya-style static pipe: Vite dist → GitHub Pages.
+# Honour FLAG / licence gate: publish only when the open-cleared bundle
+# reports public_ready=true. Stub / INTERNAL builds still compile for CI,
+# but the deploy job is skipped so Pages does not go live early.
+#
+# Beads: khm-i6e.5 (Pages) · khm-i6e.2 (licence) · khm-i6e.4 (app)
+name: pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      force_check_only:
+        description: "Build + public_ready check only (never deploy)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      public_ready: ${{ steps.gate.outputs.public_ready }}
+      bundle_version: ${{ steps.gate.outputs.bundle_version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install and build
+        working-directory: app
+        run: |
+          npm ci
+          npm run build
+        env:
+          # Project Pages under /Cambodia/ — adjust if the Pages source path changes.
+          VITE_BASE: /Cambodia/
+
+      - name: Read public_ready gate
+        id: gate
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+          const path = "public/khm-bundle/public-ready.json";
+          if (!fs.existsSync(path)) {
+            console.error("missing", path);
+            process.exit(1);
+          }
+          const meta = JSON.parse(fs.readFileSync(path, "utf8"));
+          const ready = meta.public_ready === true;
+          const version = meta.version || "unknown";
+          const out = process.env.GITHUB_OUTPUT;
+          fs.appendFileSync(out, `public_ready=${ready}\n`);
+          fs.appendFileSync(out, `bundle_version=${version}\n`);
+          console.log(JSON.stringify(meta, null, 2));
+          if (!ready) {
+            console.log("GATE: public_ready=false — Pages deploy will be skipped (khm-i6e.2).");
+          }
+          NODE
+
+      - name: SPA fallback for Pages
+        run: cp -f app/dist/index.html app/dist/404.html
+
+      - name: Upload Pages artifact
+        if: steps.gate.outputs.public_ready == 'true' && (github.event_name != 'workflow_dispatch' || inputs.force_check_only != true)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: app/dist
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.public_ready == 'true' && (github.event_name != 'workflow_dispatch' || inputs.force_check_only != true)
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  gate-note:
+    needs: build
+    if: needs.build.outputs.public_ready != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Build OK for bundle ${{ needs.build.outputs.bundle_version }}."
+          echo "public_ready=false — not deploying to public Pages."
+          echo "Flip live only after khm-i6e.2 and an open-cleared bundle with public_ready=true."

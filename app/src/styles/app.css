@@ -1,0 +1,154 @@
+.khm-shell {
+  min-height: 100dvh;
+}
+.khm-shell-page {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  min-width: 0;
+}
+.khm-shell .pf-v6-c-page {
+  height: auto;
+  max-height: none;
+  flex: 1 0 auto;
+  grid-template-rows: max-content auto;
+}
+.khm-shell .pf-v6-c-page__main-container,
+.khm-shell .pf-v6-c-page__main {
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+.khm-banner {
+  white-space: normal;
+}
+.khm-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.khm-brand-name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.khm-brand-link {
+  color: inherit;
+  text-decoration: none;
+}
+.khm-map {
+  height: min(70dvh, 40rem);
+  min-height: 20rem;
+  width: 100%;
+}
+.khm-map-frame {
+  position: relative;
+  min-width: 0;
+}
+.khm-map-key {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 0.5rem;
+  inset-inline-start: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--pf-t--global--background--color--primary--default);
+  box-shadow: var(--pf-t--global--box-shadow--sm);
+}
+.khm-key-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+}
+.khm-key-swatch {
+  display: inline-block;
+  inline-size: 1.25rem;
+  block-size: 0.7rem;
+  flex: 0 0 auto;
+  border-radius: 1px;
+}
+.khm-map-section {
+  min-width: 0;
+}
+.khm-map-head {
+  padding: 0.75rem 1rem 0.5rem;
+  min-width: 0;
+}
+.khm-map-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-block-start: 0.5rem;
+}
+.khm-map-drawer {
+  min-height: 20rem;
+}
+.khm-layer-panel {
+  overflow-wrap: anywhere;
+  max-height: min(70dvh, 40rem);
+  overflow: auto;
+}
+.khm-plain-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.khm-plain-list li + li {
+  margin-block-start: 0.35rem;
+}
+.khm-facts {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+}
+.khm-facts dt {
+  font-weight: 600;
+}
+.khm-facts dd {
+  margin: 0;
+}
+.khm-inspect {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.khm-basemap-note {
+  margin: 0.5rem 1rem 1rem;
+  max-width: 50rem;
+}
+.khm-footer {
+  padding: 1rem 1.5rem 1.5rem;
+  max-width: 50rem;
+}
+.khm-footer p {
+  margin: 0.25rem 0;
+}
+.khm-case-list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  max-width: 48rem;
+}
+.khm-case + .khm-case {
+  margin-block-start: 1.5rem;
+  padding-block-start: 1rem;
+  border-block-start: 1px solid var(--pf-t--global--border--color--default);
+}
+.khm-shell .pf-v6-c-nav__list {
+  flex-wrap: wrap;
+}
+@media (max-width: 47.9375rem) {
+  .khm-banner {
+    font-size: 0.875rem;
+    line-height: 1.25;
+  }
+  .khm-brand-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

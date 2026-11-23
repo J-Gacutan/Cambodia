@@ -27,6 +27,12 @@ inputs/screen-layers/L13/pytmd/
 __pycache__/
 *.pyc
 .beads/embeddeddolt/
+.beads.gate.lock
+
+# App / Pages build artifacts (synced from delivery/open-cleared at build time)
+app/node_modules/
+app/dist/
+public/khm-bundle/
 
 # Beads / Dolt files (added by bd init)
 .dolt/
