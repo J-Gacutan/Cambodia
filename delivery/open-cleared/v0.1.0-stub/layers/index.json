@@ -1,0 +1,22 @@
+[
+  {
+    "id": "go-caution",
+    "title": "GO \u00b1 CAUTION patches (\u2265 MMU)",
+    "kind": "overlay",
+    "file": "layers/go-caution.geojson",
+    "crs": "EPSG:4326",
+    "suitability_filter": [
+      "go",
+      "caution"
+    ],
+    "evidence_class": "derived_screen",
+    "register_id": "note3b-step3-class",
+    "licence_plain": "Derived from class_step3 (FLAG/INTERNAL upstreams may apply). Not cleared for public redistribution until licence gate (khm-i6e.2).",
+    "licence_spdx": null,
+    "redistributable": false,
+    "public_ready": false,
+    "default_visible": true,
+    "note": "Physical / land-cover suitability proxy only. GO = worth a field look. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.",
+    "stub": true
+  }
+]

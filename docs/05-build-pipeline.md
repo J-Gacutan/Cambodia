@@ -38,6 +38,7 @@ As at SESSION-LOCK 23 Nov 2026 (confirm before starting):
 | `process_step3_case_study_maps.py` | Case-study / overview map figures for the user guide |
 | `process_elevation_check_l12_l13.py` | Elevation vs tidal envelope check |
 | `process_l13_hat_examples_map.py` | HAT example maps |
+| `build_open_cleared_go_bundle.py` | Vectorise GO±CAUTION ≥ MMU → `delivery/open-cleared/<version>/` (MapLibre; `--sample-stub` if no class GeoTIFF) |
 
 Also in the folder (not run scripts): `phase-0-*.md`, `prompt-*.md`, `websearch-*.md`, `SESSION-LOCK.md`. Re-list after adding files.
 

@@ -1,0 +1,156 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sample-A-go-open-accreted",
+        "class_id": 8,
+        "class_name": "go_open_or_accreted",
+        "suitability": "go",
+        "area_ha": 189.93,
+        "mmu_ha": 0.5,
+        "province": "Koh Kong",
+        "evidence_class": "derived_screen",
+        "register_id": "note3b-step3-class",
+        "licence_plain": "Derived from class_step3 (FLAG/INTERNAL upstreams may apply). Not cleared for public redistribution until licence gate (khm-i6e.2).",
+        "licence_spdx": null,
+        "redistributable": false,
+        "public_ready": false,
+        "source_raster": "sample-stub",
+        "product_banner": "Physical / land-cover suitability proxy only. GO = worth a field look. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.",
+        "stub": true,
+        "case_id": "A",
+        "place": "Peam Krasaop hinterland, Koh Kong",
+        "note": "SAMPLE: axis-aligned square sized to case A focus_ha \u2014 not raster vectorisation."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              103.59200969629677,
+              11.169809958070742
+            ],
+            [
+              103.59200969629677,
+              11.182190041929259
+            ],
+            [
+              103.57939030370324,
+              11.182190041929259
+            ],
+            [
+              103.57939030370324,
+              11.169809958070742
+            ],
+            [
+              103.59200969629677,
+              11.169809958070742
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sample-C-caution-tidal-flat",
+        "class_id": 4,
+        "class_name": "caution_tidal_flat",
+        "suitability": "caution",
+        "area_ha": 382.42,
+        "mmu_ha": 0.5,
+        "province": "Preah Sihanouk",
+        "evidence_class": "derived_screen",
+        "register_id": "note3b-step3-class",
+        "licence_plain": "Derived from class_step3 (FLAG/INTERNAL upstreams may apply). Not cleared for public redistribution until licence gate (khm-i6e.2).",
+        "licence_spdx": null,
+        "redistributable": false,
+        "public_ready": false,
+        "source_raster": "sample-stub",
+        "product_banner": "Physical / land-cover suitability proxy only. GO = worth a field look. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.",
+        "stub": true,
+        "case_id": "C",
+        "place": "Preah Sihanouk / Kampot coast",
+        "note": "SAMPLE: axis-aligned square sized to case C focus_ha \u2014 not raster vectorisation."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              103.8713372545918,
+              10.634816510120064
+            ],
+            [
+              103.8713372545918,
+              10.652383489879934
+            ],
+            [
+              103.8534627454082,
+              10.652383489879934
+            ],
+            [
+              103.8534627454082,
+              10.634816510120064
+            ],
+            [
+              103.8713372545918,
+              10.634816510120064
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sample-go-inactive-pond-demo",
+        "class_id": 6,
+        "class_name": "go_inactive_pond",
+        "suitability": "go",
+        "area_ha": 1.2,
+        "mmu_ha": 0.5,
+        "province": "Koh Kong",
+        "evidence_class": "derived_screen",
+        "register_id": "note3b-step3-class",
+        "licence_plain": "Derived from class_step3 (FLAG/INTERNAL upstreams may apply). Not cleared for public redistribution until licence gate (khm-i6e.2).",
+        "licence_spdx": null,
+        "redistributable": false,
+        "public_ready": false,
+        "source_raster": "sample-stub",
+        "product_banner": "Physical / land-cover suitability proxy only. GO = worth a field look. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.",
+        "stub": true,
+        "note": "SAMPLE: synthetic class-6 patch for MapLibre attribute demo (\u2265 MMU)."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              103.60620151028847,
+              11.160507974705798
+            ],
+            [
+              103.60620151028847,
+              11.161492025294201
+            ],
+            [
+              103.60519848971153,
+              11.161492025294201
+            ],
+            [
+              103.60519848971153,
+              11.160507974705798
+            ],
+            [
+              103.60620151028847,
+              11.160507974705798
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

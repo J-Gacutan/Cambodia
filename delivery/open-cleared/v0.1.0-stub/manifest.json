@@ -1,0 +1,47 @@
+{
+  "version": "v0.1.0-stub",
+  "built": "2026-11-23T06:29:20Z",
+  "stub": true,
+  "completeness": "sample_stub_no_raster",
+  "public_ready": false,
+  "licence_gate": "blocked_pending_khm-i6e.2",
+  "product_banner": "Physical / land-cover suitability proxy only. GO = worth a field look. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.",
+  "crs_geometry": "EPSG:4326",
+  "source_grid": "EPSG:32648",
+  "resolution_m": 10.0,
+  "mmu_ha": 0.5,
+  "mmu_pixels": 50,
+  "classes_included": {
+    "go": [
+      6,
+      8
+    ],
+    "caution": [
+      4,
+      5,
+      7,
+      9
+    ]
+  },
+  "source_raster": null,
+  "source_raster_sha256": null,
+  "families": [
+    "layers",
+    "cases",
+    "schema"
+  ],
+  "stats": {
+    "feature_count": 3,
+    "go_features": 2,
+    "caution_features": 1,
+    "go_ha": 191.13,
+    "caution_ha": 382.42
+  },
+  "notes": [
+    "class_step3.tif missing at inputs/screen-layers/L_class_10m/class_step3.tif; sample stub only.",
+    "Re-run without --sample-stub on a host with the full screen stack.",
+    "Follow-up bead: host-with-full-stack vectorise (see bd).",
+    "public_ready remains false until khm-i6e.2."
+  ],
+  "path_policy": "Ship only under delivery/open-cleared/. Do not copy FLAG rasters or inputs/screen-layers binaries into this tree or a public remote."
+}
