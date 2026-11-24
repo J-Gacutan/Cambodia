@@ -65,6 +65,44 @@
   background: var(--pf-t--global--background--color--primary--default);
   box-shadow: var(--pf-t--global--box-shadow--sm);
 }
+/* Sit below MapLibre top-left basemap control */
+.khm-map-frame .maplibregl-ctrl-top-left .khm-basemap-ctrl {
+  margin-block-start: 0.5rem;
+  margin-inline-start: 0.5rem;
+}
+.khm-basemap-ctrl {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+.khm-basemap-ctrl-btn {
+  appearance: none;
+  border: 0;
+  margin: 0;
+  padding: 0.4rem 0.65rem;
+  background: var(--pf-t--global--background--color--primary--default, #fff);
+  color: var(--pf-t--global--text--color--regular, #151515);
+  font: inherit;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.khm-basemap-ctrl-btn + .khm-basemap-ctrl-btn {
+  border-inline-start: 1px solid var(--pf-t--global--border--color--default, #c7c7c7);
+}
+.khm-basemap-ctrl-btn.is-active {
+  background: var(--pf-t--global--color--brand--default, #0066cc);
+  color: #fff;
+  font-weight: 600;
+}
+.khm-basemap-ctrl-btn:focus-visible {
+  outline: 2px solid var(--pf-t--global--color--brand--default, #0066cc);
+  outline-offset: -2px;
+  z-index: 1;
+}
+.khm-map-frame .khm-map-key {
+  inset-block-start: 3rem;
+}
 .khm-key-row {
   display: inline-flex;
   align-items: center;
@@ -213,6 +251,92 @@
   margin: 0;
   font-size: 0.8125rem;
   color: var(--pf-t--global--text--color--subtle, #6a6e73);
+}
+.khm-home {
+  max-width: 52rem;
+}
+.khm-home-hero {
+  padding: 1.25rem 0 0.5rem;
+}
+.khm-home-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pf-t--global--text--color--subtle, #6a6e73);
+}
+.khm-home-lead {
+  max-width: 40rem;
+  margin: 0.75rem 0 1rem;
+  line-height: 1.45;
+}
+.khm-step-flow {
+  margin-block-start: 0.5rem;
+}
+.khm-flow-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+.khm-flow-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.khm-flow-badge {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--pf-t--global--border--color--default);
+  background: var(--pf-t--global--background--color--primary--default);
+  padding: 0.4rem 0.7rem;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.khm-flow-badge[data-current] {
+  border-color: var(--pf-t--global--color--brand--default, #0066cc);
+  box-shadow: inset 0 0 0 1px var(--pf-t--global--color--brand--default, #0066cc);
+}
+.khm-flow-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 1.25rem;
+  font-weight: 600;
+  color: var(--pf-t--global--color--brand--default, #0066cc);
+}
+.khm-flow-arrow {
+  color: var(--pf-t--global--text--color--subtle, #6a6e73);
+}
+.khm-flow-detail {
+  margin-block-start: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--pf-t--global--border--color--default);
+  background: var(--pf-t--global--background--color--secondary--default, #f5f5f5);
+}
+.khm-flow-detail-title {
+  margin: 0 0 0.35rem;
+  font-weight: 600;
+}
+.khm-home-doors {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+.khm-home-doors li {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--pf-t--global--border--color--default);
+  background: var(--pf-t--global--background--color--secondary--default, #f5f5f5);
+  line-height: 1.4;
 }
 .khm-shell .pf-v6-c-nav__list {
   flex-wrap: wrap;

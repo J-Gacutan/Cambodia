@@ -56,6 +56,7 @@ import {
   type BasemapChoice,
   type BasemapKind
 } from "../map/basemap";
+import { BasemapControl } from "../map/BasemapControl";
 import {
   GAP_MARKER_CIRCLE,
   GO_CAUTION_FILL,
@@ -192,6 +193,7 @@ export default function MapPage() {
   });
   const basemapChoiceRef = useRef(basemapChoice);
   basemapChoiceRef.current = basemapChoice;
+  const basemapControlRef = useRef<BasemapControl | null>(null);
 
   useEffect(() => {
     saveShortlistToStorage(shortlist);
@@ -245,6 +247,9 @@ export default function MapPage() {
         fitBoundsOptions: { padding: 24 }
       });
       map.addControl(new maplibregl.NavigationControl(), "top-right");
+      const basemapCtrl = new BasemapControl(basemapChoiceRef.current, (next) => setBasemapChoice(next));
+      basemapControlRef.current = basemapCtrl;
+      map.addControl(basemapCtrl, "top-left");
       map.addControl(new maplibregl.ScaleControl({ unit: "metric", maxWidth: 120 }), "bottom-left");
       map.addControl(
         new maplibregl.AttributionControl({ compact: true, customAttribution: ATTRIBUTION.bundle })
@@ -278,6 +283,7 @@ export default function MapPage() {
   // Skip the first basemapChoice effect run (map already created with that style).
   const basemapSwitchReady = useRef(false);
   useEffect(() => {
+    basemapControlRef.current?.setChoice(basemapChoice);
     const map = mapRef.current;
     if (!map) return;
     if (!basemapSwitchReady.current) {
@@ -562,20 +568,6 @@ export default function MapPage() {
           </HelperTextItem>
         </HelperText>
         <div className="khm-map-tools">
-          <ToggleGroup aria-label="Basemap">
-            <ToggleGroupItem
-              text="Streets"
-              buttonId="basemap-streets"
-              isSelected={basemapChoice === "streets"}
-              onChange={() => setBasemapChoice("streets")}
-            />
-            <ToggleGroupItem
-              text="Satellite"
-              buttonId="basemap-satellite"
-              isSelected={basemapChoice === "satellite"}
-              onChange={() => setBasemapChoice("satellite")}
-            />
-          </ToggleGroup>
           <ToggleGroup aria-label="Case bookmarks">
             <ToggleGroupItem
               text="Four provinces"

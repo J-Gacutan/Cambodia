@@ -1,0 +1,58 @@
+[
+  {
+    "id": "go-caution",
+    "title": "GO class 8 \u00b1 CAUTION class 4 (\u2265 MMU) \u2014 open-cleared",
+    "kind": "overlay",
+    "file": "layers/go-caution.geojson",
+    "crs": "EPSG:4326",
+    "suitability_filter": [
+      "caution",
+      "go"
+    ],
+    "evidence_class": "derived_screen",
+    "register_id": "note3b-step3-class",
+    "licence_plain": "Open-cleared derivative: Note 3b class 8 and class 4 only. Upstream CC BY 4.0 (GMW, Dynamic World, Murray GIC, geoBoundaries). No Jiang/Clark pond geometries. Non-commercial / research (khm-i6e.2 P2).",
+    "licence_spdx": "CC-BY-4.0",
+    "redistributable": true,
+    "public_ready": true,
+    "default_visible": true,
+    "note": "Physical / land-cover suitability proxy only (open-cleared class 8 \u00b1 4). GO = worth a field look. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome. Non-commercial / research use. Attribution: GMW, Dynamic World, Murray Global Intertidal Change, geoBoundaries (see bundle README).",
+    "stub": false,
+    "classes_included": [
+      8,
+      4
+    ]
+  },
+  {
+    "id": "ramsar-context",
+    "title": "Ramsar context (permit gate partial)",
+    "kind": "context_overlay",
+    "file": "layers/ramsar-context.geojson",
+    "crs": "EPSG:4326",
+    "evidence_class": "designation_context",
+    "register_id": "L18-ramsar",
+    "licence_plain": "Ramsar Sites Information Service \u2014 CC BY 4.0. Not planting permission.",
+    "licence_spdx": "CC-BY-4.0",
+    "redistributable": true,
+    "public_ready": true,
+    "default_visible": false,
+    "flag_role": "permit_context",
+    "note": "Inland RSIS polygons only; Koh Kapik coastal site lacks published polygon."
+  },
+  {
+    "id": "ramsar-gap-centroids",
+    "title": "Ramsar gap markers (centroids)",
+    "kind": "context_overlay",
+    "file": "layers/ramsar-gap-centroids.geojson",
+    "crs": "EPSG:4326",
+    "evidence_class": "designation_context",
+    "register_id": "L18-ramsar-centroid",
+    "licence_plain": "Ramsar Sites Information Service \u2014 CC BY 4.0.",
+    "licence_spdx": "CC-BY-4.0",
+    "redistributable": true,
+    "public_ready": true,
+    "default_visible": false,
+    "flag_role": "permit_gap_marker",
+    "note": "Koh Kapik (998) and Mekong (999) \u2014 location only."
+  }
+]

@@ -27,14 +27,16 @@ import { BUNDLE_VERSION } from "./lib/env";
 import { hashPath, useHash } from "./lib/hash";
 import { useBundle } from "./lib/useBundle";
 
+const HomePage = lazy(() => import("./pages/HomePage"));
 const MapPage = lazy(() => import("./pages/MapPage"));
 const CasesPage = lazy(() => import("./pages/CasesPage"));
 const LicencePage = lazy(() => import("./pages/LicencePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 
 const NAV = [
+  ["#home", "Home"],
   ["#map", "Map"],
-  ["#cases", "Cases A–C"],
+  ["#cases", "Cases"],
   ["#licence", "Licence"],
   ["#about", "About"]
 ] as const;
@@ -53,21 +55,23 @@ function useBelowMd() {
 function route(hash: string) {
   const path = hashPath(hash);
   switch (path) {
+    case "map":
+      return <MapPage />;
     case "cases":
       return <CasesPage />;
     case "licence":
       return <LicencePage />;
     case "about":
       return <AboutPage />;
-    case "map":
+    case "home":
     default:
-      return <MapPage />;
+      return <HomePage />;
   }
 }
 
 function isNavActive(hash: string, href: string): boolean {
-  const path = `#${hashPath(hash)}` || "#map";
-  if (href === "#map") return path === "#map" || path === "#" || path === "";
+  const path = `#${hashPath(hash)}` || "#home";
+  if (href === "#home") return path === "#home" || path === "#" || path === "";
   return path === href;
 }
 
@@ -86,7 +90,7 @@ function MainNav({ hash, onNavigate }: { hash: string; onNavigate?: () => void }
 }
 
 export default function App() {
-  const hash = useHash("#map");
+  const hash = useHash("#home");
   const belowMd = useBelowMd();
   const [navOpen, setNavOpen] = useState(false);
   const manifest = useBundle(loadManifest);
@@ -97,8 +101,10 @@ export default function App() {
   const publicReady = manifest.data?.public_ready === true;
 
   useEffect(() => {
-    document.title = "Cambodia restoration screen, INTERNAL prototype";
-  }, []);
+    document.title = publicReady
+      ? "Cambodia restoration screen"
+      : "Cambodia restoration screen, INTERNAL prototype";
+  }, [publicReady]);
 
   useEffect(() => {
     setNavOpen(false);
@@ -119,7 +125,7 @@ export default function App() {
           </MastheadToggle>
         )}
         <MastheadBrand>
-          <MastheadLogo href="#map" className="khm-brand-link">
+          <MastheadLogo href="#home" className="khm-brand-link">
             <span className="khm-brand">
               <span className="khm-brand-name">Cambodia restoration screen</span>
               <Label isCompact color={publicReady ? "blue" : "orange"}>
@@ -154,10 +160,25 @@ export default function App() {
       alignItems={{ default: "alignItemsStretch" }}
     >
       <FlexItem>
-        <Banner color="orange" className="khm-banner" role="region" aria-label="INTERNAL product banner">
-          INTERNAL / illustrative until licence gate clears.{" "}
-          <strong>GO = worth a field look</strong> (physical / land-cover only). {banner}{" "}
-          <a href="#about">About</a>
+        <Banner
+          color={publicReady ? "blue" : "orange"}
+          className="khm-banner"
+          role="region"
+          aria-label="Product banner"
+        >
+          {publicReady ? (
+            <>
+              Open-cleared P2 research package (class 8 ± 4).{" "}
+              <strong>GO = worth a field look</strong> (physical / land-cover only). {banner}{" "}
+              <a href="#licence">Licence</a>
+            </>
+          ) : (
+            <>
+              INTERNAL / illustrative until licence gate clears.{" "}
+              <strong>GO = worth a field look</strong> (physical / land-cover only). {banner}{" "}
+              <a href="#about">About</a>
+            </>
+          )}
         </Banner>
         {!publicReady && (
           <Banner color="red" className="khm-banner" role="status">

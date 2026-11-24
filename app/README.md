@@ -3,7 +3,7 @@
 Thin **React 18 + Vite + PatternFly 6 + MapLibre** console modelled on [`lka-msp-platform`](https://github.com/J-Gacutan/lka-msp-platform): map, legend, click-inspect class meaning, Phase 2 flag filters, cases A–C, shortlist CSV/GeoJSON, licence/evidence panel, persistent product-truth banner.
 
 **Beads:** `khm-i6e.4` (MVP) · `khm-i6e.6` (flags) · `khm-i6e.7` (harden) · `khm-i6e.10` (polish / Pages docs)  
-**Data:** `delivery/open-cleared/<version>/` (pin in `../config/bundle-versions.json` → **`v0.2.2`**)
+**Data:** `delivery/open-cleared/<version>/` (pin in `../config/bundle-versions.json` → **`v0.3.0`**)
 
 ## Run locally
 
@@ -57,7 +57,7 @@ See `delivery/open-cleared/v0.2.1/flags/GAPS.md`. Do **not** copy WDPA geometrie
 
 ## Bundle swap + contract pin (LKA-style)
 
-Current pin is **`v0.2.2`** (`public_ready=false`). To point at another open-cleared folder:
+Current pin is **`v0.3.0`** (`public_ready=true`, P2 class 8±4). To point at another open-cleared folder:
 
 1. Ensure `delivery/open-cleared/<version>/` exists.
 2. Set `"current"` in `config/bundle-versions.json`.

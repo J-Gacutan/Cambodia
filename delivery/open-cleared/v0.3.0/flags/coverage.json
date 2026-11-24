@@ -1,0 +1,26 @@
+{
+  "built": "2026-11-24T00:53:20Z",
+  "bead": "khm-i6e.6",
+  "wdpa_join_bead": "khm-i6e.6.1",
+  "project_overlap_bead": null,
+  "stop_legal_bead": "khm-i6e.6.2",
+  "wdpa_present": true,
+  "wdpa_polygon_count": 128,
+  "wdpa_join_mode": "live_gpkg",
+  "ramsar_polygon_count": 3,
+  "project_ring_count": 0,
+  "project_sources_staged": [],
+  "stats": {
+    "features": 1491,
+    "permit_gate_true": 805,
+    "permit_gate_null": 0,
+    "permit_gate_false": 686,
+    "project_overlap_true": 0,
+    "project_overlap_false": 0,
+    "project_overlap_null": 1491,
+    "stop_legal_null": 1491,
+    "project_overlap_by_id": {}
+  },
+  "public_ready": false,
+  "stop_legal_status": "unavailable"
+}

@@ -46,7 +46,8 @@ export const mapLayerSchema = z.object({
   default_visible: z.boolean(),
   note: z.string().nullable().optional(),
   stub: z.boolean().optional(),
-  flag_role: z.string().optional()
+  flag_role: z.string().optional(),
+  classes_included: z.array(z.number()).optional()
 });
 
 export const mapLayersSchema = z.array(mapLayerSchema);
