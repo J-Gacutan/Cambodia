@@ -7,7 +7,7 @@ export default function AboutPage() {
   const manifest = useBundle(loadManifest);
 
   return (
-    <PageSection>
+    <PageSection className="khm-prose">
       <Title headingLevel="h1">About this console</Title>
       <p>
         Thin React + PatternFly 6 + MapLibre MVP for the Cambodia four-province mangrove restoration screen

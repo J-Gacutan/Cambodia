@@ -6,7 +6,6 @@ import {
   Label,
   Masthead,
   MastheadBrand,
-  MastheadContent,
   MastheadLogo,
   MastheadMain,
   MastheadToggle,
@@ -93,6 +92,7 @@ export default function App() {
     window.location.hash = hrefForStep(step);
   };
 
+  // Brand-only masthead — About lives in the step rail, not a detached MastheadContent float.
   const masthead = (
     <Masthead display={{ default: "inline" }}>
       <MastheadMain>
@@ -118,17 +118,6 @@ export default function App() {
           </MastheadLogo>
         </MastheadBrand>
       </MastheadMain>
-      {!belowMd && (
-        <MastheadContent>
-          <Nav variant="horizontal" aria-label="Secondary">
-            <NavList>
-              <NavItem itemId="#about" to="#about" isActive={onAbout}>
-                About
-              </NavItem>
-            </NavList>
-          </Nav>
-        </MastheadContent>
-      )}
     </Masthead>
   );
 
@@ -235,7 +224,7 @@ export default function App() {
             className="khm-rail-section"
             aria-label="Decision flow"
           >
-            <StepRail current={currentStep} onSelect={goStep} />
+            <StepRail current={currentStep} aboutActive={onAbout} onSelect={goStep} />
           </PageSection>
           <Suspense
             fallback={
