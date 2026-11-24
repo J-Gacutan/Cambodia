@@ -32,9 +32,9 @@ export const FLOW_STEPS: FlowStep[] = [
     label: "Locate",
     href: "#change",
     does: "See what this console can say about mangroves now — and what it cannot.",
-    cue: "Extent and condition are gaps; change samples (loss + built pressure) set the scene before Means and Read.",
+    cue: "Extent stock (2025) is on; condition is still a gap; loss and built samples add pressure context before Means and Read.",
     detail:
-      "Locate is the current-state step: extent (where mangroves still stand), condition (health — not assessed), and change (loss and nearby built land). Only open change samples ship today; they are generalised and fade as you zoom. Satellite shows the shore; Means and Read carry the restoration screen."
+      "Locate is the current-state step: extent (where mangroves still stand — GMW 2025 stock), condition (health — not assessed), and change (loss and nearby built land as open samples). Overlays are generalised and fade as you zoom. Satellite shows the shore; Means and Read carry the restoration screen."
   },
   {
     id: "means",

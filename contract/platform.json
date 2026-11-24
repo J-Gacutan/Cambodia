@@ -2,7 +2,7 @@
   "note": "Pinned exchange for the Cambodia screen console (LKA-style). Paths relative to delivery/open-cleared/<bundle_version>/. Sync verifies every sha256 before copying into public/khm-bundle/. Never invent public_ready — that is khm-i6e.2.",
   "platform_repo": "Cambodia",
   "bundle_version": "v0.3.0",
-  "cambodia_commit": "a5ea29a",
+  "cambodia_commit": "050d35d",
   "public_ready": true,
   "licence_gate": "cleared_p2_open_pages",
   "files": [
@@ -16,7 +16,7 @@
     },
     {
       "path": "flags/GAPS.md",
-      "sha256": "ed8efd2064cc91ce19912eca5a850e1ad456c7f0846a5010af8ac3059fb17559"
+      "sha256": "dda3ff6e64de2e38ac0edc9876d0eeee0425713d92985c0f3b4a7b022ceb9578"
     },
     {
       "path": "flags/coverage.json",
@@ -28,7 +28,11 @@
     },
     {
       "path": "layers/index.json",
-      "sha256": "0ada04272dc4105e7994a9d67127ce4cf5e3cbd7ad625a72af9db43389ddee52"
+      "sha256": "05e1f51228ad7aa38934d0f86b21492a439d94875c79a6f9d228853dc2efe2a4"
+    },
+    {
+      "path": "layers/mangrove-extent.geojson",
+      "sha256": "b687d5db377deef9a283839c5ecfd5c06c44933a56b39041b02a2f89647d0b21"
     },
     {
       "path": "layers/project-overlap-vcs1748.geojson",
@@ -56,7 +60,7 @@
     },
     {
       "path": "manifest.json",
-      "sha256": "3fcbe7d1a0da636d56a0f8ebc67d36182893e5942bca2eb32f9a995892a16ff2"
+      "sha256": "67a457d10205e8d540425eaa4a42c78061bec188dabd5f027d9e62bcf3ee8122"
     },
     {
       "path": "schema/feature-properties.json",

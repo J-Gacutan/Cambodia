@@ -36,6 +36,9 @@ Built: 2026-11-24T00:53:20Z
 5. **VCS 5071 Koh Kong ARR geometry** — registry document is `Kep, Kampot.kml` only; any Trend Tech Koh Kong ARR extent remains unstaged (do not invent).
 6. **`public_ready`** — open-cleared v0.3.0 is true under `khm-i6e.2`. WDPA coastal + VERRA overlays ship as non-commercial research (`redistributable=false`); FLAG rasters and case PNGs stay off Pages.
 
+
+7. **Locate condition** — no licence-clear mangrove condition / canopy / degradation product on the public console (Note 3b: degradation not mapped). Extent stock ships as GMW 2025 overlay (`mangrove-extent`).
+
 ## Product language (UI must keep)
 
 Flags **cite instruments and overlaps**. They never mean a site is approved or refused for planting, tenure, or carbon.

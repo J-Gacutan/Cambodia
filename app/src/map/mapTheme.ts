@@ -78,3 +78,14 @@ export const GAP_MARKER_CIRCLE: CirclePaint = {
   "circle-stroke-width": 1.5,
   "circle-stroke-color": "#FFFFFF"
 };
+
+/** GMW living mangrove stock — Read context overlay (default off). */
+export const EXTENT_CONTEXT_FILL: FillPaint = {
+  "fill-color": FLAGS.extent,
+  "fill-opacity": 0.28
+};
+
+export const EXTENT_CONTEXT_LINE: LinePaint = {
+  "line-color": FLAGS.extent,
+  "line-width": 1.25
+};

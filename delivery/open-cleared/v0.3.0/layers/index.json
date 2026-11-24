@@ -25,6 +25,23 @@
     ]
   },
   {
+    "id": "mangrove-extent",
+    "title": "Mangrove extent 2025 (GMW stock)",
+    "kind": "context_overlay",
+    "file": "layers/mangrove-extent.geojson",
+    "crs": "EPSG:4326",
+    "evidence_class": "observed_global",
+    "register_id": "L1",
+    "licence_plain": "Global Mangrove Watch v4.1.12 2025 extent \u2014 CC BY 4.0. Coastal four-province clip, MMU 0.5 ha, simplified for console. Living stock only \u2014 not condition, not planting permission. Non-commercial / research (khm-i6e.2 P2).",
+    "licence_spdx": "CC-BY-4.0",
+    "redistributable": true,
+    "public_ready": true,
+    "default_visible": false,
+    "flag_role": "extent_context",
+    "note": "GMW 2025 mangrove stock for Locate / Read context. Same geometry as public/change-stubs/mangrove-extent.geojson. Not a SEEA account table.",
+    "stub": false
+  },
+  {
     "id": "ramsar-context",
     "title": "Ramsar context (permit gate partial)",
     "kind": "context_overlay",

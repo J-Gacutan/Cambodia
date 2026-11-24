@@ -83,7 +83,7 @@ Workflow: `.github/workflows/pages.yml`. Enablement checklist: [`docs/09-github-
 | Hash | Page |
 | --- | --- |
 | `#home` | Frame — decision-flow landing |
-| `#change` | Locate — current state (extent/condition gaps + open change samples) |
+| `#change` | Locate — current state (GMW 2025 extent stock + open change samples; condition gap) |
 | `#cases` | Means — legend + case stories |
 | `#map` | Read — GO/CAUTION map, filters, shortlist |
 | `#act` | Act — shortlist report + downloads + reopen QR (`#licence` alias) |

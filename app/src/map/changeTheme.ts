@@ -8,6 +8,9 @@ type LinePaint = NonNullable<Extract<LayerSpecification, { type: "line" }>["pain
  * Read’s 10 m class polygons. Fade and hide them before close satellite zoom
  * so blocky outlines do not look like broken fine data.
  */
+/** Living mangrove stock — deep teal, distinct from lime loss samples. */
+export const MANGROVE_EXTENT_FILL = "#1B6B4A";
+export const MANGROVE_EXTENT_LINE = "#0D3D2A";
 /** Bright lime on Satellite so loss samples stay findable against dark canopy. */
 export const MANGROVE_CHANGE_FILL = "#C6F06A";
 export const MANGROVE_CHANGE_LINE = "#5C7A1A";

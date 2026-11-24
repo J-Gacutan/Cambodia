@@ -19,7 +19,9 @@ export const SUITABILITY = {
 export const FLAGS = {
   permit: "#6B4C9A",
   project: "#B85C38",
-  gapMarker: "#5C6570"
+  gapMarker: "#5C6570",
+  /** GMW living mangrove stock (matches Locate extent teal). */
+  extent: "#1B6B4A"
 } as const;
 
 export const KEY = {
