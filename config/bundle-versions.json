@@ -1,4 +1,4 @@
 {
-  "current": "v0.2.2",
-  "note": "Pin the open-cleared delivery folder under delivery/open-cleared/<version>/. v0.2.2 = v0.2.1 Phase 2 flags with GO±CAUTION clipped to L20 coastal provinces (Viet Nam spill removed; public_ready still false). Fall back to v0.2.1 / v0.2.0 / v0.1.0-stub on thin clones if needed. Never flip public_ready here — that is khm-i6e.2."
+  "current": "v0.3.0",
+  "note": "Pin the open-cleared delivery folder under delivery/open-cleared/<version>/. v0.3.0 = P2 Pages package: class 8 ± 4 only, L20 Cambodia clip, public_ready=true (khm-i6e.2 locked 24 Nov 2026). v0.2.2 remains the full GO±CAUTION INTERNAL research pin. Never invent public_ready — only open-cleared 8±4 under P2."
 }

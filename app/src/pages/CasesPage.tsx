@@ -29,11 +29,11 @@ export default function CasesPage() {
 
   return (
     <PageSection>
-      <Title headingLevel="h1">Cases A–C</Title>
+      <Title headingLevel="h1">Cases</Title>
       <HelperText>
         <HelperTextItem>
-          Three short stories from Note 3b. Each card is one place, one reading of the screen, and a map
-          bookmark — not a dense stats dump. Case figure PNGs stay offline / INTERNAL.
+          Short stories from Note 3b for the open-cleared classes (A = GO class 8; C = CAUTION class 4). Each
+          card is one place, one reading, and a map bookmark. Case figure PNGs stay offline / INTERNAL.
         </HelperTextItem>
       </HelperText>
       {cases.error && <p role="alert">{cases.error}</p>}

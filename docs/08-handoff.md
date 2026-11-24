@@ -11,10 +11,10 @@
 | Piece | Path | Notes |
 | --- | --- | --- |
 | App | [`app/`](../app/README.md) | Map, cases, **licence panel** (`#licence`), about |
-| Pinned bundle | `delivery/open-cleared/v0.2.2/` | Phase 2 flags + L20 Cambodia clip; **`public_ready=false`** |
+| Pinned bundle | `delivery/open-cleared/v0.3.0/` | P2 open-cleared class 8±4; **`public_ready=true`** |
 | Contract pin | [`contract/platform.json`](../contract/platform.json) | LKA-style sha256 list |
 | Runtime pin | `config/contract-pin.json` | Written by `npm run sync:bundle` |
-| Bundle version | [`config/bundle-versions.json`](../config/bundle-versions.json) | `"current": "v0.2.2"` |
+| Bundle version | [`config/bundle-versions.json`](../config/bundle-versions.json) | `"current": "v0.3.0"` |
 | Pages workflow | [`.github/workflows/pages.yml`](../.github/workflows/pages.yml) | Builds always; **deploy only if `public_ready=true`** |
 | Licence register | [`intermediate/screen-build/phase-0-licence-register.md`](../intermediate/screen-build/phase-0-licence-register.md) | Living V/U/FLAG |
 | First-share gate | [`intermediate/screen-build/first-public-share-gate.md`](../intermediate/screen-build/first-public-share-gate.md) | `khm-i6e.2` decisions |

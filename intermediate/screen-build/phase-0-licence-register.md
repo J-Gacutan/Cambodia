@@ -22,7 +22,7 @@
 
 L15 commercial-use and redistribute bans still apply. L17 is usable in this research screen under non-commercial terms; credit-project or commercial redistribution remains barred.
 
-**First client/Pages share.** Go/no-go matrix (GO GeoJSON, case PNGs, method notes) and Jordan decision checklist: [`first-public-share-gate.md`](first-public-share-gate.md) (`khm-i6e.2`). **Public Pages = NO-GO** until that gate records an open-cleared path (P2) and an open-only bundle. Do not invent clearances.
+**First client/Pages share.** Go/no-go matrix: [`first-public-share-gate.md`](first-public-share-gate.md) (`khm-i6e.2`). **Locked 24 Nov 2026 (AU/Sydney): P2** — public GitHub Pages for open-cleared **class 8 ± 4** only (`v0.3.0`, `public_ready=true`); non-commercial / research; **FLAG still NO-GO** on any public remote. Do not invent further clearances.
 
 ---
 
@@ -360,3 +360,4 @@ Manual browser or `curl` where the host allows. Save under `inputs/screen-layers
 | 23 Nov 2026 | L19 digital GIS closed: MoE will not provide. L17 WDPA confirmed for non-commercial research use; staged at `L17/` (zip + merged gpkg, 68 polygons). `ywdp.8.8` |
 | 23 Nov 2026 | Step 3 L8-L11 (`ywdp.8.6`): L8, L9, L10 (2024 and 2025) and L11 (2014-2016) on the pond grid in `L8_L11_10m/`. Classes in `L_class_10m/class_step3.tif`. Class 1 is 151,176 ha, 130,074 ha with neither corroborator. Class 2 replaces 1,144 ha of first-pass existing mangrove. |
 | 23 Nov 2026 | `khm-i6e.2` first-public-share gate: matrix in `first-public-share-gate.md`. Pages NO-GO; full class/pond GO NO-GO on public remote; class 8 ± 4 open-only CONDITIONAL; case PNGs INTERNAL/DECISION; no new clearances. |
+| 24 Nov 2026 | Jordan locked **P2**: public Pages; class **8 ± 4** open-cleared (`delivery/open-cleared/v0.3.0/`, `public_ready=true`); non-commercial / research confirmed (no credit/revenue-linked use); FLAG / pond / INTERNAL PNGs remain NO-GO on public remote. |

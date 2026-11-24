@@ -1,46 +1,34 @@
 {
   "note": "Pinned exchange for the Cambodia screen console (LKA-style). Paths relative to delivery/open-cleared/<bundle_version>/. Sync verifies every sha256 before copying into public/khm-bundle/. Never invent public_ready — that is khm-i6e.2.",
   "platform_repo": "Cambodia",
-  "bundle_version": "v0.2.2",
-  "cambodia_commit": "1cc71a4",
-  "public_ready": false,
-  "licence_gate": "blocked_pending_khm-i6e.2",
+  "bundle_version": "v0.3.0",
+  "cambodia_commit": "730a300",
+  "public_ready": true,
+  "licence_gate": "cleared_p2_open_pages",
   "files": [
     {
       "path": "README.md",
-      "sha256": "11b6f65c464bc33db6cc85e5bf21ad97dbcc080e084d862be3bf3d721ee8f4a0"
+      "sha256": "638464af7fbee922398c2000d4eb28e177752f8a203cdff6a669f2906f6ee036"
     },
     {
       "path": "cases/cases.json",
-      "sha256": "5cbd5c1af8458c6125d163f36d4ee6abdd57ec309cc3b111d67f3ba57c403a69"
+      "sha256": "180d896d657f4393dcacdeb68abe2587b2d84700bfdae53335071811c8da6198"
     },
     {
       "path": "flags/GAPS.md",
-      "sha256": "f9fe6bbd851ede2a80a5ffa0dd1e810e4e47ba8b33f5a28635e70aded1504085"
+      "sha256": "a76234c3a9b3acefa0b64b613fe498d2df89c8970087e3e5922faeb2e6b32bfe"
     },
     {
       "path": "flags/coverage.json",
-      "sha256": "c3ac93f4067fc35232aeaf59cc325177365d68b1ea6f99f86b86e333dfee4c34"
+      "sha256": "051336d9a2ecfafea417de76f2613d85526a5a36ca13a41dbd5df296356b339d"
     },
     {
       "path": "layers/go-caution.geojson",
-      "sha256": "9a7e1236f18880f4437bd6adc2aafd06030405d4dc93bd194b7f33ad0fa7f87a"
+      "sha256": "df73b21ccbc3f0b584e2af7a8465d183cc2e9df1fa5d277b16fd9ad85276ba16"
     },
     {
       "path": "layers/index.json",
-      "sha256": "47084997926430a4f060fa6a85312a8889428bb6112a57a888a17f10a555b742"
-    },
-    {
-      "path": "layers/project-overlap-vcs1748.geojson",
-      "sha256": "6ff5ffef72efca658f5130cdf0566478769aeb6300a13b08a2a8b6b259a2ea92"
-    },
-    {
-      "path": "layers/project-overlap-vcs5071.geojson",
-      "sha256": "dc8384a2490b038275c08d047bcd1fa045a7abd78685978f819d0ab62ef21296"
-    },
-    {
-      "path": "layers/project-overlap-vcs5584.geojson",
-      "sha256": "f885708f340ac568a6ba10de9c0a1d18939c54d7406c58aee94c28ee777735ff"
+      "sha256": "c55c090ee2a688f0d373d01ed8654a5a6debe44bea78644b95e1870802355fa3"
     },
     {
       "path": "layers/ramsar-context.geojson",
@@ -52,7 +40,7 @@
     },
     {
       "path": "manifest.json",
-      "sha256": "3dbeda71836210fbaf762647b92af8c453d7d26c750bc003dba404cf93a35b1c"
+      "sha256": "2ce2f828e15824b862f56fe44fee53c8d8d14aa44150047937a95965a18f3a0c"
     },
     {
       "path": "schema/feature-properties.json",

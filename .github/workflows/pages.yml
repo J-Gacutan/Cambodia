@@ -69,6 +69,8 @@ jobs:
           console.log(JSON.stringify(meta, null, 2));
           if (!ready) {
             console.log("GATE: public_ready=false — Pages deploy will be skipped (khm-i6e.2).");
+          } else {
+            console.log("GATE: public_ready=true — Pages deploy enabled (khm-i6e.2 P2 / khm-i6e.5).");
           }
           NODE
 
@@ -101,4 +103,4 @@ jobs:
       - run: |
           echo "Build OK for bundle ${{ needs.build.outputs.bundle_version }}."
           echo "public_ready=false — not deploying to public Pages."
-          echo "Flip live only after khm-i6e.2 and an open-cleared bundle with public_ready=true."
+          echo "P2 open-cleared class 8±4 with public_ready=true is required (khm-i6e.2 locked 24 Nov 2026)."

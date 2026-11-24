@@ -57,10 +57,24 @@ PRODUCT_BANNER = (
     "Not MoE zoning, tenure clearance, planting permission, or a carbon outcome."
 )
 
+# P2 open-cleared Pages banner (class 8 ± 4 only — no pond/FLAG geometries).
+OPEN_CLEARED_BANNER = (
+    "Physical / land-cover suitability proxy only (open-cleared class 8 ± 4). "
+    "GO = worth a field look. Not MoE zoning, tenure clearance, planting permission, "
+    "or a carbon outcome. Non-commercial / research use. Attribution: GMW, Dynamic World, "
+    "Murray Global Intertidal Change, geoBoundaries (see bundle README)."
+)
+
 REGISTER_ID = "note3b-step3-class"
 LICENCE_PLAIN = (
     "Derived from class_step3 (FLAG/INTERNAL upstreams may apply). "
     "Not cleared for public redistribution until licence gate (khm-i6e.2)."
+)
+OPEN_CLEARED_LICENCE_PLAIN = (
+    "Open-cleared derivative: Note 3b class 8 (GO open/accreted) and class 4 (CAUTION tidal flat) "
+    "only. Upstream: GMW v3 (CC BY 4.0), Dynamic World (CC BY 4.0), Murray Global Intertidal "
+    "Change (CC BY 4.0), geoBoundaries ADM1 (CC BY 4.0). No Jiang/Clark pond geometries. "
+    "Non-commercial / research posture (khm-i6e.2 P2, 24 Nov 2026)."
 )
 
 
@@ -118,6 +132,7 @@ def feature_props(
     province: str | None,
     source: str,
     stub: bool,
+    open_cleared: bool = False,
 ) -> dict:
     meta = CLASS_META[class_id]
     return {
@@ -130,12 +145,12 @@ def feature_props(
         "province": province,
         "evidence_class": "derived_screen",
         "register_id": REGISTER_ID,
-        "licence_plain": LICENCE_PLAIN,
-        "licence_spdx": None,
-        "redistributable": False,
-        "public_ready": False,
+        "licence_plain": OPEN_CLEARED_LICENCE_PLAIN if open_cleared else LICENCE_PLAIN,
+        "licence_spdx": "CC-BY-4.0" if open_cleared else None,
+        "redistributable": bool(open_cleared),
+        "public_ready": bool(open_cleared),
         "source_raster": source,
-        "product_banner": PRODUCT_BANNER,
+        "product_banner": OPEN_CLEARED_BANNER if open_cleared else PRODUCT_BANNER,
         "stub": stub,
     }
 
@@ -179,6 +194,8 @@ def write_bundle(
     cases: list | None,
     source_sha: str | None,
     notes: list[str],
+    open_cleared: bool = False,
+    class_ids: set[int] | None = None,
 ):
     layers_dir = out_dir / "layers"
     layers_dir.mkdir(parents=True, exist_ok=True)
@@ -193,23 +210,32 @@ def write_bundle(
     else:
         go_caut_path.write_text(json.dumps(fc_out, separators=(",", ":")) + "\n")
     features_fc = fc_out  # stats / counts use the written geometry set
+    ids = sorted(class_ids) if class_ids else sorted(GO_CLASSES | CAUTION_CLASSES)
+    title = (
+        "GO class 8 ± CAUTION class 4 (≥ MMU) — open-cleared"
+        if open_cleared
+        else "GO ± CAUTION patches (≥ MMU)"
+    )
     layer_index = [
         {
             "id": "go-caution",
-            "title": "GO ± CAUTION patches (≥ MMU)",
+            "title": title,
             "kind": "overlay",
             "file": "layers/go-caution.geojson",
             "crs": "EPSG:4326",
-            "suitability_filter": ["go", "caution"],
+            "suitability_filter": sorted(
+                {CLASS_META[c]["suitability"] for c in ids if c in CLASS_META}
+            ),
             "evidence_class": "derived_screen",
             "register_id": REGISTER_ID,
-            "licence_plain": LICENCE_PLAIN,
-            "licence_spdx": None,
-            "redistributable": False,
-            "public_ready": False,
+            "licence_plain": OPEN_CLEARED_LICENCE_PLAIN if open_cleared else LICENCE_PLAIN,
+            "licence_spdx": "CC-BY-4.0" if open_cleared else None,
+            "redistributable": bool(open_cleared),
+            "public_ready": bool(open_cleared),
             "default_visible": True,
-            "note": PRODUCT_BANNER,
+            "note": OPEN_CLEARED_BANNER if open_cleared else PRODUCT_BANNER,
             "stub": stub,
+            "classes_included": ids,
         }
     ]
     (layers_dir / "index.json").write_text(json.dumps(layer_index, indent=2) + "\n")
@@ -255,23 +281,29 @@ def write_bundle(
         f["properties"]["area_ha"] for f in features_fc["features"] if f["properties"]["suitability"] == "caution"
     )
 
+    ids = sorted(class_ids) if class_ids else sorted(GO_CLASSES | CAUTION_CLASSES)
+    go_ids = sorted(c for c in ids if c in GO_CLASSES)
+    caution_ids = sorted(c for c in ids if c in CAUTION_CLASSES)
+    banner = OPEN_CLEARED_BANNER if open_cleared else PRODUCT_BANNER
     manifest = {
         "version": version,
         "built": utc_now(),
         "stub": stub,
         "completeness": completeness,
-        "public_ready": False,
-        "licence_gate": "blocked_pending_khm-i6e.2",
-        "product_banner": PRODUCT_BANNER,
+        "public_ready": bool(open_cleared),
+        "licence_gate": "cleared_p2_open_pages" if open_cleared else "blocked_pending_khm-i6e.2",
+        "product_banner": banner,
         "crs_geometry": "EPSG:4326",
         "source_grid": "EPSG:32648",
         "resolution_m": RES_M,
         "mmu_ha": MMU_HA,
         "mmu_pixels": MMU_PX,
         "classes_included": {
-            "go": sorted(GO_CLASSES),
-            "caution": sorted(CAUTION_CLASSES),
+            "go": go_ids,
+            "caution": caution_ids,
         },
+        "open_cleared": bool(open_cleared),
+        "share_path": "P2" if open_cleared else None,
         "source_raster": str(CLASS_TIF.relative_to(ROOT)) if CLASS_TIF.is_file() else None,
         "source_raster_sha256": source_sha,
         "families": ["layers", "cases", "schema"],
@@ -287,14 +319,25 @@ def write_bundle(
             "Ship only under delivery/open-cleared/. Do not copy FLAG rasters or "
             "inputs/screen-layers binaries into this tree or a public remote."
         ),
+        "attribution": (
+            [
+                "Global Mangrove Watch (CC BY 4.0)",
+                "Dynamic World (CC BY 4.0)",
+                "Murray Global Intertidal Change (CC BY 4.0)",
+                "geoBoundaries KHM ADM1 / L20 coastal provinces (CC BY 4.0)",
+            ]
+            if open_cleared
+            else None
+        ),
     }
     (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 
+    ready_label = "true" if open_cleared else "false"
     readme = f"""# Open-cleared GO ± CAUTION bundle `{version}`
 
-**Status:** stub={stub} · completeness=`{completeness}` · **public_ready=false**
+**Status:** stub={stub} · completeness=`{completeness}` · **public_ready={ready_label}**
 
-{PRODUCT_BANNER}
+{banner}
 
 ## Contents
 
@@ -351,18 +394,40 @@ def load_cases() -> list:
     return json.loads(CASES_JSON.read_text())
 
 
-def build_from_raster(*, include_caution: bool, version: str, out_dir: Path) -> None:
+def build_from_raster(
+    *,
+    include_caution: bool,
+    version: str,
+    out_dir: Path,
+    class_ids: set[int] | None = None,
+    open_cleared: bool = False,
+) -> None:
     import rasterio
     from rasterio import features as rio_features
     from rasterio.transform import xy as rio_xy
 
-    classes = set(GO_CLASSES)
-    if include_caution:
-        classes |= CAUTION_CLASSES
+    if class_ids is not None:
+        classes = set(class_ids)
+        unknown = classes - set(CLASS_META)
+        if unknown:
+            raise SystemExit(f"Unknown class ids: {sorted(unknown)}")
+    else:
+        classes = set(GO_CLASSES)
+        if include_caution:
+            classes |= CAUTION_CLASSES
+
+    if open_cleared and classes - {4, 8}:
+        raise SystemExit(
+            f"--open-cleared requires classes ⊆ {{4, 8}}; got {sorted(classes)}. "
+            "Pond/FLAG classes must not enter a public_ready bundle."
+        )
 
     provinces = load_provinces()
     khm_mask = cambodia_mask(provinces)
     cases = load_cases()
+    # Open-cleared Pages: keep narrative cases A (class 8) and C (class 4); drop B (class 2).
+    if open_cleared and cases:
+        cases = [c for c in cases if c.get("id") in ("A", "C")]
     source_rel = str(CLASS_TIF.relative_to(ROOT))
     source_sha = sha256_file(CLASS_TIF)
 
@@ -425,12 +490,28 @@ def build_from_raster(*, include_caution: bool, version: str, out_dir: Path) -> 
                         province=province,
                         source=source_rel,
                         stub=False,
+                        open_cleared=open_cleared,
                     ),
                     "geometry": mapping(g84),
                 }
             )
 
     fc = {"type": "FeatureCollection", "features": feats}
+    notes = [
+        f"Vectorised from {source_rel} with MMU {MMU_HA} ha ({MMU_PX} px).",
+        f"Classes included: {sorted(classes)}.",
+        "Clipped to L20 coastal four provinces (Cambodia only).",
+    ]
+    if open_cleared:
+        notes.extend(
+            [
+                "P2 open-cleared (khm-i6e.2, 24 Nov 2026): class 8 ± 4 only; no pond/FLAG geometries.",
+                "public_ready=true for public GitHub Pages (non-commercial / research).",
+                "Cases A and C only (class 8 / 4). Case B omitted (class 2 / pond-shaped).",
+            ]
+        )
+    else:
+        notes.append("public_ready remains false until khm-i6e.2.")
     write_bundle(
         out_dir,
         version=version,
@@ -439,12 +520,9 @@ def build_from_raster(*, include_caution: bool, version: str, out_dir: Path) -> 
         features_fc=fc,
         cases=cases or None,
         source_sha=source_sha,
-        notes=[
-            f"Vectorised from {source_rel} with MMU {MMU_HA} ha ({MMU_PX} px).",
-            "GO classes 6/8"
-            + ("; CAUTION 4/5/7/9 included." if include_caution else "; CAUTION omitted (--go-only)."),
-            "public_ready remains false until khm-i6e.2.",
-        ],
+        notes=notes,
+        open_cleared=open_cleared,
+        class_ids=classes,
     )
 
 
@@ -588,6 +666,16 @@ def parse_args():
         help="Vectorise GO classes only (omit CAUTION).",
     )
     p.add_argument(
+        "--classes",
+        default=None,
+        help="Comma-separated Note 3b class ids to vectorise (e.g. 8,4 for P2 open-cleared).",
+    )
+    p.add_argument(
+        "--open-cleared",
+        action="store_true",
+        help="P2 Pages bundle: require classes ⊆ {4,8}, set public_ready=true, attribution.",
+    )
+    p.add_argument(
         "--force-sample",
         action="store_true",
         help="Force sample stub even if class_step3.tif exists.",
@@ -599,15 +687,28 @@ def main():
     args = parse_args()
     out_dir = args.out or (DELIVERY / args.version)
     include_caution = not args.go_only
+    class_ids = None
+    if args.classes:
+        class_ids = {int(x.strip()) for x in args.classes.split(",") if x.strip()}
+    if args.open_cleared and class_ids is None:
+        class_ids = {8, 4}
 
     if args.force_sample or args.sample_stub or not CLASS_TIF.is_file():
         if not CLASS_TIF.is_file():
             print(f"WARN: missing {CLASS_TIF}; building sample stub.", flush=True)
+        if args.open_cleared:
+            raise SystemExit("--open-cleared requires class_step3.tif (no sample stub).")
         build_sample_stub(version=args.version, out_dir=out_dir)
         print("WROTE", out_dir, "(sample stub)", flush=True)
         return
 
-    build_from_raster(include_caution=include_caution, version=args.version, out_dir=out_dir)
+    build_from_raster(
+        include_caution=include_caution,
+        version=args.version,
+        out_dir=out_dir,
+        class_ids=class_ids,
+        open_cleared=args.open_cleared,
+    )
     print("WROTE", out_dir, "(full vectorise)", flush=True)
 
 

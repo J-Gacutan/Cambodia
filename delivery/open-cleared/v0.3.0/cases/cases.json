@@ -1,0 +1,49 @@
+[
+  {
+    "id": "A",
+    "slug": "a-go-open-accreted-koh-kong",
+    "title": "GO: open or accreted land",
+    "place": "Peam Krasaop hinterland, Koh Kong",
+    "lon": 103.5857,
+    "lat": 11.176,
+    "half_m": 1500,
+    "focus": 8,
+    "why": "Historic mangrove (H) that Dynamic World now reads as bare, grass or shrub. Note 3b class 8 is the open and accreted GO class. It is a candidate for natural regeneration or planting after an elevation check, not a pond.",
+    "focus_ha": 189.93,
+    "override_3_to_2_ha": 11.59,
+    "window_ha_by_class": {
+      "1": 24.84,
+      "2": 19.77,
+      "3": 268.02,
+      "5": 170.82,
+      "8": 189.93,
+      "9": 183.17,
+      "10": 43.45
+    },
+    "map": "case_a-go-open-accreted-koh-kong.png"
+  },
+  {
+    "id": "C",
+    "slug": "c-caution-tidal-flat-preah-sihanouk",
+    "title": "CAUTION: tidal flat",
+    "place": "Preah Sihanouk / Kampot coast",
+    "lon": 103.8624,
+    "lat": 10.6436,
+    "half_m": 1500,
+    "focus": 4,
+    "why": "Murray Global Intertidal Change (2014-2016) marks the cell as tidal flat, and Dynamic World now reads bare or water. Note 3b class 4 is CAUTION: no planting on mudflats; natural recruitment only after a hydrology check.",
+    "focus_ha": 382.42,
+    "override_3_to_2_ha": 1.67,
+    "window_ha_by_class": {
+      "1": 0.27,
+      "2": 195.39,
+      "3": 282.43,
+      "4": 382.42,
+      "5": 17.23,
+      "8": 4.99,
+      "9": 2.25,
+      "10": 15.02
+    },
+    "map": "case_c-caution-tidal-flat-preah-sihanouk.png"
+  }
+]

@@ -44,10 +44,10 @@ export default function AboutPage() {
       </p>
       <Title headingLevel="h2">Bundle versions</Title>
       <p>
-        Default pin is <code>v0.2.2</code> (Phase 2 flags + GO±CAUTION clipped to L20 coastal Cambodia). Fall
-        back to <code>v0.2.1</code>, <code>v0.2.0</code>, or <code>v0.1.0-stub</code> via{" "}
-        <code>VITE_KHM_BUNDLE_VERSION</code> or by editing <code>config/bundle-versions.json</code>, then{" "}
-        <code>npm run sync:bundle</code>.
+        Default pin is <code>v0.3.0</code> (P2 open-cleared class 8 ± 4, <code>public_ready=true</code>). Fall
+        back to <code>v0.2.2</code> (full GO±CAUTION INTERNAL), <code>v0.2.0</code>, or{" "}
+        <code>v0.1.0-stub</code> via <code>VITE_KHM_BUNDLE_VERSION</code> or by editing{" "}
+        <code>config/bundle-versions.json</code>, then <code>npm run sync:bundle</code>.
       </p>
       <Title headingLevel="h2">Contract pin</Title>
       <p>
