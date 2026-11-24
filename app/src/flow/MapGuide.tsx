@@ -133,7 +133,7 @@ export function MapGuide({
       {allDone && (
         <div className="khm-map-next-cta" role="status">
           <p>
-            <strong>Ready.</strong> Continue to Act for a shortlist report (holds, ha, printable HTML/Markdown + CSV/GeoJSON).
+            <strong>Ready.</strong> Continue to Act for a shortlist decision report (patches, holds, ha, printable HTML/Markdown + CSV/GeoJSON + report QR).
           </p>
           <div className="khm-map-tools">
             <Button variant="secondary" component="a" href="#licence">
