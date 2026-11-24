@@ -79,7 +79,7 @@ export default function HomePage() {
 
       <div className="khm-map-tools pf-v6-u-mt-md">
         <Button variant="primary" component="a" href="#change">
-          Next: Locate (ecosystem change)
+          Next: Locate (current state)
         </Button>
         <Button variant="link" component="a" href="#map">
           Skip to screen map
