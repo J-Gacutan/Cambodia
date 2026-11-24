@@ -1,6 +1,7 @@
 import {
   Banner,
   Bullseye,
+  Button,
   DescriptionList,
   DescriptionListDescription,
   DescriptionListGroup,
@@ -9,29 +10,87 @@ import {
   Spinner,
   Title
 } from "@patternfly/react-core";
+import { useMemo, useState } from "react";
 import { LayerProvenance } from "../common/LayerProvenance";
 import { EvidenceBadge, IllustrativeBadge } from "../common/Evidence";
-import { loadManifest, loadMapLayers } from "../lib/bundle";
+import {
+  CAUTION_DRIVERS,
+  DRIVER_BY_ID,
+  type CautionDriverId,
+  driversForFeature
+} from "../lib/cautionDrivers";
+import { flagLabel, loadManifest, loadMapLayers, type FeatureProps } from "../lib/bundle";
 import { parseEvidenceClass } from "../lib/evidence";
 import { BUNDLE_VERSION } from "../lib/env";
 import { layerDisplayTitle } from "../lib/layerLabels";
+import {
+  downloadText,
+  loadShortlistFromStorage,
+  shortlistToCsv,
+  shortlistToGeoJson,
+  type ShortlistItem
+} from "../lib/shortlist";
+import {
+  openPrintableReport,
+  shortlistReportHtml,
+  shortlistReportMarkdown
+} from "../lib/shortlistReport";
 import { useBundle } from "../lib/useBundle";
+import { meaningForClass, suitabilityLabel } from "../lib/classMeaning";
+
+function shortlistAsProps(row: ShortlistItem): FeatureProps {
+  return {
+    id: row.id,
+    class_id: row.class_id,
+    class_name: row.class_name,
+    suitability: row.suitability,
+    area_ha: row.area_ha,
+    province: row.province,
+    place: row.place,
+    note: row.note,
+    permit_gate: row.permit_gate,
+    permit_instrument: row.permit_instrument,
+    stop_legal: row.stop_legal,
+    stop_legal_status: row.stop_legal_status,
+    stop_legal_note: row.stop_legal_note,
+    project_overlap: row.project_overlap,
+    project_overlap_ids: row.project_overlap_ids ?? null,
+    project_overlap_note: row.project_overlap_note,
+    elevation_fail: (row as ShortlistItem & { elevation_fail?: boolean }).elevation_fail ?? null
+  };
+}
+
+function holdSummary(rows: ShortlistItem[]): { id: CautionDriverId; count: number }[] {
+  const counts: Partial<Record<CautionDriverId, number>> = {};
+  for (const row of rows) {
+    for (const id of driversForFeature(shortlistAsProps(row))) {
+      counts[id] = (counts[id] ?? 0) + 1;
+    }
+  }
+  return CAUTION_DRIVERS.map((d) => ({ id: d.id, count: counts[d.id] ?? 0 })).filter((r) => r.count > 0);
+}
 
 /**
- * In-app licence / evidence panel (khm-i6e.7).
- * Host matrix follows project preference: public GitHub Pages only — no Amplify/CF Access path
- * unless Jordan revises. Pages stay gated on public_ready (khm-i6e.2).
+ * Act step: shortlist → hold summary → export → next field/licence moves.
+ * Licence / evidence panel (khm-i6e.7) remains below for quoting the pack.
  */
 export default function LicencePage() {
   const manifest = useBundle(loadManifest);
   const layers = useBundle(loadMapLayers);
   const publicReady = manifest.data?.public_ready === true;
+  const [shortlist, setShortlist] = useState<ShortlistItem[]>(() => loadShortlistFromStorage());
+  const holds = useMemo(() => holdSummary(shortlist), [shortlist]);
+  const goCount = shortlist.filter((r) => r.suitability === "go").length;
+  const cautionCount = shortlist.length - goCount;
+  const ha = shortlist.reduce((s, r) => s + (Number.isFinite(r.area_ha) ? r.area_ha : 0), 0);
+
+  const refresh = () => setShortlist(loadShortlistFromStorage());
 
   if (!manifest.data && !manifest.error) {
     return (
       <PageSection>
         <Bullseye>
-          <Spinner aria-label="Loading licence panel" />
+          <Spinner aria-label="Loading Act panel" />
         </Bullseye>
       </PageSection>
     );
@@ -46,18 +105,176 @@ export default function LicencePage() {
   }
 
   const m = manifest.data;
+  const version = m.version ?? BUNDLE_VERSION;
 
   return (
     <>
-      <PageSection>
-        <Title headingLevel="h1">Act — licence and evidence</Title>
+      <PageSection className="khm-prose">
+        <Title headingLevel="h1">Act — decide from the shortlist</Title>
         <p>
-          Act step. Every map layer carries evidence class, register id, and a plain-language licence line.
-          This panel quotes the open-cleared bundle — it does not invent clearances. Quote the living
-          register, not this site, for redistribution decisions. Shortlist export stays on the{" "}
-          <a href="#map">screen map</a>.
+          Carry forward patches you shortlisted on <a href="#map">Read</a>. Summarise hold-backs, export
+          geometries, then take the next field or licence step. This page quotes the open-cleared pack — it
+          does not invent clearances or planting permission.
         </p>
         <IllustrativeBadge publicReady={publicReady} />
+      </PageSection>
+
+      <PageSection>
+        <Title headingLevel="h2">Your shortlist</Title>
+        {shortlist.length === 0 ? (
+          <>
+            <Banner color="orange" role="status">
+              No polygons shortlisted yet. On Read, click a patch → Add to shortlist, then return here.
+            </Banner>
+            <div className="khm-map-tools pf-v6-u-mt-md">
+              <Button variant="primary" component="a" href="#map">
+                Go to Read (map)
+              </Button>
+              <Button variant="link" onClick={refresh}>
+                Refresh shortlist
+              </Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <p className="pf-v6-u-font-size-sm">
+              <strong>{shortlist.length}</strong> patch{shortlist.length === 1 ? "" : "es"} · {goCount} GO ·{" "}
+              {cautionCount} CAUTION · about {ha.toFixed(0)} ha carried from this session.
+            </p>
+            {holds.length > 0 && (
+              <>
+                <Title headingLevel="h3" className="pf-v6-u-font-size-md">
+                  Hold-backs on this shortlist
+                </Title>
+                <ul className="khm-plain-list pf-v6-u-font-size-sm">
+                  {holds.map(({ id, count }) => (
+                    <li key={id}>
+                      <strong>{DRIVER_BY_ID[id].label}</strong> — {count} patch
+                      {count === 1 ? "" : "es"}. {DRIVER_BY_ID[id].holdsBack}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+            <ul className="khm-plain-list pf-v6-u-mt-md">
+              {shortlist.map((row) => {
+                const meaning = meaningForClass(row.class_id);
+                const drivers = driversForFeature(shortlistAsProps(row));
+                return (
+                  <li key={row.id} className="khm-act-shortlist-row">
+                    <strong>
+                      {suitabilityLabel(row.suitability)}
+                      {meaning ? ` · ${meaning.label}` : ` · class ${row.class_id}`}
+                    </strong>
+                    {" — "}
+                    {row.area_ha.toFixed(1)} ha
+                    {row.province ? ` · ${row.province}` : ""}
+                    {drivers.length > 0
+                      ? ` · holds: ${drivers.map((d) => DRIVER_BY_ID[d].short).join(", ")}`
+                      : " · no mapped hold-back"}
+                    {row.permit_gate != null ? ` · permit ${flagLabel(row.permit_gate)}` : ""}
+                    {row.project_overlap != null ? ` · VERRA ${flagLabel(row.project_overlap)}` : ""}
+                  </li>
+                );
+              })}
+            </ul>
+            <Title headingLevel="h3" className="pf-v6-u-font-size-md pf-v6-u-mt-md">
+              Shortlist report
+            </Title>
+            <p className="pf-v6-u-font-size-sm">
+              Generate a decision pack: holds summary, hectares, drivers, permit/VERRA overlays, and next
+              field/licence steps. Printable HTML (Save as PDF) plus Markdown; pair with CSV / GeoJSON.
+            </p>
+            <div className="khm-map-tools pf-v6-u-mt-md">
+              <Button
+                variant="primary"
+                onClick={() => {
+                  const meta = {
+                    bundleVersion: version,
+                    generatedAt: new Date().toLocaleString("en-AU", {
+                      timeZone: "Australia/Sydney",
+                      dateStyle: "medium",
+                      timeStyle: "short"
+                    }),
+                    productBanner: m.product_banner
+                  };
+                  openPrintableReport(shortlistReportHtml(shortlist, meta));
+                }}
+              >
+                Open printable report (PDF via print)
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  const meta = {
+                    bundleVersion: version,
+                    generatedAt: new Date().toLocaleString("en-AU", {
+                      timeZone: "Australia/Sydney",
+                      dateStyle: "medium",
+                      timeStyle: "short"
+                    }),
+                    productBanner: m.product_banner
+                  };
+                  downloadText(
+                    `cambodia-shortlist-report-${version}.md`,
+                    shortlistReportMarkdown(shortlist, meta),
+                    "text/markdown"
+                  );
+                }}
+              >
+                Download Markdown report
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() =>
+                  downloadText(
+                    `cambodia-shortlist-${version}.csv`,
+                    shortlistToCsv(shortlist),
+                    "text/csv"
+                  )
+                }
+              >
+                Export CSV
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() =>
+                  downloadText(
+                    `cambodia-shortlist-${version}.geojson`,
+                    JSON.stringify(shortlistToGeoJson(shortlist), null, 2),
+                    "application/geo+json"
+                  )
+                }
+              >
+                Export GeoJSON (polygons)
+              </Button>
+              <Button variant="link" component="a" href="#map">
+                Back to map
+              </Button>
+              <Button variant="link" onClick={refresh}>
+                Refresh
+              </Button>
+            </div>
+          </>
+        )}
+      </PageSection>
+
+      <PageSection>
+        <Title headingLevel="h2">Next steps</Title>
+        <ol className="khm-act-next">
+          <li>
+            <strong>Field look</strong> — walk GO patches first; treat CAUTION holds as named checks (tide,
+            elevation, converted cover), not a single refuse.
+          </li>
+          <li>
+            <strong>Tenure / access</strong> — where permit or VERRA flags hit, confirm with MoE / project
+            holders before any claim. Overlays on Read are context only.
+          </li>
+          <li>
+            <strong>Licence before share</strong> — quote layer evidence below and the living register; do not
+            claim commercial redistribution of WDPA or VERRA extracts.
+          </li>
+        </ol>
       </PageSection>
 
       {!publicReady && (
@@ -153,12 +370,6 @@ export default function LicencePage() {
             </tr>
           </tbody>
         </table>
-        <p className="pf-v6-u-font-size-sm pf-v6-u-mt-md">
-          Living register: <code>intermediate/screen-build/phase-0-licence-register.md</code>. First-share
-          gate: <code>intermediate/screen-build/first-public-share-gate.md</code>. Module:{" "}
-          <code>docs/04-data-and-licences.md</code>. Pages enablement (when ready):{" "}
-          <code>docs/09-github-pages.md</code>.
-        </p>
       </PageSection>
 
       <PageSection>
@@ -168,21 +379,13 @@ export default function LicencePage() {
           copying into <code>public/khm-bundle/</code>; <code>npm run check:bundle</code> re-checks the copy
           against <code>config/contract-pin.json</code>.
         </p>
-        <ul>
-          <li>
-            Regenerate pin after bundle edits: <code>node scripts/write-contract.mjs</code>
-          </li>
-          <li>
-            Sync + pin write: <code>cd app && npm run sync:bundle</code>
-          </li>
-          <li>
-            Verify: <code>cd app && npm run check:bundle</code>
-          </li>
-        </ul>
       </PageSection>
 
       <PageSection>
         <Title headingLevel="h2">Layers in this bundle</Title>
+        <p className="pf-v6-u-font-size-sm">
+          Same layer list as About — evidence class and licence line per file in the open-cleared pack.
+        </p>
         {layers.error && <p role="alert">{layers.error}</p>}
         {(!layers.data || layers.data.length === 0) && (
           <p role="status">No layers family in this bundle (degraded).</p>

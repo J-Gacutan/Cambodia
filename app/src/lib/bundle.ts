@@ -108,6 +108,8 @@ export const featurePropsSchema = z
     project_overlap: triState,
     project_overlap_ids: z.array(z.string()).nullable().optional(),
     project_overlap_note: z.string().optional(),
+    elevation_fail: z.boolean().nullable().optional(),
+    elevation_demoted_from_go: z.boolean().optional(),
     flag_sources_complete: z.record(z.boolean()).optional()
   })
   .passthrough();

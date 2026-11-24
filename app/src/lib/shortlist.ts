@@ -22,6 +22,8 @@ export type ShortlistItem = {
   project_overlap: boolean | null;
   project_overlap_ids?: string[] | null;
   project_overlap_note?: string;
+  /** L12/L13 elevation check fail — GO may have been demoted to CAUTION paint. */
+  elevation_fail?: boolean | null;
   /** Full patch geometry for GeoJSON export (centroid alone is not enough for desk work). */
   geometry: ShortlistGeometry;
 };
@@ -71,6 +73,7 @@ export function featureToShortlist(props: FeatureProps, geometry: ShortlistGeome
     project_overlap: tri(props.project_overlap),
     project_overlap_ids: props.project_overlap_ids ?? null,
     project_overlap_note: props.project_overlap_note,
+    elevation_fail: tri(props.elevation_fail),
     geometry
   };
 }
@@ -94,6 +97,7 @@ export function shortlistToCsv(rows: ShortlistItem[]): string {
     "project_overlap",
     "project_overlap_ids",
     "project_overlap_note",
+    "elevation_fail",
     "note"
   ];
   const escape = (v: string | number | boolean | null | undefined) => {
@@ -121,6 +125,7 @@ export function shortlistToCsv(rows: ShortlistItem[]): string {
         flagLabel(row.project_overlap),
         (row.project_overlap_ids ?? []).join("|"),
         row.project_overlap_note ?? "",
+        flagLabel(row.elevation_fail ?? null),
         row.note ?? ""
       ]
         .map(escape)
@@ -155,6 +160,7 @@ export function shortlistToGeoJson(rows: ShortlistItem[]): GeoJSON.FeatureCollec
         project_overlap: row.project_overlap,
         project_overlap_ids: row.project_overlap_ids ?? null,
         project_overlap_note: row.project_overlap_note ?? null,
+        elevation_fail: row.elevation_fail ?? null,
         product_note:
           "Physical / land-cover suitability proxy only. GO = worth a field look. Flags cite instruments — never approved/refused."
       },

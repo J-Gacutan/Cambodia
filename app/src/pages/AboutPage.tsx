@@ -1,10 +1,12 @@
 import { Banner, Button, PageSection, Title } from "@patternfly/react-core";
 import { BUNDLE_VERSION } from "../lib/env";
-import { loadManifest } from "../lib/bundle";
+import { loadManifest, loadMapLayers } from "../lib/bundle";
+import { layerDisplayTitle } from "../lib/layerLabels";
 import { useBundle } from "../lib/useBundle";
 
 export default function AboutPage() {
   const manifest = useBundle(loadManifest);
+  const layers = useBundle(loadMapLayers);
   const publicReady = manifest.data?.public_ready === true;
   const productBanner =
     manifest.data?.product_banner ??
@@ -72,6 +74,30 @@ export default function AboutPage() {
           <li>licence_gate: {manifest.data.licence_gate}</li>
           <li>completeness: {manifest.data.completeness}</li>
         </ul>
+      )}
+      <Title headingLevel="h2">Layers in this bundle</Title>
+      <p className="pf-v6-u-font-size-sm">
+        Every layer file in the pinned open-cleared pack (same list as Act / licence). Toggle overlays on
+        Read; shortlist report on Act.
+      </p>
+      {layers.error && <p role="alert">{layers.error}</p>}
+      {layers.data && layers.data.length > 0 ? (
+        <ul className="khm-plain-list">
+          {layers.data.map((layer) => (
+            <li key={layer.id}>
+              <strong>{layerDisplayTitle(layer)}</strong>
+              {layer.kind ? ` · ${layer.kind}` : ""}
+              {layer.flag_role ? ` · ${layer.flag_role}` : ""}
+              {layer.redistributable === false ? " · non-commercial research (not redistributable)" : ""}
+              {layer.default_visible ? " · default on" : " · default off"}
+              {layer.licence_plain ? (
+                <span className="pf-v6-u-font-size-sm"> — {layer.licence_plain}</span>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        !layers.error && <p role="status">No layers family in this bundle.</p>
       )}
       <Title headingLevel="h2">Phase 2 flags</Title>
       <p>

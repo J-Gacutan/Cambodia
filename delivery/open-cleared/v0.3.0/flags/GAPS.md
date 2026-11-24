@@ -9,7 +9,7 @@ Built: 2026-11-24T00:53:20Z
 | **permit_gate** | Partial — boolean when a known PA/Ramsar polygon hits; **null** when WDPA absent (do not invent “clear”) | L17 WDPA gpkg when present (yes, n≈128; bead `khm-i6e.6.1`); L18 Ramsar polygons (3 coastal-usable inland sites only) |
 | **STOP (legal)** | **Unavailable** (`stop_legal=null`, `stop_legal_status=unavailable`) | MoE protected-area **core-zone** GIS not provided (`khm-i6e.6.2`). L19 Forest Cover digital GIS closed and is **not** a substitute. Instrument cited only: ENR Code Art. 364 |
 | **project_overlap** | Partial — staged Verra boundaries joined on go-caution | Staged VCS 1748 / 5071 / 5584 overlays + attribute join. VCS 5071 Koh Kong ARR portion (if any) not in registry KML — not invented. Non-commercial research overlays (`redistributable=false`) |
-| **elevation_check** | Not burned into GO attributes here | Raster already on disk (`L13/elevation_check_flag_10m.tif`); wire in a later pass if needed |
+| **elevation_check** | Live on go-caution — `elevation_fail` joined; GO demoted to CAUTION paint when flag=1 | `L13/elevation_check_flag_10m.tif` (DeltaDTM vs FES2022). Class 5 converted open limb also painted; class 7 ponds stay off public |
 
 ### Counts (this run)
 

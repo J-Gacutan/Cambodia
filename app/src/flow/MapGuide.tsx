@@ -133,11 +133,11 @@ export function MapGuide({
       {allDone && (
         <div className="khm-map-next-cta" role="status">
           <p>
-            <strong>Ready.</strong> Export from the shortlist panel, or continue to case stories and licence.
+            <strong>Ready.</strong> Continue to Act for a shortlist report (holds, ha, printable HTML/Markdown + CSV/GeoJSON).
           </p>
           <div className="khm-map-tools">
             <Button variant="secondary" component="a" href="#licence">
-              Next: Act (licence)
+              Next: Act (shortlist report)
             </Button>
             <Button variant="link" component="a" href="#cases">
               Back: Means (cases)

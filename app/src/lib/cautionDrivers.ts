@@ -43,8 +43,8 @@ export const CAUTION_DRIVERS: CautionDriver[] = [
     short: "Elevation",
     holdsBack:
       "Site sits above the tidal frame relative to highest astronomical tide (within DEM error).",
-    source: "L12 DeltaDTM vs L13 FES2022 — not yet vectorised for the public pack",
-    status: "stub",
+    source: "L12 DeltaDTM vs L13 FES2022 elevation_check_flag — GO demoted to CAUTION when flag=1",
+    status: "live",
     color: "#7A8F6A"
   },
   {
@@ -52,9 +52,9 @@ export const CAUTION_DRIVERS: CautionDriver[] = [
     label: "Converted / pressure",
     short: "Converted",
     holdsBack:
-      "Historic mangrove converted to other use (crops, trees outside mangrove, active/uncertain pond).",
-    source: "Note 3b classes 5 & 7 (and L4 loss drivers on #change) — pond geometries FLAG/HOLD on public",
-    status: "stub",
+      "Historic mangrove converted to other use (crops or trees outside mangrove on the open limb).",
+    source: "Note 3b class 5 (Dynamic World limb) — class 7 pond geometries stay FLAG/off public",
+    status: "live",
     color: "#A67C52"
   },
   {
@@ -85,13 +85,11 @@ export const DRIVER_BY_ID: Record<CautionDriverId, CautionDriver> = Object.fromE
 /** Drivers that currently hold this feature back (may be empty for clear GO). */
 export function driversForFeature(props: FeatureProps): CautionDriverId[] {
   const out: CautionDriverId[] = [];
-  if (props.suitability === "caution" && props.class_id === 4) out.push("tidal");
-  if (props.suitability === "caution" && (props.class_id === 5 || props.class_id === 7)) {
-    out.push("converted");
-  }
+  if (props.class_id === 4) out.push("tidal");
+  if (props.elevation_fail === true) out.push("elevation");
+  if (props.class_id === 5 || props.class_id === 7) out.push("converted");
   if (props.permit_gate === true || props.stop_legal === true) out.push("tenure");
   if (props.project_overlap === true) out.push("verra");
-  // elevation never fires until elev-fail attributes ship
   return out;
 }
 

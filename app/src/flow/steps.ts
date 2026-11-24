@@ -52,16 +52,16 @@ export const FLOW_STEPS: FlowStep[] = [
     does: "Open the screen map and ask what each patch is telling you.",
     cue: "Narrow the hold-back drivers, click a polygon, read why it is GO or CAUTION, then keep it if it earns a field look.",
     detail:
-      "GO is open or accreted ground that still looks worth walking. CAUTION is not a single red light — it names the hold-back (tide on the public map today; elevation, converted land, tenure/legal, VERRA as they ship) so you can filter noise and keep a shortlist you trust."
+      "GO is open or accreted ground that still looks worth walking. CAUTION names the hold-back — tidal, elevation, converted (class 5), plus tenure and VERRA when flags hit — so you can filter noise and keep a shortlist you trust."
   },
   {
     id: "act",
     label: "Act",
     href: "#licence",
-    does: "Leave with evidence you can quote, and a shortlist you can take offline.",
-    cue: "Licence lines live here; CSV / GeoJSON export stays on the map.",
+    does: "Decide from your shortlist — hold summary, export, then field or licence next steps.",
+    cue: "Polygons you kept on Read arrive here with named holds; export CSV / GeoJSON and plan the walk.",
     detail:
-      "When a patch earns a place on the shortlist, export it from the map. Come here for evidence class, attribution, and the open-cleared licence gate so you know what you may share."
+      "Act carries forward shortlisted polygons from Read. Summarise tidal, elevation, converted, tenure and VERRA holds, export geometries, then take the next field look or licence check. Evidence class and attribution stay on this page so you know what you may share."
   }
 ];
 

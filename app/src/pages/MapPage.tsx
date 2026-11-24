@@ -139,7 +139,9 @@ function parseFeatureProps(raw: Record<string, unknown>): FeatureProps {
       ? (raw.project_overlap_ids as string[])
       : null,
     project_overlap_note:
-      raw.project_overlap_note != null ? String(raw.project_overlap_note) : undefined
+      raw.project_overlap_note != null ? String(raw.project_overlap_note) : undefined,
+    elevation_fail:
+      raw.elevation_fail === true ? true : raw.elevation_fail === false ? false : null
   };
 }
 
@@ -657,10 +659,10 @@ export default function MapPage() {
         <Title headingLevel="h1">Screen map</Title>
         <div className="khm-go-banner" role="note">
           <strong>GO means worth a field look</strong> — open or accreted restoration opportunity (physical /
-          land-cover only). CAUTION is split by hold-back drivers. On this public pack, <strong>tidal</strong>{" "}
-          is painted as a CAUTION colour today; elevation and converted land stay not assessed until those
-          layers ship. Tenure (Ramsar / WDPA) and VERRA show as partial when a flag hits, and as toggleable
-          overlays. Flags never mean approved or refused.
+          land-cover only). CAUTION paints named hold-backs: <strong>tidal</strong>,{" "}
+          <strong>elevation</strong> (GO demoted when L12/L13 fails), and <strong>converted</strong> (class 5
+          open limb). Tenure and VERRA paint when a flag hits, and as toggleable overlays. Flags never mean
+          approved or refused.
         </div>
         <HelperText>
           <HelperTextItem>
@@ -741,15 +743,22 @@ export default function MapPage() {
                       <li key={driver.id}>
                         <Swatch
                           color={driver.color}
-                          label={`CAUTION · ${driver.short} (${driverStatusLabel(driver.status).toLowerCase()})`}
+                          label={
+                            driver.status === "live" || driver.status === "partial"
+                              ? `CAUTION · ${driver.short} (painted)`
+                              : `CAUTION · ${driver.short} (${driverStatusLabel(driver.status).toLowerCase()})`
+                          }
                         />
                       </li>
                     ))}
                     <li>
-                      <Swatch color={FLAGS.permit} label="Permit context overlay (Ramsar)" />
+                      <Swatch color={FLAGS.permit} label="Ramsar / WDPA overlay (+ tenure paint when hit)" />
                     </li>
                     <li>
-                      <Swatch color={FLAGS.project} label="VERRA project boundary (non-commercial research)" />
+                      <Swatch
+                        color={FLAGS.project}
+                        label="VERRA overlay (+ project-overlap paint when hit)"
+                      />
                     </li>
                   </ul>
                   <Title headingLevel="h2" className="pf-v6-u-mt-md">
@@ -789,8 +798,8 @@ export default function MapPage() {
                     </Title>
                   </div>
                   <p className="pf-v6-u-font-size-sm">
-                    Why a site is held back — not one CAUTION bucket. Only tidal flats are painted on this
-                    public pack today; use the info icon on each row for the reading.
+                    Why a site is held back — not one CAUTION bucket. Tidal, elevation, and converted paint on
+                    this pack; tenure and VERRA paint when flags hit (info icon for each).
                   </p>
                   {CAUTION_DRIVERS.map((driver) => (
                     <div key={driver.id} className="khm-driver-toggle">
@@ -798,13 +807,22 @@ export default function MapPage() {
                         id={`driver-${driver.id}`}
                         isChecked={driverFilter[driver.id]}
                         isDisabled={shortlistReadyOnly || !showCaution}
-                        label={`${driver.label} · ${driverStatusLabel(driver.status)}`}
+                        label={
+                          <span className="khm-driver-label">
+                            <span>
+                              {driver.label} · {driverStatusLabel(driver.status)}
+                              {driver.status === "live" || driver.status === "partial"
+                                ? " · painted"
+                                : ""}
+                            </span>
+                            <DriverInfo driver={driver} />
+                          </span>
+                        }
                         onChange={(_e, on) => {
                           markFilterTouched();
                           setDriverFilter((prev) => ({ ...prev, [driver.id]: on }));
                         }}
                       />
-                      <DriverInfo driver={driver} />
                     </div>
                   ))}
                   <Title headingLevel="h2" className="pf-v6-u-mt-md">
@@ -962,7 +980,9 @@ export default function MapPage() {
                 />
                 <div className="khm-map-key" aria-hidden>
                   <Swatch color={SUITABILITY.go} label="GO · open/accreted" />
-                  <Swatch color={CAUTION_DRIVERS[0]!.color} label="CAUTION · tidal (on map)" />
+                  <Swatch color={CAUTION_DRIVERS[0]!.color} label="CAUTION · tidal" />
+                  <Swatch color={CAUTION_DRIVERS[1]!.color} label="CAUTION · elevation" />
+                  <Swatch color={CAUTION_DRIVERS[2]!.color} label="CAUTION · converted" />
                 </div>
               </div>
             </DrawerContentBody>
