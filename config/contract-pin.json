@@ -1,21 +1,21 @@
 {
-  "bundle_version": "v0.2.1",
-  "cambodia_commit": "07308ec",
+  "bundle_version": "v0.2.2",
+  "cambodia_commit": "1cc71a4",
   "public_ready": false,
   "licence_gate": "blocked_pending_khm-i6e.2",
   "files": {
     "cases/cases.json": "5cbd5c1af8458c6125d163f36d4ee6abdd57ec309cc3b111d67f3ba57c403a69",
-    "flags/coverage.json": "f7e7899408fc209b799cbefe826e76437c3add278f5faf2fa49dfdcf91332409",
-    "flags/GAPS.md": "0754c0d00d868c32dd893711feee1db48a3135a787feca962e98637b9dc53a50",
-    "layers/go-caution.geojson": "08cccb700545f1018dd769c86cf10f83cb197876201b68ed7ea0dfdb1bbd8ef6",
-    "layers/index.json": "7fbc392932ea30fe444ceea000ec41a74c0ebc2b9c5bfe6e5e1b3e9f81cea012",
-    "layers/project-overlap-vcs1748.geojson": "3b94216ca56a19a962a6932bbb748440319655173e6e84429b4d56929a002caf",
-    "layers/project-overlap-vcs5071.geojson": "f89f69cbd0a766e73b93adf59556c6f85c21e1e0d3a0e75b071843d03200df87",
-    "layers/project-overlap-vcs5584.geojson": "edc37611f02a1fda632306f8491dd1ca7408f64ff5e29554f6f316d07b6d3382",
+    "flags/coverage.json": "c3ac93f4067fc35232aeaf59cc325177365d68b1ea6f99f86b86e333dfee4c34",
+    "flags/GAPS.md": "f9fe6bbd851ede2a80a5ffa0dd1e810e4e47ba8b33f5a28635e70aded1504085",
+    "layers/go-caution.geojson": "9a7e1236f18880f4437bd6adc2aafd06030405d4dc93bd194b7f33ad0fa7f87a",
+    "layers/index.json": "47084997926430a4f060fa6a85312a8889428bb6112a57a888a17f10a555b742",
+    "layers/project-overlap-vcs1748.geojson": "6ff5ffef72efca658f5130cdf0566478769aeb6300a13b08a2a8b6b259a2ea92",
+    "layers/project-overlap-vcs5071.geojson": "dc8384a2490b038275c08d047bcd1fa045a7abd78685978f819d0ab62ef21296",
+    "layers/project-overlap-vcs5584.geojson": "f885708f340ac568a6ba10de9c0a1d18939c54d7406c58aee94c28ee777735ff",
     "layers/ramsar-context.geojson": "6e6b8e0dce5e900222b4c54d34f103af523444ee4dd76919ceb4df33d65765b4",
     "layers/ramsar-gap-centroids.geojson": "1855c0f26a8536d14c003f48bc4d0623e28053810f32f0b5889190ee3f3d3782",
-    "manifest.json": "26c0598d755390252942886adf178c8dad56ad7741b0c459f17aeb8dd7413835",
-    "README.md": "6c887043998af2df2e5a76a23b67dbf28dcfb02532be57eea866a669be87d905",
+    "manifest.json": "3dbeda71836210fbaf762647b92af8c453d7d26c750bc003dba404cf93a35b1c",
+    "README.md": "11b6f65c464bc33db6cc85e5bf21ad97dbcc080e084d862be3bf3d721ee8f4a0",
     "schema/feature-properties.json": "4cd5dc9858897faabd1a8380bce318928f56afd6361c6624aa8c498e4f569ea0"
   }
 }

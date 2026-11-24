@@ -18,7 +18,7 @@ import {
 } from "@patternfly/react-core";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   CAMBODIA_COAST_BOUNDS,
   flagLabel,
@@ -37,6 +37,7 @@ import { LayerProvenance } from "../common/LayerProvenance";
 import { EvidenceBadge, IllustrativeBadge } from "../common/Evidence";
 import { parseEvidenceClass } from "../lib/evidence";
 import { meaningForClass, suitabilityLabel } from "../lib/classMeaning";
+import { formatVerraIds, isVerraLayer, layerDisplayTitle } from "../lib/layerLabels";
 import {
   downloadText,
   featureToShortlist,
@@ -48,7 +49,13 @@ import {
   type ShortlistItem
 } from "../lib/shortlist";
 import { useBundle } from "../lib/useBundle";
-import { ATTRIBUTION, collapseAttribution, loadBasemapStyle, type BasemapKind } from "../map/basemap";
+import {
+  ATTRIBUTION,
+  collapseAttribution,
+  loadBasemapStyle,
+  type BasemapChoice,
+  type BasemapKind
+} from "../map/basemap";
 import {
   GAP_MARKER_CIRCLE,
   GO_CAUTION_FILL,
@@ -124,7 +131,7 @@ function contextStyle(layer: MapLayer): {
   line?: typeof PERMIT_CONTEXT_LINE;
   circle?: typeof GAP_MARKER_CIRCLE;
 } {
-  if (layer.flag_role === "project_overlap" || layer.id.includes("project-overlap")) {
+  if (isVerraLayer(layer)) {
     return { fill: PROJECT_OVERLAP_FILL, line: PROJECT_OVERLAP_LINE };
   }
   if (layer.flag_role === "permit_gap_marker" || layer.id.includes("gap")) {
@@ -133,9 +140,39 @@ function contextStyle(layer: MapLayer): {
   return { fill: PERMIT_CONTEXT_FILL, line: PERMIT_CONTEXT_LINE };
 }
 
+function LayerToggleRow({
+  id,
+  label,
+  isChecked,
+  isDisabled,
+  onChange,
+  provenance
+}: {
+  id: string;
+  label: string;
+  isChecked: boolean;
+  isDisabled?: boolean;
+  onChange: (on: boolean) => void;
+  provenance?: ReactNode;
+}) {
+  return (
+    <div className="khm-layer-toggle">
+      <Checkbox
+        id={id}
+        isChecked={isChecked}
+        isDisabled={isDisabled}
+        label={label}
+        onChange={(_e, on) => onChange(on)}
+      />
+      {provenance}
+    </div>
+  );
+}
+
 export default function MapPage() {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map>();
+  const [basemapChoice, setBasemapChoice] = useState<BasemapChoice>("streets");
   const [kind, setKind] = useState<BasemapKind | null>(null);
   const [ready, setReady] = useState(false);
   const [panelOpen, setPanelOpen] = useState(true);
@@ -153,6 +190,8 @@ export default function MapPage() {
     const q = new URLSearchParams(window.location.hash.split("?")[1] ?? "");
     return q.get("case") || "coast";
   });
+  const basemapChoiceRef = useRef(basemapChoice);
+  basemapChoiceRef.current = basemapChoice;
 
   useEffect(() => {
     saveShortlistToStorage(shortlist);
@@ -195,7 +234,7 @@ export default function MapPage() {
 
   useEffect(() => {
     let cancelled = false;
-    loadBasemapStyle().then(({ style, kind: loadedKind }) => {
+    loadBasemapStyle(basemapChoiceRef.current).then(({ style, kind: loadedKind }) => {
       if (cancelled || !container.current) return;
       setKind(loadedKind);
       const map = new maplibregl.Map({
@@ -235,6 +274,33 @@ export default function MapPage() {
       setReady(false);
     };
   }, []);
+
+  // Skip the first basemapChoice effect run (map already created with that style).
+  const basemapSwitchReady = useRef(false);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    if (!basemapSwitchReady.current) {
+      basemapSwitchReady.current = true;
+      return;
+    }
+    let cancelled = false;
+    setReady(false);
+    loadBasemapStyle(basemapChoice).then(({ style, kind: loadedKind }) => {
+      if (cancelled || mapRef.current !== map) return;
+      setKind(loadedKind);
+      map.once("style.load", () => {
+        if (!cancelled && mapRef.current === map) {
+          collapseAttribution(map);
+          setReady(true);
+        }
+      });
+      map.setStyle(style);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [basemapChoice]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -321,7 +387,6 @@ export default function MapPage() {
   useEffect(() => {
     const map = mapRef.current;
     if (!map?.getLayer(FILL_ID)) return;
-    // Shortlist-ready mode: GO ∩ no known flag hits (overrides class toggles).
     const wanted = shortlistReadyOnly
       ? (["go"] as string[])
       : ([showGo ? "go" : null, showCaution ? "caution" : null].filter(Boolean) as string[]);
@@ -406,9 +471,7 @@ export default function MapPage() {
     setContextOn((prev) => {
       const next = { ...prev };
       for (const layer of contextLayers) {
-        if (layer.flag_role === "project_overlap" || layer.id.includes("project-overlap")) {
-          next[layer.id] = on;
-        }
+        if (isVerraLayer(layer)) next[layer.id] = on;
       }
       return next;
     });
@@ -480,6 +543,8 @@ export default function MapPage() {
   };
 
   const meaning = inspect ? meaningForClass(inspect.props.class_id) : null;
+  const publicReady = manifest.data?.public_ready === true;
+  const verraIds = formatVerraIds(inspect?.props.project_overlap_ids);
 
   return (
     <PageSection isFilled padding={{ default: "noPadding" }} className="khm-map-section">
@@ -492,11 +557,25 @@ export default function MapPage() {
         </div>
         <HelperText>
           <HelperTextItem>
-            Click a patch to inspect class meaning and Phase 2 flags. Use case bookmarks to jump to Note 3b
-            windows A–C. Shortlist exports include full polygons plus flag columns.
+            Click a patch to inspect it in the right-hand panel. Case bookmarks jump to Note 3b windows A–C.
+            Shortlist exports include full polygons plus flag columns.
           </HelperTextItem>
         </HelperText>
         <div className="khm-map-tools">
+          <ToggleGroup aria-label="Basemap">
+            <ToggleGroupItem
+              text="Streets"
+              buttonId="basemap-streets"
+              isSelected={basemapChoice === "streets"}
+              onChange={() => setBasemapChoice("streets")}
+            />
+            <ToggleGroupItem
+              text="Satellite"
+              buttonId="basemap-satellite"
+              isSelected={basemapChoice === "satellite"}
+              onChange={() => setBasemapChoice("satellite")}
+            />
+          </ToggleGroup>
           <ToggleGroup aria-label="Case bookmarks">
             <ToggleGroupItem
               text="Four provinces"
@@ -524,292 +603,314 @@ export default function MapPage() {
               ))}
           {!panelOpen && (
             <Button variant="secondary" onClick={() => setPanelOpen(true)}>
-              Show panel
+              Show layers
             </Button>
           )}
         </div>
       </div>
-      <Drawer isInline isExpanded={panelOpen} position="start" className="khm-map-drawer">
-        <DrawerContent
-          panelContent={
-            <DrawerPanelContent isResizable defaultSize="22rem" minSize="16rem" resizeAriaLabel="Resize panel">
-              <DrawerHead>
-                <span id="layer-panel-title">Layers and inspect</span>
-                <DrawerActions>
-                  <DrawerCloseButton onClick={() => setPanelOpen(false)} />
-                </DrawerActions>
-              </DrawerHead>
-              <DrawerPanelBody className="khm-layer-panel">
-                <Title headingLevel="h2">Legend</Title>
-                <ul className="khm-plain-list">
-                  <li>
-                    <Swatch color={SUITABILITY.go} label="GO — worth a field look" />
-                  </li>
-                  <li>
-                    <Swatch color={SUITABILITY.caution} label="CAUTION — named check first" />
-                  </li>
-                  <li>
-                    <Swatch color={FLAGS.permit} label="Permit context (Ramsar / PA)" />
-                  </li>
-                  <li>
-                    <Swatch color={FLAGS.project} label="Project overlap (staged)" />
-                  </li>
-                </ul>
-                <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                  Drawn layer
-                </Title>
-                {layers.error && <p role="alert">{layers.error}</p>}
-                {screenLayer && (
-                  <>
-                    <p className="pf-v6-u-font-size-sm">
-                      {screenLayer.title}{" "}
-                      {(() => {
-                        const cls = parseEvidenceClass(screenLayer.evidence_class);
-                        return cls ? <EvidenceBadge cls={cls} /> : null;
-                      })()}{" "}
-                      <IllustrativeBadge
-                        publicReady={manifest.data?.public_ready === true && screenLayer.public_ready}
+      <div className="khm-map-workspace">
+        <Drawer isInline isExpanded={panelOpen} position="start" className="khm-map-drawer">
+          <DrawerContent
+            panelContent={
+              <DrawerPanelContent
+                isResizable
+                defaultSize="20rem"
+                minSize="14rem"
+                resizeAriaLabel="Resize layers panel"
+              >
+                <DrawerHead>
+                  <span id="layer-panel-title">Layers</span>
+                  <DrawerActions>
+                    <DrawerCloseButton onClick={() => setPanelOpen(false)} />
+                  </DrawerActions>
+                </DrawerHead>
+                <DrawerPanelBody className="khm-layer-panel">
+                  <Title headingLevel="h2">Legend</Title>
+                  <ul className="khm-plain-list">
+                    <li>
+                      <Swatch color={SUITABILITY.go} label="GO — worth a field look" />
+                    </li>
+                    <li>
+                      <Swatch color={SUITABILITY.caution} label="CAUTION — named check first" />
+                    </li>
+                    <li>
+                      <Swatch color={FLAGS.permit} label="Permit context (Ramsar / PA)" />
+                    </li>
+                    <li>
+                      <Swatch color={FLAGS.project} label="VERRA (VCS 1748 / 5071 / 5584)" />
+                    </li>
+                  </ul>
+                  <Title headingLevel="h2" className="pf-v6-u-mt-md">
+                    Drawn layer
+                  </Title>
+                  {layers.error && <p role="alert">{layers.error}</p>}
+                  {screenLayer && (
+                    <>
+                      <p className="pf-v6-u-font-size-sm khm-layer-title-row">
+                        {layerDisplayTitle(screenLayer)}{" "}
+                        {(() => {
+                          const cls = parseEvidenceClass(screenLayer.evidence_class);
+                          return cls ? <EvidenceBadge cls={cls} /> : null;
+                        })()}{" "}
+                        <IllustrativeBadge publicReady={publicReady && screenLayer.public_ready} />
+                        <LayerProvenance layer={screenLayer} publicReady={publicReady} />
+                      </p>
+                      <Checkbox
+                        id="show-go"
+                        isChecked={shortlistReadyOnly ? true : showGo}
+                        isDisabled={shortlistReadyOnly}
+                        label="Show GO"
+                        onChange={(_e, on) => setShowGo(on)}
                       />
-                    </p>
-                    <Checkbox
-                      id="show-go"
-                      isChecked={shortlistReadyOnly ? true : showGo}
-                      isDisabled={shortlistReadyOnly}
-                      label="Show GO"
-                      onChange={(_e, on) => setShowGo(on)}
-                    />
-                    <Checkbox
-                      id="show-caution"
-                      isChecked={shortlistReadyOnly ? false : showCaution}
-                      isDisabled={shortlistReadyOnly}
-                      label="Show CAUTION"
-                      onChange={(_e, on) => setShowCaution(on)}
-                    />
-                    <LayerProvenance
-                      layer={screenLayer}
-                      publicReady={manifest.data?.public_ready === true}
-                    />
-                  </>
-                )}
-                <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                  Phase 2 flag filters
-                </Title>
-                <p className="pf-v6-u-font-size-sm">
-                  “Unknown / incomplete” is not a clearance. STOP (legal) stays unavailable until MoE core
-                  zones exist. Shortlist-ready mode forces GO and hides known flag hits.
-                </p>
-                <Checkbox
-                  id="hide-permit"
-                  isChecked={hidePermitHits || shortlistReadyOnly}
-                  isDisabled={shortlistReadyOnly}
-                  label="Hide patches with permit-gate hit"
-                  onChange={(_e, on) => setHidePermitHits(on)}
-                />
-                <Checkbox
-                  id="hide-stop"
-                  isChecked={hideStopHits || shortlistReadyOnly}
-                  isDisabled={shortlistReadyOnly}
-                  label="Hide patches with STOP (legal) hit"
-                  onChange={(_e, on) => setHideStopHits(on)}
-                />
-                <Checkbox
-                  id="hide-overlap"
-                  isChecked={hideOverlapHits || shortlistReadyOnly}
-                  isDisabled={shortlistReadyOnly}
-                  label="Hide patches with project-overlap hit"
-                  onChange={(_e, on) => setHideOverlapHits(on)}
-                />
-                <Checkbox
-                  id="shortlist-ready"
-                  isChecked={shortlistReadyOnly}
-                  label="Shortlist-ready: GO ∩ no known flag hits"
-                  onChange={(_e, on) => {
-                    setShortlistReadyOnly(on);
-                    if (on) {
-                      setShowGo(true);
-                      setShowCaution(false);
-                    }
-                  }}
-                />
-                {contextLayers.length > 0 && (
-                  <>
-                    <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                      Flag overlays
-                    </Title>
-                    <div className="khm-map-tools pf-v6-u-mb-sm">
-                      <Button variant="secondary" onClick={() => setProjectOverlays(true)}>
-                        Show project boundaries
-                      </Button>
-                      <Button variant="secondary" onClick={() => setPermitOverlays(true)}>
-                        Show Ramsar context
-                      </Button>
-                      <Button
-                        variant="link"
-                        onClick={() => {
-                          setProjectOverlays(false);
-                          setPermitOverlays(false);
-                        }}
-                      >
-                        Hide overlays
-                      </Button>
-                    </div>
-                    {contextLayers.map((layer) => (
-                      <div key={layer.id} className="khm-context-layer">
-                        <Checkbox
-                          id={`ctx-${layer.id}`}
-                          isChecked={contextOn[layer.id] !== false}
-                          label={layer.title}
-                          onChange={(_e, on) => setContextOn((prev) => ({ ...prev, [layer.id]: on }))}
-                        />
-                        <LayerProvenance
-                          layer={layer}
-                          publicReady={manifest.data?.public_ready === true}
-                        />
-                      </div>
-                    ))}
-                    <p className="pf-v6-u-font-size-sm">
-                      Full licence matrix: <a href="#licence">Licence and evidence</a>
-                    </p>
-                  </>
-                )}
-                <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                  Click inspect
-                </Title>
-                {!inspect && <p className="pf-v6-u-font-size-sm">Click a patch on the map.</p>}
-                {inspect && (
-                  <div className="khm-inspect">
-                    <p>
-                      <strong>{suitabilityLabel(inspect.props.suitability)}</strong>
-                      {meaning ? ` · ${meaning.label}` : ` · class ${inspect.props.class_id}`}
-                    </p>
-                    {meaning && <p className="pf-v6-u-font-size-sm">{meaning.meaning}</p>}
-                    <dl className="khm-facts">
-                      <div>
-                        <dt>Feature</dt>
-                        <dd>{inspect.props.id}</dd>
-                      </div>
-                      <div>
-                        <dt>Area</dt>
-                        <dd>{inspect.props.area_ha.toFixed(2)} ha</dd>
-                      </div>
-                      <div>
-                        <dt>Province</dt>
-                        <dd>{inspect.props.province ?? "—"}</dd>
-                      </div>
-                      <div>
-                        <dt>Permit gate</dt>
-                        <dd>{flagLabel(inspect.props.permit_gate)}</dd>
-                      </div>
-                      <div>
-                        <dt>STOP (legal)</dt>
-                        <dd>
-                          {flagLabel(inspect.props.stop_legal)}
-                          {inspect.props.stop_legal_status
-                            ? ` · ${inspect.props.stop_legal_status}`
-                            : ""}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt>Project overlap</dt>
-                        <dd>
-                          {flagLabel(inspect.props.project_overlap)}
-                          {(inspect.props.project_overlap_ids ?? []).length
-                            ? ` · ${(inspect.props.project_overlap_ids ?? []).join(", ")}`
-                            : ""}
-                        </dd>
-                      </div>
-                    </dl>
-                    {inspect.props.permit_instrument && (
-                      <p className="pf-v6-u-font-size-sm">{inspect.props.permit_instrument}</p>
-                    )}
-                    {inspect.props.stop_legal_note && (
-                      <p className="pf-v6-u-font-size-sm">{inspect.props.stop_legal_note}</p>
-                    )}
-                    {inspect.props.project_overlap_note && (
-                      <p className="pf-v6-u-font-size-sm">{inspect.props.project_overlap_note}</p>
-                    )}
-                    <Button variant="secondary" onClick={addInspectToShortlist}>
-                      Add to shortlist
-                    </Button>
-                  </div>
-                )}
-                <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                  Shortlist ({shortlist.length})
-                </Title>
-                <p className="pf-v6-u-font-size-sm">
-                  Kept for this browser tab (session). CSV is Excel-friendly; GeoJSON exports full polygons.
-                </p>
-                {shortlist.length === 0 && <p className="pf-v6-u-font-size-sm">No patches yet.</p>}
-                {shortlist.length > 0 && (
-                  <>
-                    <ul className="khm-plain-list pf-v6-u-font-size-sm">
-                      {shortlist.map((row) => (
-                        <li key={row.id} className="khm-shortlist-row">
-                          <button type="button" className="khm-shortlist-zoom" onClick={() => zoomShortlistItem(row)}>
-                            {row.id} · {suitabilityLabel(row.suitability)} · {row.area_ha.toFixed(1)} ha
-                            {row.project_overlap === true ? " · overlap" : ""}
-                            {row.permit_gate === true ? " · permit" : ""}
-                          </button>
-                          <Button variant="link" isInline onClick={() => removeShortlistItem(row.id)}>
-                            Remove
-                          </Button>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="khm-map-tools pf-v6-u-mt-sm">
-                      <Button
-                        variant="primary"
-                        onClick={() =>
-                          downloadText(
-                            `cambodia-shortlist-${manifest.data?.version ?? "bundle"}.csv`,
-                            shortlistToCsv(shortlist),
-                            "text/csv"
-                          )
-                        }
-                      >
-                        Export CSV
-                      </Button>
-                      <Button
-                        variant="secondary"
-                        onClick={() =>
-                          downloadText(
-                            `cambodia-shortlist-${manifest.data?.version ?? "bundle"}.geojson`,
-                            JSON.stringify(shortlistToGeoJson(shortlist), null, 2),
-                            "application/geo+json"
-                          )
-                        }
-                      >
-                        Export GeoJSON (polygons)
-                      </Button>
-                      <Button variant="link" onClick={() => setShortlist([])}>
-                        Clear
-                      </Button>
-                    </div>
-                  </>
-                )}
-                {manifest.data && (
-                  <p className="pf-v6-u-font-size-sm pf-v6-u-mt-md">
-                    Bundle {manifest.data.version} · stub={String(manifest.data.stub)} · public_ready=
-                    {String(manifest.data.public_ready)}
+                      <Checkbox
+                        id="show-caution"
+                        isChecked={shortlistReadyOnly ? false : showCaution}
+                        isDisabled={shortlistReadyOnly}
+                        label="Show CAUTION"
+                        onChange={(_e, on) => setShowCaution(on)}
+                      />
+                    </>
+                  )}
+                  <Title headingLevel="h2" className="pf-v6-u-mt-md">
+                    Phase 2 flag filters
+                  </Title>
+                  <p className="pf-v6-u-font-size-sm">
+                    “Unknown / incomplete” is not a clearance. STOP (legal) stays unavailable until MoE core
+                    zones exist. Shortlist-ready mode forces GO and hides known flag hits.
                   </p>
-                )}
-              </DrawerPanelBody>
-            </DrawerPanelContent>
-          }
-        >
-          <DrawerContentBody>
-            <div className="khm-map-frame">
-              <div ref={container} className="khm-map" role="region" aria-label="Cambodia GO and CAUTION screen map" />
-              <div className="khm-map-key" aria-hidden>
-                <Swatch color={SUITABILITY.go} label="GO" />
-                <Swatch color={SUITABILITY.caution} label="CAUTION" />
+                  <Checkbox
+                    id="hide-permit"
+                    isChecked={hidePermitHits || shortlistReadyOnly}
+                    isDisabled={shortlistReadyOnly}
+                    label="Hide patches with permit-gate hit"
+                    onChange={(_e, on) => setHidePermitHits(on)}
+                  />
+                  <Checkbox
+                    id="hide-stop"
+                    isChecked={hideStopHits || shortlistReadyOnly}
+                    isDisabled={shortlistReadyOnly}
+                    label="Hide patches with STOP (legal) hit"
+                    onChange={(_e, on) => setHideStopHits(on)}
+                  />
+                  <Checkbox
+                    id="hide-overlap"
+                    isChecked={hideOverlapHits || shortlistReadyOnly}
+                    isDisabled={shortlistReadyOnly}
+                    label="Hide patches with VERRA project hit (VCS 1748 / 5071 / 5584)"
+                    onChange={(_e, on) => setHideOverlapHits(on)}
+                  />
+                  <Checkbox
+                    id="shortlist-ready"
+                    isChecked={shortlistReadyOnly}
+                    label="Shortlist-ready: GO ∩ no known flag hits"
+                    onChange={(_e, on) => {
+                      setShortlistReadyOnly(on);
+                      if (on) {
+                        setShowGo(true);
+                        setShowCaution(false);
+                      }
+                    }}
+                  />
+                  {contextLayers.length > 0 && (
+                    <>
+                      <Title headingLevel="h2" className="pf-v6-u-mt-md">
+                        Flag overlays
+                      </Title>
+                      <div className="khm-map-tools pf-v6-u-mb-sm">
+                        <Button variant="secondary" onClick={() => setProjectOverlays(true)}>
+                          Show VERRA boundaries
+                        </Button>
+                        <Button variant="secondary" onClick={() => setPermitOverlays(true)}>
+                          Show Ramsar context
+                        </Button>
+                        <Button
+                          variant="link"
+                          onClick={() => {
+                            setProjectOverlays(false);
+                            setPermitOverlays(false);
+                          }}
+                        >
+                          Hide overlays
+                        </Button>
+                      </div>
+                      {contextLayers.map((layer) => (
+                        <LayerToggleRow
+                          key={layer.id}
+                          id={`ctx-${layer.id}`}
+                          label={layerDisplayTitle(layer)}
+                          isChecked={contextOn[layer.id] !== false}
+                          onChange={(on) => setContextOn((prev) => ({ ...prev, [layer.id]: on }))}
+                          provenance={
+                            <LayerProvenance
+                              layer={layer}
+                              publicReady={publicReady}
+                              displayTitle={layerDisplayTitle(layer)}
+                            />
+                          }
+                        />
+                      ))}
+                      <p className="pf-v6-u-font-size-sm">
+                        Full licence matrix: <a href="#licence">Licence and evidence</a>
+                      </p>
+                    </>
+                  )}
+                  <Title headingLevel="h2" className="pf-v6-u-mt-md">
+                    Shortlist ({shortlist.length})
+                  </Title>
+                  <p className="pf-v6-u-font-size-sm">
+                    Kept for this browser tab (session). CSV is Excel-friendly; GeoJSON exports full polygons.
+                  </p>
+                  {shortlist.length === 0 && <p className="pf-v6-u-font-size-sm">No patches yet.</p>}
+                  {shortlist.length > 0 && (
+                    <>
+                      <ul className="khm-plain-list pf-v6-u-font-size-sm">
+                        {shortlist.map((row) => (
+                          <li key={row.id} className="khm-shortlist-row">
+                            <button
+                              type="button"
+                              className="khm-shortlist-zoom"
+                              onClick={() => zoomShortlistItem(row)}
+                            >
+                              {row.id} · {suitabilityLabel(row.suitability)} · {row.area_ha.toFixed(1)} ha
+                              {row.project_overlap === true ? " · VERRA" : ""}
+                              {row.permit_gate === true ? " · permit" : ""}
+                            </button>
+                            <Button variant="link" isInline onClick={() => removeShortlistItem(row.id)}>
+                              Remove
+                            </Button>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="khm-map-tools pf-v6-u-mt-sm">
+                        <Button
+                          variant="primary"
+                          onClick={() =>
+                            downloadText(
+                              `cambodia-shortlist-${manifest.data?.version ?? "bundle"}.csv`,
+                              shortlistToCsv(shortlist),
+                              "text/csv"
+                            )
+                          }
+                        >
+                          Export CSV
+                        </Button>
+                        <Button
+                          variant="secondary"
+                          onClick={() =>
+                            downloadText(
+                              `cambodia-shortlist-${manifest.data?.version ?? "bundle"}.geojson`,
+                              JSON.stringify(shortlistToGeoJson(shortlist), null, 2),
+                              "application/geo+json"
+                            )
+                          }
+                        >
+                          Export GeoJSON (polygons)
+                        </Button>
+                        <Button variant="link" onClick={() => setShortlist([])}>
+                          Clear
+                        </Button>
+                      </div>
+                    </>
+                  )}
+                  {manifest.data && (
+                    <p className="pf-v6-u-font-size-sm pf-v6-u-mt-md">
+                      Bundle {manifest.data.version} · stub={String(manifest.data.stub)} · public_ready=
+                      {String(manifest.data.public_ready)}
+                    </p>
+                  )}
+                </DrawerPanelBody>
+              </DrawerPanelContent>
+            }
+          >
+            <DrawerContentBody>
+              <div className="khm-map-frame">
+                <div
+                  ref={container}
+                  className="khm-map"
+                  role="region"
+                  aria-label="Cambodia GO and CAUTION screen map"
+                />
+                <div className="khm-map-key" aria-hidden>
+                  <Swatch color={SUITABILITY.go} label="GO" />
+                  <Swatch color={SUITABILITY.caution} label="CAUTION" />
+                </div>
               </div>
+            </DrawerContentBody>
+          </DrawerContent>
+        </Drawer>
+        <aside className="khm-inspect-panel" aria-label="Click inspect">
+          <Title headingLevel="h2">Click inspect</Title>
+          {!inspect && (
+            <p className="pf-v6-u-font-size-sm">
+              Click a GO or CAUTION patch on the map. Details appear here — not buried in the layers
+              drawer.
+            </p>
+          )}
+          {inspect && (
+            <div className="khm-inspect">
+              <p>
+                <strong>{suitabilityLabel(inspect.props.suitability)}</strong>
+                {meaning ? ` · ${meaning.label}` : ` · class ${inspect.props.class_id}`}
+              </p>
+              {meaning && <p className="pf-v6-u-font-size-sm">{meaning.meaning}</p>}
+              <dl className="khm-facts">
+                <div>
+                  <dt>Feature</dt>
+                  <dd>{inspect.props.id}</dd>
+                </div>
+                <div>
+                  <dt>Area</dt>
+                  <dd>{inspect.props.area_ha.toFixed(2)} ha</dd>
+                </div>
+                <div>
+                  <dt>Province</dt>
+                  <dd>{inspect.props.province ?? "—"}</dd>
+                </div>
+                <div>
+                  <dt>Permit gate</dt>
+                  <dd>{flagLabel(inspect.props.permit_gate)}</dd>
+                </div>
+                <div>
+                  <dt>STOP (legal)</dt>
+                  <dd>
+                    {flagLabel(inspect.props.stop_legal)}
+                    {inspect.props.stop_legal_status ? ` · ${inspect.props.stop_legal_status}` : ""}
+                  </dd>
+                </div>
+                <div>
+                  <dt>VERRA</dt>
+                  <dd>
+                    {flagLabel(inspect.props.project_overlap)}
+                    {verraIds ? ` · ${verraIds}` : ""}
+                  </dd>
+                </div>
+              </dl>
+              {inspect.props.permit_instrument && (
+                <p className="pf-v6-u-font-size-sm">{inspect.props.permit_instrument}</p>
+              )}
+              {inspect.props.stop_legal_note && (
+                <p className="pf-v6-u-font-size-sm">{inspect.props.stop_legal_note}</p>
+              )}
+              {inspect.props.project_overlap_note && (
+                <p className="pf-v6-u-font-size-sm">{inspect.props.project_overlap_note}</p>
+              )}
+              <Button variant="secondary" onClick={addInspectToShortlist}>
+                Add to shortlist
+              </Button>
+              <Button variant="link" isInline onClick={() => setInspect(null)}>
+                Clear selection
+              </Button>
             </div>
-          </DrawerContentBody>
-        </DrawerContent>
-      </Drawer>
-      <p className="khm-basemap-note">Basemap names are from OpenStreetMap and imply no position on boundaries.</p>
-      {kind === "offline" && <p className="khm-basemap-note">Reference basemap unreachable; showing plain sea.</p>}
+          )}
+        </aside>
+      </div>
+      <p className="khm-basemap-note">
+        Streets basemap names are from OpenStreetMap and imply no position on boundaries. Satellite tiles
+        © Esri (Maxar, Earthstar Geographics, and the GIS User Community).
+      </p>
+      {kind === "offline" && (
+        <p className="khm-basemap-note">Reference basemap unreachable; showing plain sea.</p>
+      )}
     </PageSection>
   );
 }

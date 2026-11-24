@@ -17,7 +17,7 @@ This page is the enablement checklist for **when** the licence gate clears. Do *
 | SPA fallback | `cp -f app/dist/index.html app/dist/404.html` after build |
 | Upload / deploy | **Only if** `public/khm-bundle/public-ready.json` has `public_ready: true` |
 | Manual dispatch default | `force_check_only=true` — build + gate check, **never** deploy |
-| Bundle today | `v0.2.1` · `public_ready=false` · deploy skipped · gate-note job explains why |
+| Bundle today | `v0.2.2` · `public_ready=false` · deploy skipped · gate-note job explains why |
 
 Confirm the gate without flipping anything:
 

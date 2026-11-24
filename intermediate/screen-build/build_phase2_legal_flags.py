@@ -760,7 +760,7 @@ def main() -> int:
         upsert(
             {
                 "id": layer_id,
-                "title": f"Project overlap — {src['name']}",
+                "title": f"VERRA — {src['name']}",
                 "kind": "context_overlay",
                 "file": f"layers/{src['overlay_file']}",
                 "crs": "EPSG:4326",

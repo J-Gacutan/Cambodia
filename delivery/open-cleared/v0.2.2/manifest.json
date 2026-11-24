@@ -1,0 +1,85 @@
+{
+  "version": "v0.2.2",
+  "built": "2026-11-24T00:44:46Z",
+  "stub": false,
+  "completeness": "full_raster_vectorised",
+  "public_ready": false,
+  "licence_gate": "blocked_pending_khm-i6e.2",
+  "product_banner": "Physical / land-cover suitability proxy only. GO = worth a field look. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome. Permit / STOP (legal) / project-overlap flags cite instruments and overlaps — they never mean approved or refused.",
+  "crs_geometry": "EPSG:4326",
+  "source_grid": "EPSG:32648",
+  "resolution_m": 10.0,
+  "mmu_ha": 0.5,
+  "mmu_pixels": 50,
+  "classes_included": {
+    "go": [
+      6,
+      8
+    ],
+    "caution": [
+      4,
+      5,
+      7,
+      9
+    ]
+  },
+  "source_raster": "inputs/screen-layers/L_class_10m/class_step3.tif",
+  "source_raster_sha256": "cf42f11e03b836415dc7b98385db7e5f5a15878d1243a125c76101d3269daf06",
+  "families": [
+    "layers",
+    "cases",
+    "schema",
+    "flags"
+  ],
+  "stats": {
+    "feature_count": 10158,
+    "go_features": 1313,
+    "caution_features": 8845,
+    "go_ha": 3529.97,
+    "caution_ha": 79715.96,
+    "phase2": {
+      "features": 10158,
+      "permit_gate_true": 4804,
+      "permit_gate_null": 0,
+      "permit_gate_false": 5354,
+      "project_overlap_true": 1041,
+      "project_overlap_false": 9117,
+      "project_overlap_null": 0,
+      "stop_legal_null": 10158,
+      "project_overlap_by_id": {
+        "vcs-1748-southern-cardamom": 115,
+        "vcs-5071-mangrove-arr": 93,
+        "vcs-5584-krasop-mangrove-redd": 833
+      }
+    },
+    "cambodia_clip": {
+      "boundary": "inputs/screen-layers/L20/coastal-four-provinces.geojson",
+      "dropped_outside_cambodia_l20": 216,
+      "partially_clipped": 277,
+      "dropped_below_mmu_after_clip": 129
+    }
+  },
+  "notes": [
+    "Vectorised from inputs/screen-layers/L_class_10m/class_step3.tif with MMU 0.5 ha (50 px).",
+    "GO classes 6/8; CAUTION 4/5/7/9 included.",
+    "public_ready remains false until khm-i6e.2.",
+    "GeoJSON written compact with coordinates rounded to 5 dp for git-safe size.",
+    "Cambodia clip (v0.2.2): GO±CAUTION intersected with L20 coastal four provinces (Koh Kong, Preah Sihanouk, Kampot, Kep). Removes Viet Nam spill (dropped_outside=216, partial=277, below_mmu=129).",
+    "Phase 2 flags (v0.2.2): permit_gate from WDPA+Ramsar (khm-i6e.6.1); stop_legal unavailable (khm-i6e.6.2 MoE core zones); project_overlap from vcs-1748, vcs-5071, vcs-5584 (khm-i6e.6.3). See flags/GAPS.md."
+  ],
+  "path_policy": "Ship only under delivery/open-cleared/. Do not copy FLAG rasters or inputs/screen-layers binaries into this tree or a public remote.",
+  "phase2": {
+    "bead": "khm-i6e.6",
+    "wdpa_joined": true,
+    "wdpa_join_bead": "khm-i6e.6.1",
+    "stop_legal_status": "unavailable",
+    "stop_legal_bead": "khm-i6e.6.2",
+    "project_overlap_bead": "khm-i6e.6.3",
+    "project_overlap_sources": [
+      "vcs-1748",
+      "vcs-5071",
+      "vcs-5584"
+    ],
+    "gaps_doc": "flags/GAPS.md"
+  }
+}
