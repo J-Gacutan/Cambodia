@@ -16,7 +16,7 @@
     },
     {
       "path": "flags/GAPS.md",
-      "sha256": "dda3ff6e64de2e38ac0edc9876d0eeee0425713d92985c0f3b4a7b022ceb9578"
+      "sha256": "c9dbba01f7c68b55043f43c5242585bc2ad00b9556bb50025023c05b750e02c0"
     },
     {
       "path": "flags/coverage.json",
@@ -28,7 +28,11 @@
     },
     {
       "path": "layers/index.json",
-      "sha256": "05e1f51228ad7aa38934d0f86b21492a439d94875c79a6f9d228853dc2efe2a4"
+      "sha256": "ab7b2fc0d25a2443fdb57205772d2a1075f06078260b025692785937ed1c9a14"
+    },
+    {
+      "path": "layers/mangrove-change.geojson",
+      "sha256": "db43d0d8af8f48ba1333938b72f3da97d0993b1ebeaccb388ff6686dc2b61900"
     },
     {
       "path": "layers/mangrove-extent.geojson",

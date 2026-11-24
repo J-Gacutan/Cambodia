@@ -21,7 +21,9 @@ export const FLAGS = {
   project: "#B85C38",
   gapMarker: "#5C6570",
   /** GMW living mangrove stock (matches Locate extent teal). */
-  extent: "#1B6B4A"
+  extent: "#1B6B4A",
+  /** GMW 1996→2025 loss (matches Locate loss lime). */
+  loss: "#C6F06A"
 } as const;
 
 export const KEY = {
