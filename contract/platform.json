@@ -1,0 +1,62 @@
+{
+  "note": "Pinned exchange for the Cambodia screen console (LKA-style). Paths relative to delivery/open-cleared/<bundle_version>/. Sync verifies every sha256 before copying into public/khm-bundle/. Never invent public_ready \u2014 that is khm-i6e.2. Refreshed after #13/#15 (VCS 5071/5584 + WDPA) \u2014 13 files.",
+  "platform_repo": "Cambodia",
+  "bundle_version": "v0.2.1",
+  "cambodia_commit": "07308ec",
+  "public_ready": false,
+  "licence_gate": "blocked_pending_khm-i6e.2",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "6c887043998af2df2e5a76a23b67dbf28dcfb02532be57eea866a669be87d905"
+    },
+    {
+      "path": "cases/cases.json",
+      "sha256": "5cbd5c1af8458c6125d163f36d4ee6abdd57ec309cc3b111d67f3ba57c403a69"
+    },
+    {
+      "path": "flags/GAPS.md",
+      "sha256": "0754c0d00d868c32dd893711feee1db48a3135a787feca962e98637b9dc53a50"
+    },
+    {
+      "path": "flags/coverage.json",
+      "sha256": "f7e7899408fc209b799cbefe826e76437c3add278f5faf2fa49dfdcf91332409"
+    },
+    {
+      "path": "layers/go-caution.geojson",
+      "sha256": "08cccb700545f1018dd769c86cf10f83cb197876201b68ed7ea0dfdb1bbd8ef6"
+    },
+    {
+      "path": "layers/index.json",
+      "sha256": "7fbc392932ea30fe444ceea000ec41a74c0ebc2b9c5bfe6e5e1b3e9f81cea012"
+    },
+    {
+      "path": "layers/project-overlap-vcs1748.geojson",
+      "sha256": "3b94216ca56a19a962a6932bbb748440319655173e6e84429b4d56929a002caf"
+    },
+    {
+      "path": "layers/project-overlap-vcs5071.geojson",
+      "sha256": "f89f69cbd0a766e73b93adf59556c6f85c21e1e0d3a0e75b071843d03200df87"
+    },
+    {
+      "path": "layers/project-overlap-vcs5584.geojson",
+      "sha256": "edc37611f02a1fda632306f8491dd1ca7408f64ff5e29554f6f316d07b6d3382"
+    },
+    {
+      "path": "layers/ramsar-context.geojson",
+      "sha256": "6e6b8e0dce5e900222b4c54d34f103af523444ee4dd76919ceb4df33d65765b4"
+    },
+    {
+      "path": "layers/ramsar-gap-centroids.geojson",
+      "sha256": "1855c0f26a8536d14c003f48bc4d0623e28053810f32f0b5889190ee3f3d3782"
+    },
+    {
+      "path": "manifest.json",
+      "sha256": "26c0598d755390252942886adf178c8dad56ad7741b0c459f17aeb8dd7413835"
+    },
+    {
+      "path": "schema/feature-properties.json",
+      "sha256": "4cd5dc9858897faabd1a8380bce318928f56afd6361c6624aa8c498e4f569ea0"
+    }
+  ]
+}

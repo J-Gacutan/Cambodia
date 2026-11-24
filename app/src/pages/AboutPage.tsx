@@ -46,6 +46,17 @@ export default function AboutPage() {
         <code>v0.1.0-stub</code> via <code>VITE_KHM_BUNDLE_VERSION</code> or by editing{" "}
         <code>config/bundle-versions.json</code>, then <code>npm run sync:bundle</code>.
       </p>
+      <Title headingLevel="h2">Contract pin</Title>
+      <p>
+        LKA-style sha256 pin: <code>contract/platform.json</code> → verified on{" "}
+        <code>npm run sync:bundle</code> → <code>config/contract-pin.json</code>. Check with{" "}
+        <code>npm run check:bundle</code>.
+      </p>
+      <Title headingLevel="h2">Licence panel</Title>
+      <p>
+        Per-layer evidence and licence lines: <a href="#licence">Licence and evidence</a>. Host matrix is
+        public Pages only; deploy stays gated on <code>public_ready</code>.
+      </p>
       <Title headingLevel="h2">Public Pages</Title>
       <p>
         Kenya-style Actions → GitHub Pages is scaffolded but must not go live until the open-cleared bundle has{" "}

@@ -141,6 +141,37 @@
 .khm-shell .pf-v6-c-nav__list {
   flex-wrap: wrap;
 }
+.khm-badge-button {
+  padding-inline: 0;
+  vertical-align: middle;
+}
+.khm-layer-facts {
+  margin-block-start: 0.35rem;
+}
+.khm-context-layer {
+  margin-block-end: 0.5rem;
+}
+.khm-licence-layer + .khm-licence-layer {
+  margin-block-start: 1.25rem;
+  padding-block-start: 1rem;
+  border-block-start: 1px solid var(--pf-t--global--border--color--default);
+}
+.khm-licence-table {
+  width: 100%;
+  max-width: 52rem;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.khm-licence-table th,
+.khm-licence-table td {
+  text-align: start;
+  vertical-align: top;
+  padding: 0.4rem 0.5rem;
+  border-block-end: 1px solid var(--pf-t--global--border--color--default);
+}
+.khm-licence-table th {
+  font-weight: 600;
+}
 @media (max-width: 47.9375rem) {
   .khm-banner {
     font-size: 0.875rem;

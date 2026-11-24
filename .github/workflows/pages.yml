@@ -3,7 +3,7 @@
 # reports public_ready=true. Stub / INTERNAL builds still compile for CI,
 # but the deploy job is skipped so Pages does not go live early.
 #
-# Beads: khm-i6e.5 (Pages) · khm-i6e.2 (licence) · khm-i6e.4 (app)
+# Beads: khm-i6e.5 (Pages) · khm-i6e.2 (licence) · khm-i6e.4 (app) · khm-i6e.7 (contract pin)
 name: pages
 
 on:
@@ -45,6 +45,7 @@ jobs:
         run: |
           npm ci
           npm run build
+          npm run check:bundle
         env:
           # Project Pages under /Cambodia/ — adjust if the Pages source path changes.
           VITE_BASE: /Cambodia/
