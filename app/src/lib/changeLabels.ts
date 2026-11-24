@@ -2,6 +2,7 @@ import type { ChangeLayerMeta } from "./changeLayers";
 
 /** Client-facing layer titles — register codes stay in About / provenance only. */
 export function changeLayerTitle(layer: Pick<ChangeLayerMeta, "id" | "title">): string {
+  if (layer.id === "mangrove-extent") return "Mangrove extent 2025 (stock)";
   if (layer.id === "mangrove-change") return "Mangrove loss (sample)";
   if (layer.id === "urban-change") return "Built-up nearby (sample)";
   return layer.title
@@ -12,6 +13,7 @@ export function changeLayerTitle(layer: Pick<ChangeLayerMeta, "id" | "title">): 
 }
 
 export function changeLayerShort(layerId: string): string {
+  if (layerId === "mangrove-extent") return "Extent 2025";
   if (layerId === "mangrove-change") return "Mangrove loss";
   if (layerId === "urban-change") return "Built-up";
   return layerId;
@@ -28,6 +30,7 @@ const LOSS_DRIVER_LABELS: Record<string, string> = {
 
 const CLASS_LABELS: Record<string, string> = {
   ...LOSS_DRIVER_LABELS,
+  mangrove_extent_2025: "Living mangrove (2025 stock)",
   built_dynamic_world: "Built-up land (urban proxy)",
   built: "Built-up land"
 };

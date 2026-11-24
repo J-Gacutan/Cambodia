@@ -20,6 +20,9 @@ export function layerDisplayTitle(layer: MapLayer): string {
   if (layer.id === "go-caution" || /GO class 8|≥ MMU|CAUTION class 4/i.test(layer.title)) {
     return "Open/accreted opportunity and tidal hold-backs (≥ 0.5 ha patches)";
   }
+  if (layer.id === "mangrove-extent" || layer.flag_role === "extent_context") {
+    return "Mangrove extent 2025 (living stock)";
+  }
   return layer.title
     .replace(/GO class 8\s*±\s*CAUTION class 4/gi, "Open/accreted opportunity ± tidal hold-backs")
     .replace(/≥\s*MMU/gi, "≥ 0.5 ha")

@@ -63,7 +63,8 @@
     "Clipped to L20 coastal four provinces (Cambodia only).",
     "Cases A and C only (class 8 / 4). Case B omitted (class 2 / pond-shaped).",
     "Elevation hold-back: L13 elevation_check_flag_10m joined; 1007 patches elevation_fail=true (GO demoted to CAUTION paint). Converted: class 5 open limb only.",
-    "Phase 2 flags: permit_gate from WDPA+Ramsar overlays; project_overlap from staged VCS 1748/5071/5584; stop_legal unavailable. Overlays redistributable=false where marked."
+    "Phase 2 flags: permit_gate from WDPA+Ramsar overlays; project_overlap from staged VCS 1748/5071/5584; stop_legal unavailable. Overlays redistributable=false where marked.",
+    "Locate extent stock: GMW 2025 mangrove-extent overlay (CC BY 4.0 coastal clip) added for P2/CI share; condition still missing."
   ],
   "path_policy": "Ship only under delivery/open-cleared/. Do not copy FLAG rasters or inputs/screen-layers binaries into this tree or a public remote.",
   "attribution": [
@@ -74,7 +75,8 @@
     "UNEP-WCMC World Database on Protected Areas (non-commercial research context)",
     "Staged VERRA / VCS project boundaries (research screen; not registry extracts for commercial republish)",
     "DeltaDTM v1.1 (Pronk et al. 2024) + FES2022 amplitude-sum proxy \u2014 elevation check research screen",
-    "Dynamic World (CC BY 4.0) \u2014 class 5 converted limb"
+    "Dynamic World (CC BY 4.0) \u2014 class 5 converted limb",
+    "Global Mangrove Watch v4.1.12 2025 extent (CC BY 4.0) \u2014 Locate stock overlay"
   ],
   "phase2": {
     "bead": "khm-i6e.6",

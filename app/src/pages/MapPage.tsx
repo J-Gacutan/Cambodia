@@ -74,6 +74,8 @@ import {
 } from "../map/basemap";
 import { BasemapControl } from "../map/BasemapControl";
 import {
+  EXTENT_CONTEXT_FILL,
+  EXTENT_CONTEXT_LINE,
   GAP_MARKER_CIRCLE,
   GO_CAUTION_FILL,
   GO_CAUTION_LINE,
@@ -182,6 +184,9 @@ function contextStyle(layer: MapLayer): {
 } {
   if (isVerraLayer(layer)) {
     return { fill: PROJECT_OVERLAP_FILL, line: PROJECT_OVERLAP_LINE };
+  }
+  if (layer.flag_role === "extent_context" || layer.id === "mangrove-extent") {
+    return { fill: EXTENT_CONTEXT_FILL, line: EXTENT_CONTEXT_LINE };
   }
   if (layer.flag_role === "permit_gap_marker" || layer.id.includes("gap")) {
     return { circle: GAP_MARKER_CIRCLE };
