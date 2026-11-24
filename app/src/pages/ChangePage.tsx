@@ -259,8 +259,8 @@ export default function ChangePage() {
         <Title headingLevel="h1">Ecosystem change over time</Title>
         <HelperText>
           <HelperTextItem>
-            Locate step — click a polygon for a plain-language reading, then continue to the restoration map.
-            Layer and basemap toggles stay on the canvas.
+            Locate step — click a polygon for a plain-language reading, then continue to Means (case stories)
+            before the restoration map. Layer and basemap toggles stay on the canvas.
           </HelperTextItem>
         </HelperText>
       </div>

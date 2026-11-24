@@ -35,7 +35,7 @@ export default function AboutPage() {
       </Banner>
       <p>
         Thin React + PatternFly 6 + MapLibre MVP for the Cambodia four-province mangrove restoration screen
-        (Seed Fund / REDD+ scoping). Modelled on the LKA MSP platform shell — Frame → Locate → Read → Means →
+        (Seed Fund / REDD+ scoping). Modelled on the LKA MSP platform shell — Frame → Locate → Means → Read →
         Act progressive rail, map, legend, click-inspect, cases, shortlist export — not the Indonesia national
         console.
       </p>

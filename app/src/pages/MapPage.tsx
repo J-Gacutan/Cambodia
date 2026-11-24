@@ -663,8 +663,8 @@ export default function MapPage() {
         </div>
         <HelperText>
           <HelperTextItem>
-            Read step — after <a href="#change">Locate (ecosystem change)</a>. Demonstrated order: filter
-            drivers → click a patch → inspect → shortlist. Case bookmarks jump to Note 3b windows A–C.
+            Read step — after <a href="#change">Locate</a> and <a href="#cases">Means (cases)</a>. On the map:
+            filter drivers → click a patch → inspect → shortlist. Case bookmarks jump to Note 3b windows A–C.
           </HelperTextItem>
         </HelperText>
         <MapGuide

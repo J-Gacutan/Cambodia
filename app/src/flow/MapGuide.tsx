@@ -136,11 +136,11 @@ export function MapGuide({
             <strong>Ready.</strong> Export from the shortlist panel, or continue to case stories and licence.
           </p>
           <div className="khm-map-tools">
-            <Button variant="secondary" component="a" href="#cases">
-              Next: Means (cases)
+            <Button variant="secondary" component="a" href="#licence">
+              Next: Act (licence)
             </Button>
-            <Button variant="link" component="a" href="#licence">
-              Act: licence
+            <Button variant="link" component="a" href="#cases">
+              Back: Means (cases)
             </Button>
           </div>
         </div>

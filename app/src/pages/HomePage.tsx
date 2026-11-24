@@ -5,7 +5,7 @@ import { loadManifest } from "../lib/bundle";
 import { useBundle } from "../lib/useBundle";
 
 /**
- * LKA-style decision-flow landing: five steps that lead into Locate → Read.
+ * LKA-style decision-flow landing: Frame → Locate → Means → Read → Act.
  * PatternFly 6 + hash routing; no hero photo required for this research console.
  */
 export default function HomePage() {
@@ -35,8 +35,8 @@ export default function HomePage() {
         Every decision follows the same five steps
       </Title>
       <p className="pf-v6-u-font-size-sm">
-        Same path every time: set the question, read the coast, judge a patch, check a story, take the
-        shortlist. Choose a step for the story; the rail above keeps your place.
+        Same path every time: set the question, read the coast, learn from a case story, judge a patch, take
+        the shortlist. Choose a step for the story; the rail above keeps your place.
       </p>
       <div className="khm-step-flow">
         <ol className="khm-flow-row">

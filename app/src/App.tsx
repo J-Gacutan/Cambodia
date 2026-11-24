@@ -161,20 +161,20 @@ export default function App() {
                         2. Locate
                       </NavItem>
                       <NavItem
-                        itemId="#map"
-                        to="#map"
-                        isActive={currentStep === "read"}
-                        onClick={() => setNavOpen(false)}
-                      >
-                        3. Read
-                      </NavItem>
-                      <NavItem
                         itemId="#cases"
                         to="#cases"
                         isActive={currentStep === "means"}
                         onClick={() => setNavOpen(false)}
                       >
-                        4. Means
+                        3. Means
+                      </NavItem>
+                      <NavItem
+                        itemId="#map"
+                        to="#map"
+                        isActive={currentStep === "read"}
+                        onClick={() => setNavOpen(false)}
+                      >
+                        4. Read
                       </NavItem>
                       <NavItem
                         itemId="#licence"

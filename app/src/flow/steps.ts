@@ -16,6 +16,7 @@ export type FlowStep = {
   detail: string;
 };
 
+/** Demonstrated order: Frame → Locate → Means → Read → Act (Means before Read). */
 export const FLOW_STEPS: FlowStep[] = [
   {
     id: "frame",
@@ -31,9 +32,18 @@ export const FLOW_STEPS: FlowStep[] = [
     label: "Locate",
     href: "#change",
     does: "See how the coast has been changing before you judge a patch.",
-    cue: "Skim mangrove loss and nearby built pressure, then move on to the GO / CAUTION map.",
+    cue: "Skim mangrove loss and nearby built pressure, then read the case stories before the screen map.",
     detail:
-      "Loss and pressure set the scene: where mangroves have retreated, and where built land is closing in. The change map is open samples only — enough context to arrive at the screen map with your eyes open."
+      "Loss and pressure set the scene: where mangroves have retreated, and where built land is closing in. The change map is open samples only — enough context before the case stories and the GO / CAUTION map."
+  },
+  {
+    id: "means",
+    label: "Means",
+    href: "#cases",
+    does: "Learn what GO and CAUTION mean at a named place before you read the map.",
+    cue: "Case stories show how an open/accreted opportunity and a tidal hold-back feel on the ground.",
+    detail:
+      "Two short stories — an open/accreted GO and a tidal-flat CAUTION — make the legend concrete before you click patches. Flags cite overlaps; they never say a site is approved or refused."
   },
   {
     id: "read",
@@ -43,15 +53,6 @@ export const FLOW_STEPS: FlowStep[] = [
     cue: "Narrow the hold-back drivers, click a polygon, read why it is GO or CAUTION, then keep it if it earns a field look.",
     detail:
       "GO is open or accreted ground that still looks worth walking. CAUTION is not a single red light — it names the hold-back (tide on the public map today; elevation, converted land, tenure/legal, VERRA as they ship) so you can filter noise and keep a shortlist you trust."
-  },
-  {
-    id: "means",
-    label: "Means",
-    href: "#cases",
-    does: "Check the reading against a named place on the coast.",
-    cue: "Case stories show how an open GO and a tidal CAUTION feel on the ground.",
-    detail:
-      "Two short stories — an open/accreted GO and a tidal-flat CAUTION — make the map legend concrete. Flags cite overlaps; they never say a site is approved or refused."
   },
   {
     id: "act",
