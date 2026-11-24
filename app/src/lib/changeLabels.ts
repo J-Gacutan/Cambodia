@@ -2,8 +2,8 @@ import type { ChangeLayerMeta } from "./changeLayers";
 
 /** Client-facing layer titles — register codes stay in About / provenance only. */
 export function changeLayerTitle(layer: Pick<ChangeLayerMeta, "id" | "title">): string {
-  if (layer.id === "mangrove-change") return "Mangrove loss drivers";
-  if (layer.id === "urban-change") return "Built-up / urban change";
+  if (layer.id === "mangrove-change") return "Mangrove loss (sample)";
+  if (layer.id === "urban-change") return "Built-up nearby (sample)";
   return layer.title
     .replace(/\s*\(Goldberg\s*L4\)/gi, "")
     .replace(/\s*\(Dynamic World[^)]*\)/gi, "")
@@ -13,7 +13,7 @@ export function changeLayerTitle(layer: Pick<ChangeLayerMeta, "id" | "title">): 
 
 export function changeLayerShort(layerId: string): string {
   if (layerId === "mangrove-change") return "Mangrove loss";
-  if (layerId === "urban-change") return "Built-up / urban";
+  if (layerId === "urban-change") return "Built-up";
   return layerId;
 }
 
@@ -54,6 +54,7 @@ export type ChangeInspect = {
   classPlain: string;
   areaHa: number | null;
   note: string | null;
+  resolutionPlain: string | null;
   lng: number;
   lat: number;
 };
@@ -74,8 +75,19 @@ export function parseChangeFeature(
     classLabel,
     classPlain: changeClassLabel(classLabel, layer.driver_codes),
     areaHa,
-    note: props.note != null ? String(props.note).replace(/\bL\d+\b/g, "").replace(/\s{2,}/g, " ").trim() : null,
+    note:
+      props.note != null
+        ? String(props.note)
+            .replace(/\bL\d+\b/g, "")
+            .replace(/\s{2,}/g, " ")
+            .trim()
+        : null,
+    resolutionPlain: layer.resolution_plain ?? null,
     lng,
     lat
   };
+}
+
+export function stripRegisterCodes(text: string): string {
+  return text.replace(/\bL\d+\b/g, "").replace(/\s{2,}/g, " ").trim();
 }

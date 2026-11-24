@@ -31,10 +31,10 @@ export const FLOW_STEPS: FlowStep[] = [
     id: "locate",
     label: "Locate",
     href: "#change",
-    does: "See how the coast has been changing before you judge a site.",
-    cue: "Skim mangrove loss and nearby built pressure, then learn the legend before the restoration map.",
+    does: "See what this console can say about mangroves now — and what it cannot.",
+    cue: "Extent and condition are gaps; change samples (loss + built pressure) set the scene before Means and Read.",
     detail:
-      "Loss and pressure set the scene: where mangroves have retreated, and where built land is closing in. The change map is an open sample — enough context before the case stories and the GO / CAUTION map."
+      "Locate is the current-state step: extent (where mangroves still stand), condition (health — not assessed), and change (loss and nearby built land). Only open change samples ship today; they are generalised and fade as you zoom. Satellite shows the shore; Means and Read carry the restoration screen."
   },
   {
     id: "means",

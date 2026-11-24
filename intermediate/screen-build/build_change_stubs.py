@@ -61,7 +61,9 @@ def main() -> None:
             area_ha = approx_ha(g84)
             if area_ha < 2.0:
                 continue
-            g84 = g84.simplify(0.001, preserve_topology=True)
+            # ~0.00035° ≈ 40 m — keep more vertices than the old 0.001° stub so
+            # province overview still reads, while Locate UI fades before close zoom.
+            g84 = g84.simplify(0.00035, preserve_topology=True)
             if g84.is_empty:
                 continue
             results.append((g84, int(val), area_ha))
@@ -98,7 +100,7 @@ def main() -> None:
             area_ha = approx_ha(g84)
             if area_ha < 3.0:
                 continue
-            g84 = g84.simplify(0.0012, preserve_topology=True)
+            g84 = g84.simplify(0.00045, preserve_topology=True)
             if g84.is_empty:
                 continue
             results.append((g84, int(val), area_ha))
@@ -125,37 +127,82 @@ def main() -> None:
     mang = {"type": "FeatureCollection", "features": mang_features}
     urb = {"type": "FeatureCollection", "features": urb_features}
     meta = {
-        "version": "change-stubs-v1",
-        "built_for": "#change screen",
-        "licence": "CC BY 4.0 upstream (Goldberg L4 ORNL DAAC 1768; Dynamic World L10). Non-commercial / research P2.",
+        "version": "change-stubs-v1.1",
+        "built_for": "#change Locate screen — current state (extent / condition / change)",
+        "licence": "CC BY 4.0 upstream (Goldberg ORNL DAAC 1768 mangrove loss drivers; Dynamic World built modal). Non-commercial / research P2.",
         "public_ready": True,
         "not_in_open_cleared_pin": True,
+        "resolution_plain": (
+            "Overlays are generalised open samples (~100–300 m after simplify). "
+            "They are coarser than the Read screen’s ~10 m class polygons. "
+            "They fade past about zoom 11.5 so blocky edges do not look like broken fine data beside Satellite."
+        ),
+        "state_gaps": [
+            {
+                "facet": "extent",
+                "status": "missing",
+                "plain": (
+                    "No live mangrove stock / annual extent layer on Locate. "
+                    "Global Mangrove Watch annual extent remains a documented data need. "
+                    "Use Satellite for the shore; Read shortlists open/accreted patches, not full extent."
+                ),
+            },
+            {
+                "facet": "condition",
+                "status": "missing",
+                "plain": "No mangrove condition, health, or degradation score ships on this console.",
+            },
+            {
+                "facet": "change",
+                "status": "sample",
+                "plain": (
+                    "Open coastal samples only: 2000–2016 loss drivers and a built-up proxy. "
+                    "Not an annual change time slider or multi-epoch urban expansion series."
+                ),
+            },
+        ],
         "layers": [
             {
                 "id": "mangrove-change",
                 "file": "mangrove-change.geojson",
-                "title": "Mangrove loss drivers (Goldberg L4)",
+                "title": "Mangrove loss drivers",
                 "register_id": "L4",
                 "feature_count": len(mang_features),
                 "stub": False,
+                "state_role": "change",
+                "native_resolution_m": 30,
+                "display_resolution_m": 150,
+                "resolution_plain": (
+                    "Goldberg loss drivers, coastal sample, simplified for the public stub (~150 m display). "
+                    "Coarser than Read’s 10 m class map."
+                ),
                 "driver_codes": {str(k): v for k, v in DRIVER_LABEL.items()},
-                "note": "Open coastal sample of ORNL DAAC mangrove loss drivers (2000–2016). Not GMW annual change (L1) — data need for time slider.",
+                "note": "Open coastal sample of ORNL DAAC mangrove loss drivers (2000–2016). Not GMW annual change — data need for time slider.",
             },
             {
                 "id": "urban-change",
                 "file": "urban-change.geojson",
-                "title": "Urban / built proxy (Dynamic World modal)",
+                "title": "Built-up / urban change",
                 "register_id": "L10",
                 "feature_count": len(urb_features),
                 "stub": False,
-                "note": "Open coastal sample of Dynamic World modal built (class 6). GHS-BUILT L8 multi-epoch remains a data need.",
+                "state_role": "change",
+                "native_resolution_m": 10,
+                "display_resolution_m": 200,
+                "resolution_plain": (
+                    "Dynamic World built modal, coastal sample, simplified for the public stub (~200 m display). "
+                    "Pressure context only."
+                ),
+                "note": "Open coastal sample of Dynamic World modal built (class 6). GHS-BUILT multi-epoch remains a data need.",
             },
         ],
         "data_needs": [
-            "GMW v4.1.12 annual extent change (L1) vectorised for public",
-            "GHS-BUILT-S (L8) multi-epoch urban expansion polygons",
-            "Elevation-fail polygons (L12 vs L13) for elevation CAUTION driver",
-            "Converted / pond CAUTION classes 5–7 stay FLAG/HOLD until licence clears",
+            "GMW annual mangrove extent (vectorised for public) — Locate extent facet",
+            "Mangrove condition / degradation product — Locate condition facet",
+            "GMW annual extent change vectorised for a public time slider",
+            "GHS-BUILT multi-epoch urban expansion polygons",
+            "Elevation-fail polygons for elevation CAUTION driver",
+            "Converted / pond CAUTION classes stay FLAG/HOLD until licence clears",
         ],
     }
     (OUT / "mangrove-change.geojson").write_text(json.dumps(mang, separators=(",", ":")))
