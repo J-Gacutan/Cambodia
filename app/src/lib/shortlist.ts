@@ -67,13 +67,13 @@ export function featureToShortlist(props: FeatureProps, geometry: ShortlistGeome
     lon: Math.round(lon * 1e5) / 1e5,
     lat: Math.round(lat * 1e5) / 1e5,
     permit_gate: tri(props.permit_gate),
-    permit_instrument: props.permit_instrument,
+    permit_instrument: props.permit_instrument ?? undefined,
     stop_legal: tri(props.stop_legal),
-    stop_legal_status: props.stop_legal_status,
-    stop_legal_note: props.stop_legal_note,
+    stop_legal_status: props.stop_legal_status ?? undefined,
+    stop_legal_note: props.stop_legal_note ?? undefined,
     project_overlap: tri(props.project_overlap),
     project_overlap_ids: props.project_overlap_ids ?? null,
-    project_overlap_note: props.project_overlap_note,
+    project_overlap_note: props.project_overlap_note ?? undefined,
     elevation_fail: tri(props.elevation_fail),
     geometry
   };
