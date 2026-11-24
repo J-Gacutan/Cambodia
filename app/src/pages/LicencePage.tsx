@@ -2,27 +2,19 @@ import {
   Banner,
   Bullseye,
   Button,
-  DescriptionList,
-  DescriptionListDescription,
-  DescriptionListGroup,
-  DescriptionListTerm,
   PageSection,
   Spinner,
   Title
 } from "@patternfly/react-core";
 import { useMemo, useState } from "react";
-import { LayerProvenance } from "../common/LayerProvenance";
-import { EvidenceBadge, IllustrativeBadge } from "../common/Evidence";
 import {
   CAUTION_DRIVERS,
   DRIVER_BY_ID,
   type CautionDriverId,
   driversForFeature
 } from "../lib/cautionDrivers";
-import { flagLabel, loadManifest, loadMapLayers, type FeatureProps } from "../lib/bundle";
-import { parseEvidenceClass } from "../lib/evidence";
+import { loadManifest, type FeatureProps } from "../lib/bundle";
 import { BUNDLE_VERSION } from "../lib/env";
-import { layerDisplayTitle } from "../lib/layerLabels";
 import {
   downloadText,
   loadShortlistFromStorage,
@@ -37,6 +29,7 @@ import {
 } from "../lib/shortlistReport";
 import { useBundle } from "../lib/useBundle";
 import { meaningForClass, suitabilityLabel } from "../lib/classMeaning";
+import { IllustrativeBadge } from "../common/Evidence";
 
 function shortlistAsProps(row: ShortlistItem): FeatureProps {
   return {
@@ -56,7 +49,7 @@ function shortlistAsProps(row: ShortlistItem): FeatureProps {
     project_overlap: row.project_overlap,
     project_overlap_ids: row.project_overlap_ids ?? null,
     project_overlap_note: row.project_overlap_note,
-    elevation_fail: (row as ShortlistItem & { elevation_fail?: boolean }).elevation_fail ?? null
+    elevation_fail: row.elevation_fail ?? null
   };
 }
 
@@ -71,12 +64,11 @@ function holdSummary(rows: ShortlistItem[]): { id: CautionDriverId; count: numbe
 }
 
 /**
- * Act step: shortlist → hold summary → export → next field/licence moves.
- * Licence / evidence panel (khm-i6e.7) remains below for quoting the pack.
+ * Act step: shortlist, hold summary, report/export, next field steps.
+ * Product context, layers, and sharing rules live on About.
  */
 export default function LicencePage() {
   const manifest = useBundle(loadManifest);
-  const layers = useBundle(loadMapLayers);
   const publicReady = manifest.data?.public_ready === true;
   const [shortlist, setShortlist] = useState<ShortlistItem[]>(() => loadShortlistFromStorage());
   const holds = useMemo(() => holdSummary(shortlist), [shortlist]);
@@ -90,7 +82,7 @@ export default function LicencePage() {
     return (
       <PageSection>
         <Bullseye>
-          <Spinner aria-label="Loading Act panel" />
+          <Spinner aria-label="Loading Act" />
         </Bullseye>
       </PageSection>
     );
@@ -99,22 +91,32 @@ export default function LicencePage() {
   if (manifest.error || !manifest.data) {
     return (
       <PageSection>
-        <p role="alert">{manifest.error ?? "Bundle manifest unavailable"}</p>
+        <p role="alert">{manifest.error ?? "Data package could not be loaded."}</p>
       </PageSection>
     );
   }
 
   const m = manifest.data;
   const version = m.version ?? BUNDLE_VERSION;
+  const reportMeta = {
+    bundleVersion: version,
+    generatedAt: new Date().toLocaleString("en-AU", {
+      timeZone: "Australia/Sydney",
+      dateStyle: "medium",
+      timeStyle: "short"
+    }),
+    productBanner:
+      "GO means worth a field visit. This screen does not grant planting permission or settle tenure."
+  };
 
   return (
     <>
       <PageSection className="khm-prose">
-        <Title headingLevel="h1">Act — decide from the shortlist</Title>
+        <Title headingLevel="h1">Act — decide from your shortlist</Title>
         <p>
-          Carry forward patches you shortlisted on <a href="#map">Read</a>. Summarise hold-backs, export
-          geometries, then take the next field or licence step. This page quotes the open-cleared pack — it
-          does not invent clearances or planting permission.
+          Sites you kept on the map arrive here. Review why each one is held back (if at all), download a
+          short report, then plan the next visit. This step does not approve a project or clear land rights —
+          see <a href="#about">About</a> for how the screen works and what you may share.
         </p>
         <IllustrativeBadge publicReady={publicReady} />
       </PageSection>
@@ -124,33 +126,35 @@ export default function LicencePage() {
         {shortlist.length === 0 ? (
           <>
             <Banner color="orange" role="status">
-              No polygons shortlisted yet. On Read, click a patch → Add to shortlist, then return here.
+              Nothing shortlisted yet. On the map, click a site and choose Add to shortlist, then come back
+              here.
             </Banner>
             <div className="khm-map-tools pf-v6-u-mt-md">
               <Button variant="primary" component="a" href="#map">
-                Go to Read (map)
+                Open the map
               </Button>
               <Button variant="link" onClick={refresh}>
-                Refresh shortlist
+                Refresh list
               </Button>
             </div>
           </>
         ) : (
           <>
             <p className="pf-v6-u-font-size-sm">
-              <strong>{shortlist.length}</strong> patch{shortlist.length === 1 ? "" : "es"} · {goCount} GO ·{" "}
-              {cautionCount} CAUTION · about {ha.toFixed(0)} ha carried from this session.
+              <strong>{shortlist.length}</strong> site{shortlist.length === 1 ? "" : "s"} · {goCount} worth a
+              look (GO) · {cautionCount} held back (CAUTION) · about {ha.toFixed(0)} ha in this browser
+              session.
             </p>
             {holds.length > 0 && (
               <>
                 <Title headingLevel="h3" className="pf-v6-u-font-size-md">
-                  Hold-backs on this shortlist
+                  Why sites on this list are held back
                 </Title>
                 <ul className="khm-plain-list pf-v6-u-font-size-sm">
                   {holds.map(({ id, count }) => (
                     <li key={id}>
-                      <strong>{DRIVER_BY_ID[id].label}</strong> — {count} patch
-                      {count === 1 ? "" : "es"}. {DRIVER_BY_ID[id].holdsBack}
+                      <strong>{DRIVER_BY_ID[id].label}</strong> — {count} site
+                      {count === 1 ? "" : "s"}. {DRIVER_BY_ID[id].holdsBack}
                     </li>
                   ))}
                 </ul>
@@ -164,65 +168,45 @@ export default function LicencePage() {
                   <li key={row.id} className="khm-act-shortlist-row">
                     <strong>
                       {suitabilityLabel(row.suitability)}
-                      {meaning ? ` · ${meaning.label}` : ` · class ${row.class_id}`}
+                      {meaning ? ` · ${meaning.label}` : ""}
                     </strong>
                     {" — "}
                     {row.area_ha.toFixed(1)} ha
                     {row.province ? ` · ${row.province}` : ""}
                     {drivers.length > 0
-                      ? ` · holds: ${drivers.map((d) => DRIVER_BY_ID[d].short).join(", ")}`
+                      ? ` · held by: ${drivers.map((d) => DRIVER_BY_ID[d].short).join(", ")}`
                       : " · no mapped hold-back"}
-                    {row.permit_gate != null ? ` · permit ${flagLabel(row.permit_gate)}` : ""}
-                    {row.project_overlap != null ? ` · VERRA ${flagLabel(row.project_overlap)}` : ""}
+                    {row.permit_gate === true ? " · protected-area context" : ""}
+                    {row.project_overlap === true ? " · existing carbon project nearby" : ""}
                   </li>
                 );
               })}
             </ul>
             <Title headingLevel="h3" className="pf-v6-u-font-size-md pf-v6-u-mt-md">
-              Shortlist report
+              Download a report
             </Title>
             <p className="pf-v6-u-font-size-sm">
-              Generate a decision pack: holds summary, hectares, drivers, permit/VERRA overlays, and next
-              field/licence steps. Printable HTML (Save as PDF) plus Markdown; pair with CSV / GeoJSON.
+              Printable page (use the browser Print dialog to save a PDF), Markdown notes, spreadsheet
+              table, or map polygons for GIS.
             </p>
             <div className="khm-map-tools pf-v6-u-mt-md">
               <Button
                 variant="primary"
-                onClick={() => {
-                  const meta = {
-                    bundleVersion: version,
-                    generatedAt: new Date().toLocaleString("en-AU", {
-                      timeZone: "Australia/Sydney",
-                      dateStyle: "medium",
-                      timeStyle: "short"
-                    }),
-                    productBanner: m.product_banner
-                  };
-                  openPrintableReport(shortlistReportHtml(shortlist, meta));
-                }}
+                onClick={() => openPrintableReport(shortlistReportHtml(shortlist, reportMeta))}
               >
-                Open printable report (PDF via print)
+                Open printable report
               </Button>
               <Button
                 variant="secondary"
-                onClick={() => {
-                  const meta = {
-                    bundleVersion: version,
-                    generatedAt: new Date().toLocaleString("en-AU", {
-                      timeZone: "Australia/Sydney",
-                      dateStyle: "medium",
-                      timeStyle: "short"
-                    }),
-                    productBanner: m.product_banner
-                  };
+                onClick={() =>
                   downloadText(
                     `cambodia-shortlist-report-${version}.md`,
-                    shortlistReportMarkdown(shortlist, meta),
+                    shortlistReportMarkdown(shortlist, reportMeta),
                     "text/markdown"
-                  );
-                }}
+                  )
+                }
               >
-                Download Markdown report
+                Download Markdown
               </Button>
               <Button
                 variant="secondary"
@@ -234,7 +218,7 @@ export default function LicencePage() {
                   )
                 }
               >
-                Export CSV
+                Download spreadsheet (CSV)
               </Button>
               <Button
                 variant="secondary"
@@ -246,13 +230,13 @@ export default function LicencePage() {
                   )
                 }
               >
-                Export GeoJSON (polygons)
+                Download map polygons
               </Button>
               <Button variant="link" component="a" href="#map">
                 Back to map
               </Button>
               <Button variant="link" onClick={refresh}>
-                Refresh
+                Refresh list
               </Button>
             </div>
           </>
@@ -260,163 +244,21 @@ export default function LicencePage() {
       </PageSection>
 
       <PageSection>
-        <Title headingLevel="h2">Next steps</Title>
+        <Title headingLevel="h2">What to do next</Title>
         <ol className="khm-act-next">
           <li>
-            <strong>Field look</strong> — walk GO patches first; treat CAUTION holds as named checks (tide,
-            elevation, converted cover), not a single refuse.
+            <strong>Visit the ground</strong> — walk GO sites first. Treat each CAUTION reason as a named
+            check (tide, height, converted land), not a blanket “no”.
           </li>
           <li>
-            <strong>Tenure / access</strong> — where permit or VERRA flags hit, confirm with MoE / project
-            holders before any claim. Overlays on Read are context only.
+            <strong>Check rights and projects</strong> — where the map shows a protected area or an existing
+            carbon project, confirm with the right authorities before any claim.
           </li>
           <li>
-            <strong>Licence before share</strong> — quote layer evidence below and the living register; do not
-            claim commercial redistribution of WDPA or VERRA extracts.
+            <strong>Share carefully</strong> — this is a research screen. Read{" "}
+            <a href="#about">About</a> before redistributing maps or project outlines.
           </li>
         </ol>
-      </PageSection>
-
-      {!publicReady && (
-        <PageSection>
-          <Banner color="red" role="status">
-            public_ready=false ({m.licence_gate}). Public Pages deploy is skipped until khm-i6e.2 and an
-            open-cleared bundle with public_ready=true.
-          </Banner>
-        </PageSection>
-      )}
-
-      <PageSection>
-        <Title headingLevel="h2">Bundle gate</Title>
-        <DescriptionList isHorizontal isCompact>
-          <DescriptionListGroup>
-            <DescriptionListTerm>Version</DescriptionListTerm>
-            <DescriptionListDescription>
-              <code>{m.version}</code> (app pin <code>{BUNDLE_VERSION}</code>)
-            </DescriptionListDescription>
-          </DescriptionListGroup>
-          <DescriptionListGroup>
-            <DescriptionListTerm>Built</DescriptionListTerm>
-            <DescriptionListDescription>{m.built}</DescriptionListDescription>
-          </DescriptionListGroup>
-          <DescriptionListGroup>
-            <DescriptionListTerm>public_ready</DescriptionListTerm>
-            <DescriptionListDescription>{String(m.public_ready)}</DescriptionListDescription>
-          </DescriptionListGroup>
-          <DescriptionListGroup>
-            <DescriptionListTerm>licence_gate</DescriptionListTerm>
-            <DescriptionListDescription>{m.licence_gate}</DescriptionListDescription>
-          </DescriptionListGroup>
-          <DescriptionListGroup>
-            <DescriptionListTerm>completeness</DescriptionListTerm>
-            <DescriptionListDescription>{m.completeness}</DescriptionListDescription>
-          </DescriptionListGroup>
-          <DescriptionListGroup>
-            <DescriptionListTerm>stub</DescriptionListTerm>
-            <DescriptionListDescription>{String(m.stub)}</DescriptionListDescription>
-          </DescriptionListGroup>
-        </DescriptionList>
-      </PageSection>
-
-      <PageSection>
-        <Title headingLevel="h2">Host matrix (this project)</Title>
-        <p className="pf-v6-u-font-size-sm">
-          Preference: <strong>public GitHub Pages only</strong> for the screening console. Private Amplify /
-          Cloudflare Access is out of scope unless Jordan revises. FLAG rasters and INTERNAL case PNGs never
-          enter the Pages artifact. WDPA (coastal clip) and staged VERRA boundaries may ship as non-commercial
-          research overlays with <code>redistributable=false</code> — do not claim commercial redistribution.
-        </p>
-        <table className="khm-licence-table">
-          <thead>
-            <tr>
-              <th>Channel</th>
-              <th>Status today</th>
-              <th>Rule</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Public GitHub Pages</td>
-              <td>{publicReady ? "GO (gate open)" : "NO-GO"}</td>
-              <td>
-                Workflow <code>.github/workflows/pages.yml</code> builds always; deploy only when{" "}
-                <code>public_ready=true</code> (khm-i6e.2).
-              </td>
-            </tr>
-            <tr>
-              <td>Local / INTERNAL preview</td>
-              <td>GO for research</td>
-              <td>
-                <code>npm run dev</code> / <code>preview</code> against the pinned open-cleared bundle.
-              </td>
-            </tr>
-            <tr>
-              <td>Amplify / CF Access</td>
-              <td>Out of scope</td>
-              <td>Not configured. Revisit only if Jordan changes the Pages-only preference.</td>
-            </tr>
-            <tr>
-              <td>FLAG rasters / case PNGs</td>
-              <td>NO-GO on public remote</td>
-              <td>Stay under <code>inputs/screen-layers/</code> or QGIS bridge; never sync into public/</td>
-            </tr>
-            <tr>
-              <td>WDPA + VERRA overlays</td>
-              <td>Research OK</td>
-              <td>
-                Non-commercial research context on this console (<code>redistributable=false</code>). Not planting
-                permission; not a commercial registry republish.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </PageSection>
-
-      <PageSection>
-        <Title headingLevel="h2">Contract pin</Title>
-        <p>
-          LKA-style sha256 pin lives at <code>contract/platform.json</code>. Sync verifies every file before
-          copying into <code>public/khm-bundle/</code>; <code>npm run check:bundle</code> re-checks the copy
-          against <code>config/contract-pin.json</code>.
-        </p>
-      </PageSection>
-
-      <PageSection>
-        <Title headingLevel="h2">Layers in this bundle</Title>
-        <p className="pf-v6-u-font-size-sm">
-          Same layer list as About — evidence class and licence line per file in the open-cleared pack.
-        </p>
-        {layers.error && <p role="alert">{layers.error}</p>}
-        {(!layers.data || layers.data.length === 0) && (
-          <p role="status">No layers family in this bundle (degraded).</p>
-        )}
-        {layers.data?.map((layer) => {
-          const evidence = parseEvidenceClass(layer.evidence_class);
-          return (
-            <div key={layer.id} className="khm-licence-layer">
-              <Title headingLevel="h3">
-                {layerDisplayTitle(layer)}{" "}
-                {evidence && <EvidenceBadge cls={evidence} />}{" "}
-                <IllustrativeBadge publicReady={publicReady && layer.public_ready} />
-              </Title>
-              <LayerProvenance
-                layer={layer}
-                publicReady={publicReady}
-                displayTitle={layerDisplayTitle(layer)}
-                variant="inline"
-              />
-            </div>
-          );
-        })}
-      </PageSection>
-
-      <PageSection>
-        <Title headingLevel="h2">Product truth</Title>
-        <p>{m.product_banner}</p>
-        <p className="pf-v6-u-font-size-sm">
-          Permit / STOP (legal) / VERRA (VCS 1748 / 5071 / 5584) flags cite instruments and overlaps — they
-          never mean approved or refused.
-        </p>
       </PageSection>
     </>
   );

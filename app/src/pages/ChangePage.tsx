@@ -259,8 +259,8 @@ export default function ChangePage() {
         <Title headingLevel="h1">Ecosystem change over time</Title>
         <HelperText>
           <HelperTextItem>
-            Locate step — click a polygon for a plain-language reading, then continue to Means (case stories)
-            before the restoration map. Layer and basemap toggles stay on the canvas.
+            Locate step — click a shape for a plain-language reading, then continue to Means (examples)
+            before the restoration map. Layer and basemap toggles stay on the map.
           </HelperTextItem>
         </HelperText>
       </div>
@@ -336,9 +336,8 @@ export default function ChangePage() {
       )}
       <div className="khm-change-meta">
         <p className="pf-v6-u-font-size-sm">
-          Open research samples only — mangrove loss drivers and a built-up / urban proxy. Annual mangrove
-          extent change and multi-epoch urban expansion remain documented data needs (not FLAG rasters).
-          Provenance codes live under <a href="#about">About</a> / licence notes.
+          Open research samples only — mangrove loss drivers and a built-up / urban proxy. Fuller year-by-year
+          change layers are still a documented data need. Source notes live under <a href="#about">About</a>.
         </p>
         {index && (
           <>
@@ -354,7 +353,7 @@ export default function ChangePage() {
                   {layer.feature_count ?? 0} features
                   <span className="pf-v6-u-font-size-sm">
                     {" "}
-                    · register {layer.register_id} (provenance)
+                    · source {layer.register_id}
                   </span>
                   {layer.note ? (
                     <div className="pf-v6-u-font-size-sm">
@@ -377,8 +376,8 @@ export default function ChangePage() {
               </>
             )}
             <p className="pf-v6-u-font-size-sm pf-v6-u-mt-sm">
-              {index.licence.replace(/\bL\d+\b/g, "").replace(/\s{2,}/g, " ").trim()} Samples sit outside the
-              open-cleared contract pin ({index.not_in_open_cleared_pin ? "not in pin" : "check pin"}).
+              {index.licence.replace(/\bL\d+\b/g, "").replace(/\s{2,}/g, " ").trim()} These samples sit beside
+              the main restoration package ({index.not_in_open_cleared_pin ? "not in the pinned pack" : "check pack"}).
             </p>
           </>
         )}

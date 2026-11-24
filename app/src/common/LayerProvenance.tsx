@@ -25,21 +25,20 @@ export function LayerProvenanceBody({
         Evidence: {evidence ? <EvidenceBadge cls={evidence} /> : layer.evidence_class}{" "}
         <IllustrativeBadge publicReady={publicReady && layer.public_ready} />
       </li>
-      <li>{`Source ${layer.register_id}`}</li>
-      <li>{`Licence (plain): ${layer.licence_plain}`}</li>
-      <li>{`Licence (SPDX): ${layer.licence_spdx ?? "null — not open-cleared"}`}</li>
-      <li>{`Redistributable: ${layer.redistributable ? "yes" : "no"}`}</li>
-      <li>{`Layer public_ready: ${String(layer.public_ready)}`}</li>
-      {layer.flag_role && <li>{`Flag role: ${layer.flag_role}`}</li>}
-      {layer.note && <li>{layer.note}</li>}
+      <li>{`Source id: ${layer.register_id}`}</li>
+      <li>{`Licence: ${layer.licence_plain}`}</li>
+      {layer.licence_spdx ? <li>{`Licence code: ${layer.licence_spdx}`}</li> : null}
+      <li>{layer.redistributable ? "May be redistributed under its licence." : "Research use on this console — do not republish commercially."}</li>
+      {layer.flag_role && <li>{`Role: ${layer.flag_role}`}</li>}
+      {layer.note && <li>{layer.note.replace(/\bL\d+\b/g, "").replace(/\s{2,}/g, " ").trim()}</li>}
       <li>
-        Full matrix: <a href="#licence">Licence and evidence</a>
+        More on sharing: <a href="#about">About</a>
       </li>
     </ul>
   );
 }
 
-/** Info-icon pop-up for map layer toggles; use `variant="inline"` on the licence page. */
+/** Info-icon pop-up for map layer toggles; use `variant="inline"` on About. */
 export function LayerProvenance({
   layer,
   publicReady,
@@ -61,10 +60,10 @@ export function LayerProvenance({
   }
 
   return (
-    <Popover headerContent={`Provenance — ${title}`} bodyContent={body} position="right" hasAutoWidth>
+    <Popover headerContent={`Source — ${title}`} bodyContent={body} position="right" hasAutoWidth>
       <Button
         variant="plain"
-        aria-label={`Provenance for ${title}`}
+        aria-label={`Source for ${title}`}
         className="khm-provenance-info"
       >
         <InfoCircleIcon />

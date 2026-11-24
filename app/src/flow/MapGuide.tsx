@@ -58,8 +58,8 @@ export function MapGuide({
       {coachOpen && (
         <div className="khm-map-coach" role="region" aria-label="Map first visit">
           <p>
-            <strong>First visit — how to use this map.</strong> Work left to right: filter hold-back drivers,
-            click a patch, read the inspect panel, then shortlist. Basemap and zoom stay on the map canvas.
+            <strong>First visit — how to use this map.</strong> Work left to right: filter reasons to pause,
+            click a site, read the side panel, then shortlist. Basemap and zoom stay on the map.
           </p>
           <div className="khm-map-tools">
             <Button
@@ -69,7 +69,7 @@ export function MapGuide({
                 onDismissCoach();
               }}
             >
-              Start: filter drivers
+              Start: filter reasons
             </Button>
             <Button variant="link" onClick={onDismissCoach}>
               Skip coach
@@ -110,12 +110,12 @@ export function MapGuide({
           <div className="khm-map-tools">
             {current === "filter" && (
               <Button variant="primary" onClick={onFocusFilters}>
-                Open hold-back drivers
+                Open reasons to pause
               </Button>
             )}
             {current === "inspect" && progress.hasInspect && (
               <Button variant="primary" onClick={onMarkInspectReviewed}>
-                Mark inspect read
+                Mark panel read
               </Button>
             )}
             {current === "shortlist" && (
@@ -133,14 +133,14 @@ export function MapGuide({
       {allDone && (
         <div className="khm-map-next-cta" role="status">
           <p>
-            <strong>Ready.</strong> Continue to Act for a shortlist report (holds, ha, printable HTML/Markdown + CSV/GeoJSON).
+            <strong>Ready.</strong> Continue to Act for a shortlist report and downloads.
           </p>
           <div className="khm-map-tools">
-            <Button variant="secondary" component="a" href="#licence">
-              Next: Act (shortlist report)
+            <Button variant="secondary" component="a" href="#act">
+              Next: Act (shortlist)
             </Button>
             <Button variant="link" component="a" href="#cases">
-              Back: Means (cases)
+              Back: Means
             </Button>
           </div>
         </div>

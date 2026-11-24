@@ -74,7 +74,7 @@ export function shortlistReportMarkdown(rows: ShortlistItem[], meta: ShortlistRe
     `Generated: ${meta.generatedAt} (Australia/Sydney local machine time as reported by the browser).`,
     `Bundle: \`${meta.bundleVersion}\`.`,
     ``,
-    `> Physical / land-cover suitability proxy only. GO = worth a field look. Flags cite instruments and overlaps — never approved or refused. Not planting permission.`,
+    `> Land-cover screen only. GO = worth a field visit. Flags name instruments and overlaps — never approved or refused. Not planting permission.`,
     ``,
     `## Summary`,
     ``,
@@ -105,33 +105,33 @@ export function shortlistReportMarkdown(rows: ShortlistItem[], meta: ShortlistRe
     lines.push(`### ${row.id}`);
     lines.push(``);
     lines.push(
-      `- **Reading:** ${suitabilityLabel(row.suitability)}${meaning ? ` · ${meaning.label}` : ` · class ${row.class_id}`}`
+      `- **Reading:** ${suitabilityLabel(row.suitability)}${meaning ? ` · ${meaning.label}` : ""}`
     );
     lines.push(`- **Area:** ${row.area_ha.toFixed(2)} ha`);
     if (row.province) lines.push(`- **Province:** ${row.province}`);
-    lines.push(`- **Centroid:** ${row.lon}, ${row.lat}`);
+    lines.push(`- **Centre point:** ${row.lon}, ${row.lat}`);
     lines.push(
-      `- **Drivers:** ${drivers.length ? drivers.map((id) => DRIVER_BY_ID[id].short).join(", ") : "none mapped"}`
+      `- **Reasons to pause:** ${drivers.length ? drivers.map((id) => DRIVER_BY_ID[id].short).join(", ") : "none mapped"}`
     );
-    lines.push(`- **Permit gate:** ${flagLabel(row.permit_gate)}`);
-    lines.push(`- **STOP (legal):** ${flagLabel(row.stop_legal)}${row.stop_legal_status ? ` (${row.stop_legal_status})` : ""}`);
+    lines.push(`- **Protected area:** ${flagLabel(row.permit_gate)}`);
+    lines.push(`- **Legal stop:** ${flagLabel(row.stop_legal)}${row.stop_legal_status ? ` (${row.stop_legal_status})` : ""}`);
     lines.push(
-      `- **VERRA / project overlap:** ${flagLabel(row.project_overlap)}${(row.project_overlap_ids ?? []).length ? ` · ${(row.project_overlap_ids ?? []).join(", ")}` : ""}`
+      `- **Carbon project:** ${flagLabel(row.project_overlap)}${(row.project_overlap_ids ?? []).length ? ` · ${(row.project_overlap_ids ?? []).join(", ")}` : ""}`
     );
-    lines.push(`- **Elevation fail:** ${flagLabel(row.elevation_fail ?? null)}`);
+    lines.push(`- **Height check fail:** ${flagLabel(row.elevation_fail ?? null)}`);
     if (row.note) lines.push(`- **Note:** ${row.note}`);
     lines.push(``);
   }
   lines.push(
     `## Next steps`,
     ``,
-    `1. Field look — walk GO first; treat CAUTION holds as named checks.`,
-    `2. Tenure / access — confirm MoE / project holders where permit or VERRA flags hit.`,
-    `3. Licence before share — quote the open-cleared evidence lines; no commercial republish of WDPA/VERRA extracts.`,
+    `1. Field visit — walk GO first; treat CAUTION holds as named checks.`,
+    `2. Rights / access — confirm authorities or project holders where protected-area or carbon-project flags hit.`,
+    `3. Share carefully — quote the package evidence lines; no commercial republish of protected-area or project extracts.`,
     ``,
-    `## Companion exports`,
+    `## Companion downloads`,
     ``,
-    `Pair this report with the CSV attribute table and GeoJSON polygons from Act.`,
+    `Pair this report with the spreadsheet table and map polygons from Act.`,
     ``
   );
   if (meta.productBanner) {
@@ -155,15 +155,15 @@ export function shortlistReportHtml(rows: ShortlistItem[], meta: ShortlistReport
       return `<article class="patch">
   <h3>${esc(row.id)}</h3>
   <ul>
-    <li><strong>Reading:</strong> ${esc(suitabilityLabel(row.suitability))}${meaning ? ` · ${esc(meaning.label)}` : ` · class ${row.class_id}`}</li>
+    <li><strong>Reading:</strong> ${esc(suitabilityLabel(row.suitability))}${meaning ? ` · ${esc(meaning.label)}` : ""}</li>
     <li><strong>Area:</strong> ${row.area_ha.toFixed(2)} ha</li>
     ${row.province ? `<li><strong>Province:</strong> ${esc(row.province)}</li>` : ""}
-    <li><strong>Centroid:</strong> ${row.lon}, ${row.lat}</li>
-    <li><strong>Drivers:</strong> ${drivers.length ? esc(drivers.map((id) => DRIVER_BY_ID[id].short).join(", ")) : "none mapped"}</li>
-    <li><strong>Permit gate:</strong> ${esc(flagLabel(row.permit_gate))}</li>
-    <li><strong>STOP (legal):</strong> ${esc(flagLabel(row.stop_legal))}${row.stop_legal_status ? ` (${esc(row.stop_legal_status)})` : ""}</li>
-    <li><strong>VERRA:</strong> ${esc(flagLabel(row.project_overlap))}${(row.project_overlap_ids ?? []).length ? ` · ${esc((row.project_overlap_ids ?? []).join(", "))}` : ""}</li>
-    <li><strong>Elevation fail:</strong> ${esc(flagLabel(row.elevation_fail ?? null))}</li>
+    <li><strong>Centre point:</strong> ${row.lon}, ${row.lat}</li>
+    <li><strong>Reasons to pause:</strong> ${drivers.length ? esc(drivers.map((id) => DRIVER_BY_ID[id].short).join(", ")) : "none mapped"}</li>
+    <li><strong>Protected area:</strong> ${esc(flagLabel(row.permit_gate))}</li>
+    <li><strong>Legal stop:</strong> ${esc(flagLabel(row.stop_legal))}${row.stop_legal_status ? ` (${esc(row.stop_legal_status)})` : ""}</li>
+    <li><strong>Carbon project:</strong> ${esc(flagLabel(row.project_overlap))}${(row.project_overlap_ids ?? []).length ? ` · ${esc((row.project_overlap_ids ?? []).join(", "))}` : ""}</li>
+    <li><strong>Height check fail:</strong> ${esc(flagLabel(row.elevation_fail ?? null))}</li>
   </ul>
 </article>`;
     })
@@ -189,7 +189,7 @@ export function shortlistReportHtml(rows: ShortlistItem[], meta: ShortlistReport
   <p class="no-print"><button onclick="window.print()">Print / Save as PDF</button></p>
   <h1>Cambodia screen — shortlist report</h1>
   <p>Generated: ${esc(meta.generatedAt)}. Bundle: <code>${esc(meta.bundleVersion)}</code>.</p>
-  <div class="banner">Physical / land-cover suitability proxy only. GO = worth a field look. Flags cite instruments — never approved or refused. Not planting permission.</div>
+  <div class="banner">Land-cover screen only. GO = worth a field visit. Flags name instruments — never approved or refused. Not planting permission.</div>
   <h2>Summary</h2>
   <table>
     <tr><th>Patches</th><td>${rows.length}</td></tr>
@@ -212,11 +212,11 @@ export function shortlistReportHtml(rows: ShortlistItem[], meta: ShortlistReport
   ${patchBlocks}
   <h2>Next steps</h2>
   <ol>
-    <li>Field look — walk GO first; treat CAUTION holds as named checks.</li>
-    <li>Tenure / access — confirm MoE / project holders where permit or VERRA flags hit.</li>
-    <li>Licence before share — quote open-cleared evidence; no commercial republish of WDPA/VERRA extracts.</li>
+    <li>Field visit — walk GO first; treat CAUTION holds as named checks.</li>
+    <li>Rights / access — confirm authorities or project holders where protected-area or carbon-project flags hit.</li>
+    <li>Share carefully — quote package evidence; no commercial republish of protected-area or project extracts.</li>
   </ol>
-  <p>Pair with CSV + GeoJSON exports from Act. ${meta.productBanner ? esc(meta.productBanner) : ""}</p>
+  <p>Pair with spreadsheet + map-polygon downloads from Act. ${meta.productBanner ? esc(meta.productBanner) : ""}</p>
   <!-- Markdown twin available as .md download from Act.
 ${esc(mdish)}
   -->

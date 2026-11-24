@@ -22,7 +22,7 @@ export type ShortlistItem = {
   project_overlap: boolean | null;
   project_overlap_ids?: string[] | null;
   project_overlap_note?: string;
-  /** L12/L13 elevation check fail — GO may have been demoted to CAUTION paint. */
+  /** Elevation check fail — GO may have been demoted to CAUTION paint. */
   elevation_fail?: boolean | null;
   /** Full patch geometry for GeoJSON export (centroid alone is not enough for desk work). */
   geometry: ShortlistGeometry;

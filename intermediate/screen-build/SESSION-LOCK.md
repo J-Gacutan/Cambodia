@@ -4,7 +4,7 @@
 
 ## Active lock
 
-None. (`public_ready` still false — `khm-i6e.2`.)
+None (claim released after push of `cursor/act-about-plain-copy-df74` for CSR-34 Act→About / plain copy). Do not restomp that PR’s console copy without coordinating.
 
 ## Cleared / closed recently (do not reopen)
 

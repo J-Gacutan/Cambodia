@@ -2,7 +2,7 @@ import { Button } from "@patternfly/react-core";
 import { FLOW_STEPS, hrefForStep, nextStep, prevStep, stepIndex, stepMeta, type StepId } from "./steps";
 
 /**
- * Progressive decision rail (LKA StepHead pattern).
+ * Progressive decision rail.
  * Shows current / next / done — not a flat equal-weight tab strip.
  * About + Back/Next sit in this same row (not detached lines).
  */
@@ -105,8 +105,8 @@ export function StepRail({
       )}
       {aboutActive && !current && (
         <p className="khm-step-cue" aria-live="polite">
-          <strong>About:</strong> Package notes, data version, and provenance — the quiet shelf beside the
-          five screening steps.
+          <strong>About:</strong> What this screen is, how layers work, and what you may share — beside the
+          five steps.
         </p>
       )}
     </nav>

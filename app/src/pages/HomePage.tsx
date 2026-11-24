@@ -4,10 +4,7 @@ import { FLOW_STEPS, type StepId } from "../flow/steps";
 import { loadManifest } from "../lib/bundle";
 import { useBundle } from "../lib/useBundle";
 
-/**
- * LKA-style decision-flow landing: Frame → Locate → Means → Read → Act.
- * PatternFly 6 + hash routing; no hero photo required for this research console.
- */
+/** Decision-flow landing: Frame → Locate → Means → Read → Act. */
 export default function HomePage() {
   const [open, setOpen] = useState<StepId | null>("frame");
   const manifest = useBundle(loadManifest);
@@ -19,15 +16,15 @@ export default function HomePage() {
     <PageSection className="khm-home">
       <div className="khm-home-hero">
         <p className="khm-home-kicker">
-          {publicReady ? "Open-cleared research prototype" : "INTERNAL research prototype"}
+          {publicReady ? "Open research prototype" : "Internal research prototype"}
         </p>
         <Title headingLevel="h1">Cambodia mangrove restoration screen</Title>
         <p className="khm-home-lead">
-          A physical / land-cover screen of four coastal provinces to shortlist sites worth a field look.{" "}
-          <strong>GO</strong> marks open or accreted restoration opportunity; <strong>CAUTION</strong>{" "}
-          separates hold-back drivers (tidal, elevation, and converted paint on this pack; tenure and VERRA
-          via flags and overlays). Means teaches the legend; Act carries your shortlist into a decision
-          report. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.
+          A land-cover screen of four coastal provinces to shortlist sites worth a field visit.{" "}
+          <strong>GO</strong> marks open opportunity; <strong>CAUTION</strong> names a reason to pause
+          (tide, height, converted land; rights and carbon projects via flags). Learn the legend first,
+          then decide from your shortlist on Act. Not zoning, tenure clearance, planting permission, or a
+          carbon outcome.
         </p>
       </div>
 
@@ -35,7 +32,7 @@ export default function HomePage() {
         Every decision follows the same five steps
       </Title>
       <p className="pf-v6-u-font-size-sm">
-        Same path every time: set the question, read the coast, learn from a case story, judge a patch, take
+        Same path every time: set the question, skim the coast, learn from an example, judge a site, take
         the shortlist. Choose a step for the story; the rail above keeps your place.
       </p>
       <div className="khm-step-flow">
@@ -79,10 +76,10 @@ export default function HomePage() {
 
       <div className="khm-map-tools pf-v6-u-mt-md">
         <Button variant="primary" component="a" href="#change">
-          Next: Locate (ecosystem change)
+          Next: Locate (coast change)
         </Button>
         <Button variant="link" component="a" href="#map">
-          Skip to screen map
+          Skip to map
         </Button>
       </div>
     </PageSection>

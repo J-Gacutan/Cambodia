@@ -656,18 +656,17 @@ export default function MapPage() {
   return (
     <PageSection isFilled padding={{ default: "noPadding" }} className="khm-map-section">
       <div className="khm-map-head">
-        <Title headingLevel="h1">Screen map</Title>
+        <Title headingLevel="h1">Restoration map</Title>
         <div className="khm-go-banner" role="note">
-          <strong>GO means worth a field look</strong> — open or accreted restoration opportunity (physical /
-          land-cover only). CAUTION paints named hold-backs: <strong>tidal</strong>,{" "}
-          <strong>elevation</strong> (GO demoted when L12/L13 fails), and <strong>converted</strong> (class 5
-          open limb). Tenure and VERRA paint when a flag hits, and as toggleable overlays. Flags never mean
-          approved or refused.
+          <strong>GO means worth a field visit</strong> — open opportunity on former mangrove (land cover
+          only). CAUTION paints named reasons to pause: <strong>tide</strong>, <strong>height</strong>, and{" "}
+          <strong>converted land</strong>. Rights and carbon-project context paint when a flag hits, and as
+          overlays you can toggle. Flags never mean approved or refused.
         </div>
         <HelperText>
           <HelperTextItem>
-            Read step — after <a href="#change">Locate</a> and <a href="#cases">Means (cases)</a>. On the map:
-            filter drivers → click a patch → inspect → shortlist. Case bookmarks jump to Note 3b windows A–C.
+            Read step — after <a href="#change">Locate</a> and <a href="#cases">Means</a>. On the map: filter
+            reasons → click a site → inspect → shortlist. Case bookmarks jump to examples A and C.
           </HelperTextItem>
         </HelperText>
         <MapGuide
@@ -737,7 +736,7 @@ export default function MapPage() {
                   <Title headingLevel="h2">Legend</Title>
                   <ul className="khm-plain-list">
                     <li>
-                      <Swatch color={SUITABILITY.go} label="GO — open/accreted opportunity" />
+                      <Swatch color={SUITABILITY.go} label="GO — open opportunity" />
                     </li>
                     {CAUTION_DRIVERS.map((driver) => (
                       <li key={driver.id}>
@@ -752,17 +751,14 @@ export default function MapPage() {
                       </li>
                     ))}
                     <li>
-                      <Swatch color={FLAGS.permit} label="Ramsar / WDPA overlay (+ tenure paint when hit)" />
+                      <Swatch color={FLAGS.permit} label="Protected-area overlay" />
                     </li>
                     <li>
-                      <Swatch
-                        color={FLAGS.project}
-                        label="VERRA overlay (+ project-overlap paint when hit)"
-                      />
+                      <Swatch color={FLAGS.project} label="Carbon-project overlay" />
                     </li>
                   </ul>
                   <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                    Drawn layer
+                    Map layer
                   </Title>
                   {layers.error && <p role="alert">{layers.error}</p>}
                   {screenLayer && (
@@ -787,19 +783,19 @@ export default function MapPage() {
                         id="show-caution"
                         isChecked={shortlistReadyOnly ? false : showCaution}
                         isDisabled={shortlistReadyOnly}
-                        label="Show CAUTION (all drivers)"
+                        label="Show CAUTION (all reasons)"
                         onChange={(_e, on) => setShowCaution(on)}
                       />
                     </>
                   )}
                   <div ref={driversHeadingRef}>
                     <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                      Hold-back drivers
+                      Reasons to pause
                     </Title>
                   </div>
                   <p className="pf-v6-u-font-size-sm">
-                    Why a site is held back — not one CAUTION bucket. Tidal, elevation, and converted paint on
-                    this pack; tenure and VERRA paint when flags hit (info icon for each).
+                    Why a site is held back — not one CAUTION bucket. Tide, height, and converted land paint
+                    on this pack; rights and carbon projects paint when flags hit (info icon on each row).
                   </p>
                   {CAUTION_DRIVERS.map((driver) => (
                     <div key={driver.id} className="khm-driver-toggle">
@@ -826,37 +822,37 @@ export default function MapPage() {
                     </div>
                   ))}
                   <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                    Phase 2 flag filters
+                    Extra filters
                   </Title>
                   <p className="pf-v6-u-font-size-sm">
-                    “Unknown / incomplete” is not a clearance. STOP (legal) stays unavailable until MoE core
-                    zones exist. Shortlist-ready mode forces GO and hides known flag hits.
+                    “Unknown” is not a clearance. Legal stop-zones for ministry core areas are not on this
+                    pack yet. “Shortlist-ready” keeps only GO sites with no known flag hits.
                   </p>
                   <Checkbox
                     id="hide-permit"
                     isChecked={hidePermitHits || shortlistReadyOnly}
                     isDisabled={shortlistReadyOnly}
-                    label="Hide patches with permit-gate hit"
+                    label="Hide sites with protected-area flag"
                     onChange={(_e, on) => setHidePermitHits(on)}
                   />
                   <Checkbox
                     id="hide-stop"
                     isChecked={hideStopHits || shortlistReadyOnly}
                     isDisabled={shortlistReadyOnly}
-                    label="Hide patches with STOP (legal) hit"
+                    label="Hide sites with legal-stop flag"
                     onChange={(_e, on) => setHideStopHits(on)}
                   />
                   <Checkbox
                     id="hide-overlap"
                     isChecked={hideOverlapHits || shortlistReadyOnly}
                     isDisabled={shortlistReadyOnly}
-                    label="Hide patches with VERRA project hit (VCS 1748 / 5071 / 5584)"
+                    label="Hide sites overlapping a carbon project"
                     onChange={(_e, on) => setHideOverlapHits(on)}
                   />
                   <Checkbox
                     id="shortlist-ready"
                     isChecked={shortlistReadyOnly}
-                    label="Shortlist-ready: GO ∩ no known flag hits"
+                    label="Shortlist-ready: GO only, no known flags"
                     onChange={(_e, on) => {
                       setShortlistReadyOnly(on);
                       if (on) {
@@ -868,14 +864,14 @@ export default function MapPage() {
                   {contextLayers.length > 0 && (
                     <>
                       <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                        Flag overlays
+                        Context overlays
                       </Title>
                       <div className="khm-map-tools pf-v6-u-mb-sm">
                         <Button variant="secondary" onClick={() => setProjectOverlays(true)}>
-                          Show VERRA boundaries
+                          Show carbon-project outlines
                         </Button>
                         <Button variant="secondary" onClick={() => setPermitOverlays(true)}>
-                          Show Ramsar context
+                          Show protected-area context
                         </Button>
                         <Button
                           variant="link"
@@ -904,7 +900,7 @@ export default function MapPage() {
                         />
                       ))}
                       <p className="pf-v6-u-font-size-sm">
-                        Full licence matrix: <a href="#licence">Licence and evidence</a>
+                        Sharing rules: <a href="#about">About</a>
                       </p>
                     </>
                   )}
@@ -912,9 +908,10 @@ export default function MapPage() {
                     Shortlist ({shortlist.length})
                   </Title>
                   <p className="pf-v6-u-font-size-sm">
-                    Kept for this browser tab (session). CSV is Excel-friendly; GeoJSON exports full polygons.
+                    Kept in this browser session. Spreadsheet and map-polygon downloads also live on{" "}
+                    <a href="#act">Act</a>.
                   </p>
-                  {shortlist.length === 0 && <p className="pf-v6-u-font-size-sm">No patches yet.</p>}
+                  {shortlist.length === 0 && <p className="pf-v6-u-font-size-sm">No sites yet.</p>}
                   {shortlist.length > 0 && (
                     <>
                       <ul className="khm-plain-list pf-v6-u-font-size-sm">
@@ -926,8 +923,8 @@ export default function MapPage() {
                               onClick={() => zoomShortlistItem(row)}
                             >
                               {row.id} · {suitabilityLabel(row.suitability)} · {row.area_ha.toFixed(1)} ha
-                              {row.project_overlap === true ? " · VERRA" : ""}
-                              {row.permit_gate === true ? " · permit" : ""}
+                              {row.project_overlap === true ? " · carbon project" : ""}
+                              {row.permit_gate === true ? " · protected area" : ""}
                             </button>
                             <Button variant="link" isInline onClick={() => removeShortlistItem(row.id)}>
                               Remove
@@ -946,7 +943,7 @@ export default function MapPage() {
                             )
                           }
                         >
-                          Export CSV
+                          Download spreadsheet
                         </Button>
                         <Button
                           variant="secondary"
@@ -958,7 +955,7 @@ export default function MapPage() {
                             )
                           }
                         >
-                          Export GeoJSON (polygons)
+                          Download map polygons
                         </Button>
                         <Button variant="link" onClick={() => setShortlist([])}>
                           Clear
@@ -979,9 +976,9 @@ export default function MapPage() {
                   aria-label="Cambodia GO and CAUTION screen map"
                 />
                 <div className="khm-map-key" aria-hidden>
-                  <Swatch color={SUITABILITY.go} label="GO · open/accreted" />
-                  <Swatch color={CAUTION_DRIVERS[0]!.color} label="CAUTION · tidal" />
-                  <Swatch color={CAUTION_DRIVERS[1]!.color} label="CAUTION · elevation" />
+                  <Swatch color={SUITABILITY.go} label="GO · open" />
+                  <Swatch color={CAUTION_DRIVERS[0]!.color} label="CAUTION · tide" />
+                  <Swatch color={CAUTION_DRIVERS[1]!.color} label="CAUTION · height" />
                   <Swatch color={CAUTION_DRIVERS[2]!.color} label="CAUTION · converted" />
                 </div>
               </div>
@@ -992,15 +989,14 @@ export default function MapPage() {
           <Title headingLevel="h2">Click inspect</Title>
           {!inspect && (
             <p className="pf-v6-u-font-size-sm">
-              Click a GO or CAUTION patch on the map. Details appear here — not buried in the layers
-              drawer.
+              Click a GO or CAUTION site on the map. Details appear here — not buried in the layers drawer.
             </p>
           )}
           {inspect && (
             <div className="khm-inspect">
               <p>
                 <strong>{suitabilityLabel(inspect.props.suitability)}</strong>
-                {meaning ? ` · ${meaning.label}` : ` · class ${inspect.props.class_id}`}
+                {meaning ? ` · ${meaning.label}` : ""}
               </p>
               {meaning && <p className="pf-v6-u-font-size-sm">{meaning.meaning}</p>}
               <Title headingLevel="h3" className="pf-v6-u-font-size-md">
@@ -1021,7 +1017,7 @@ export default function MapPage() {
               )}
               <dl className="khm-facts">
                 <div>
-                  <dt>Feature</dt>
+                  <dt>Site id</dt>
                   <dd>{inspect.props.id}</dd>
                 </div>
                 <div>
@@ -1033,18 +1029,18 @@ export default function MapPage() {
                   <dd>{inspect.props.province ?? "—"}</dd>
                 </div>
                 <div>
-                  <dt>Permit gate</dt>
+                  <dt>Protected area</dt>
                   <dd>{flagLabel(inspect.props.permit_gate)}</dd>
                 </div>
                 <div>
-                  <dt>STOP (legal)</dt>
+                  <dt>Legal stop</dt>
                   <dd>
                     {flagLabel(inspect.props.stop_legal)}
                     {inspect.props.stop_legal_status ? ` · ${inspect.props.stop_legal_status}` : ""}
                   </dd>
                 </div>
                 <div>
-                  <dt>VERRA</dt>
+                  <dt>Carbon project</dt>
                   <dd>
                     {flagLabel(inspect.props.project_overlap)}
                     {verraIds ? ` · ${verraIds}` : ""}

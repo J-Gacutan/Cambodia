@@ -1,6 +1,9 @@
 import { Banner, Button, PageSection, Title } from "@patternfly/react-core";
+import { LayerProvenance } from "../common/LayerProvenance";
+import { EvidenceBadge, IllustrativeBadge } from "../common/Evidence";
 import { BUNDLE_VERSION } from "../lib/env";
 import { loadManifest, loadMapLayers } from "../lib/bundle";
+import { parseEvidenceClass } from "../lib/evidence";
 import { layerDisplayTitle } from "../lib/layerLabels";
 import { useBundle } from "../lib/useBundle";
 
@@ -8,130 +11,139 @@ export default function AboutPage() {
   const manifest = useBundle(loadManifest);
   const layers = useBundle(loadMapLayers);
   const publicReady = manifest.data?.public_ready === true;
-  const productBanner =
-    manifest.data?.product_banner ??
-    "Physical / land-cover suitability proxy only. GO means worth a field look — not MoE zoning, tenure clearance, planting permission, or a carbon outcome.";
+  const version = manifest.data?.version ?? BUNDLE_VERSION;
+  const built = manifest.data?.built;
 
   return (
     <PageSection className="khm-prose">
-      <Title headingLevel="h1">About this console</Title>
+      <Title headingLevel="h1">About this screen</Title>
       <Banner
         color={publicReady ? "blue" : "orange"}
         className="khm-banner khm-about-banner"
         role="region"
-        aria-label="Package banner"
+        aria-label="Package status"
       >
         {publicReady ? (
           <>
-            Open-cleared P2 research package (class 8 ± 4).{" "}
-            <strong>GO = worth a field look</strong> (physical / land-cover only). {productBanner}{" "}
-            <a href="#licence">Licence</a>
+            Research package for four coastal provinces.{" "}
+            <strong>GO means worth a field visit</strong> — based on land cover only, not a permit or a
+            carbon credit.
           </>
         ) : (
           <>
-            INTERNAL / illustrative until licence gate clears.{" "}
-            <strong>GO = worth a field look</strong> (physical / land-cover only). {productBanner}{" "}
-            <a href="#licence">Licence</a>
+            Internal draft — not cleared for public sharing yet.{" "}
+            <strong>GO means worth a field visit</strong> — based on land cover only.
           </>
         )}
       </Banner>
+
       <p>
-        Thin React + PatternFly 6 + MapLibre MVP for the Cambodia four-province mangrove restoration screen
-        (Seed Fund / REDD+ scoping). Modelled on the LKA MSP platform shell — Frame → Locate → Means → Read →
-        Act progressive rail, map, legend, click-inspect, cases, shortlist export — not the Indonesia national
-        console.
+        This console helps a team shortlist mangrove restoration sites that look physically promising, so
+        people can plan a field visit. It covers Cambodia’s four coastal provinces. It is not zoning advice,
+        tenure clearance, planting permission, or a carbon outcome.
       </p>
+
       <div className="khm-map-tools">
         <Button variant="secondary" component="a" href="#home">
           Back to Frame
         </Button>
         <Button variant="primary" component="a" href="#map">
-          Open Read (map)
+          Open the map
+        </Button>
+        <Button variant="link" component="a" href="#act">
+          Go to Act (shortlist)
         </Button>
       </div>
-      <Title headingLevel="h2">Product truth</Title>
+
+      <Title headingLevel="h2">How the screen works</Title>
       <p>
-        The class map is a physical / land-cover suitability filter and restoration <strong>proxy</strong>.{" "}
-        <strong>GO means worth a field look</strong> — nothing more. It is not MoE zoning, tenure clearance,
-        planting permission, or a carbon outcome. Phase 2 flags cite instruments and overlaps; they never say a
-        site is approved or refused.
+        Five steps keep the same path every time: set the question (Frame), skim how the coast has changed
+        (Locate), learn the legend with examples (Means), judge patches on the map (Read), then take the
+        shortlist forward (Act). Colours and overlays are readings you can quote — they never approve or
+        refuse a site.
       </p>
-      <Title headingLevel="h2">Data</Title>
+      <ul>
+        <li>
+          <strong>GO</strong> — open or newly built-up land on former mangrove that still looks worth walking.
+        </li>
+        <li>
+          <strong>CAUTION</strong> — a named reason to pause (tide, height above the tide, converted land,
+          rights context, or an existing carbon project).
+        </li>
+        <li>
+          <strong>Overlays</strong> — protected-area context and existing project outlines for awareness only.
+        </li>
+      </ul>
+
+      <Title headingLevel="h2">What this is not</Title>
       <p>
-        Data version {manifest.data?.version ?? BUNDLE_VERSION}
-        {publicReady ? " · public_ready=true (P2 Pages)" : " · public_ready=false"}. FLAG / pond geometries stay
-        offline. Quote the original source register, not this site.
+        The map is a land-cover filter and restoration proxy. Flags name instruments and overlaps; they do
+        not mean a site is approved or refused. Legal stop-zones for ministry core areas are not on this
+        pack yet — until they are, that check stays unavailable.
       </p>
+
+      <Title headingLevel="h2">Data on this build</Title>
       <p>
-        Feeds from versioned <code>delivery/open-cleared/&lt;version&gt;/</code>, synced into{" "}
-        <code>public/khm-bundle/</code>. Current pin: <code>{BUNDLE_VERSION}</code>
-        {manifest.data ? ` (built ${manifest.data.built})` : ""}.
+        Package version <strong>{version}</strong>
+        {built ? ` · built ${built}` : ""}.
+        {publicReady
+          ? " Cleared for this research share."
+          : " Still illustrative — do not publish as a public product."}{" "}
+        Sensitive pond outlines stay offline. For redistribution decisions, quote the original source
+        register, not this website alone.
       </p>
-      {manifest.data && (
-        <ul>
-          <li>stub: {String(manifest.data.stub)}</li>
-          <li>public_ready: {String(manifest.data.public_ready)}</li>
-          <li>licence_gate: {manifest.data.licence_gate}</li>
-          <li>completeness: {manifest.data.completeness}</li>
-        </ul>
-      )}
-      <Title headingLevel="h2">Layers in this bundle</Title>
+
+      <Title headingLevel="h2" id="licence">
+        Sharing and licence posture
+      </Title>
+      <p>
+        This console is aimed at public research sharing (GitHub Pages). Sensitive working rasters and
+        internal case images never go into the public site. Protected-area and carbon-project outlines may
+        appear as research context only — not for commercial republishing, and not as planting permission.
+      </p>
+      <ul>
+        <li>
+          <strong>Public research site</strong> — {publicReady ? "allowed for this pack" : "blocked until the pack is cleared"}.
+        </li>
+        <li>
+          <strong>Local preview</strong> — fine for team review against the pinned package.
+        </li>
+        <li>
+          <strong>Sensitive pond maps</strong> — stay offline; never publish with the public site.
+        </li>
+        <li>
+          <strong>Protected-area and project overlays</strong> — research use on this console; do not claim
+          commercial redistribution.
+        </li>
+      </ul>
+
+      <Title headingLevel="h2">Layers in this package</Title>
       <p className="pf-v6-u-font-size-sm">
-        Every layer file in the pinned open-cleared pack (same list as Act / licence). Toggle overlays on
-        Read; shortlist report on Act.
+        Each layer carries a plain-language licence line. Toggle overlays on the map; take the shortlist to{" "}
+        <a href="#act">Act</a>.
       </p>
       {layers.error && <p role="alert">{layers.error}</p>}
-      {layers.data && layers.data.length > 0 ? (
-        <ul className="khm-plain-list">
-          {layers.data.map((layer) => (
-            <li key={layer.id}>
-              <strong>{layerDisplayTitle(layer)}</strong>
-              {layer.kind ? ` · ${layer.kind}` : ""}
-              {layer.flag_role ? ` · ${layer.flag_role}` : ""}
-              {layer.redistributable === false ? " · non-commercial research (not redistributable)" : ""}
-              {layer.default_visible ? " · default on" : " · default off"}
-              {layer.licence_plain ? (
-                <span className="pf-v6-u-font-size-sm"> — {layer.licence_plain}</span>
-              ) : null}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        !layers.error && <p role="status">No layers family in this bundle.</p>
+      {layers.data?.map((layer) => {
+        const evidence = parseEvidenceClass(layer.evidence_class);
+        return (
+          <div key={layer.id} className="khm-licence-layer">
+            <Title headingLevel="h3">
+              {layerDisplayTitle(layer)}{" "}
+              {evidence && <EvidenceBadge cls={evidence} />}{" "}
+              <IllustrativeBadge publicReady={publicReady && layer.public_ready} />
+            </Title>
+            <LayerProvenance
+              layer={layer}
+              publicReady={publicReady}
+              displayTitle={layerDisplayTitle(layer)}
+              variant="inline"
+            />
+          </div>
+        );
+      })}
+      {(!layers.data || layers.data.length === 0) && !layers.error && (
+        <p role="status">No layers in this package.</p>
       )}
-      <Title headingLevel="h2">Phase 2 flags</Title>
-      <p>
-        Permit gate, STOP (legal), and VERRA (VCS 1748 / 5071 / 5584) attributes attach without changing class.
-        The UI cites instruments and overlaps — it never says a site is approved or refused. STOP (legal) stays{" "}
-        <em>unavailable</em> until MoE mapped core zones exist (L19 digital GIS closed). Gaps:{" "}
-        <code>delivery/open-cleared/{BUNDLE_VERSION}/flags/GAPS.md</code>.
-      </p>
-      <Title headingLevel="h2">Bundle versions</Title>
-      <p>
-        Default pin is <code>v0.3.0</code> (P2 open-cleared class 8 ± 4, <code>public_ready=true</code>). Fall
-        back to <code>v0.2.2</code> (full GO±CAUTION INTERNAL), <code>v0.2.0</code>, or{" "}
-        <code>v0.1.0-stub</code> via <code>VITE_KHM_BUNDLE_VERSION</code> or by editing{" "}
-        <code>config/bundle-versions.json</code>, then <code>npm run sync:bundle</code>.
-      </p>
-      <Title headingLevel="h2">Contract pin</Title>
-      <p>
-        LKA-style sha256 pin: <code>contract/platform.json</code> → verified on{" "}
-        <code>npm run sync:bundle</code> → <code>config/contract-pin.json</code>. Check with{" "}
-        <code>npm run check:bundle</code>.
-      </p>
-      <Title headingLevel="h2">Licence panel</Title>
-      <p>
-        Per-layer evidence and licence lines: <a href="#licence">Licence and evidence</a>. Host matrix is
-        public Pages only; deploy stays gated on <code>public_ready</code>.
-      </p>
-      <Title headingLevel="h2">Public Pages</Title>
-      <p>
-        Kenya-style Actions → GitHub Pages is scaffolded but must not go live until the open-cleared bundle has{" "}
-        <code>public_ready=true</code> (licence gate <code>khm-i6e.2</code>). FLAG rasters and INTERNAL case PNGs
-        never enter the Pages artifact. WDPA (coastal clip) and staged VERRA project boundaries ship as{" "}
-        <em>non-commercial research</em> overlays (<code>redistributable=false</code>) — not a commercial
-        republish claim.
-      </p>
     </PageSection>
   );
 }

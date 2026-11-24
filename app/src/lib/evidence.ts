@@ -1,8 +1,7 @@
 import { z } from "zod";
 
 /**
- * Cambodia screen evidence classes (bundle layers/index.json).
- * Adapted from LKA evidence.ts — different vocabulary for a restoration proxy, not ocean accounts.
+ * Evidence classes for bundle layers — plain labels for the console.
  */
 export const evidenceClassSchema = z.enum([
   "derived_screen",
@@ -18,8 +17,8 @@ export type EvidenceClass = z.infer<typeof evidenceClassSchema>;
 
 export const EVIDENCE_LABEL: Record<EvidenceClass, string> = {
   derived_screen: "Derived screen",
-  designation_context: "Designation context",
-  project_boundary: "Project boundary",
+  designation_context: "Protected-area context",
+  project_boundary: "Project outline",
   observed_government: "Government",
   published: "Published",
   observed_global: "Global product",
@@ -43,16 +42,16 @@ export const EVIDENCE_COLOR: Record<
 
 export const EVIDENCE_DESCRIPTION: Record<EvidenceClass, string> = {
   derived_screen:
-    "Derived from the offline restoration class screen. Physical / land-cover proxy only — not MoE zoning or clearance.",
+    "Built from the restoration land-cover screen. Worth a field visit only — not zoning or planting permission.",
   designation_context:
-    "Published designation context (for example Ramsar). Cites instruments; never means planting permission.",
+    "Published protected-area context (for example Ramsar). Names the instrument; never means planting permission.",
   project_boundary:
-    "Staged project / registry boundary used for double-counting awareness — not a registry decision.",
+    "Outline of an existing registered project — for awareness of overlap, not a registry decision.",
   observed_government: "Cambodian government data or law.",
   published: "A peer-reviewed paper or agency report, cited to table or page.",
   observed_global: "A global product clipped to the study area, used for a gap or a cross-check.",
   stand_in: "An outline used where the official boundary is not held. No clearance is implied.",
-  not_assessed: "No source is held for this layer in the current bundle."
+  not_assessed: "No source is held for this layer in the current package."
 };
 
 export function parseEvidenceClass(value: string | undefined | null): EvidenceClass | null {

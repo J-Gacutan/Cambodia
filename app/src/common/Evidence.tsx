@@ -19,14 +19,14 @@ export function EvidenceBadge({ cls }: { cls: EvidenceClass }) {
   );
 }
 
-/** Shown until the licence gate clears public_ready (khm-i6e.2). */
+/** Shown while the package is still an internal draft. */
 export function IllustrativeBadge({ publicReady }: { publicReady: boolean }) {
   if (publicReady) return null;
   return (
-    <Popover bodyContent="Bundle public_ready=false. Illustrative INTERNAL prototype until khm-i6e.2.">
+    <Popover bodyContent="This package is still an internal draft — illustrative only, not cleared for public sharing.">
       <Button
         variant="plain"
-        aria-label="Illustrative. Not cleared for public Pages"
+        aria-label="Illustrative. Not cleared for public sharing"
         className="khm-badge-button"
       >
         <Label isCompact color="orange">

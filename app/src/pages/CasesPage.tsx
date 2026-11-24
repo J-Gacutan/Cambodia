@@ -15,10 +15,7 @@ function Swatch({ color, label }: { color: string; label: string }) {
   );
 }
 
-/**
- * Means step: explain the map legend with narrative examples before Read.
- * Cases A and C are the live examples on v0.3.0; Case B is named as omitted.
- */
+/** Means step: explain the map legend with examples before Read. */
 export default function CasesPage() {
   const cases = useBundle(loadCases);
   const [copied, setCopied] = useState<string | null>(null);
@@ -42,18 +39,18 @@ export default function CasesPage() {
     <PageSection className="khm-prose khm-means">
       <Title headingLevel="h1">Means — how to read the map</Title>
       <p className="khm-home-lead">
-        Before you open the screen map, learn the legend. GO and CAUTION are physical / land-cover readings
-        only — worth a field look, or held back for a named reason. Overlays cite designations and projects;
-        they never approve or refuse a site.
+        Before you open the restoration map, learn the legend. GO and CAUTION are land-cover readings only —
+        worth a field visit, or held back for a named reason. Overlays name designations and projects; they
+        never approve or refuse a site.
       </p>
 
       <Title headingLevel="h2">Legend you will see on Read</Title>
       <ul className="khm-means-legend">
         <li>
-          <Swatch color={SUITABILITY.go} label="GO — open / accreted opportunity" />
+          <Swatch color={SUITABILITY.go} label="GO — open opportunity" />
           <p>
-            Historic mangrove that now reads as open cover. Shortlist it for a field look after elevation and
-            tenure checks. Example: Case A (Koh Kong hinterland).
+            Former mangrove that now reads as open cover. Shortlist it for a field visit after height and
+            rights checks. Example: Case A (Koh Kong hinterland).
           </p>
         </li>
         {CAUTION_DRIVERS.map((driver) => (
@@ -65,42 +62,40 @@ export default function CasesPage() {
             <p>
               {driver.holdsBack}{" "}
               {driver.id === "tidal"
-                ? "Example: Case C (Preah Sihanouk / Kampot coast) — tidal CAUTION paint on the public map."
-                : driver.id === "elevation"
-                  ? "Painted when the L12/L13 elevation check fails; GO patches are demoted to CAUTION elevation colour."
-                  : driver.id === "converted"
-                    ? "Painted for Note 3b class 5 (open Dynamic World limb). Class 7 pond geometries stay off this public pack."
-                    : driver.id === "verra"
-                      ? "Paints when a patch intersects a staged VCS boundary; toggle the VERRA overlay on Read for the outline."
-                      : driver.id === "tenure"
-                        ? "Paints when a permit-gate attribute is joined (Ramsar / WDPA); toggle those overlays on Read."
-                        : "Not painted as a separate colour on this public pack yet — listed so you know what is still coming."}
+                ? "Example: Case C (Preah Sihanouk / Kampot coast) — this is the hold-back painted on the map today."
+                : driver.id === "verra"
+                  ? "On this pack it lights when a site meets a staged project outline; toggle that overlay on Read to see the boundary."
+                  : driver.id === "tenure"
+                    ? "On this pack it lights when a protected-area attribute is joined; toggle those overlays on Read."
+                    : driver.status === "live"
+                      ? "Painted on the map when this reason applies."
+                      : "Not painted as its own colour on this pack yet — listed so you know what is still coming."}
             </p>
           </li>
         ))}
         <li>
-          <Swatch color={FLAGS.permit} label="Ramsar / protected-area context" />
+          <Swatch color={FLAGS.permit} label="Protected-area context" />
           <p>
-            Designation context for a permit-gate check. Toggle it on Read when you want to see named sites.
-            Not planting permission. Non-commercial research use on this console.
+            Designation context for a rights check. Toggle it on Read when you want to see named sites. Not
+            planting permission. Research use only on this console.
           </p>
         </li>
         <li>
-          <Swatch color={FLAGS.project} label="VERRA project boundary" />
+          <Swatch color={FLAGS.project} label="Existing carbon-project outline" />
           <p>
-            Existing VCS project outline (double-counting / access check). Toggle on Read. Non-commercial
-            research use only — not a commercial republish of registry extracts.
+            Existing project outline (overlap / access check). Toggle on Read. Research use only — not a
+            commercial republish of registry extracts.
           </p>
         </li>
       </ul>
 
       <Title headingLevel="h2">Case stories on this pack</Title>
       <p className="pf-v6-u-font-size-sm">
-        Cases A and C ship with open-cleared v0.3.0. Case B (open water overriding first-pass mangrove) is
-        omitted from this pack — say so when you brief, so the omission is part of the reading.
+        Cases A and C ship with this open research package. Case B (open water overriding first-pass
+        mangrove) is omitted — say so when you brief, so the gap is part of the reading.
       </p>
       {cases.error && <p role="alert">{cases.error}</p>}
-      {cases.absent && <p>This bundle version has no cases family.</p>}
+      {cases.absent && <p>This package has no case stories.</p>}
       <div className="khm-case-grid">
         {(cases.data ?? []).map((c) => {
           const meaning = meaningForClass(c.focus);
@@ -134,18 +129,18 @@ export default function CasesPage() {
           <p className="khm-case-eyebrow">Case B · omitted on this pack</p>
           <Title headingLevel="h2">Open water overriding first-pass mangrove</Title>
           <p className="khm-case-story">
-            The rule-order lesson for STOP / open water is not in open-cleared v0.3.0. Name the gap when you
-            brief — do not invent a Case B window from this console.
+            The open-water lesson is not in this package. Name the gap when you brief — do not invent a Case
+            B window from this console.
           </p>
           <Label isCompact color="orange">
-            Not in v0.3.0
+            Not in this pack
           </Label>
         </article>
       </div>
 
       <div className="khm-map-tools pf-v6-u-mt-xl">
         <Button variant="primary" onClick={() => openOnMap()}>
-          Continue to Read (screen map)
+          Continue to Read (map)
         </Button>
         <Button variant="link" component="a" href="#change">
           Back: Locate
