@@ -28,6 +28,7 @@ import { hashPath, useHash } from "./lib/hash";
 import { useBundle } from "./lib/useBundle";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
+const ChangePage = lazy(() => import("./pages/ChangePage"));
 const MapPage = lazy(() => import("./pages/MapPage"));
 const CasesPage = lazy(() => import("./pages/CasesPage"));
 const LicencePage = lazy(() => import("./pages/LicencePage"));
@@ -35,6 +36,7 @@ const AboutPage = lazy(() => import("./pages/AboutPage"));
 
 const NAV = [
   ["#home", "Home"],
+  ["#change", "Change"],
   ["#map", "Map"],
   ["#cases", "Cases"],
   ["#licence", "Licence"],
@@ -55,6 +57,8 @@ function useBelowMd() {
 function route(hash: string) {
   const path = hashPath(hash);
   switch (path) {
+    case "change":
+      return <ChangePage />;
     case "map":
       return <MapPage />;
     case "cases":

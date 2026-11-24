@@ -16,23 +16,23 @@ const STEPS: { id: StepId; label: string; does: string; detail: string }[] = [
   {
     id: "locate",
     label: "Locate",
-    does: "Opens the place on the map.",
+    does: "Starts with ecosystem change, then the screen map.",
     detail:
-      "The map shows open-cleared GO (class 8) and CAUTION tidal flat (class 4) patches. Use case bookmarks A and C, or pan the coast yourself."
+      "Open #change for mangrove loss drivers and an urban/built proxy (open P2 samples), then #map for GO class 8 and CAUTION drivers — not one CAUTION bucket."
   },
   {
     id: "read",
     label: "Read",
     does: "Reads what each patch holds.",
     detail:
-      "Click a patch: class meaning, area, province, and Phase 2 flags (permit context, STOP legal when available) appear in the right-hand inspect panel."
+      "Click a patch: class meaning, hold-back drivers (tidal, tenure, VERRA…), area, province, and Phase 2 flags appear in the inspect panel."
   },
   {
     id: "means",
     label: "Means",
     does: "Reads what that means for a field look.",
     detail:
-      "GO means worth a field look. CAUTION means a named check first. Flags cite instruments and overlaps — they never mean approved or refused."
+      "GO means worth a field look. CAUTION is split by drivers that prevent a project (tidal/hydroperiod, elevation stub, converted stub, tenure/legal, VERRA). Flags never mean approved or refused."
   },
   {
     id: "act",
@@ -63,14 +63,17 @@ export default function HomePage() {
         </p>
         <Title headingLevel="h1">Cambodia restoration screen</Title>
         <p className="khm-home-lead">
-          A step-through physical screen for coastal mangrove restoration potential — GO class 8 and CAUTION
-          class 4 only on the public Pages package. Decide what you need, then open the map.
+          A step-through physical screen for coastal mangrove restoration potential — change context first,
+          then GO class 8 with CAUTION split by hold-back drivers on the public Pages package.
         </p>
         <div className="khm-map-tools">
-          <Button variant="primary" component="a" href="#map">
+          <Button variant="primary" component="a" href="#change">
+            Start with ecosystem change
+          </Button>
+          <Button variant="secondary" component="a" href="#map">
             Open the screen map
           </Button>
-          <Button variant="secondary" component="a" href="#licence">
+          <Button variant="link" component="a" href="#licence">
             Licence and evidence
           </Button>
         </div>
@@ -112,9 +115,14 @@ export default function HomePage() {
                 {index + 1}. {info.label}: {info.does}
               </p>
               <p>{info.detail}</p>
-              {info.id === "locate" || info.id === "act" ? (
+              {info.id === "locate" ? (
                 <p>
-                  <a href="#map">Continue to the map →</a>
+                  <a href="#change">Continue to ecosystem change →</a>
+                </p>
+              ) : null}
+              {info.id === "act" ? (
+                <p>
+                  <a href="#map">Continue to the restoration map →</a>
                 </p>
               ) : null}
             </>
@@ -127,10 +135,22 @@ export default function HomePage() {
       </Title>
       <ul className="khm-home-doors">
         <li>
+          <a href="#change">
+            <strong>Ecosystem change</strong>
+          </a>
+          <span>
+            {" "}
+            — mangrove loss drivers (L4) and urban/built proxy (L10); on-canvas toggles; open samples only.
+          </span>
+        </li>
+        <li>
           <a href="#map">
             <strong>Screen map</strong>
           </a>
-          <span> — GO / CAUTION patches, basemap toggle on the canvas, click-inspect, shortlist export.</span>
+          <span>
+            {" "}
+            — GO / CAUTION by hold-back driver, basemap toggle on the canvas, click-inspect, shortlist export.
+          </span>
         </li>
         <li>
           <a href="#cases">

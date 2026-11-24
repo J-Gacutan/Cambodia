@@ -36,6 +36,14 @@ import {
 import { LayerProvenance } from "../common/LayerProvenance";
 import { EvidenceBadge, IllustrativeBadge } from "../common/Evidence";
 import { parseEvidenceClass } from "../lib/evidence";
+import {
+  CAUTION_DRIVERS,
+  driverStatusLabel,
+  driversForFeature,
+  holdsBackSummary,
+  primaryDriver,
+  type CautionDriverId
+} from "../lib/cautionDrivers";
 import { meaningForClass, suitabilityLabel } from "../lib/classMeaning";
 import { formatVerraIds, isVerraLayer, layerDisplayTitle } from "../lib/layerLabels";
 import {
@@ -179,6 +187,13 @@ export default function MapPage() {
   const [panelOpen, setPanelOpen] = useState(true);
   const [showGo, setShowGo] = useState(true);
   const [showCaution, setShowCaution] = useState(true);
+  const [driverFilter, setDriverFilter] = useState<Record<CautionDriverId, boolean>>({
+    tidal: true,
+    elevation: true,
+    converted: true,
+    tenure: true,
+    verra: true
+  });
   const [hidePermitHits, setHidePermitHits] = useState(false);
   const [hideStopHits, setHideStopHits] = useState(false);
   const [hideOverlapHits, setHideOverlapHits] = useState(false);
@@ -312,9 +327,33 @@ export default function MapPage() {
     const map = mapRef.current;
     if (!ready || !map || !screenLayer) return;
     let cancelled = false;
-    loadLayerGeometry(screenLayer).then((fc) => {
+    loadLayerGeometry(screenLayer).then((raw) => {
       if (cancelled || mapRef.current !== map) return;
-      geometryCache.current.set(screenLayer.id, fc as GeoJSON.FeatureCollection);
+      // Enrich with hold-back drivers so CAUTION is not one paint bucket.
+      const fc: GeoJSON.FeatureCollection = {
+        type: "FeatureCollection",
+        features: raw.features.map((feature) => {
+          const props = parseFeatureProps(
+            (feature.properties ?? {}) as Record<string, unknown>
+          );
+          const drivers = driversForFeature(props);
+          const primary = primaryDriver(props);
+          return {
+            ...feature,
+            properties: {
+              ...feature.properties,
+              primary_driver: primary,
+              driver_ids: drivers.join("|"),
+              has_tidal: drivers.includes("tidal"),
+              has_tenure: drivers.includes("tenure"),
+              has_verra: drivers.includes("verra"),
+              has_converted: drivers.includes("converted"),
+              has_elevation: drivers.includes("elevation")
+            }
+          };
+        })
+      };
+      geometryCache.current.set(screenLayer.id, fc);
       if (!map.getSource(SOURCE_ID)) {
         map.addSource(SOURCE_ID, { type: "geojson", data: fc });
         const symbol = map.getStyle().layers?.find((l) => l.type === "symbol")?.id;
@@ -402,6 +441,22 @@ export default function MapPage() {
     } else {
       parts.push(["in", ["get", "suitability"], ["literal", wanted]]);
     }
+    // Driver filters: CAUTION patches must match an enabled primary_driver.
+    // GO patches pass unless shortlist-ready already stripped flags below.
+    if (!shortlistReadyOnly && showCaution) {
+      const enabled = (Object.entries(driverFilter) as [CautionDriverId, boolean][])
+        .filter(([, on]) => on)
+        .map(([id]) => id);
+      if (enabled.length === 0) {
+        parts.push(["!=", ["get", "suitability"], "caution"]);
+      } else {
+        parts.push([
+          "any",
+          ["!=", ["get", "suitability"], "caution"],
+          ["in", ["get", "primary_driver"], ["literal", enabled]]
+        ] as maplibregl.FilterSpecification);
+      }
+    }
     const hidePermit = hidePermitHits || shortlistReadyOnly;
     const hideStop = hideStopHits || shortlistReadyOnly;
     const hideOverlap = hideOverlapHits || shortlistReadyOnly;
@@ -415,6 +470,7 @@ export default function MapPage() {
   }, [
     showGo,
     showCaution,
+    driverFilter,
     hidePermitHits,
     hideStopHits,
     hideOverlapHits,
@@ -549,6 +605,7 @@ export default function MapPage() {
   };
 
   const meaning = inspect ? meaningForClass(inspect.props.class_id) : null;
+  const inspectDrivers = inspect ? driversForFeature(inspect.props) : [];
   const publicReady = manifest.data?.public_ready === true;
   const verraIds = formatVerraIds(inspect?.props.project_overlap_ids);
 
@@ -557,17 +614,20 @@ export default function MapPage() {
       <div className="khm-map-head">
         <Title headingLevel="h1">Screen map</Title>
         <div className="khm-go-banner" role="note">
-          <strong>GO means worth a field look</strong> — physical / land-cover suitability only. Not MoE
-          zoning, tenure clearance, planting permission, or a carbon outcome. Flags cite instruments and
-          overlaps; they never mean approved or refused.
+          <strong>GO means worth a field look</strong> — physical / land-cover suitability only. CAUTION is
+          split by hold-back drivers (tidal, elevation stub, converted stub, tenure/legal, VERRA) — not one
+          bucket. Flags cite instruments and overlaps; they never mean approved or refused.
         </div>
         <HelperText>
           <HelperTextItem>
-            Click a patch to inspect it in the right-hand panel. Case bookmarks jump to Note 3b windows A–C.
-            Shortlist exports include full polygons plus flag columns.
+            Screen 2 of 2 (after <a href="#change">ecosystem change</a>). Click a patch for drivers that hold
+            a site back. Case bookmarks jump to Note 3b windows A–C.
           </HelperTextItem>
         </HelperText>
         <div className="khm-map-tools">
+          <Button variant="secondary" component="a" href="#change">
+            Back to change screen
+          </Button>
           <ToggleGroup aria-label="Case bookmarks">
             <ToggleGroupItem
               text="Four provinces"
@@ -622,14 +682,19 @@ export default function MapPage() {
                     <li>
                       <Swatch color={SUITABILITY.go} label="GO — worth a field look" />
                     </li>
+                    {CAUTION_DRIVERS.map((driver) => (
+                      <li key={driver.id}>
+                        <Swatch
+                          color={driver.color}
+                          label={`CAUTION · ${driver.short} (${driverStatusLabel(driver.status).toLowerCase()})`}
+                        />
+                      </li>
+                    ))}
                     <li>
-                      <Swatch color={SUITABILITY.caution} label="CAUTION — named check first" />
+                      <Swatch color={FLAGS.permit} label="Permit context overlay (Ramsar)" />
                     </li>
                     <li>
-                      <Swatch color={FLAGS.permit} label="Permit context (Ramsar / PA)" />
-                    </li>
-                    <li>
-                      <Swatch color={FLAGS.project} label="VERRA (VCS 1748 / 5071 / 5584)" />
+                      <Swatch color={FLAGS.project} label="VERRA overlay (stub on P2 public)" />
                     </li>
                   </ul>
                   <Title headingLevel="h2" className="pf-v6-u-mt-md">
@@ -658,11 +723,32 @@ export default function MapPage() {
                         id="show-caution"
                         isChecked={shortlistReadyOnly ? false : showCaution}
                         isDisabled={shortlistReadyOnly}
-                        label="Show CAUTION"
+                        label="Show CAUTION (all drivers)"
                         onChange={(_e, on) => setShowCaution(on)}
                       />
                     </>
                   )}
+                  <Title headingLevel="h2" className="pf-v6-u-mt-md">
+                    Hold-back drivers
+                  </Title>
+                  <p className="pf-v6-u-font-size-sm">
+                    Separate why a site is held back — not one CAUTION bucket. Live = class 4 tidal today;
+                    stubs are labelled until open layers ship.
+                  </p>
+                  {CAUTION_DRIVERS.map((driver) => (
+                    <div key={driver.id} className="khm-driver-toggle">
+                      <Checkbox
+                        id={`driver-${driver.id}`}
+                        isChecked={driverFilter[driver.id]}
+                        isDisabled={shortlistReadyOnly || !showCaution}
+                        label={`${driver.label} [${driverStatusLabel(driver.status)}]`}
+                        onChange={(_e, on) =>
+                          setDriverFilter((prev) => ({ ...prev, [driver.id]: on }))
+                        }
+                      />
+                      <p className="pf-v6-u-font-size-sm khm-driver-hint">{driver.holdsBack}</p>
+                    </div>
+                  ))}
                   <Title headingLevel="h2" className="pf-v6-u-mt-md">
                     Phase 2 flag filters
                   </Title>
@@ -824,7 +910,7 @@ export default function MapPage() {
                 />
                 <div className="khm-map-key" aria-hidden>
                   <Swatch color={SUITABILITY.go} label="GO" />
-                  <Swatch color={SUITABILITY.caution} label="CAUTION" />
+                  <Swatch color={CAUTION_DRIVERS[0]!.color} label="CAUTION · tidal" />
                 </div>
               </div>
             </DrawerContentBody>
@@ -845,6 +931,22 @@ export default function MapPage() {
                 {meaning ? ` · ${meaning.label}` : ` · class ${inspect.props.class_id}`}
               </p>
               {meaning && <p className="pf-v6-u-font-size-sm">{meaning.meaning}</p>}
+              <Title headingLevel="h3" className="pf-v6-u-font-size-md">
+                Why held back
+              </Title>
+              <p className="pf-v6-u-font-size-sm">{holdsBackSummary(inspect.props)}</p>
+              {inspectDrivers.length > 0 && (
+                <ul className="khm-plain-list pf-v6-u-font-size-sm">
+                  {inspectDrivers.map((id) => {
+                    const d = CAUTION_DRIVERS.find((row) => row.id === id)!;
+                    return (
+                      <li key={id}>
+                        <Swatch color={d.color} label={`${d.label} · ${driverStatusLabel(d.status)}`} />
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
               <dl className="khm-facts">
                 <div>
                   <dt>Feature</dt>
