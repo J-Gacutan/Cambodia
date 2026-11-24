@@ -1,4 +1,5 @@
 import type { FeatureProps } from "./bundle";
+import { flagLabel } from "./bundle";
 
 export type ShortlistItem = {
   id: string;
@@ -11,6 +12,11 @@ export type ShortlistItem = {
   note?: string;
   lon: number;
   lat: number;
+  permit_gate: boolean | null;
+  stop_legal: boolean | null;
+  stop_legal_status?: string;
+  project_overlap: boolean | null;
+  project_overlap_ids?: string[] | null;
 };
 
 function centroid(geometry: GeoJSON.Polygon | GeoJSON.MultiPolygon): [number, number] {
@@ -29,6 +35,12 @@ function centroid(geometry: GeoJSON.Polygon | GeoJSON.MultiPolygon): [number, nu
   return n ? [x / n, y / n] : [0, 0];
 }
 
+function tri(v: unknown): boolean | null {
+  if (v === true) return true;
+  if (v === false) return false;
+  return null;
+}
+
 export function featureToShortlist(
   props: FeatureProps,
   geometry: GeoJSON.Polygon | GeoJSON.MultiPolygon
@@ -44,13 +56,34 @@ export function featureToShortlist(
     place: props.place,
     note: props.note,
     lon: Math.round(lon * 1e5) / 1e5,
-    lat: Math.round(lat * 1e5) / 1e5
+    lat: Math.round(lat * 1e5) / 1e5,
+    permit_gate: tri(props.permit_gate),
+    stop_legal: tri(props.stop_legal),
+    stop_legal_status: props.stop_legal_status,
+    project_overlap: tri(props.project_overlap),
+    project_overlap_ids: props.project_overlap_ids ?? null
   };
 }
 
 export function shortlistToCsv(rows: ShortlistItem[]): string {
-  const header = ["id", "suitability", "class_id", "class_name", "area_ha", "province", "place", "lon", "lat", "note"];
-  const escape = (v: string | number | null | undefined) => {
+  const header = [
+    "id",
+    "suitability",
+    "class_id",
+    "class_name",
+    "area_ha",
+    "province",
+    "place",
+    "lon",
+    "lat",
+    "permit_gate",
+    "stop_legal",
+    "stop_legal_status",
+    "project_overlap",
+    "project_overlap_ids",
+    "note"
+  ];
+  const escape = (v: string | number | boolean | null | undefined) => {
     const s = v == null ? "" : String(v);
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
@@ -67,6 +100,11 @@ export function shortlistToCsv(rows: ShortlistItem[]): string {
         row.place ?? "",
         row.lon,
         row.lat,
+        flagLabel(row.permit_gate),
+        flagLabel(row.stop_legal),
+        row.stop_legal_status ?? "",
+        flagLabel(row.project_overlap),
+        (row.project_overlap_ids ?? []).join("|"),
         row.note ?? ""
       ]
         .map(escape)
@@ -89,7 +127,12 @@ export function shortlistToGeoJson(rows: ShortlistItem[]): GeoJSON.FeatureCollec
         area_ha: row.area_ha,
         province: row.province,
         place: row.place ?? null,
-        note: row.note ?? null
+        note: row.note ?? null,
+        permit_gate: row.permit_gate,
+        stop_legal: row.stop_legal,
+        stop_legal_status: row.stop_legal_status ?? null,
+        project_overlap: row.project_overlap,
+        project_overlap_ids: row.project_overlap_ids ?? null
       },
       geometry: { type: "Point", coordinates: [row.lon, row.lat] }
     }))

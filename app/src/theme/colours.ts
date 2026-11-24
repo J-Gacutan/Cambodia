@@ -15,6 +15,13 @@ export const SUITABILITY = {
   stop: "#A33E5A"
 } as const;
 
+/** Phase 2 context overlays (not suitability classes). */
+export const FLAGS = {
+  permit: "#6B4C9A",
+  project: "#B85C38",
+  gapMarker: "#5C6570"
+} as const;
+
 export const KEY = {
   notAssessed: "#5C6570"
 } as const;

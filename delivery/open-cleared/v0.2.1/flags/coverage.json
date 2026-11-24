@@ -1,0 +1,20 @@
+{
+  "built": "2026-11-23T07:02:12Z",
+  "bead": "khm-i6e.6",
+  "wdpa_present": false,
+  "wdpa_polygon_count": 0,
+  "ramsar_polygon_count": 3,
+  "project_ring_count": 5544,
+  "stats": {
+    "features": 10503,
+    "permit_gate_true": 0,
+    "permit_gate_null": 10503,
+    "permit_gate_false": 0,
+    "project_overlap_true": 115,
+    "project_overlap_false": 10388,
+    "project_overlap_null": 0,
+    "stop_legal_null": 10503
+  },
+  "public_ready": false,
+  "stop_legal_status": "unavailable"
+}
