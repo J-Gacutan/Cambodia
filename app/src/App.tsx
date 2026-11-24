@@ -71,9 +71,6 @@ export default function App() {
   const [navOpen, setNavOpen] = useState(false);
   const manifest = useBundle(loadManifest);
   const version = manifest.data?.version ?? BUNDLE_VERSION;
-  const banner =
-    manifest.data?.product_banner ??
-    "Physical / land-cover suitability proxy only. GO means worth a field look — not MoE zoning, tenure clearance, planting permission, or a carbon outcome.";
   const publicReady = manifest.data?.public_ready === true;
   const currentStep = stepFromHash(hash);
   const onAbout = hashPath(hash) === "about";
@@ -129,34 +126,15 @@ export default function App() {
       spacer={{ default: "spacerNone" }}
       alignItems={{ default: "alignItemsStretch" }}
     >
-      <FlexItem>
-        <Banner
-          color={publicReady ? "blue" : "orange"}
-          className="khm-banner"
-          role="region"
-          aria-label="Product banner"
-        >
-          {publicReady ? (
-            <>
-              Open-cleared P2 research package (class 8 ± 4).{" "}
-              <strong>GO = worth a field look</strong> (physical / land-cover only). {banner}{" "}
-              <a href="#licence">Licence</a>
-            </>
-          ) : (
-            <>
-              INTERNAL / illustrative until licence gate clears.{" "}
-              <strong>GO = worth a field look</strong> (physical / land-cover only). {banner}{" "}
-              <a href="#about">About</a>
-            </>
-          )}
-        </Banner>
-        {!publicReady && (
+      {!publicReady && (
+        <FlexItem>
           <Banner color="red" className="khm-banner" role="status">
             Bundle public_ready=false ({manifest.data?.licence_gate ?? "licence gate"}). Do not publish this build to
-            public Pages until khm-i6e.2 and an open-cleared bundle with public_ready=true.
+            public Pages until khm-i6e.2 and an open-cleared bundle with public_ready=true. See{" "}
+            <a href="#about">About</a> for package notes.
           </Banner>
-        )}
-      </FlexItem>
+        </FlexItem>
+      )}
       <FlexItem className="khm-shell-page" grow={{ default: "grow" }}>
         <Page
           masthead={masthead}
