@@ -89,3 +89,14 @@ export const EXTENT_CONTEXT_LINE: LinePaint = {
   "line-color": FLAGS.extent,
   "line-width": 1.25
 };
+
+/** GMW 1996→2025 loss — Read context overlay (default off). */
+export const LOSS_CONTEXT_FILL: FillPaint = {
+  "fill-color": FLAGS.loss,
+  "fill-opacity": 0.35
+};
+
+export const LOSS_CONTEXT_LINE: LinePaint = {
+  "line-color": "#5C7A1A",
+  "line-width": 1.25
+};

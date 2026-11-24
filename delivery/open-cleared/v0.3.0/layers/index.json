@@ -42,6 +42,23 @@
     "stub": false
   },
   {
+    "id": "mangrove-change",
+    "title": "Mangrove loss 1996\u20132025 (GMW differencing)",
+    "kind": "context_overlay",
+    "file": "layers/mangrove-change.geojson",
+    "crs": "EPSG:4326",
+    "evidence_class": "derived_global",
+    "register_id": "L1",
+    "licence_plain": "Derived from Global Mangrove Watch v4.1.12 annual extent (1996 minus 2025) \u2014 CC BY 4.0. Coastal four-province clip, MMU 0.5 ha, simplified for console. Not driver attribution, not planting permission. Non-commercial / research (khm-i6e.2 P2).",
+    "licence_spdx": "CC-BY-4.0",
+    "redistributable": true,
+    "public_ready": true,
+    "default_visible": false,
+    "flag_role": "change_loss_context",
+    "note": "Loss = GMW mangrove in 1996 and absent in 2025. Same geometry as public/change-stubs/mangrove-change.geojson. Replaces demoted Goldberg L4 loss-driver stub on Locate.",
+    "stub": false
+  },
+  {
     "id": "ramsar-context",
     "title": "Ramsar context (permit gate partial)",
     "kind": "context_overlay",

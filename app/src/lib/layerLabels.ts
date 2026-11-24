@@ -23,6 +23,9 @@ export function layerDisplayTitle(layer: MapLayer): string {
   if (layer.id === "mangrove-extent" || layer.flag_role === "extent_context") {
     return "Mangrove extent 2025 (living stock)";
   }
+  if (layer.id === "mangrove-change" || layer.flag_role === "change_loss_context") {
+    return "Mangrove loss 1996–2025 (GMW)";
+  }
   return layer.title
     .replace(/GO class 8\s*±\s*CAUTION class 4/gi, "Open/accreted opportunity ± tidal hold-backs")
     .replace(/≥\s*MMU/gi, "≥ 0.5 ha")

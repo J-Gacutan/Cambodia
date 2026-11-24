@@ -47,6 +47,8 @@ import {
   MANGROVE_CHANGE_LINE,
   MANGROVE_EXTENT_FILL,
   MANGROVE_EXTENT_LINE,
+  MANGROVE_GAIN_FILL,
+  MANGROVE_GAIN_LINE,
   URBAN_CHANGE_FILL,
   URBAN_CHANGE_LINE
 } from "../map/changeTheme";
@@ -54,8 +56,8 @@ import { LayerToggleControl } from "../map/LayerToggleControl";
 
 /**
  * Locate — current mangrove state for a non-technical reader.
- * Ships GMW 2025 extent stock + open change samples; condition stays an explicit gap.
- * Overlays fade before close satellite zoom so generalisation does not look broken.
+ * Ships GMW 2025 extent stock + GMW 1996→2025 loss/gain (extent differencing);
+ * condition stays an explicit gap. Overlays fade before close satellite zoom.
  */
 export default function ChangePage() {
   const container = useRef<HTMLDivElement>(null);
@@ -72,7 +74,8 @@ export default function ChangePage() {
   const [zoomPastScale, setZoomPastScale] = useState(false);
   const [layerOn, setLayerOn] = useState<Record<string, boolean>>({
     "mangrove-extent": true,
-    "mangrove-change": false,
+    "mangrove-change": true,
+    "mangrove-gain": false,
     "urban-change": false
   });
   const basemapChoiceRef = useRef(basemapChoice);
@@ -120,7 +123,7 @@ export default function ChangePage() {
           customAttribution: [
             ATTRIBUTION.bundle,
             "GMW mangrove extent 2025 (CC BY 4.0)",
-            "Mangrove loss drivers (CC BY 4.0)",
+            "GMW mangrove loss/gain 1996–2025 (CC BY 4.0)",
             "Built-up / urban change sample (CC BY 4.0)"
           ]
         })
@@ -187,6 +190,9 @@ export default function ChangePage() {
       if (layer.id === "mangrove-extent") {
         return { fill: MANGROVE_EXTENT_FILL, line: MANGROVE_EXTENT_LINE };
       }
+      if (layer.id === "mangrove-gain") {
+        return { fill: MANGROVE_GAIN_FILL, line: MANGROVE_GAIN_LINE };
+      }
       if (layer.id === "urban-change") {
         return { fill: URBAN_CHANGE_FILL, line: URBAN_CHANGE_LINE };
       }
@@ -195,6 +201,7 @@ export default function ChangePage() {
 
     const fillPeak = (layer: ChangeLayerMeta) => {
       if (layer.id === "mangrove-extent") return 0.52;
+      if (layer.id === "mangrove-gain") return 0.45;
       if (layer.id === "urban-change") return 0.48;
       return 0.58;
     };
@@ -253,7 +260,13 @@ export default function ChangePage() {
             paint: {
               "line-color": paint.line,
               "line-width": changeLineWidth(),
-              "line-opacity": changeLineOpacity(layer.id === "urban-change" ? 0.9 : 0.95)
+              "line-opacity": changeLineOpacity(
+                layer.id === "urban-change"
+                  ? 0.9
+                  : layer.id === "mangrove-extent" || layer.id === "mangrove-gain"
+                    ? 0.88
+                    : 0.95
+              )
             }
           });
         }
@@ -297,10 +310,10 @@ export default function ChangePage() {
         <Title headingLevel="h1">Locate — current state of the coast</Title>
         <HelperText>
           <HelperTextItem>
-            Skim what this console can say about mangroves <em>now</em>: living extent stock (2025), plus
-            loss and nearby built pressure as open samples. Condition scores are not on this map — named
-            below. Prefer Satellite; overlays fade as you zoom so coarse outlines do not look like
-            patch-level data.
+            Skim what this console can say about mangroves <em>now</em>: living extent stock (2025), GMW
+            loss since 1996, optional gain, and a built-up proxy. Condition scores are not on this map —
+            named below. Prefer Satellite; overlays fade as you zoom so generalised outlines do not look
+            like patch-level data.
           </HelperTextItem>
         </HelperText>
       </div>
@@ -324,11 +337,13 @@ export default function ChangePage() {
             No condition score ships on this console.
           </ListItem>
           <ListItem>
-            <strong>Change</strong> — where mangroves were lost and where built land sits nearby.{" "}
+            <strong>Change</strong> — where mangroves were lost (or gained) since 1996, and where built land
+            sits nearby.{" "}
             <Label isCompact color="blue">
-              Open samples
+              GMW differencing
             </Label>{" "}
-            Pressure context only (2000–2016 loss drivers + a built-up proxy) — not an annual time slider.
+            Loss = GMW extent in 1996 minus 2025; gain is the reverse (default off). Built-up remains a
+            coarse proxy — not an annual time slider.
           </ListItem>
         </List>
         {(index?.resolution_plain || stateGaps.length > 0) && (
@@ -355,13 +370,17 @@ export default function ChangePage() {
             </span>
             <span className="khm-key-row">
               <span className="khm-key-swatch" style={{ background: MANGROVE_CHANGE_FILL }} />
-              Mangrove loss (sample)
+              Mangrove loss 1996–2025
+            </span>
+            <span className="khm-key-row">
+              <span className="khm-key-swatch" style={{ background: MANGROVE_GAIN_FILL }} />
+              Mangrove gain 1996–2025
             </span>
             <span className="khm-key-row">
               <span className="khm-key-swatch" style={{ background: URBAN_CHANGE_FILL }} />
               Built-up nearby (sample)
             </span>
-            <span className="khm-key-note">Generalised · fades past ~z11.5</span>
+            <span className="khm-key-note">~100 m GMW · fades past ~z11.5</span>
           </div>
           {zoomPastScale && (
             <div className="khm-change-zoom-note" role="status">
@@ -388,8 +407,9 @@ export default function ChangePage() {
           <Title headingLevel="h2">Click inspect</Title>
           {!inspect && (
             <p className="pf-v6-u-font-size-sm">
-              Click extent, loss, or built-up polygons for a plain reading. Extent is 2025 living stock;
-              loss and built samples are pressure context only — none is a condition score.
+              Click extent, loss, gain, or built-up polygons for a plain reading. Extent is 2025 living
+              stock; loss/gain are GMW 1996→2025 differencing; built is pressure context — none is a
+              condition score.
             </p>
           )}
           {inspect && (
@@ -427,8 +447,15 @@ export default function ChangePage() {
               )}
               {inspect.layerId === "mangrove-change" && (
                 <p className="pf-v6-u-font-size-sm">
-                  Historic mangrove loss driver (open coastal sample, 2000–2016). Use it as pressure context
-                  before judging restoration patches on the screen map — not as today’s living mangrove stock.
+                  Mangrove present in Global Mangrove Watch 1996 and absent in 2025 (extent differencing, CC
+                  BY coastal clip). Not a driver attribution and not today’s living stock — toggle Extent
+                  2025 for that.
+                </p>
+              )}
+              {inspect.layerId === "mangrove-gain" && (
+                <p className="pf-v6-u-font-size-sm">
+                  Mangrove absent in Global Mangrove Watch 1996 and present in 2025. Includes recovery and
+                  mapping refinement — treat as context, not a restoration score.
                 </p>
               )}
               {inspect.layerId === "urban-change" && (
@@ -457,7 +484,7 @@ export default function ChangePage() {
       <div className="khm-change-meta">
         <p className="pf-v6-u-font-size-sm">
           Locate answers “what is going on with mangroves along this coast?” with 2025 extent stock plus
-          open change samples. Year-by-year extent change, multi-year urban expansion, and any condition
+          GMW 1996→2025 loss/gain. A full annual time slider, multi-year urban expansion, and any condition
           product remain documented gaps — sensitive pond maps stay offline. Source notes live under{" "}
           <a href="#about">About</a>.
         </p>
@@ -541,8 +568,8 @@ export default function ChangePage() {
           </>
         )}
         <p className="khm-basemap-note">
-          Streets basemap names are from OpenStreetMap. Satellite tiles © Esri. GMW extent, mangrove loss,
-          and built-up samples are CC BY 4.0.
+          Streets basemap names are from OpenStreetMap. Satellite tiles © Esri. GMW extent, GMW
+          loss/gain (1996–2025), and built-up samples are CC BY 4.0.
         </p>
         {kind === "offline" && (
           <p className="khm-basemap-note">Reference basemap unreachable; showing plain sea.</p>

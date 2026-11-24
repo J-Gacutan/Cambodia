@@ -1,14 +1,15 @@
 {
   "bundle_version": "v0.3.0",
-  "cambodia_commit": "050d35d",
+  "cambodia_commit": "db72566",
   "public_ready": true,
   "licence_gate": "cleared_p2_open_pages",
   "files": {
     "cases/cases.json": "180d896d657f4393dcacdeb68abe2587b2d84700bfdae53335071811c8da6198",
     "flags/coverage.json": "051336d9a2ecfafea417de76f2613d85526a5a36ca13a41dbd5df296356b339d",
-    "flags/GAPS.md": "dda3ff6e64de2e38ac0edc9876d0eeee0425713d92985c0f3b4a7b022ceb9578",
+    "flags/GAPS.md": "c9dbba01f7c68b55043f43c5242585bc2ad00b9556bb50025023c05b750e02c0",
     "layers/go-caution.geojson": "32a7643173fb06204f7ac686b67254ed191b8c62d9f7abf55b5af8f3d248431b",
-    "layers/index.json": "05e1f51228ad7aa38934d0f86b21492a439d94875c79a6f9d228853dc2efe2a4",
+    "layers/index.json": "ab7b2fc0d25a2443fdb57205772d2a1075f06078260b025692785937ed1c9a14",
+    "layers/mangrove-change.geojson": "db43d0d8af8f48ba1333938b72f3da97d0993b1ebeaccb388ff6686dc2b61900",
     "layers/mangrove-extent.geojson": "b687d5db377deef9a283839c5ecfd5c06c44933a56b39041b02a2f89647d0b21",
     "layers/project-overlap-vcs1748.geojson": "6ff5ffef72efca658f5130cdf0566478769aeb6300a13b08a2a8b6b259a2ea92",
     "layers/project-overlap-vcs5071.geojson": "dc8384a2490b038275c08d047bcd1fa045a7abd78685978f819d0ab62ef21296",

@@ -80,6 +80,8 @@ import { BasemapControl } from "../map/BasemapControl";
 import {
   EXTENT_CONTEXT_FILL,
   EXTENT_CONTEXT_LINE,
+  LOSS_CONTEXT_FILL,
+  LOSS_CONTEXT_LINE,
   GAP_MARKER_CIRCLE,
   GO_CAUTION_FILL,
   GO_CAUTION_LINE,
@@ -192,6 +194,9 @@ function contextStyle(layer: MapLayer): {
   }
   if (layer.flag_role === "extent_context" || layer.id === "mangrove-extent") {
     return { fill: EXTENT_CONTEXT_FILL, line: EXTENT_CONTEXT_LINE };
+  }
+  if (layer.flag_role === "change_loss_context" || layer.id === "mangrove-change") {
+    return { fill: LOSS_CONTEXT_FILL, line: LOSS_CONTEXT_LINE };
   }
   if (layer.flag_role === "permit_gap_marker" || layer.id.includes("gap")) {
     return { circle: GAP_MARKER_CIRCLE };

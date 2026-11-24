@@ -1,15 +1,15 @@
 {
-  "version": "change-stubs-v1.2",
-  "built_for": "#change Locate screen \u2014 current state (extent / condition / change)",
-  "licence": "CC BY 4.0 upstream (GMW v4.1.12 2025 extent; Goldberg ORNL DAAC 1768 mangrove loss drivers; Dynamic World built modal). Non-commercial / research P2.",
+  "version": "change-stubs-v1.3",
+  "built_for": "#change Locate screen — current state (extent / condition / change)",
+  "licence": "CC BY 4.0 upstream (GMW v4.1.12 1996→2025 extent differencing; GMW 2025 extent stock; Dynamic World built modal). Non-commercial / research P2.",
   "public_ready": true,
   "not_in_open_cleared_pin": true,
-  "resolution_plain": "Extent is GMW 2025 stock (~30 m native, ~100 m after simplify). Loss and built samples remain generalised (~100\u2013300 m). All Locate overlays fade past about zoom 11.5 so blocky edges do not look like broken fine data beside Satellite.",
+  "resolution_plain": "Extent is GMW 2025 stock (~30 m native, ~100 m after simplify). Loss/gain are GMW v4.1.12 1996→2025 extent differencing (~30 m native, ~100 m after simplify) — finer than the old Goldberg coastal sample. Built sample remains generalised (~200 m). Overlays fade past about zoom 11.5.",
   "state_gaps": [
     {
       "facet": "extent",
       "status": "sample",
-      "plain": "GMW 2025 mangrove extent ships as a coastal stock layer on Locate (open CC BY). Annual time slider / multi-year extent change remains a data need."
+      "plain": "GMW 2025 mangrove extent ships as a coastal stock layer on Locate (open CC BY). Annual time slider remains a data need."
     },
     {
       "facet": "condition",
@@ -19,7 +19,7 @@
     {
       "facet": "change",
       "status": "sample",
-      "plain": "Open coastal samples only: 2000\u20132016 loss drivers and a built-up proxy. Not an annual change time slider or multi-epoch urban expansion series."
+      "plain": "GMW 1996→2025 loss (and optional gain) from annual extent differencing, plus a built-up proxy. Not an annual time slider or multi-epoch urban expansion series. Goldberg 2000–2016 loss-driver polygons are demoted (not on Locate)."
     }
   ],
   "layers": [
@@ -33,29 +33,34 @@
       "state_role": "extent",
       "native_resolution_m": 30,
       "display_resolution_m": 100,
-      "resolution_plain": "GMW v4.1.12 2025 extent, coastal four-province clip, simplified for Locate (~100 m display). Living stock \u2014 not a condition score.",
-      "note": "Global Mangrove Watch annual extent 2025 (CC BY 4.0). Clipped to L20 coastal provinces; MMU 0.5 ha. Fills the Locate extent / stock facet. Not GMW change, not canopy condition."
+      "resolution_plain": "GMW v4.1.12 2025 extent, coastal four-province clip, simplified for Locate (~100 m display). Living stock — not a condition score.",
+      "note": "Global Mangrove Watch annual extent 2025 (CC BY 4.0). Clipped to L20 coastal provinces; MMU 0.5 ha. Fills the Locate extent / stock facet."
     },
     {
       "id": "mangrove-change",
       "file": "mangrove-change.geojson",
-      "title": "Mangrove loss drivers",
-      "register_id": "L4",
-      "feature_count": 111,
+      "title": "Mangrove loss 1996–2025 (GMW)",
+      "register_id": "L1",
+      "feature_count": 2707,
       "stub": false,
       "state_role": "change",
       "native_resolution_m": 30,
-      "display_resolution_m": 150,
-      "resolution_plain": "Goldberg loss drivers, coastal sample, simplified for the public stub (~150 m display). Coarser than Read\u2019s 10 m class map.",
-      "driver_codes": {
-        "0": "erosion",
-        "1": "extreme_weather",
-        "2": "commodities",
-        "3": "settlement",
-        "4": "non_productive",
-        "5": "other_or_unmapped"
-      },
-      "note": "Open coastal sample of ORNL DAAC mangrove loss drivers (2000\u20132016). Not GMW annual change \u2014 data need for time slider."
+      "display_resolution_m": 100,
+      "resolution_plain": "GMW v4.1.12 extent differencing (1996 minus 2025), coastal clip, MMU 0.5 ha, ~100 m simplify. Replaces the coarser Goldberg loss-driver stub.",
+      "note": "Loss = mangrove in GMW 1996 extent and absent in 2025. Same product family as the 2025 stock layer (CC BY 4.0). Not a driver map."
+    },
+    {
+      "id": "mangrove-gain",
+      "file": "mangrove-gain.geojson",
+      "title": "Mangrove gain 1996–2025 (GMW)",
+      "register_id": "L1",
+      "feature_count": 756,
+      "stub": false,
+      "state_role": "change",
+      "native_resolution_m": 30,
+      "display_resolution_m": 100,
+      "resolution_plain": "GMW v4.1.12 extent differencing (2025 minus 1996), coastal clip, MMU 0.5 ha, ~100 m simplify. Optional — default off on Locate.",
+      "note": "Gain = mangrove in GMW 2025 extent and absent in 1996. Includes recovery and mapping refinement; treat as context, not a restoration score."
     },
     {
       "id": "urban-change",
@@ -72,9 +77,10 @@
     }
   ],
   "data_needs": [
-    "Mangrove condition / degradation / canopy product \u2014 Locate condition facet (licence-clear)",
-    "GMW annual extent change vectorised for a public time slider",
+    "Mangrove condition / degradation / canopy product — Locate condition facet (licence-clear)",
+    "GMW annual time slider (all epochs) on Locate — currently single-interval 1996→2025",
+    "Goldberg ORNL DAAC loss-driver attribution (demoted; rebuild via build_change_stubs.py if needed)",
     "GHS-BUILT multi-epoch urban expansion polygons",
-    "Converted / pond CAUTION classes 6\u20137 stay FLAG/HOLD until licence clears"
+    "Converted / pond CAUTION classes 6–7 stay FLAG/HOLD until licence clears"
   ]
 }

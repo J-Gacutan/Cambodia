@@ -37,7 +37,8 @@ Built: 2026-11-24T00:53:20Z
 6. **`public_ready`** — open-cleared v0.3.0 is true under `khm-i6e.2`. WDPA coastal + VERRA overlays ship as non-commercial research (`redistributable=false`); FLAG rasters and case PNGs stay off Pages.
 
 
-7. **Locate condition** — no licence-clear mangrove condition / canopy / degradation product on the public console (Note 3b: degradation not mapped). Extent stock ships as GMW 2025 overlay (`mangrove-extent`).
+7. **Locate condition** — no licence-clear mangrove condition / canopy / degradation product on the public console (Note 3b: degradation not mapped). Extent stock ships as GMW 2025 overlay (`mangrove-extent`). Loss ships as GMW v4.1.12 1996→2025 extent differencing (`mangrove-change`); Goldberg L4 driver stub demoted.
+8. **Locate annual time slider** — single-interval GMW loss/gain only; full annual epoch slider remains a data need.
 
 ## Product language (UI must keep)
 

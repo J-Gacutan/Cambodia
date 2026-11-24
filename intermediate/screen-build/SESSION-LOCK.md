@@ -1,15 +1,16 @@
-# Session lock notice (24 Nov 2026)
+# Session lock notice (25 Nov 2026)
 
 **Rule.** A beads claim blocks every other session. Do not work an `in_progress` issue you did not claim.
 
 ## Active lock
 
-- `khm-6bx` Add Locate extent + licence-clear layers to public pack (CI P2) — claimed by worker `bc-4ce6fbb3…`. Branch `cursor/public-pack-extent-layers-2b85` off `981c251` (Locate #27 + Overlay #28 + Act/About #26). Shipping GMW 2025 extent (CC BY 4.0) into `public/change-stubs/`; condition remains missing. Do not restomp change-stubs or open-cleared pin without coordinating.
+- `CSR-38` GMW multi-year change for Locate loss — claimed by worker `bc-bb373802…`. Branch `cursor/gmw-locate-loss-f5a7` off `e6ec7f5` (#29 Streets dual-basemap). Includes cherry-picked GMW 2025 extent from `cursor/public-pack-extent-layers-2b85`. Shipping GMW 1996→2025 loss/gain (CC BY 4.0) into `public/change-stubs/` + open-cleared context; Goldberg L4 demoted. Do not restomp change-stubs or open-cleared pin without coordinating.
 
 ## Cleared / closed recently (do not reopen)
 
+- Locate basemap-swap (`cursor/locate-basemap-swap-c0ec`) — PR #29 merged (`e6ec7f5`).
 - Act report QR (`khm-e8c`) / Act-About plain-copy — merged via PR #25 / #26 (24 Nov 2026).
-- Locate fitness (`cursor/locate-mangrove-state-c0ec`) — PR #27 merged; extent/condition were named gaps (extent filled by `khm-6bx`).
+- Locate fitness (`cursor/locate-mangrove-state-c0ec`) — PR #27 merged; extent/condition were named gaps (extent filled by `khm-6bx` / this branch).
 - Overlay toggle — PR #28 merged.
 - `khm-i6e.10` Console polish + Pages readiness — closed 24 Nov 2026. PR #16 merged; `docs/09-github-pages.md` + MapLibre UX polish. `public_ready` unchanged.
 - `khm-i6e.7` Phase 3 harden — contract pins, licence panel, handoff pack. `public_ready` unchanged.
@@ -28,6 +29,6 @@
 
 - Do not restomp `v0.3.0` flag attributes or `contract/platform.json` without a claim.
 - `khm-i6e.2` licence gate remains open for formal close — P2 path already locked; do not invent further clearances.
-- Do not push FLAG rasters to a public remote. WDPA/VERRA geometries on console are non-commercial research only (`redistributable=false`).
+- Do not push FLAG rasters or WDPA geometries to a public remote.
 - Do not invent MoE core zones or missing Koh Kong VCS 5071 ARR geometry.
 - Read this file and `.cursor/rules/beads-claim-blocks-sessions.mdc` at session start.
