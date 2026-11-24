@@ -88,6 +88,36 @@ const SOURCE_ID = "khm-go-caution";
 const FILL_ID = "khm-go-caution-fill";
 const LINE_ID = "khm-go-caution-line";
 
+/** Context overlay on only when explicitly true — undefined must mean OFF. */
+function isContextOverlayOn(contextOn: Record<string, boolean>, layerId: string): boolean {
+  return contextOn[layerId] === true;
+}
+
+/**
+ * Keep GO±CAUTION (and hold-back driver paints) above context fills so stacked
+ * WDPA/VERRA/Ramsar fills cannot bury the screen. Outline/circle overlays stay
+ * above the screen paint so boundaries remain readable under labels.
+ */
+function restackScreenAboveContextFills(
+  map: maplibregl.Map,
+  contextLayers: MapLayer[]
+): void {
+  if (!map.getLayer(FILL_ID)) return;
+  const symbol = map.getStyle().layers?.find((l) => l.type === "symbol")?.id;
+  for (const layer of contextLayers) {
+    const fillId = `khm-ctx-${layer.id}-fill`;
+    if (map.getLayer(fillId)) map.moveLayer(fillId, FILL_ID);
+  }
+  if (map.getLayer(FILL_ID)) map.moveLayer(FILL_ID, symbol);
+  if (map.getLayer(LINE_ID)) map.moveLayer(LINE_ID, symbol);
+  for (const layer of contextLayers) {
+    const lineId = `khm-ctx-${layer.id}-line`;
+    const circleId = `khm-ctx-${layer.id}-circle`;
+    if (map.getLayer(lineId)) map.moveLayer(lineId, symbol);
+    if (map.getLayer(circleId)) map.moveLayer(circleId, symbol);
+  }
+}
+
 type Inspect = {
   props: FeatureProps;
   lng: number;
@@ -209,6 +239,8 @@ export default function MapPage() {
   const [hideOverlapHits, setHideOverlapHits] = useState(false);
   const [shortlistReadyOnly, setShortlistReadyOnly] = useState(false);
   const [contextOn, setContextOn] = useState<Record<string, boolean>>({});
+  const contextOnRef = useRef(contextOn);
+  contextOnRef.current = contextOn;
   const [inspect, setInspect] = useState<Inspect | null>(null);
   const [shortlist, setShortlist] = useState<ShortlistItem[]>(() => loadShortlistFromStorage());
   const [copiedCase, setCopiedCase] = useState<string | null>(null);
@@ -276,10 +308,16 @@ export default function MapPage() {
     if (!contextLayers.length) return;
     setContextOn((prev) => {
       const next = { ...prev };
+      let changed = false;
       for (const layer of contextLayers) {
-        if (next[layer.id] === undefined) next[layer.id] = Boolean(layer.default_visible);
+        // Force OFF unless the bundle explicitly opts in — never treat missing
+        // state as visible (old `!== false` defaulted overlays on).
+        if (next[layer.id] === undefined) {
+          next[layer.id] = layer.default_visible === true;
+          changed = true;
+        }
       }
-      return next;
+      return changed ? next : prev;
     });
   }, [contextLayers]);
 
@@ -436,23 +474,62 @@ export default function MapPage() {
         const fillId = `${sourceId}-fill`;
         const lineId = `${sourceId}-line`;
         const circleId = `${sourceId}-circle`;
+        // Start from bundle default (Ramsar/VERRA/WDPA are false) — do not flash on.
+        const startVis = layer.default_visible === true ? "visible" : "none";
         if (paint.circle) {
           if (!map.getLayer(circleId)) {
             map.addLayer(
-              { id: circleId, type: "circle", source: sourceId, paint: paint.circle },
+              {
+                id: circleId,
+                type: "circle",
+                source: sourceId,
+                layout: { visibility: startVis },
+                paint: paint.circle
+              },
               symbol()
             );
           }
         } else {
           if (paint.fill && !map.getLayer(fillId)) {
-            map.addLayer({ id: fillId, type: "fill", source: sourceId, paint: paint.fill }, symbol());
+            map.addLayer(
+              {
+                id: fillId,
+                type: "fill",
+                source: sourceId,
+                layout: { visibility: startVis },
+                paint: paint.fill
+              },
+              symbol()
+            );
           }
           if (paint.line && !map.getLayer(lineId)) {
-            map.addLayer({ id: lineId, type: "line", source: sourceId, paint: paint.line }, symbol());
+            map.addLayer(
+              {
+                id: lineId,
+                type: "line",
+                source: sourceId,
+                layout: { visibility: startVis },
+                paint: paint.line
+              },
+              symbol()
+            );
           }
         }
       })
-    );
+    ).then(() => {
+      if (cancelled || mapRef.current !== map) return;
+      // Apply latest toggle state (ref avoids stale closure after slow GeoJSON loads).
+      const on = contextOnRef.current;
+      for (const layer of contextLayers) {
+        const sourceId = `khm-ctx-${layer.id}`;
+        const vis = isContextOverlayOn(on, layer.id) ? "visible" : "none";
+        for (const suffix of ["fill", "line", "circle"]) {
+          const id = `${sourceId}-${suffix}`;
+          if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", vis);
+        }
+      }
+      restackScreenAboveContextFills(map, contextLayers);
+    });
 
     return () => {
       cancelled = true;
@@ -464,13 +541,13 @@ export default function MapPage() {
     if (!map) return;
     for (const layer of contextLayers) {
       const sourceId = `khm-ctx-${layer.id}`;
-      const visible = contextOn[layer.id] !== false;
-      const vis = visible ? "visible" : "none";
+      const vis = isContextOverlayOn(contextOn, layer.id) ? "visible" : "none";
       for (const suffix of ["fill", "line", "circle"]) {
         const id = `${sourceId}-${suffix}`;
         if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", vis);
       }
     }
+    restackScreenAboveContextFills(map, contextLayers);
   }, [contextOn, contextLayers, ready]);
 
   useEffect(() => {
@@ -892,7 +969,7 @@ export default function MapPage() {
                           key={layer.id}
                           id={`ctx-${layer.id}`}
                           label={layerDisplayTitle(layer)}
-                          isChecked={contextOn[layer.id] !== false}
+                          isChecked={isContextOverlayOn(contextOn, layer.id)}
                           onChange={(on) => setContextOn((prev) => ({ ...prev, [layer.id]: on }))}
                           provenance={
                             <LayerProvenance
