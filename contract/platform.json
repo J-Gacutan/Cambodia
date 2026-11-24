@@ -2,7 +2,7 @@
   "note": "Pinned exchange for the Cambodia screen console (LKA-style). Paths relative to delivery/open-cleared/<bundle_version>/. Sync verifies every sha256 before copying into public/khm-bundle/. Never invent public_ready — that is khm-i6e.2.",
   "platform_repo": "Cambodia",
   "bundle_version": "v0.3.0",
-  "cambodia_commit": "050d35d",
+  "cambodia_commit": "db72566",
   "public_ready": true,
   "licence_gate": "cleared_p2_open_pages",
   "files": [
