@@ -1,32 +1,56 @@
 import type { LayerSpecification } from "maplibre-gl";
+import { DRIVER_BY_ID } from "../lib/cautionDrivers";
 import { FLAGS, SUITABILITY } from "../theme/colours";
 
 type FillPaint = NonNullable<Extract<LayerSpecification, { type: "fill" }>["paint"]>;
 type LinePaint = NonNullable<Extract<LayerSpecification, { type: "line" }>["paint"]>;
 type CirclePaint = NonNullable<Extract<LayerSpecification, { type: "circle" }>["paint"]>;
 
+/** Colour by primary_driver when set; else suitability. */
 export const GO_CAUTION_FILL: FillPaint = {
   "fill-color": [
-    "match",
-    ["get", "suitability"],
-    "go",
+    "case",
+    ["==", ["get", "suitability"], "go"],
     SUITABILITY.go,
-    "caution",
-    SUITABILITY.caution,
-    SUITABILITY.caution
+    [
+      "match",
+      ["get", "primary_driver"],
+      "tidal",
+      DRIVER_BY_ID.tidal.color,
+      "elevation",
+      DRIVER_BY_ID.elevation.color,
+      "converted",
+      DRIVER_BY_ID.converted.color,
+      "tenure",
+      DRIVER_BY_ID.tenure.color,
+      "verra",
+      DRIVER_BY_ID.verra.color,
+      SUITABILITY.caution
+    ]
   ],
   "fill-opacity": 0.45
 };
 
 export const GO_CAUTION_LINE: LinePaint = {
   "line-color": [
-    "match",
-    ["get", "suitability"],
-    "go",
+    "case",
+    ["==", ["get", "suitability"], "go"],
     SUITABILITY.go,
-    "caution",
-    SUITABILITY.caution,
-    SUITABILITY.caution
+    [
+      "match",
+      ["get", "primary_driver"],
+      "tidal",
+      DRIVER_BY_ID.tidal.color,
+      "elevation",
+      DRIVER_BY_ID.elevation.color,
+      "converted",
+      DRIVER_BY_ID.converted.color,
+      "tenure",
+      DRIVER_BY_ID.tenure.color,
+      "verra",
+      DRIVER_BY_ID.verra.color,
+      SUITABILITY.caution
+    ]
   ],
   "line-width": 1.5
 };

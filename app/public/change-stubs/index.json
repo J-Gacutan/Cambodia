@@ -1,0 +1,41 @@
+{
+  "version": "change-stubs-v1",
+  "built_for": "#change screen",
+  "licence": "CC BY 4.0 upstream (Goldberg L4 ORNL DAAC 1768; Dynamic World L10). Non-commercial / research P2.",
+  "public_ready": true,
+  "not_in_open_cleared_pin": true,
+  "layers": [
+    {
+      "id": "mangrove-change",
+      "file": "mangrove-change.geojson",
+      "title": "Mangrove loss drivers (Goldberg L4)",
+      "register_id": "L4",
+      "feature_count": 111,
+      "stub": false,
+      "driver_codes": {
+        "0": "erosion",
+        "1": "extreme_weather",
+        "2": "commodities",
+        "3": "settlement",
+        "4": "non_productive",
+        "5": "other_or_unmapped"
+      },
+      "note": "Open coastal sample of ORNL DAAC mangrove loss drivers (2000\u20132016). Not GMW annual change (L1) \u2014 data need for time slider."
+    },
+    {
+      "id": "urban-change",
+      "file": "urban-change.geojson",
+      "title": "Urban / built proxy (Dynamic World modal)",
+      "register_id": "L10",
+      "feature_count": 180,
+      "stub": false,
+      "note": "Open coastal sample of Dynamic World modal built (class 6). GHS-BUILT L8 multi-epoch remains a data need."
+    }
+  ],
+  "data_needs": [
+    "GMW v4.1.12 annual extent change (L1) vectorised for public",
+    "GHS-BUILT-S (L8) multi-epoch urban expansion polygons",
+    "Elevation-fail polygons (L12 vs L13) for elevation CAUTION driver",
+    "Converted / pond CAUTION classes 5\u20137 stay FLAG/HOLD until licence clears"
+  ]
+}

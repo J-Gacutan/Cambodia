@@ -82,10 +82,14 @@ Workflow: `.github/workflows/pages.yml`. Enablement checklist: [`docs/09-github-
 
 | Hash | Page |
 | --- | --- |
-| `#map` | GO±CAUTION map, Phase 2 filters, provenance, shortlist export |
+| `#home` | Decision-flow landing → change, then map |
+| `#change` | Ecosystem change (mangrove L4 + urban/built L10); on-canvas toggles |
+| `#map` | GO±CAUTION by hold-back driver, Phase 2 filters, shortlist export |
 | `#cases` | Cases A–C text bookmarks (no INTERNAL PNGs) |
 | `#licence` | Licence / evidence panel + host matrix |
 | `#about` | Product truth + contract pin + flag posture |
+
+Change stubs (`public/change-stubs/`) are open CC BY samples **outside** the open-cleared contract pin. Rebuild: `python3 intermediate/screen-build/build_change_stubs.py`.
 
 ## Handoff
 
