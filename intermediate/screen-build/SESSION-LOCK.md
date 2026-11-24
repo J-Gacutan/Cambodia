@@ -4,7 +4,7 @@
 
 ## Active lock
 
-None. (`khm-i6e.6` Phase 2 flags pipeline + UI + `v0.2.1` shipped on branch `cursor/phase2-legal-flags-6d79`; bead closing after PR. Follow-ups `khm-i6e.6.1`–`.6.3` are open for remaining data.)
+None. (`khm-i6e.6.1` WDPA workstation join shipped on `cursor/wdpa-workstation-join-6b85` / PR #10 stacked on Phase 2 PR #9. Remaining Phase 2 data: `.6.2` MoE core zones, `.6.3` Mangrove REDD+/VCS 5071.)
 
 ## Cleared / closed recently (do not reopen)
 
@@ -19,7 +19,7 @@ None. (`khm-i6e.6` Phase 2 flags pipeline + UI + `v0.2.1` shipped on branch `cur
 
 ## What other sessions may do
 
-- Claim `khm-i6e.6.1` (WDPA join on workstation) or other open delivery children.
+- Claim `khm-i6e.6.2` / `.6.3` or Phase 3 on separate branches; do not restomp `v0.2.1` WDPA-joined attributes without a claim. Prefer stacking on PR #9/#10 until merged.
 - `khm-i6e.2` licence gate remains open for Jordan decisions — do not mark the open-cleared bundle public-ready without it.
 - Do not push FLAG rasters or WDPA geometries to a public remote.
 - Read this file and `.cursor/rules/beads-claim-blocks-sessions.mdc` at session start.
