@@ -82,8 +82,8 @@ Workflow: `.github/workflows/pages.yml`. Enablement checklist: [`docs/09-github-
 
 | Hash | Page |
 | --- | --- |
-| `#home` | Decision-flow landing → change, then map |
-| `#change` | Ecosystem change (mangrove L4 + urban/built L10); on-canvas toggles |
+| `#home` | Decision-flow landing → Locate, then Means / Read |
+| `#change` | Locate — current state (extent/condition gaps + open change samples); overlays fade past ~z11.5 |
 | `#map` | GO±CAUTION by hold-back driver, Phase 2 filters, shortlist export |
 | `#cases` | Cases A–C text bookmarks (no INTERNAL PNGs) |
 | `#licence` | Licence / evidence panel + host matrix |

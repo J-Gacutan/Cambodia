@@ -126,6 +126,49 @@
   padding: 0.75rem 1rem 1rem;
   max-width: 52rem;
 }
+.khm-change-primer {
+  padding: 0.65rem 1rem 0.85rem;
+  max-width: 52rem;
+  border-block-end: 1px solid var(--pf-t--global--border--color--default, #c7c7c7);
+  background: var(--pf-t--global--background--color--secondary--default, #f0f0f0);
+}
+.khm-change-primer .pf-v6-c-title {
+  margin-block-end: 0.35rem;
+}
+.khm-change-resolution {
+  margin: 0.5rem 0 0;
+  max-width: 46rem;
+}
+.khm-key-note {
+  font-size: 0.6875rem;
+  color: var(--pf-t--global--text--color--subtle, #6a6e73);
+  line-height: 1.25;
+  max-width: 11rem;
+}
+.khm-change-zoom-note,
+.khm-change-basemap-hint {
+  position: absolute;
+  z-index: 2;
+  inset-inline: 0.5rem;
+  inset-block-end: 0.5rem;
+  max-width: min(28rem, calc(100% - 1rem));
+  padding: 0.45rem 0.65rem;
+  background: color-mix(in srgb, var(--pf-t--global--background--color--primary--default, #fff) 92%, transparent);
+  box-shadow: var(--pf-t--global--box-shadow--sm);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+.khm-change-basemap-hint {
+  inset-block-end: auto;
+  inset-block-start: 0.5rem;
+  inset-inline-start: auto;
+  inset-inline-end: 0.5rem;
+}
+.khm-change-next {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
 .khm-driver-toggle {
   margin-block-end: 0.35rem;
 }
