@@ -29,17 +29,19 @@ node -e "console.log(require('../public/khm-bundle/public-ready.json'))"
 
 ---
 
-## Enable Pages on this private repo (when ready)
+## Enable Pages (public repo)
 
-GitHub Pages for a **private** repository needs a plan that includes private Pages (Pro / Team / Enterprise). Project preference remains **public Pages only** for the console host — not Amplify / CF Access.
+Free-plan Pages needs a **public** repository. Project preference is **public GitHub Pages** for the console host — not Amplify / CF Access. (Private Pages needs Pro / Team / Enterprise.)
 
-1. Repo **Settings → Pages**.
-2. **Build and deployment → Source:** GitHub Actions (not “Deploy from a branch”).
+1. Repo visibility **public** (Jordan A, 24 Nov 2026).
+2. Repo **Settings → Pages** → **Build and deployment → Source:** GitHub Actions (not “Deploy from a branch”).
 3. Leave the environment as `github-pages` (matches the workflow `environment:` block).
 4. Do **not** point Pages at `/docs` or a branch — the workflow uploads `app/dist`.
 5. Ensure Actions are allowed for the repo (Settings → Actions → General).
 6. After `khm-i6e.2` and a bundle with `public_ready: true` lands on `main`, the next green `pages` workflow run deploys.
-7. Site URL will be `https://<owner>.github.io/Cambodia/` (`VITE_BASE=/Cambodia/` in the workflow). Hash routes: `#map`, `#cases`, `#licence`, `#about`, `#map?case=A`.
+7. Site URL: `https://j-gacutan.github.io/Cambodia/` (`VITE_BASE=/Cambodia/` in the workflow). Hash routes: `#home`, `#map`, `#cases`, `#licence`, `#about`, `#map?case=A`.
+
+INTERNAL case PNGs / VERRA project-overlap geojson are removed from **tip** before public flip; **git history may still retain** those blobs unless a history rewrite is requested.
 
 ### SPA 404 fallback
 

@@ -23,7 +23,7 @@ Status lives in [../README.md](../README.md) only. After a folder move, links **
 | 06 | [Related artifacts](06-related-artifacts.md) | Adjacent Cambodia work that is not inside this tree | 01 |
 | 07 | [Migration](07-migration.md) | Cut list, what lifts, what stays, post-move checklist | 01, 04 |
 | 08 | [Handoff](08-handoff.md) | Phase 3: contract pin, licence panel, Pages gate runbook | 01, 04, app README |
-| 09 | [GitHub Pages](09-github-pages.md) | Enable Pages on the private repo; SPA 404; `public_ready` deploy gate | 01, 04, 08; do not flip gate without `khm-i6e.2` |
+| 09 | [GitHub Pages](09-github-pages.md) | Public-repo Pages (Actions source); SPA 404; `public_ready` deploy gate | 01, 04, 08; do not invent clearances |
 
 ## Package root
 

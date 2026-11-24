@@ -61,7 +61,7 @@ Full enablement checklist: [09-github-pages.md](09-github-pages.md).
 
 1. Jordan closes `khm-i6e.2` with an open-cleared path (P2).
 2. Rebuild / ship a bundle with `public_ready: true` and update the contract.
-3. Repo Settings → Pages → Source: **GitHub Actions** (private repo needs a plan that includes private Pages).
+3. Repo public + Settings → Pages → Source: **GitHub Actions** (free-plan Pages; private needs Pro).
 4. Merge to `main`. Workflow deploy job runs only when `public/khm-bundle/public-ready.json` says ready. SPA `404.html` is copied from `index.html` in the workflow.
 5. Confirm FLAG / WDPA / case PNGs are absent from `app/dist` and `public/khm-bundle/`.
 
