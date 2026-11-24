@@ -658,8 +658,9 @@ export default function MapPage() {
         <div className="khm-go-banner" role="note">
           <strong>GO means worth a field look</strong> — open or accreted restoration opportunity (physical /
           land-cover only). CAUTION is split by hold-back drivers. On this public pack, <strong>tidal</strong>{" "}
-          is painted on the map; elevation, converted land, tenure/legal, and VERRA stay in the filter list as
-          coming soon (or partial when a flag is present). Flags never mean approved or refused.
+          is painted as a CAUTION colour today; elevation and converted land stay not assessed until those
+          layers ship. Tenure (Ramsar / WDPA) and VERRA show as partial when a flag hits, and as toggleable
+          overlays. Flags never mean approved or refused.
         </div>
         <HelperText>
           <HelperTextItem>
@@ -748,7 +749,7 @@ export default function MapPage() {
                       <Swatch color={FLAGS.permit} label="Permit context overlay (Ramsar)" />
                     </li>
                     <li>
-                      <Swatch color={FLAGS.project} label="VERRA overlay (coming soon on public pack)" />
+                      <Swatch color={FLAGS.project} label="VERRA project boundary (non-commercial research)" />
                     </li>
                   </ul>
                   <Title headingLevel="h2" className="pf-v6-u-mt-md">

@@ -2,7 +2,7 @@
   "note": "Pinned exchange for the Cambodia screen console (LKA-style). Paths relative to delivery/open-cleared/<bundle_version>/. Sync verifies every sha256 before copying into public/khm-bundle/. Never invent public_ready — that is khm-i6e.2.",
   "platform_repo": "Cambodia",
   "bundle_version": "v0.3.0",
-  "cambodia_commit": "730a300",
+  "cambodia_commit": "feb9639",
   "public_ready": true,
   "licence_gate": "cleared_p2_open_pages",
   "files": [
@@ -16,7 +16,7 @@
     },
     {
       "path": "flags/GAPS.md",
-      "sha256": "a76234c3a9b3acefa0b64b613fe498d2df89c8970087e3e5922faeb2e6b32bfe"
+      "sha256": "1054821ccd1dd39051d34d0060d374265a9d13dce5e3f228cca7d3831fa1d5b1"
     },
     {
       "path": "flags/coverage.json",
@@ -24,11 +24,23 @@
     },
     {
       "path": "layers/go-caution.geojson",
-      "sha256": "df73b21ccbc3f0b584e2af7a8465d183cc2e9df1fa5d277b16fd9ad85276ba16"
+      "sha256": "906ccc7f45a4468a299f6ac07b032b99a4300a6888658922862cf84cf443eb1b"
     },
     {
       "path": "layers/index.json",
-      "sha256": "c55c090ee2a688f0d373d01ed8654a5a6debe44bea78644b95e1870802355fa3"
+      "sha256": "89e8ea655fed5d56ce85dec58cefe006f23f4ed24d0899ba790875facdfcb4c1"
+    },
+    {
+      "path": "layers/project-overlap-vcs1748.geojson",
+      "sha256": "6ff5ffef72efca658f5130cdf0566478769aeb6300a13b08a2a8b6b259a2ea92"
+    },
+    {
+      "path": "layers/project-overlap-vcs5071.geojson",
+      "sha256": "dc8384a2490b038275c08d047bcd1fa045a7abd78685978f819d0ab62ef21296"
+    },
+    {
+      "path": "layers/project-overlap-vcs5584.geojson",
+      "sha256": "f885708f340ac568a6ba10de9c0a1d18939c54d7406c58aee94c28ee777735ff"
     },
     {
       "path": "layers/ramsar-context.geojson",
@@ -39,8 +51,12 @@
       "sha256": "1855c0f26a8536d14c003f48bc4d0623e28053810f32f0b5889190ee3f3d3782"
     },
     {
+      "path": "layers/wdpa-context.geojson",
+      "sha256": "7115399854a458de0b05df46907e284268d1cecf3b6dab8037c5299db3edb7a3"
+    },
+    {
       "path": "manifest.json",
-      "sha256": "2ce2f828e15824b862f56fe44fee53c8d8d14aa44150047937a95965a18f3a0c"
+      "sha256": "fb4cd4bd18bb03804e3794c884f60559a813a6eae93a16c5ba1d8e13733fe1d0"
     },
     {
       "path": "schema/feature-properties.json",

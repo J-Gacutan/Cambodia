@@ -40,10 +40,10 @@ export const FLOW_STEPS: FlowStep[] = [
     id: "means",
     label: "Means",
     href: "#cases",
-    does: "Learn what GO and CAUTION mean at a named place before you read the map.",
-    cue: "Case stories show how an open/accreted opportunity and a tidal hold-back feel on the ground.",
+    does: "Learn the legend — GO, CAUTION drivers, Ramsar and VERRA — before you open the map.",
+    cue: "Walk the colours and case examples here, then continue to Read with the legend already in mind.",
     detail:
-      "Two short stories — an open/accreted GO and a tidal-flat CAUTION — make the legend concrete before you click patches. Flags cite overlaps; they never say a site is approved or refused."
+      "Means explains what each map colour and overlay means, with Case A (open/accreted GO) and Case C (tidal CAUTION) as worked examples. Elevation, converted land and VERRA hold-backs stay visible as not assessed until those layers paint. Then continue to the screen map."
   },
   {
     id: "read",

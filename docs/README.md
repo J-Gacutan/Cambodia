@@ -1,6 +1,6 @@
 # Cambodia package docs
 
-Documentation for the Cambodia blue carbon package (Seed Fund scoping, REDD+ two tracks, project selection, restoration-potential screen). Eight modules under one index.
+Documentation for the Cambodia blue carbon package (Seed Fund scoping, REDD+ two tracks, project selection, restoration-potential screen). Modules under one index.
 
 **Do not read a module in isolation for build or release decisions.** Dependency order:
 
@@ -24,6 +24,7 @@ Status lives in [../README.md](../README.md) only. After a folder move, links **
 | 07 | [Migration](07-migration.md) | Cut list, what lifts, what stays, post-move checklist | 01, 04 |
 | 08 | [Handoff](08-handoff.md) | Phase 3: contract pin, licence panel, Pages gate runbook | 01, 04, app README |
 | 09 | [GitHub Pages](09-github-pages.md) | Public-repo Pages (Actions source); SPA 404; `public_ready` deploy gate | 01, 04, 08; do not invent clearances |
+| 10 | [Lessons from NSW LIIP](10-lessons-from-nsw-liip.md) | Advisory: structure and UI to bring from LIIP onto the screen console | 01, 03, app README; pin file, not the root status table |
 
 ## Package root
 

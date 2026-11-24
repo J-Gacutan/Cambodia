@@ -101,8 +101,10 @@ export default function AboutPage() {
       <Title headingLevel="h2">Public Pages</Title>
       <p>
         Kenya-style Actions → GitHub Pages is scaffolded but must not go live until the open-cleared bundle has{" "}
-        <code>public_ready=true</code> (licence gate <code>khm-i6e.2</code>). FLAG rasters, WDPA geometries, and
-        INTERNAL case PNGs never enter the Pages artifact.
+        <code>public_ready=true</code> (licence gate <code>khm-i6e.2</code>). FLAG rasters and INTERNAL case PNGs
+        never enter the Pages artifact. WDPA (coastal clip) and staged VERRA project boundaries ship as{" "}
+        <em>non-commercial research</em> overlays (<code>redistributable=false</code>) — not a commercial
+        republish claim.
       </p>
     </PageSection>
   );

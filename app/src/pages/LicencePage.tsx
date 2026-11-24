@@ -105,8 +105,9 @@ export default function LicencePage() {
         <Title headingLevel="h2">Host matrix (this project)</Title>
         <p className="pf-v6-u-font-size-sm">
           Preference: <strong>public GitHub Pages only</strong> for the screening console. Private Amplify /
-          Cloudflare Access is out of scope unless Jordan revises. FLAG rasters, WDPA geometries, and INTERNAL
-          case PNGs never enter the Pages artifact.
+          Cloudflare Access is out of scope unless Jordan revises. FLAG rasters and INTERNAL case PNGs never
+          enter the Pages artifact. WDPA (coastal clip) and staged VERRA boundaries may ship as non-commercial
+          research overlays with <code>redistributable=false</code> — do not claim commercial redistribution.
         </p>
         <table className="khm-licence-table">
           <thead>
@@ -138,9 +139,17 @@ export default function LicencePage() {
               <td>Not configured. Revisit only if Jordan changes the Pages-only preference.</td>
             </tr>
             <tr>
-              <td>FLAG / WDPA / case PNGs</td>
+              <td>FLAG rasters / case PNGs</td>
               <td>NO-GO on public remote</td>
               <td>Stay under <code>inputs/screen-layers/</code> or QGIS bridge; never sync into public/</td>
+            </tr>
+            <tr>
+              <td>WDPA + VERRA overlays</td>
+              <td>Research OK</td>
+              <td>
+                Non-commercial research context on this console (<code>redistributable=false</code>). Not planting
+                permission; not a commercial registry republish.
+              </td>
             </tr>
           </tbody>
         </table>

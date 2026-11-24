@@ -72,8 +72,8 @@ export const CAUTION_DRIVERS: CautionDriver[] = [
     label: "VERRA / project overlap",
     short: "VERRA",
     holdsBack: "Inside an existing VERRA / VCS project boundary — double-counting and access check.",
-    source: "Phase 2 project_overlap — geometries not in P2 public pack (null on v0.3.0)",
-    status: "stub",
+    source: "Phase 2 project_overlap — staged VCS 1748 / 5071 / 5584 boundaries (non-commercial research overlay)",
+    status: "partial",
     color: "#B85C38"
   }
 ];
@@ -103,7 +103,7 @@ export function primaryDriver(props: FeatureProps): CautionDriverId | null {
 export function driverStatusLabel(status: CautionDriver["status"]): string {
   if (status === "live") return "On map";
   if (status === "partial") return "Partial";
-  return "Coming soon";
+  return "Not assessed";
 }
 
 export function holdsBackSummary(props: FeatureProps): string {
