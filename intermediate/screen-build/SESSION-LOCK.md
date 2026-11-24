@@ -4,7 +4,7 @@
 
 ## Active lock
 
-- `khm-e8c` Act report QR + shortlist first-class export — claimed (branch `cursor/act-report-qr-2a0e`). App UI / Act report only; do not restomp open-cleared or contract.
+- `khm-e8c` Act report QR + shortlist first-class export — claimed; branch `cursor/act-report-qr-2a0e` pushed. PR open blocked (GitHub “must be a collaborator” via ManagePullRequest). App UI / Act report only; do not restomp open-cleared or contract.
 
 ## Cleared / closed recently (do not reopen)
 
