@@ -946,12 +946,9 @@ export default function MapPage() {
                       </div>
                     </>
                   )}
-                  {manifest.data && (
-                    <p className="pf-v6-u-font-size-sm pf-v6-u-mt-md">
-                      Bundle {manifest.data.version} · stub={String(manifest.data.stub)} · public_ready=
-                      {String(manifest.data.public_ready)}
-                    </p>
-                  )}
+                  <p className="pf-v6-u-font-size-sm pf-v6-u-mt-md">
+                    Bundle notes and data version: <a href="#about">About</a>
+                  </p>
                 </DrawerPanelBody>
               </DrawerPanelContent>
             }

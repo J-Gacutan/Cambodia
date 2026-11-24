@@ -219,13 +219,12 @@ export default function App() {
       </FlexItem>
       <FlexItem>
         <footer className="khm-footer">
-          <p>Research prototype for CI Seed Fund / REDD+ scoping. Not a CI product endorsement.</p>
-          <p>{`Data version ${version}. Quote the original source register, not this site.`}</p>
-          <p>
-            FLAG rasters and INTERNAL case PNGs are kept offline — not in the public Pages artifact.{" "}
-            <a href="#licence">Licence and evidence</a>
-            {" · "}
+          <p className="khm-footer-quiet">
+            Research prototype · not a CI product endorsement ·{" "}
             <a href="#about">About</a>
+            {" · "}
+            <a href="#licence">Licence</a>
+            {version ? ` · ${version}` : ""}
           </p>
         </footer>
       </FlexItem>

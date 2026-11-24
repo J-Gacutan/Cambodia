@@ -56,6 +56,11 @@ export default function AboutPage() {
       </p>
       <Title headingLevel="h2">Data</Title>
       <p>
+        Data version {manifest.data?.version ?? BUNDLE_VERSION}
+        {publicReady ? " · public_ready=true (P2 Pages)" : " · public_ready=false"}. FLAG / pond geometries stay
+        offline. Quote the original source register, not this site.
+      </p>
+      <p>
         Feeds from versioned <code>delivery/open-cleared/&lt;version&gt;/</code>, synced into{" "}
         <code>public/khm-bundle/</code>. Current pin: <code>{BUNDLE_VERSION}</code>
         {manifest.data ? ` (built ${manifest.data.built})` : ""}.
