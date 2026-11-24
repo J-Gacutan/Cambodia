@@ -2,6 +2,8 @@ import { Button, PageSection, Title } from "@patternfly/react-core";
 import { useState } from "react";
 import { StepNav } from "../flow/StepNav";
 import { FLOW_STEPS, type StepId } from "../flow/steps";
+import { loadManifest } from "../lib/bundle";
+import { useBundle } from "../lib/useBundle";
 
 const STEP_DETAIL: Record<StepId, string> = {
   frame:
@@ -20,16 +22,24 @@ const STEP_DETAIL: Record<StepId, string> = {
  */
 export default function HomePage() {
   const [open, setOpen] = useState<StepId | null>("frame");
+  const manifest = useBundle(loadManifest);
+  const publicReady = manifest.data?.public_ready === true;
   const info = open ? FLOW_STEPS.find((s) => s.id === open) : null;
   const index = open ? FLOW_STEPS.findIndex((s) => s.id === open) : -1;
 
   return (
     <PageSection className="khm-home">
       <div className="khm-home-hero">
-        <Title headingLevel="h1">Cambodia restoration screen</Title>
+        <p className="khm-home-kicker">
+          {publicReady ? "Open-cleared research prototype" : "INTERNAL research prototype"}
+        </p>
+        <Title headingLevel="h1">Cambodia mangrove restoration screen</Title>
         <p className="khm-home-lead">
-          A step-through physical screen for coastal mangrove restoration potential — Frame here, Locate
-          change context, then Read GO class 8 with CAUTION split by hold-back drivers.
+          A physical / land-cover screen of four coastal provinces to shortlist sites worth a field look.
+          <strong> GO (class 8)</strong> marks open or accreted mangrove restoration potential;{" "}
+          <strong>CAUTION</strong> separates hold-back drivers (tidal, elevation, converted land, tenure/legal,
+          VERRA) instead of one catch-all. Not MoE zoning, tenure clearance, planting permission, or a carbon
+          outcome — start with ecosystem change, then inspect and shortlist on the map.
         </p>
         <StepNav current="frame" />
       </div>
