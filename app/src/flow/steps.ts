@@ -42,7 +42,7 @@ export const FLOW_STEPS: FlowStep[] = [
     does: "Open the screen map and ask what each patch is telling you.",
     cue: "Narrow the hold-back drivers, click a polygon, read why it is GO or CAUTION, then keep it if it earns a field look.",
     detail:
-      "GO (class 8) is open or accreted ground that still looks worth walking. CAUTION is not a single red light — it names the hold-back (tide, elevation, converted land, tenure/legal, VERRA) so you can filter noise and keep a shortlist you trust."
+      "GO is open or accreted ground that still looks worth walking. CAUTION is not a single red light — it names the hold-back (tide on the public map today; elevation, converted land, tenure/legal, VERRA as they ship) so you can filter noise and keep a shortlist you trust."
   },
   {
     id: "means",

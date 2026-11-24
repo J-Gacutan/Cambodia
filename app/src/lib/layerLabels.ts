@@ -11,13 +11,19 @@ export function isVerraLayer(layer: Pick<MapLayer, "id" | "flag_role">): boolean
   return layer.flag_role === "project_overlap" || layer.id.includes("project-overlap");
 }
 
-/** Display title for layer toggles / legend — VERRA wording, not “Project overlap”. */
+/** Display title for layer toggles / legend — client terms, not class/MMU jargon. */
 export function layerDisplayTitle(layer: MapLayer): string {
   if (VERRA_TITLES[layer.id]) return VERRA_TITLES[layer.id];
   if (isVerraLayer(layer)) {
     return layer.title.replace(/^Project overlap\s*[—–-]?\s*/i, "VERRA — ");
   }
-  return layer.title;
+  if (layer.id === "go-caution" || /GO class 8|≥ MMU|CAUTION class 4/i.test(layer.title)) {
+    return "Open/accreted opportunity and tidal hold-backs (≥ 0.5 ha patches)";
+  }
+  return layer.title
+    .replace(/GO class 8\s*±\s*CAUTION class 4/gi, "Open/accreted opportunity ± tidal hold-backs")
+    .replace(/≥\s*MMU/gi, "≥ 0.5 ha")
+    .replace(/\bMMU\b/gi, "minimum patch size");
 }
 
 /** Format project_overlap_ids for inspect (prefer VCS ####). */

@@ -11,7 +11,6 @@ import {
 } from "@patternfly/react-core";
 import { LayerProvenance } from "../common/LayerProvenance";
 import { EvidenceBadge, IllustrativeBadge } from "../common/Evidence";
-import { StepNav } from "../flow/StepNav";
 import { loadManifest, loadMapLayers } from "../lib/bundle";
 import { parseEvidenceClass } from "../lib/evidence";
 import { BUNDLE_VERSION } from "../lib/env";
@@ -59,7 +58,6 @@ export default function LicencePage() {
           <a href="#map">screen map</a>.
         </p>
         <IllustrativeBadge publicReady={publicReady} />
-        <StepNav current="act" />
       </PageSection>
 
       {!publicReady && (
@@ -207,7 +205,6 @@ export default function LicencePage() {
           Permit / STOP (legal) / VERRA (VCS 1748 / 5071 / 5584) flags cite instruments and overlaps — they
           never mean approved or refused.
         </p>
-        <StepNav current="act" />
       </PageSection>
     </>
   );

@@ -1,10 +1,10 @@
 import { Button } from "@patternfly/react-core";
-import { FLOW_STEPS, stepIndex, type StepId } from "./steps";
+import { FLOW_STEPS, hrefForStep, nextStep, prevStep, stepIndex, stepMeta, type StepId } from "./steps";
 
 /**
  * Progressive decision rail (LKA StepHead pattern).
  * Shows current / next / done — not a flat equal-weight tab strip.
- * About is pinned at the end of this same bar (not a detached masthead float).
+ * About + Back/Next sit in this same row (not detached lines).
  */
 export function StepRail({
   current,
@@ -16,6 +16,8 @@ export function StepRail({
   onSelect?: (step: StepId) => void;
 }) {
   const currentIndex = current ? stepIndex(current) : -1;
+  const back = current ? prevStep(current) : null;
+  const next = current ? nextStep(current) : null;
 
   return (
     <nav className="khm-step-rail" aria-label="Screening steps">
@@ -64,13 +66,34 @@ export function StepRail({
             );
           })}
         </ol>
-        <a
-          href="#about"
-          className="khm-rail-about"
-          aria-current={aboutActive ? "page" : undefined}
-        >
-          About
-        </a>
+        <div className="khm-rail-actions">
+          {current && (
+            <div className="khm-step-nav khm-step-nav-inline" role="navigation" aria-label="Step navigation">
+              {back && (
+                <Button variant="secondary" size="sm" component="a" href={hrefForStep(back)}>
+                  {`Back: ${stepMeta(back).label}`}
+                </Button>
+              )}
+              {next && (
+                <Button variant="primary" size="sm" component="a" href={hrefForStep(next)}>
+                  {`Next: ${stepMeta(next).label}`}
+                </Button>
+              )}
+              {!next && (
+                <Button variant="secondary" size="sm" component="a" href="#map">
+                  Return to map
+                </Button>
+              )}
+            </div>
+          )}
+          <a
+            href="#about"
+            className="khm-rail-about"
+            aria-current={aboutActive ? "page" : undefined}
+          >
+            About
+          </a>
+        </div>
       </div>
       {current && (
         <p className="khm-step-cue" aria-live="polite">

@@ -80,20 +80,27 @@
   margin-inline-start: 0.5rem;
 }
 .khm-basemap-ctrl {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
-  overflow: hidden;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: max-content;
+  max-width: none;
+  overflow: visible;
 }
 .khm-basemap-ctrl-btn {
   appearance: none;
   border: 0;
   margin: 0;
-  padding: 0.4rem 0.65rem;
+  padding: 0.45rem 0.85rem;
   background: var(--pf-t--global--background--color--primary--default, #fff);
   color: var(--pf-t--global--text--color--regular, #151515);
   font: inherit;
   font-size: 0.8125rem;
-  line-height: 1.2;
+  line-height: 1.25;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  min-inline-size: 5.5rem;
   cursor: pointer;
 }
 .khm-basemap-ctrl-btn + .khm-basemap-ctrl-btn {
@@ -353,15 +360,59 @@
   flex: 1 1 auto;
   min-width: 0;
 }
+.khm-rail-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-inline-start: auto;
+}
+.khm-step-nav-inline {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+}
 .khm-rail-about {
   flex: 0 0 auto;
-  margin-inline-start: auto;
   padding: 0.35rem 0.15rem;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--pf-t--global--text--color--link--default, #0066cc);
   text-decoration: none;
   border-block-end: 2px solid transparent;
+}
+.khm-change-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.khm-change-head {
+  flex: 0 0 auto;
+}
+.khm-change-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(14rem, 18rem);
+  align-items: stretch;
+  min-height: 0;
+  flex: 0 0 auto;
+}
+.khm-change-map {
+  height: calc(100dvh - 14.5rem);
+  max-height: calc(100dvh - 14.5rem);
+  min-height: 16rem;
+}
+.khm-change-frame .khm-map-key {
+  inset-block-start: 5.5rem;
+}
+@media (max-width: 47.9375rem) {
+  .khm-change-workspace {
+    grid-template-columns: 1fr;
+  }
+  .khm-change-map {
+    height: min(55dvh, 28rem);
+    max-height: none;
+  }
 }
 .khm-rail-about:hover,
 .khm-rail-about:focus-visible {

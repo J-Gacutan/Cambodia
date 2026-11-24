@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build open P2 change-stub GeoJSONs for app/public/change-stubs/ (outside open-cleared pin).
+"""Build open P2 change-stub GeoJSONs for public/change-stubs/ (outside open-cleared pin).
 
 Upstream: Goldberg L4 (CC BY 4.0) + Dynamic World L10 modal built (CC BY 4.0).
 Does not copy FLAG / INTERNAL rasters into a public remote path.
@@ -19,7 +19,7 @@ from shapely.geometry import mapping, shape
 from shapely.ops import unary_union
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / "app" / "public" / "change-stubs"
+OUT = ROOT / "public" / "change-stubs"
 
 # ORNL DAAC 1768 loss_driver_class (CMS user guide)
 DRIVER_LABEL = {

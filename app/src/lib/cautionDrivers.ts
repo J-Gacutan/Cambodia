@@ -101,9 +101,9 @@ export function primaryDriver(props: FeatureProps): CautionDriverId | null {
 }
 
 export function driverStatusLabel(status: CautionDriver["status"]): string {
-  if (status === "live") return "Live";
+  if (status === "live") return "On map";
   if (status === "partial") return "Partial";
-  return "Stub";
+  return "Coming soon";
 }
 
 export function holdsBackSummary(props: FeatureProps): string {

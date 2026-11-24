@@ -1,6 +1,5 @@
 import { Button, PageSection, Title } from "@patternfly/react-core";
 import { useState } from "react";
-import { StepNav } from "../flow/StepNav";
 import { FLOW_STEPS, type StepId } from "../flow/steps";
 import { loadManifest } from "../lib/bundle";
 import { useBundle } from "../lib/useBundle";
@@ -24,13 +23,12 @@ export default function HomePage() {
         </p>
         <Title headingLevel="h1">Cambodia mangrove restoration screen</Title>
         <p className="khm-home-lead">
-          A physical / land-cover screen of four coastal provinces to shortlist sites worth a field look.
-          <strong> GO (class 8)</strong> marks open or accreted mangrove restoration potential;{" "}
-          <strong>CAUTION</strong> separates hold-back drivers (tidal, elevation, converted land, tenure/legal,
-          VERRA) instead of one catch-all. Not MoE zoning, tenure clearance, planting permission, or a carbon
-          outcome — start with ecosystem change, then inspect and shortlist on the map.
+          A physical / land-cover screen of four coastal provinces to shortlist sites worth a field look.{" "}
+          <strong>GO</strong> marks open or accreted restoration opportunity; <strong>CAUTION</strong>{" "}
+          separates hold-back drivers (tidal on the map today; elevation, converted land, tenure/legal, and
+          VERRA listed as coming soon) instead of one catch-all. Not MoE zoning, tenure clearance, planting
+          permission, or a carbon outcome — start with ecosystem change, then inspect and shortlist on the map.
         </p>
-        <StepNav current="frame" />
       </div>
 
       <Title headingLevel="h2" className="pf-v6-u-mt-xl">
@@ -85,9 +83,6 @@ export default function HomePage() {
         </Button>
         <Button variant="link" component="a" href="#map">
           Skip to screen map
-        </Button>
-        <Button variant="link" component="a" href="#about">
-          About / data version
         </Button>
       </div>
     </PageSection>

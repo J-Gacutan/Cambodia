@@ -19,6 +19,7 @@ import {
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { DriverInfo } from "../common/DriverInfo";
 import {
   dismissCoachStorage,
   MapGuide,
@@ -26,7 +27,6 @@ import {
   readFilterTouched,
   writeFilterTouched
 } from "../flow/MapGuide";
-import { StepNav } from "../flow/StepNav";
 import {
   CAMBODIA_COAST_BOUNDS,
   flagLabel,
@@ -656,9 +656,10 @@ export default function MapPage() {
       <div className="khm-map-head">
         <Title headingLevel="h1">Screen map</Title>
         <div className="khm-go-banner" role="note">
-          <strong>GO means worth a field look</strong> — physical / land-cover suitability only. CAUTION is
-          split by hold-back drivers (tidal, elevation stub, converted stub, tenure/legal, VERRA) — not one
-          bucket. Flags cite instruments and overlaps; they never mean approved or refused.
+          <strong>GO means worth a field look</strong> — open or accreted restoration opportunity (physical /
+          land-cover only). CAUTION is split by hold-back drivers. On this public pack, <strong>tidal</strong>{" "}
+          is painted on the map; elevation, converted land, tenure/legal, and VERRA stay in the filter list as
+          coming soon (or partial when a flag is present). Flags never mean approved or refused.
         </div>
         <HelperText>
           <HelperTextItem>
@@ -733,7 +734,7 @@ export default function MapPage() {
                   <Title headingLevel="h2">Legend</Title>
                   <ul className="khm-plain-list">
                     <li>
-                      <Swatch color={SUITABILITY.go} label="GO — worth a field look" />
+                      <Swatch color={SUITABILITY.go} label="GO — open/accreted opportunity" />
                     </li>
                     {CAUTION_DRIVERS.map((driver) => (
                       <li key={driver.id}>
@@ -747,7 +748,7 @@ export default function MapPage() {
                       <Swatch color={FLAGS.permit} label="Permit context overlay (Ramsar)" />
                     </li>
                     <li>
-                      <Swatch color={FLAGS.project} label="VERRA overlay (stub on P2 public)" />
+                      <Swatch color={FLAGS.project} label="VERRA overlay (coming soon on public pack)" />
                     </li>
                   </ul>
                   <Title headingLevel="h2" className="pf-v6-u-mt-md">
@@ -787,8 +788,8 @@ export default function MapPage() {
                     </Title>
                   </div>
                   <p className="pf-v6-u-font-size-sm">
-                    Separate why a site is held back — not one CAUTION bucket. Live = class 4 tidal today;
-                    stubs are labelled until open layers ship.
+                    Why a site is held back — not one CAUTION bucket. Only tidal flats are painted on this
+                    public pack today; use the info icon on each row for the reading.
                   </p>
                   {CAUTION_DRIVERS.map((driver) => (
                     <div key={driver.id} className="khm-driver-toggle">
@@ -796,13 +797,13 @@ export default function MapPage() {
                         id={`driver-${driver.id}`}
                         isChecked={driverFilter[driver.id]}
                         isDisabled={shortlistReadyOnly || !showCaution}
-                        label={`${driver.label} [${driverStatusLabel(driver.status)}]`}
+                        label={`${driver.label} · ${driverStatusLabel(driver.status)}`}
                         onChange={(_e, on) => {
                           markFilterTouched();
                           setDriverFilter((prev) => ({ ...prev, [driver.id]: on }));
                         }}
                       />
-                      <p className="pf-v6-u-font-size-sm khm-driver-hint">{driver.holdsBack}</p>
+                      <DriverInfo driver={driver} />
                     </div>
                   ))}
                   <Title headingLevel="h2" className="pf-v6-u-mt-md">
@@ -946,9 +947,6 @@ export default function MapPage() {
                       </div>
                     </>
                   )}
-                  <p className="pf-v6-u-font-size-sm pf-v6-u-mt-md">
-                    Bundle notes and data version: <a href="#about">About</a>
-                  </p>
                 </DrawerPanelBody>
               </DrawerPanelContent>
             }
@@ -962,8 +960,8 @@ export default function MapPage() {
                   aria-label="Cambodia GO and CAUTION screen map"
                 />
                 <div className="khm-map-key" aria-hidden>
-                  <Swatch color={SUITABILITY.go} label="GO" />
-                  <Swatch color={CAUTION_DRIVERS[0]!.color} label="CAUTION · tidal" />
+                  <Swatch color={SUITABILITY.go} label="GO · open/accreted" />
+                  <Swatch color={CAUTION_DRIVERS[0]!.color} label="CAUTION · tidal (on map)" />
                 </div>
               </div>
             </DrawerContentBody>
@@ -1058,9 +1056,6 @@ export default function MapPage() {
       {kind === "offline" && (
         <p className="khm-basemap-note">Reference basemap unreachable; showing plain sea.</p>
       )}
-      <div className="khm-map-head">
-        <StepNav current="read" />
-      </div>
     </PageSection>
   );
 }
