@@ -23,6 +23,7 @@ import { flagLabel, loadManifest, loadMapLayers, type FeatureProps } from "../li
 import { parseEvidenceClass } from "../lib/evidence";
 import { BUNDLE_VERSION } from "../lib/env";
 import { layerDisplayTitle } from "../lib/layerLabels";
+import { buildReportQr, type ReportQrMeta } from "../liip/ui/reportQr";
 import {
   downloadText,
   loadShortlistFromStorage,
@@ -79,12 +80,43 @@ export default function LicencePage() {
   const layers = useBundle(loadMapLayers);
   const publicReady = manifest.data?.public_ready === true;
   const [shortlist, setShortlist] = useState<ShortlistItem[]>(() => loadShortlistFromStorage());
+  const [reportQr, setReportQr] = useState<ReportQrMeta | null>(null);
+  const [qrBusy, setQrBusy] = useState(false);
   const holds = useMemo(() => holdSummary(shortlist), [shortlist]);
   const goCount = shortlist.filter((r) => r.suitability === "go").length;
   const cautionCount = shortlist.length - goCount;
   const ha = shortlist.reduce((s, r) => s + (Number.isFinite(r.area_ha) ? r.area_ha : 0), 0);
 
   const refresh = () => setShortlist(loadShortlistFromStorage());
+
+  const sydneyStamp = () =>
+    new Date().toLocaleString("en-AU", {
+      timeZone: "Australia/Sydney",
+      dateStyle: "medium",
+      timeStyle: "short"
+    });
+
+  const ensureReportQr = async (bundleVersion: string, patchCount: number): Promise<ReportQrMeta> => {
+    if (
+      reportQr &&
+      reportQr.url.includes(`bundle=${encodeURIComponent(bundleVersion)}`) &&
+      reportQr.url.includes(`patches=${patchCount}`)
+    ) {
+      return reportQr;
+    }
+    setQrBusy(true);
+    try {
+      const qr = await buildReportQr({
+        bundleVersion,
+        patchCount,
+        pageBase: `${window.location.origin}${window.location.pathname}`
+      });
+      setReportQr(qr);
+      return qr;
+    } finally {
+      setQrBusy(false);
+    }
+  };
 
   if (!manifest.data && !manifest.error) {
     return (
@@ -179,81 +211,131 @@ export default function LicencePage() {
               })}
             </ul>
             <Title headingLevel="h3" className="pf-v6-u-font-size-md pf-v6-u-mt-md">
-              Shortlist report
+              Shortlist decision report
             </Title>
             <p className="pf-v6-u-font-size-sm">
-              Generate a decision pack: holds summary, hectares, drivers, permit/VERRA overlays, and next
-              field/licence steps. Printable HTML (Save as PDF) plus Markdown; pair with CSV / GeoJSON.
+              Decision pack for this shortlist: patch rows, hold-backs, hectares, permit/VERRA flags, and next
+              field/licence steps. Printable HTML (Save as PDF) and Markdown carry the patches as first-class
+              content; CSV / GeoJSON carry the same rows and full geometries. A LIIP-style report QR on the
+              printable pack reopens Act — it does not replace the shortlist body.
             </p>
-            <div className="khm-map-tools pf-v6-u-mt-md">
-              <Button
-                variant="primary"
-                onClick={() => {
-                  const meta = {
-                    bundleVersion: version,
-                    generatedAt: new Date().toLocaleString("en-AU", {
-                      timeZone: "Australia/Sydney",
-                      dateStyle: "medium",
-                      timeStyle: "short"
-                    }),
-                    productBanner: m.product_banner
-                  };
-                  openPrintableReport(shortlistReportHtml(shortlist, meta));
-                }}
-              >
-                Open printable report (PDF via print)
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  const meta = {
-                    bundleVersion: version,
-                    generatedAt: new Date().toLocaleString("en-AU", {
-                      timeZone: "Australia/Sydney",
-                      dateStyle: "medium",
-                      timeStyle: "short"
-                    }),
-                    productBanner: m.product_banner
-                  };
-                  downloadText(
-                    `cambodia-shortlist-report-${version}.md`,
-                    shortlistReportMarkdown(shortlist, meta),
-                    "text/markdown"
-                  );
-                }}
-              >
-                Download Markdown report
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() =>
-                  downloadText(
-                    `cambodia-shortlist-${version}.csv`,
-                    shortlistToCsv(shortlist),
-                    "text/csv"
-                  )
-                }
-              >
-                Export CSV
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() =>
-                  downloadText(
-                    `cambodia-shortlist-${version}.geojson`,
-                    JSON.stringify(shortlistToGeoJson(shortlist), null, 2),
-                    "application/geo+json"
-                  )
-                }
-              >
-                Export GeoJSON (polygons)
-              </Button>
-              <Button variant="link" component="a" href="#map">
-                Back to map
-              </Button>
-              <Button variant="link" onClick={refresh}>
-                Refresh
-              </Button>
+            <div className="khm-act-report-layout pf-v6-u-mt-md">
+              <div className="khm-map-tools">
+                <Button
+                  variant="primary"
+                  isDisabled={qrBusy}
+                  onClick={() => {
+                    void (async () => {
+                      const qr = await ensureReportQr(version, shortlist.length);
+                      const meta = {
+                        bundleVersion: version,
+                        generatedAt: sydneyStamp(),
+                        productBanner: m.product_banner,
+                        reportQr: qr
+                      };
+                      openPrintableReport(shortlistReportHtml(shortlist, meta));
+                    })();
+                  }}
+                >
+                  Open printable report (PDF via print)
+                </Button>
+                <Button
+                  variant="secondary"
+                  isDisabled={qrBusy}
+                  onClick={() => {
+                    void (async () => {
+                      const qr = await ensureReportQr(version, shortlist.length);
+                      const meta = {
+                        bundleVersion: version,
+                        generatedAt: sydneyStamp(),
+                        productBanner: m.product_banner,
+                        reportQr: qr
+                      };
+                      downloadText(
+                        `cambodia-shortlist-report-${version}.md`,
+                        shortlistReportMarkdown(shortlist, meta),
+                        "text/markdown"
+                      );
+                    })();
+                  }}
+                >
+                  Download Markdown report
+                </Button>
+                <Button
+                  variant="secondary"
+                  isDisabled={qrBusy}
+                  onClick={() => {
+                    void (async () => {
+                      const qr = await ensureReportQr(version, shortlist.length);
+                      downloadText(
+                        `cambodia-shortlist-${version}.csv`,
+                        shortlistToCsv(shortlist, {
+                          bundleVersion: version,
+                          generatedAt: sydneyStamp(),
+                          reportQrUrl: qr.url
+                        }),
+                        "text/csv"
+                      );
+                    })();
+                  }}
+                >
+                  Export CSV
+                </Button>
+                <Button
+                  variant="secondary"
+                  isDisabled={qrBusy}
+                  onClick={() => {
+                    void (async () => {
+                      const qr = await ensureReportQr(version, shortlist.length);
+                      downloadText(
+                        `cambodia-shortlist-${version}.geojson`,
+                        JSON.stringify(
+                          shortlistToGeoJson(shortlist, {
+                            bundleVersion: version,
+                            generatedAt: sydneyStamp(),
+                            reportQrUrl: qr.url
+                          }),
+                          null,
+                          2
+                        ),
+                        "application/geo+json"
+                      );
+                    })();
+                  }}
+                >
+                  Export GeoJSON (polygons)
+                </Button>
+                <Button
+                  variant="secondary"
+                  isDisabled={qrBusy}
+                  onClick={() => {
+                    void ensureReportQr(version, shortlist.length);
+                  }}
+                >
+                  {qrBusy ? "Preparing QR…" : reportQr ? "Refresh report QR" : "Prepare report QR"}
+                </Button>
+                <Button variant="link" component="a" href="#map">
+                  Back to map
+                </Button>
+                <Button variant="link" onClick={refresh}>
+                  Refresh shortlist
+                </Button>
+              </div>
+              <aside className="khm-act-report-qr" aria-label="Report QR preview">
+                {reportQr ? (
+                  <>
+                    <img src={reportQr.dataUrl} width={128} height={128} alt="" />
+                    <p className="pf-v6-u-font-size-sm">{reportQr.caption}</p>
+                    <p className="khm-act-report-qr-url pf-v6-u-font-size-sm">
+                      <a href={reportQr.url}>{reportQr.url}</a>
+                    </p>
+                  </>
+                ) : (
+                  <p className="pf-v6-u-font-size-sm">
+                    Prepare or open a report to show the LIIP-style reopen QR beside the shortlist exports.
+                  </p>
+                )}
+              </aside>
             </div>
           </>
         )}
