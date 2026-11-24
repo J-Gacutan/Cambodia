@@ -86,7 +86,7 @@ Workflow: `.github/workflows/pages.yml`. Enablement checklist: [`docs/09-github-
 | `#change` | Locate — ecosystem change samples |
 | `#cases` | Means — legend + case stories |
 | `#map` | Read — GO/CAUTION map, filters, shortlist |
-| `#act` | Act — shortlist report + downloads (`#licence` alias) |
+| `#act` | Act — shortlist report + downloads + reopen QR (`#licence` alias) |
 | `#about` | Product context, layers, sharing / licence posture |
 
 Change stubs (`public/change-stubs/`) are open CC BY samples **outside** the open-cleared contract pin. Rebuild: `python3 intermediate/screen-build/build_change_stubs.py`.

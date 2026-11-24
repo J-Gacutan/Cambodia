@@ -4,7 +4,7 @@
 
 ## Active lock
 
-None (claim released after push of `cursor/act-about-plain-copy-df74` for CSR-34 Act→About / plain copy). Do not restomp that PR’s console copy without coordinating.
+None. `khm-e8c` Act report QR merged via #25. CSR-34 plain-copy branch `cursor/act-about-plain-copy-df74` merging main (conflicts resolved). Do not restomp console copy without coordinating.
 
 ## Cleared / closed recently (do not reopen)
 

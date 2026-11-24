@@ -1,5 +1,6 @@
 import type { FeatureProps } from "./bundle";
 import { flagLabel } from "./bundle";
+import { driversForFeature } from "./cautionDrivers";
 
 export type ShortlistGeometry = GeoJSON.Polygon | GeoJSON.MultiPolygon;
 
@@ -78,7 +79,37 @@ export function featureToShortlist(props: FeatureProps, geometry: ShortlistGeome
   };
 }
 
-export function shortlistToCsv(rows: ShortlistItem[]): string {
+export type ShortlistExportMeta = {
+  bundleVersion: string;
+  generatedAt?: string;
+  /** Reopen URL from reportQr (optional; also on printable HTML). */
+  reportQrUrl?: string;
+};
+
+function asProps(row: ShortlistItem): FeatureProps {
+  return {
+    id: row.id,
+    class_id: row.class_id,
+    class_name: row.class_name,
+    suitability: row.suitability,
+    area_ha: row.area_ha,
+    province: row.province,
+    place: row.place,
+    note: row.note,
+    permit_gate: row.permit_gate,
+    permit_instrument: row.permit_instrument,
+    stop_legal: row.stop_legal,
+    stop_legal_status: row.stop_legal_status,
+    stop_legal_note: row.stop_legal_note,
+    project_overlap: row.project_overlap,
+    project_overlap_ids: row.project_overlap_ids ?? null,
+    project_overlap_note: row.project_overlap_note,
+    elevation_fail: row.elevation_fail ?? null
+  };
+}
+
+/** CSV of the Act shortlist — rows are first-class; header comments carry claim ceiling. */
+export function shortlistToCsv(rows: ShortlistItem[], meta?: ShortlistExportMeta): string {
   const header = [
     "id",
     "suitability",
@@ -89,6 +120,7 @@ export function shortlistToCsv(rows: ShortlistItem[]): string {
     "place",
     "lon",
     "lat",
+    "hold_drivers",
     "permit_gate",
     "permit_instrument",
     "stop_legal",
@@ -98,14 +130,25 @@ export function shortlistToCsv(rows: ShortlistItem[]): string {
     "project_overlap_ids",
     "project_overlap_note",
     "elevation_fail",
-    "note"
+    "geometry_type",
+    "note",
+    "bundle_version"
   ];
   const escape = (v: string | number | boolean | null | undefined) => {
     const s = v == null ? "" : String(v);
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  const lines = [header.join(",")];
+  const preamble: string[] = [
+    `# Cambodia screen — Act shortlist CSV`,
+    `# Land-cover screen only. GO = worth a field visit. Not planting permission.`,
+    meta?.bundleVersion ? `# Bundle: ${meta.bundleVersion}` : null,
+    meta?.generatedAt ? `# Generated: ${meta.generatedAt}` : null,
+    meta?.reportQrUrl ? `# Reopen (report QR URL): ${meta.reportQrUrl}` : null,
+    `# Sites: ${rows.length}. Pair with map polygons + printable HTML/MD decision report.`
+  ].filter((line): line is string => Boolean(line));
+  const lines = [...preamble, header.join(",")];
   for (const row of rows) {
+    const drivers = driversForFeature(asProps(row));
     lines.push(
       [
         row.id,
@@ -117,6 +160,7 @@ export function shortlistToCsv(rows: ShortlistItem[]): string {
         row.place ?? "",
         row.lon,
         row.lat,
+        drivers.join("|"),
         flagLabel(row.permit_gate),
         row.permit_instrument ?? "",
         flagLabel(row.stop_legal),
@@ -126,7 +170,9 @@ export function shortlistToCsv(rows: ShortlistItem[]): string {
         (row.project_overlap_ids ?? []).join("|"),
         row.project_overlap_note ?? "",
         flagLabel(row.elevation_fail ?? null),
-        row.note ?? ""
+        row.geometry.type,
+        row.note ?? "",
+        meta?.bundleVersion ?? ""
       ]
         .map(escape)
         .join(",")
@@ -136,36 +182,47 @@ export function shortlistToCsv(rows: ShortlistItem[]): string {
   return `\uFEFF${lines.join("\n")}\n`;
 }
 
-export function shortlistToGeoJson(rows: ShortlistItem[]): GeoJSON.FeatureCollection {
+/** GeoJSON of the Act shortlist — full patch geometries + hold drivers + bundle pin. */
+export function shortlistToGeoJson(
+  rows: ShortlistItem[],
+  meta?: ShortlistExportMeta
+): GeoJSON.FeatureCollection {
   return {
     type: "FeatureCollection",
-    features: rows.map((row) => ({
-      type: "Feature",
-      properties: {
-        id: row.id,
-        suitability: row.suitability,
-        class_id: row.class_id,
-        class_name: row.class_name,
-        area_ha: row.area_ha,
-        province: row.province,
-        place: row.place ?? null,
-        note: row.note ?? null,
-        lon: row.lon,
-        lat: row.lat,
-        permit_gate: row.permit_gate,
-        permit_instrument: row.permit_instrument ?? null,
-        stop_legal: row.stop_legal,
-        stop_legal_status: row.stop_legal_status ?? null,
-        stop_legal_note: row.stop_legal_note ?? null,
-        project_overlap: row.project_overlap,
-        project_overlap_ids: row.project_overlap_ids ?? null,
-        project_overlap_note: row.project_overlap_note ?? null,
-        elevation_fail: row.elevation_fail ?? null,
-        product_note:
-          "Physical / land-cover suitability proxy only. GO = worth a field look. Flags cite instruments — never approved/refused."
-      },
-      geometry: row.geometry
-    }))
+    features: rows.map((row) => {
+      const drivers = driversForFeature(asProps(row));
+      return {
+        type: "Feature",
+        properties: {
+          id: row.id,
+          suitability: row.suitability,
+          class_id: row.class_id,
+          class_name: row.class_name,
+          area_ha: row.area_ha,
+          province: row.province,
+          place: row.place ?? null,
+          note: row.note ?? null,
+          lon: row.lon,
+          lat: row.lat,
+          hold_drivers: drivers,
+          permit_gate: row.permit_gate,
+          permit_instrument: row.permit_instrument ?? null,
+          stop_legal: row.stop_legal,
+          stop_legal_status: row.stop_legal_status ?? null,
+          stop_legal_note: row.stop_legal_note ?? null,
+          project_overlap: row.project_overlap,
+          project_overlap_ids: row.project_overlap_ids ?? null,
+          project_overlap_note: row.project_overlap_note ?? null,
+          elevation_fail: row.elevation_fail ?? null,
+          bundle_version: meta?.bundleVersion ?? null,
+          generated_at: meta?.generatedAt ?? null,
+          report_qr_url: meta?.reportQrUrl ?? null,
+          product_note:
+            "Land-cover screen only. GO = worth a field visit. Flags name instruments — never approved/refused."
+        },
+        geometry: row.geometry
+      };
+    })
   };
 }
 
