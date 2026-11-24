@@ -93,7 +93,7 @@ export default function App() {
   const version = manifest.data?.version ?? BUNDLE_VERSION;
   const banner =
     manifest.data?.product_banner ??
-    "Physical / land-cover suitability proxy only. GO = worth a field look. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.";
+    "Physical / land-cover suitability proxy only. GO means worth a field look — not MoE zoning, tenure clearance, planting permission, or a carbon outcome.";
   const publicReady = manifest.data?.public_ready === true;
 
   useEffect(() => {
@@ -155,7 +155,8 @@ export default function App() {
     >
       <FlexItem>
         <Banner color="orange" className="khm-banner" role="region" aria-label="INTERNAL product banner">
-          INTERNAL / illustrative until licence gate clears. {banner}{" "}
+          INTERNAL / illustrative until licence gate clears.{" "}
+          <strong>GO = worth a field look</strong> (physical / land-cover only). {banner}{" "}
           <a href="#about">About</a>
         </Banner>
         {!publicReady && (

@@ -2,7 +2,7 @@
 
 Thin **React 18 + Vite + PatternFly 6 + MapLibre** console modelled on [`lka-msp-platform`](https://github.com/J-Gacutan/lka-msp-platform): map, legend, click-inspect class meaning, Phase 2 flag filters, cases A–C, shortlist CSV/GeoJSON, licence/evidence panel, persistent product-truth banner.
 
-**Beads:** `khm-i6e.4` (MVP) · `khm-i6e.6` (flags) · `khm-i6e.7` (harden)  
+**Beads:** `khm-i6e.4` (MVP) · `khm-i6e.6` (flags) · `khm-i6e.7` (harden) · `khm-i6e.10` (polish / Pages docs)  
 **Data:** `delivery/open-cleared/<version>/` (pin in `../config/bundle-versions.json` → **`v0.2.1`**)
 
 ## Run locally
@@ -62,13 +62,14 @@ Current pin is **`v0.2.1`** (`public_ready=false`). To point at another open-cle
 
 ## Public GitHub Pages (Kenya-style)
 
-Workflow: `.github/workflows/pages.yml`.
+Workflow: `.github/workflows/pages.yml`. Enablement checklist: [`docs/09-github-pages.md`](../docs/09-github-pages.md).
 
 | Gate | Rule |
 | --- | --- |
 | `public_ready` | Deploy runs only when the synced bundle’s `manifest.json` has `public_ready: true` |
 | FLAG / INTERNAL / WDPA | Never copy `inputs/screen-layers/` binaries, WDPA gpkg, or QGIS-bridge case PNGs into `public/khm-bundle/` |
 | Today | `public_ready=false` — workflow builds and **skips** Pages publish |
+| SPA fallback | Workflow copies `dist/index.html` → `dist/404.html` |
 | Host preference | **Public Pages only** — no Amplify / CF Access unless Jordan revises |
 
 ## Routes

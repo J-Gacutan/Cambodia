@@ -1,10 +1,10 @@
-# Session lock notice (23–24 Nov 2026)
+# Session lock notice (24 Nov 2026)
 
 **Rule.** A beads claim blocks every other session. Do not work an `in_progress` issue you did not claim.
 
 ## Active lock
 
-None. (`khm-i6e.7` Phase 3 harden on `cursor/phase3-harden-0583` / PR #11 — rebasing onto main after #13/#15. `public_ready` still false — `khm-i6e.2`.)
+`khm-i6e.10` — Console polish + Pages readiness (`cursor/console-polish-pages-0127`). Do not restomp map UX / Pages docs without this claim. `public_ready` still false — `khm-i6e.2`.
 
 ## Cleared / closed recently (do not reopen)
 

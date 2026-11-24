@@ -16,8 +16,10 @@ export default function AboutPage() {
       </p>
       <Title headingLevel="h2">Product truth</Title>
       <p>
-        The class map is a physical / land-cover suitability filter and restoration <strong>proxy</strong>. GO means
-        “worth a field look.” It is not MoE zoning, tenure clearance, planting permission, or a carbon outcome.
+        The class map is a physical / land-cover suitability filter and restoration <strong>proxy</strong>.{" "}
+        <strong>GO means worth a field look</strong> — nothing more. It is not MoE zoning, tenure clearance,
+        planting permission, or a carbon outcome. Phase 2 flags cite instruments and overlaps; they never say a
+        site is approved or refused.
       </p>
       <Title headingLevel="h2">Data</Title>
       <p>
