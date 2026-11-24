@@ -4,10 +4,11 @@
 
 ## Active lock
 
-- `khm-e8c` Act report QR + shortlist first-class export — claimed; branch `cursor/act-report-qr-2a0e` pushed. PR open blocked (GitHub “must be a collaborator” via ManagePullRequest). App UI / Act report only; do not restomp open-cleared or contract.
+None.
 
 ## Cleared / closed recently (do not reopen)
 
+- `khm-e8c` Act report QR + shortlist-first exports — closed 24 Nov 2026. PR #25 merged (`8174d7f`).
 - `khm-i6e.10` Console polish + Pages readiness — closed 24 Nov 2026. PR #16 merged; `docs/09-github-pages.md` + MapLibre UX polish. `public_ready` unchanged.
 - `khm-i6e.7` Phase 3 harden — contract pins, licence panel, handoff pack. `public_ready` unchanged.
 - `khm-i6e.5` Kenya-style Pages workflow scaffold + `public_ready` gate (live deploy waits on `khm-i6e.2`).
