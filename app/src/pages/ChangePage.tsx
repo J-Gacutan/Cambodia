@@ -1,5 +1,4 @@
 import {
-  Button,
   HelperText,
   HelperTextItem,
   Label,
@@ -11,6 +10,7 @@ import {
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useRef, useState } from "react";
+import { StepNav } from "../flow/StepNav";
 import { CAMBODIA_COAST_BOUNDS } from "../lib/bundle";
 import {
   loadChangeGeometry,
@@ -239,18 +239,11 @@ export default function ChangePage() {
         </div>
         <HelperText>
           <HelperTextItem>
-            Screen 1 of 2. Read change and pressure here, then open the restoration screen map for GO /
-            CAUTION drivers.
+            Locate step. Read change and pressure here, then continue to Read (screen map) for GO / CAUTION
+            drivers. Layer toggles stay on the map canvas.
           </HelperTextItem>
         </HelperText>
-        <div className="khm-map-tools">
-          <Button variant="primary" component="a" href="#map">
-            Continue to restoration map
-          </Button>
-          <Button variant="link" component="a" href="#home">
-            Back to home
-          </Button>
-        </div>
+        <StepNav current="locate" />
       </div>
       <div className="khm-map-frame khm-change-frame">
         <div
@@ -316,6 +309,9 @@ export default function ChangePage() {
       {kind === "offline" && (
         <p className="khm-basemap-note">Reference basemap unreachable; showing plain sea.</p>
       )}
+      <div className="khm-map-head">
+        <StepNav current="locate" />
+      </div>
     </PageSection>
   );
 }

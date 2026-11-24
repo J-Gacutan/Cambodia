@@ -11,6 +11,7 @@ import {
 } from "@patternfly/react-core";
 import { LayerProvenance } from "../common/LayerProvenance";
 import { EvidenceBadge, IllustrativeBadge } from "../common/Evidence";
+import { StepNav } from "../flow/StepNav";
 import { loadManifest, loadMapLayers } from "../lib/bundle";
 import { parseEvidenceClass } from "../lib/evidence";
 import { BUNDLE_VERSION } from "../lib/env";
@@ -50,13 +51,15 @@ export default function LicencePage() {
   return (
     <>
       <PageSection>
-        <Title headingLevel="h1">Licence and evidence</Title>
+        <Title headingLevel="h1">Act — licence and evidence</Title>
         <p>
-          Every map layer carries evidence class, register id, and a plain-language licence line. This panel
-          quotes the open-cleared bundle — it does not invent clearances. Quote the living register, not this
-          site, for redistribution decisions.
+          Act step. Every map layer carries evidence class, register id, and a plain-language licence line.
+          This panel quotes the open-cleared bundle — it does not invent clearances. Quote the living
+          register, not this site, for redistribution decisions. Shortlist export stays on the{" "}
+          <a href="#map">screen map</a>.
         </p>
         <IllustrativeBadge publicReady={publicReady} />
+        <StepNav current="act" />
       </PageSection>
 
       {!publicReady && (
@@ -204,6 +207,7 @@ export default function LicencePage() {
           Permit / STOP (legal) / VERRA (VCS 1748 / 5071 / 5584) flags cite instruments and overlaps — they
           never mean approved or refused.
         </p>
+        <StepNav current="act" />
       </PageSection>
     </>
   );
