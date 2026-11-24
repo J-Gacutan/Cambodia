@@ -6,12 +6,14 @@ type FillPaint = NonNullable<Extract<LayerSpecification, { type: "fill" }>["pain
 type LinePaint = NonNullable<Extract<LayerSpecification, { type: "line" }>["paint"]>;
 type CirclePaint = NonNullable<Extract<LayerSpecification, { type: "circle" }>["paint"]>;
 
-/** Colour by primary_driver when set; else suitability. */
-export const GO_CAUTION_FILL: FillPaint = {
-  "fill-color": [
+function driverColorExpr(fallback: string): FillPaint["fill-color"] {
+  return [
     "case",
-    ["==", ["get", "suitability"], "go"],
-    SUITABILITY.go,
+    [
+      "in",
+      ["get", "primary_driver"],
+      ["literal", ["tidal", "elevation", "converted", "tenure", "verra"]]
+    ],
     [
       "match",
       ["get", "primary_driver"],
@@ -25,33 +27,22 @@ export const GO_CAUTION_FILL: FillPaint = {
       DRIVER_BY_ID.tenure.color,
       "verra",
       DRIVER_BY_ID.verra.color,
-      SUITABILITY.caution
-    ]
-  ],
+      fallback
+    ],
+    ["==", ["get", "suitability"], "go"],
+    SUITABILITY.go,
+    fallback
+  ];
+}
+
+/** Prefer hold-back driver colour when set; else GO / generic CAUTION. */
+export const GO_CAUTION_FILL: FillPaint = {
+  "fill-color": driverColorExpr(SUITABILITY.caution),
   "fill-opacity": 0.45
 };
 
 export const GO_CAUTION_LINE: LinePaint = {
-  "line-color": [
-    "case",
-    ["==", ["get", "suitability"], "go"],
-    SUITABILITY.go,
-    [
-      "match",
-      ["get", "primary_driver"],
-      "tidal",
-      DRIVER_BY_ID.tidal.color,
-      "elevation",
-      DRIVER_BY_ID.elevation.color,
-      "converted",
-      DRIVER_BY_ID.converted.color,
-      "tenure",
-      DRIVER_BY_ID.tenure.color,
-      "verra",
-      DRIVER_BY_ID.verra.color,
-      SUITABILITY.caution
-    ]
-  ],
+  "line-color": driverColorExpr(SUITABILITY.caution) as LinePaint["line-color"],
   "line-width": 1.5
 };
 

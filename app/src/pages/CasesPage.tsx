@@ -65,12 +65,16 @@ export default function CasesPage() {
             <p>
               {driver.holdsBack}{" "}
               {driver.id === "tidal"
-                ? "Example: Case C (Preah Sihanouk / Kampot coast) — this is the hold-back painted on the public map today."
-                : driver.id === "verra"
-                  ? "On this pack it lights when a patch intersects a staged VCS boundary; toggle the VERRA overlay on Read to see the outline."
-                  : driver.id === "tenure"
-                    ? "On this pack it lights when a permit-gate attribute is joined (Ramsar / WDPA context); toggle those overlays on Read."
-                    : "Not painted as a separate colour on this public pack yet — listed so you know what is still coming."}
+                ? "Example: Case C (Preah Sihanouk / Kampot coast) — tidal CAUTION paint on the public map."
+                : driver.id === "elevation"
+                  ? "Painted when the L12/L13 elevation check fails; GO patches are demoted to CAUTION elevation colour."
+                  : driver.id === "converted"
+                    ? "Painted for Note 3b class 5 (open Dynamic World limb). Class 7 pond geometries stay off this public pack."
+                    : driver.id === "verra"
+                      ? "Paints when a patch intersects a staged VCS boundary; toggle the VERRA overlay on Read for the outline."
+                      : driver.id === "tenure"
+                        ? "Paints when a permit-gate attribute is joined (Ramsar / WDPA); toggle those overlays on Read."
+                        : "Not painted as a separate colour on this public pack yet — listed so you know what is still coming."}
             </p>
           </li>
         ))}

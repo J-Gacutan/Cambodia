@@ -5,7 +5,7 @@
   "completeness": "full_raster_vectorised",
   "public_ready": true,
   "licence_gate": "cleared_p2_open_pages",
-  "product_banner": "Physical / land-cover suitability proxy only (open-cleared class 8 \u00b1 4). GO = worth a field look. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome. Non-commercial / research use. Attribution: GMW, Dynamic World, Murray Global Intertidal Change, geoBoundaries (see bundle README).",
+  "product_banner": "Physical / land-cover suitability proxy (open-cleared class 8 \u00b1 4/5 + elevation demote). GO = worth a field look. CAUTION paints tidal, converted (class 5), and elevation-fail. Tenure/VERRA via flags and overlays. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome. Non-commercial / research use.",
   "crs_geometry": "EPSG:4326",
   "source_grid": "EPSG:32648",
   "resolution_m": 10.0,
@@ -16,7 +16,8 @@
       8
     ],
     "caution": [
-      4
+      4,
+      5
     ]
   },
   "open_cleared": true,
@@ -30,11 +31,11 @@
     "flags"
   ],
   "stats": {
-    "feature_count": 1491,
-    "go_features": 1230,
-    "caution_features": 261,
-    "go_ha": 3405.2602,
-    "caution_ha": 2548.2323,
+    "feature_count": 5165,
+    "go_features": 1038,
+    "caution_features": 4127,
+    "go_ha": 3021.6251,
+    "caution_ha": 22698.9636,
     "phase2": {
       "features": 1491,
       "permit_gate_true": 805,
@@ -48,15 +49,21 @@
         "VCS 5584": 163,
         "VCS 5071": 21
       }
-    }
+    },
+    "by_class": {
+      "4": 261,
+      "8": 1230,
+      "5": 3674
+    },
+    "elevation_fail_features": 1007
   },
   "notes": [
+    "Classes included: [4, 5, 8] (class 7 ponds excluded \u2014 FLAG). MMU 0.5 ha.",
     "Vectorised from inputs/screen-layers/L_class_10m/class_step3.tif with MMU 0.5 ha (50 px).",
-    "Classes included: [4, 8].",
     "Clipped to L20 coastal four provinces (Cambodia only).",
-    "P2 open-cleared (khm-i6e.2, 24 Nov 2026): class 8 \u00b1 4 only; no pond/FLAG geometries.",
     "Cases A and C only (class 8 / 4). Case B omitted (class 2 / pond-shaped).",
-    "Phase 2 flags (v0.3.0): permit_gate from WDPA+Ramsar; stop_legal unavailable; project_overlap joined from staged VCS 1748/5071/5584. WDPA + VERRA overlays ship as non-commercial research context (redistributable=false)."
+    "Elevation hold-back: L13 elevation_check_flag_10m joined; 1007 patches elevation_fail=true (GO demoted to CAUTION paint). Converted: class 5 open limb only.",
+    "Phase 2 flags: permit_gate from WDPA+Ramsar overlays; project_overlap from staged VCS 1748/5071/5584; stop_legal unavailable. Overlays redistributable=false where marked."
   ],
   "path_policy": "Ship only under delivery/open-cleared/. Do not copy FLAG rasters or inputs/screen-layers binaries into this tree or a public remote.",
   "attribution": [
@@ -65,7 +72,9 @@
     "Murray Global Intertidal Change (CC BY 4.0)",
     "geoBoundaries KHM ADM1 / L20 coastal provinces (CC BY 4.0)",
     "UNEP-WCMC World Database on Protected Areas (non-commercial research context)",
-    "Staged VERRA / VCS project boundaries (research screen; not registry extracts for commercial republish)"
+    "Staged VERRA / VCS project boundaries (research screen; not registry extracts for commercial republish)",
+    "DeltaDTM v1.1 (Pronk et al. 2024) + FES2022 amplitude-sum proxy \u2014 elevation check research screen",
+    "Dynamic World (CC BY 4.0) \u2014 class 5 converted limb"
   ],
   "phase2": {
     "bead": "khm-i6e.6",

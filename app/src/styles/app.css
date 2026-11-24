@@ -127,11 +127,44 @@
   max-width: 52rem;
 }
 .khm-driver-toggle {
-  margin-block-end: 0.5rem;
+  margin-block-end: 0.35rem;
+}
+.khm-driver-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  flex-wrap: nowrap;
+  max-width: 100%;
+}
+.khm-driver-label > span {
+  min-width: 0;
+}
+.khm-driver-label .khm-provenance-info {
+  flex: 0 0 auto;
+  margin-inline-start: 0.1rem;
+  padding-block: 0;
+  padding-inline: 0.15rem;
+  line-height: 1;
+  vertical-align: middle;
 }
 .khm-driver-hint {
   margin: 0.15rem 0 0 1.75rem;
   color: var(--pf-t--global--text--color--subtle, #6a6e73);
+}
+.khm-act-shortlist-row {
+  margin-block-end: 0.45rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.khm-act-next {
+  margin: 0.5rem 0 0;
+  padding-inline-start: 1.25rem;
+  max-width: 40rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.khm-act-next li + li {
+  margin-block-start: 0.45rem;
 }
 .khm-map-frame .khm-map-key {
   inset-block-start: 3rem;

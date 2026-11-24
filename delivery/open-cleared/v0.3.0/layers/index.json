@@ -1,7 +1,7 @@
 [
   {
     "id": "go-caution",
-    "title": "GO class 8 \u00b1 CAUTION class 4 (\u2265 MMU) \u2014 open-cleared",
+    "title": "GO class 8 \u00b1 CAUTION (tidal 4, converted 5, elevation demote) \u2014 open-cleared",
     "kind": "overlay",
     "file": "layers/go-caution.geojson",
     "crs": "EPSG:4326",
@@ -11,16 +11,17 @@
     ],
     "evidence_class": "derived_screen",
     "register_id": "note3b-step3-class",
-    "licence_plain": "Open-cleared derivative: Note 3b class 8 and class 4 only. Upstream CC BY 4.0 (GMW, Dynamic World, Murray GIC, geoBoundaries). No Jiang/Clark pond geometries. Non-commercial / research (khm-i6e.2 P2).",
+    "licence_plain": "Open-cleared derivative: Note 3b class 8, class 4, class 5 (converted \u2014 non-FLAG DW limb). Elevation fail from L12/L13 demotes GO to CAUTION. Upstream CC BY 4.0 (GMW, Dynamic World, Murray GIC, geoBoundaries) + DeltaDTM/FES2022 research screen. No Jiang/Clark pond geometries. Non-commercial / research (khm-i6e.2 P2).",
     "licence_spdx": "CC-BY-4.0",
     "redistributable": true,
     "public_ready": true,
     "default_visible": true,
-    "note": "Physical / land-cover suitability proxy only (open-cleared class 8 \u00b1 4). GO = worth a field look. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome. Non-commercial / research use. Attribution: GMW, Dynamic World, Murray Global Intertidal Change, geoBoundaries (see bundle README).",
+    "note": "Physical / land-cover suitability proxy. GO = open/accreted worth a field look. CAUTION paints: tidal (class 4), converted (class 5), elevation (L12/L13 fail on GO). Tenure/VERRA via flags + overlays. Not planting permission.",
     "stub": false,
     "classes_included": [
       8,
-      4
+      4,
+      5
     ]
   },
   {

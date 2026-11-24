@@ -25,9 +25,9 @@ export default function HomePage() {
         <p className="khm-home-lead">
           A physical / land-cover screen of four coastal provinces to shortlist sites worth a field look.{" "}
           <strong>GO</strong> marks open or accreted restoration opportunity; <strong>CAUTION</strong>{" "}
-          separates hold-back drivers (tidal painted today; elevation and converted land not assessed yet;
-          tenure and VERRA partial via flags and overlays). Means teaches the legend before you open the map.
-          Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.
+          separates hold-back drivers (tidal, elevation, and converted paint on this pack; tenure and VERRA
+          via flags and overlays). Means teaches the legend; Act carries your shortlist into a decision
+          report. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.
         </p>
       </div>
 

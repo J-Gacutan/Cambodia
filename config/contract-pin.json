@@ -1,21 +1,21 @@
 {
   "bundle_version": "v0.3.0",
-  "cambodia_commit": "feb9639",
+  "cambodia_commit": "229bb2b",
   "public_ready": true,
   "licence_gate": "cleared_p2_open_pages",
   "files": {
     "cases/cases.json": "180d896d657f4393dcacdeb68abe2587b2d84700bfdae53335071811c8da6198",
     "flags/coverage.json": "051336d9a2ecfafea417de76f2613d85526a5a36ca13a41dbd5df296356b339d",
-    "flags/GAPS.md": "1054821ccd1dd39051d34d0060d374265a9d13dce5e3f228cca7d3831fa1d5b1",
-    "layers/go-caution.geojson": "906ccc7f45a4468a299f6ac07b032b99a4300a6888658922862cf84cf443eb1b",
-    "layers/index.json": "89e8ea655fed5d56ce85dec58cefe006f23f4ed24d0899ba790875facdfcb4c1",
+    "flags/GAPS.md": "ed8efd2064cc91ce19912eca5a850e1ad456c7f0846a5010af8ac3059fb17559",
+    "layers/go-caution.geojson": "32a7643173fb06204f7ac686b67254ed191b8c62d9f7abf55b5af8f3d248431b",
+    "layers/index.json": "0ada04272dc4105e7994a9d67127ce4cf5e3cbd7ad625a72af9db43389ddee52",
     "layers/project-overlap-vcs1748.geojson": "6ff5ffef72efca658f5130cdf0566478769aeb6300a13b08a2a8b6b259a2ea92",
     "layers/project-overlap-vcs5071.geojson": "dc8384a2490b038275c08d047bcd1fa045a7abd78685978f819d0ab62ef21296",
     "layers/project-overlap-vcs5584.geojson": "f885708f340ac568a6ba10de9c0a1d18939c54d7406c58aee94c28ee777735ff",
     "layers/ramsar-context.geojson": "6e6b8e0dce5e900222b4c54d34f103af523444ee4dd76919ceb4df33d65765b4",
     "layers/ramsar-gap-centroids.geojson": "1855c0f26a8536d14c003f48bc4d0623e28053810f32f0b5889190ee3f3d3782",
     "layers/wdpa-context.geojson": "7115399854a458de0b05df46907e284268d1cecf3b6dab8037c5299db3edb7a3",
-    "manifest.json": "fb4cd4bd18bb03804e3794c884f60559a813a6eae93a16c5ba1d8e13733fe1d0",
+    "manifest.json": "3fcbe7d1a0da636d56a0f8ebc67d36182893e5942bca2eb32f9a995892a16ff2",
     "README.md": "638464af7fbee922398c2000d4eb28e177752f8a203cdff6a669f2906f6ee036",
     "schema/feature-properties.json": "4cd5dc9858897faabd1a8380bce318928f56afd6361c6624aa8c498e4f569ea0"
   }
