@@ -55,6 +55,7 @@ function route(hash: string) {
       return <MapPage />;
     case "cases":
       return <CasesPage />;
+    case "act":
     case "licence":
       return <LicencePage />;
     case "about":
@@ -109,7 +110,7 @@ export default function App() {
             <span className="khm-brand">
               <span className="khm-brand-name">Cambodia restoration screen</span>
               <Label isCompact color={publicReady ? "blue" : "orange"}>
-                {publicReady ? "Open-cleared" : "INTERNAL"}
+                {publicReady ? "Research" : "Internal"}
               </Label>
             </span>
           </MastheadLogo>
@@ -129,8 +130,7 @@ export default function App() {
       {!publicReady && (
         <FlexItem>
           <Banner color="red" className="khm-banner" role="status">
-            Bundle public_ready=false ({manifest.data?.licence_gate ?? "licence gate"}). Do not publish this build to
-            public Pages until khm-i6e.2 and an open-cleared bundle with public_ready=true. See{" "}
+            This build is still an internal draft — not cleared for public sharing. See{" "}
             <a href="#about">About</a> for package notes.
           </Banner>
         </FlexItem>
@@ -177,8 +177,8 @@ export default function App() {
                         4. Read
                       </NavItem>
                       <NavItem
-                        itemId="#licence"
-                        to="#licence"
+                        itemId="#act"
+                        to="#act"
                         isActive={currentStep === "act"}
                         onClick={() => setNavOpen(false)}
                       >
@@ -220,10 +220,8 @@ export default function App() {
       <FlexItem>
         <footer className="khm-footer">
           <p className="khm-footer-quiet">
-            Research prototype · not a CI product endorsement ·{" "}
+            Research prototype · not a product endorsement ·{" "}
             <a href="#about">About</a>
-            {" · "}
-            <a href="#licence">Licence</a>
             {version ? ` · ${version}` : ""}
           </p>
         </footer>

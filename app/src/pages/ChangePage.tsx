@@ -449,9 +449,9 @@ export default function ChangePage() {
       <div className="khm-change-meta">
         <p className="pf-v6-u-font-size-sm">
           Locate answers “what is going on with mangroves along this coast?” only as far as open samples
-          allow. Annual extent change, multi-epoch urban expansion, and any condition product remain
-          documented gaps — not FLAG rasters on this public share. Provenance codes live under{" "}
-          <a href="#about">About</a> / licence notes.
+          allow. Year-by-year extent change, multi-year urban expansion, and any condition product remain
+          documented gaps — sensitive pond maps stay offline. Source notes live under{" "}
+          <a href="#about">About</a>.
         </p>
         {index && (
           <>
@@ -479,6 +479,10 @@ export default function ChangePage() {
                       · ~{layer.display_resolution_m} m display scale
                     </span>
                   ) : null}
+                  <span className="pf-v6-u-font-size-sm">
+                    {" "}
+                    · source {layer.register_id}
+                  </span>
                   {layer.resolution_plain || layer.note ? (
                     <div className="pf-v6-u-font-size-sm">
                       {stripRegisterCodes(layer.resolution_plain || layer.note || "")}
@@ -519,8 +523,8 @@ export default function ChangePage() {
               </>
             )}
             <p className="pf-v6-u-font-size-sm pf-v6-u-mt-sm">
-              {stripRegisterCodes(index.licence)} Samples sit outside the open-cleared contract pin (
-              {index.not_in_open_cleared_pin ? "not in pin" : "check pin"}).
+              {stripRegisterCodes(index.licence)} These samples sit beside the main restoration package (
+              {index.not_in_open_cleared_pin ? "not in the pinned pack" : "check pack"}).
             </p>
           </>
         )}

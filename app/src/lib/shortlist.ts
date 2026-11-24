@@ -23,7 +23,7 @@ export type ShortlistItem = {
   project_overlap: boolean | null;
   project_overlap_ids?: string[] | null;
   project_overlap_note?: string;
-  /** L12/L13 elevation check fail — GO may have been demoted to CAUTION paint. */
+  /** Elevation check fail — GO may have been demoted to CAUTION paint. */
   elevation_fail?: boolean | null;
   /** Full patch geometry for GeoJSON export (centroid alone is not enough for desk work). */
   geometry: ShortlistGeometry;
@@ -140,11 +140,11 @@ export function shortlistToCsv(rows: ShortlistItem[], meta?: ShortlistExportMeta
   };
   const preamble: string[] = [
     `# Cambodia screen — Act shortlist CSV`,
-    `# Physical / land-cover suitability proxy only. GO = worth a field look. Not planting permission.`,
+    `# Land-cover screen only. GO = worth a field visit. Not planting permission.`,
     meta?.bundleVersion ? `# Bundle: ${meta.bundleVersion}` : null,
     meta?.generatedAt ? `# Generated: ${meta.generatedAt}` : null,
     meta?.reportQrUrl ? `# Reopen (report QR URL): ${meta.reportQrUrl}` : null,
-    `# Patches: ${rows.length}. Pair with GeoJSON polygons + printable HTML/MD decision report.`
+    `# Sites: ${rows.length}. Pair with map polygons + printable HTML/MD decision report.`
   ].filter((line): line is string => Boolean(line));
   const lines = [...preamble, header.join(",")];
   for (const row of rows) {
@@ -218,7 +218,7 @@ export function shortlistToGeoJson(
           generated_at: meta?.generatedAt ?? null,
           report_qr_url: meta?.reportQrUrl ?? null,
           product_note:
-            "Physical / land-cover suitability proxy only. GO = worth a field look. Flags cite instruments — never approved/refused."
+            "Land-cover screen only. GO = worth a field visit. Flags name instruments — never approved/refused."
         },
         geometry: row.geometry
       };

@@ -1,7 +1,7 @@
 import { Button } from "@patternfly/react-core";
 import { hrefForStep, nextStep, prevStep, stepMeta, type StepId } from "./steps";
 
-/** Back / Next for sequential post-home routes (LKA Permit StepNav pattern). */
+/** Back / Next for sequential post-home routes. */
 export function StepNav({
   current,
   className = "khm-step-nav"

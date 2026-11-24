@@ -82,12 +82,12 @@ Workflow: `.github/workflows/pages.yml`. Enablement checklist: [`docs/09-github-
 
 | Hash | Page |
 | --- | --- |
-| `#home` | Decision-flow landing → Locate, then Means / Read |
-| `#change` | Locate — current state (extent/condition gaps + open change samples); overlays fade past ~z11.5 |
-| `#map` | GO±CAUTION by hold-back driver, Phase 2 filters, shortlist export |
-| `#cases` | Cases A–C text bookmarks (no INTERNAL PNGs) |
-| `#licence` | Act — shortlist decision report (HTML/MD + CSV/GeoJSON + LIIP-style report QR) / licence panel |
-| `#about` | Product truth + contract pin + flag posture |
+| `#home` | Frame — decision-flow landing |
+| `#change` | Locate — current state (extent/condition gaps + open change samples) |
+| `#cases` | Means — legend + case stories |
+| `#map` | Read — GO/CAUTION map, filters, shortlist |
+| `#act` | Act — shortlist report + downloads + reopen QR (`#licence` alias) |
+| `#about` | Product context, layers, sharing / licence posture |
 
 Change stubs (`public/change-stubs/`) are open CC BY samples **outside** the open-cleared contract pin. Rebuild: `python3 intermediate/screen-build/build_change_stubs.py`.
 

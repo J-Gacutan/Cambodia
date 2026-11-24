@@ -1,7 +1,7 @@
 /**
- * Hold-back drivers that separate CAUTION / blocked sites — not one bucket.
- * Physical class 4 is tidal today; other drivers attach from Phase 2 flags
- * or are clearly labelled stubs until open P2 layers ship.
+ * Hold-back drivers that separate CAUTION sites — not one bucket.
+ * Tidal, elevation, and converted paint on the open pack; tenure and VERRA
+ * attach from flags when present.
  */
 
 import type { FeatureProps } from "./bundle";
@@ -19,7 +19,7 @@ export type CautionDriver = {
   short: string;
   /** Why this holds a project back */
   holdsBack: string;
-  /** Open P2 source when live; otherwise stub */
+  /** Plain-language source note (no task codes in the live console). */
   source: string;
   status: "live" | "partial" | "stub";
   color: string;
@@ -29,50 +29,51 @@ export type CautionDriver = {
 export const CAUTION_DRIVERS: CautionDriver[] = [
   {
     id: "tidal",
-    label: "Tidal / hydroperiod",
-    short: "Tidal",
+    label: "Tide / mudflat",
+    short: "Tide",
     holdsBack:
-      "Tidal flat or hydroperiod — no planting on mudflats; natural recruitment only after a hydrology check.",
-    source: "Note 3b class 4 · Murray Global Intertidal Change (L11) + Dynamic World (L10)",
+      "Tidal flat or mudflat — do not plant here; natural recovery only after a water check on site.",
+    source: "Intertidal change and land-cover products for tidal flats",
     status: "live",
     color: "#C4A35A"
   },
   {
     id: "elevation",
-    label: "Elevation / suitability",
-    short: "Elevation",
+    label: "Height above the tide",
+    short: "Height",
     holdsBack:
-      "Site sits above the tidal frame relative to highest astronomical tide (within DEM error).",
-    source: "L12 DeltaDTM vs L13 FES2022 elevation_check_flag — GO demoted to CAUTION when flag=1",
+      "Ground sits above the usual tidal range (within elevation-model error) — check height before planting.",
+    source: "Elevation model checked against highest tide",
     status: "live",
     color: "#7A8F6A"
   },
   {
     id: "converted",
-    label: "Converted / pressure",
+    label: "Converted land",
     short: "Converted",
     holdsBack:
-      "Historic mangrove converted to other use (crops or trees outside mangrove on the open limb).",
-    source: "Note 3b class 5 (Dynamic World limb) — class 7 pond geometries stay FLAG/off public",
+      "Former mangrove now in another use (crops or trees outside mangrove) — needs a named check before any restoration claim.",
+    source: "Land-cover screen for converted cover on historic mangrove",
     status: "live",
     color: "#A67C52"
   },
   {
     id: "tenure",
-    label: "Tenure / legal",
-    short: "Tenure",
+    label: "Rights / protected area",
+    short: "Rights",
     holdsBack:
-      "Permit-gate or STOP (legal) context — protected area, Ramsar, or MoE core zone when available.",
-    source: "Phase 2 permit_gate (Ramsar/WDPA attributes); STOP legal unavailable until MoE core zones",
+      "Protected-area or legal context (for example Ramsar) — confirm access before any claim. Ministry core-zone stops are not on this pack yet.",
+    source: "Protected-area attributes joined to patches",
     status: "partial",
     color: "#6B4C9A"
   },
   {
     id: "verra",
-    label: "VERRA / project overlap",
-    short: "VERRA",
-    holdsBack: "Inside an existing VERRA / VCS project boundary — double-counting and access check.",
-    source: "Phase 2 project_overlap — staged VCS 1748 / 5071 / 5584 boundaries (non-commercial research overlay)",
+    label: "Existing carbon project",
+    short: "Carbon project",
+    holdsBack:
+      "Inside or overlapping an existing carbon-project outline — check double-counting and access.",
+    source: "Staged project boundaries for research awareness",
     status: "partial",
     color: "#B85C38"
   }
@@ -108,8 +109,8 @@ export function holdsBackSummary(props: FeatureProps): string {
   const ids = driversForFeature(props);
   if (ids.length === 0) {
     return props.suitability === "go"
-      ? "No mapped hold-back driver on this patch (physical GO only — still not planting permission)."
-      : "CAUTION without a named driver attribute — treat as a generic named check.";
+      ? "No mapped hold-back on this site (physical GO only — still not planting permission)."
+      : "CAUTION without a named reason yet — treat as a generic check.";
   }
   return ids.map((id) => DRIVER_BY_ID[id].holdsBack).join(" ");
 }

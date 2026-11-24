@@ -33,13 +33,13 @@ export type BuildActReportUrlInput = {
 
 const DEFAULT_SIZE = 128;
 
-/** Caption LIIP-style: what the code opens, plus the claim ceiling. */
+/** Caption: what the code opens, plus the claim ceiling. */
 export function reportQrCaption(bundleVersion: string, patchCount?: number): string {
   const patches =
     patchCount == null
       ? "this shortlist"
-      : `${patchCount} shortlisted patch${patchCount === 1 ? "" : "es"}`;
-  return `Scan to reopen Act on the Cambodia screen (bundle ${bundleVersion}). Paper / file carries ${patches} — QR does not encode geometries. Physical / land-cover proxy only; not planting permission.`;
+      : `${patchCount} shortlisted site${patchCount === 1 ? "" : "s"}`;
+  return `Scan to reopen Act on the Cambodia screen (bundle ${bundleVersion}). Paper / file carries ${patches} — QR does not encode map shapes. Land-cover screen only; not planting permission.`;
 }
 
 /**
@@ -48,7 +48,7 @@ export function reportQrCaption(bundleVersion: string, patchCount?: number): str
  * shortlist itself stays in session + export files, not in the QR payload.
  */
 export function buildActReportUrl(input: BuildActReportUrlInput): string {
-  const hash = input.hash ?? "#licence";
+  const hash = input.hash ?? "#act";
   const base =
     (input.pageBase && input.pageBase.replace(/\/$/, "")) ||
     (typeof window !== "undefined"
