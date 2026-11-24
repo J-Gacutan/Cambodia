@@ -1,4 +1,4 @@
-import { PageSection, Title } from "@patternfly/react-core";
+import { Button, PageSection, Title } from "@patternfly/react-core";
 import { BUNDLE_VERSION } from "../lib/env";
 import { loadManifest } from "../lib/bundle";
 import { useBundle } from "../lib/useBundle";
@@ -11,9 +11,18 @@ export default function AboutPage() {
       <Title headingLevel="h1">About this console</Title>
       <p>
         Thin React + PatternFly 6 + MapLibre MVP for the Cambodia four-province mangrove restoration screen
-        (Seed Fund / REDD+ scoping). Modelled on the LKA MSP platform shell — map, legend, click-inspect, cases,
-        shortlist export — not the Indonesia national console.
+        (Seed Fund / REDD+ scoping). Modelled on the LKA MSP platform shell — Frame → Locate → Read → Means →
+        Act progressive rail, map, legend, click-inspect, cases, shortlist export — not the Indonesia national
+        console.
       </p>
+      <div className="khm-map-tools">
+        <Button variant="secondary" component="a" href="#home">
+          Back to Frame
+        </Button>
+        <Button variant="primary" component="a" href="#map">
+          Open Read (map)
+        </Button>
+      </div>
       <Title headingLevel="h2">Product truth</Title>
       <p>
         The class map is a physical / land-cover suitability filter and restoration <strong>proxy</strong>.{" "}

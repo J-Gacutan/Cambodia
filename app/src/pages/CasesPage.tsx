@@ -1,5 +1,6 @@
 import { Button, HelperText, HelperTextItem, PageSection, Title } from "@patternfly/react-core";
 import { useState } from "react";
+import { StepNav } from "../flow/StepNav";
 import { meaningForClass } from "../lib/classMeaning";
 import { loadCases } from "../lib/bundle";
 import { useBundle } from "../lib/useBundle";
@@ -29,13 +30,15 @@ export default function CasesPage() {
 
   return (
     <PageSection>
-      <Title headingLevel="h1">Cases</Title>
+      <Title headingLevel="h1">Means — case stories</Title>
       <HelperText>
         <HelperTextItem>
-          Short stories from Note 3b for the open-cleared classes (A = GO class 8; C = CAUTION class 4). Each
-          card is one place, one reading, and a map bookmark. Case figure PNGs stay offline / INTERNAL.
+          Means step. Short stories from Note 3b for the open-cleared classes (A = GO class 8; C = CAUTION
+          class 4). Each card is one place, one reading, and a map bookmark. Case figure PNGs stay offline /
+          INTERNAL.
         </HelperTextItem>
       </HelperText>
+      <StepNav current="means" />
       {cases.error && <p role="alert">{cases.error}</p>}
       {cases.absent && <p>This bundle version has no cases family.</p>}
       <div className="khm-case-grid">
@@ -63,10 +66,11 @@ export default function CasesPage() {
                   {copied === c.id ? "Copied bookmark" : "Copy bookmark"}
                 </Button>
               </div>
-            </article>
-          );
-        })}
+          </article>
+        );
+      })}
       </div>
+      <StepNav current="means" />
     </PageSection>
   );
 }

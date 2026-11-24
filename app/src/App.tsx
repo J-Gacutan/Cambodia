@@ -22,6 +22,8 @@ import {
   Spinner
 } from "@patternfly/react-core";
 import { lazy, Suspense, useEffect, useState } from "react";
+import { StepRail } from "./flow/StepRail";
+import { hrefForStep, stepFromHash, type StepId } from "./flow/steps";
 import { loadManifest } from "./lib/bundle";
 import { BUNDLE_VERSION } from "./lib/env";
 import { hashPath, useHash } from "./lib/hash";
@@ -33,15 +35,6 @@ const MapPage = lazy(() => import("./pages/MapPage"));
 const CasesPage = lazy(() => import("./pages/CasesPage"));
 const LicencePage = lazy(() => import("./pages/LicencePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
-
-const NAV = [
-  ["#home", "Home"],
-  ["#change", "Change"],
-  ["#map", "Map"],
-  ["#cases", "Cases"],
-  ["#licence", "Licence"],
-  ["#about", "About"]
-] as const;
 
 function useBelowMd() {
   const [below, setBelow] = useState(() => window.matchMedia("(max-width: 47.9375rem)").matches);
@@ -73,26 +66,6 @@ function route(hash: string) {
   }
 }
 
-function isNavActive(hash: string, href: string): boolean {
-  const path = `#${hashPath(hash)}` || "#home";
-  if (href === "#home") return path === "#home" || path === "#" || path === "";
-  return path === href;
-}
-
-function MainNav({ hash, onNavigate }: { hash: string; onNavigate?: () => void }) {
-  return (
-    <Nav aria-label="Main">
-      <NavList>
-        {NAV.map(([href, label]) => (
-          <NavItem key={href} itemId={href} to={href} isActive={isNavActive(hash, href)} onClick={onNavigate}>
-            {label}
-          </NavItem>
-        ))}
-      </NavList>
-    </Nav>
-  );
-}
-
 export default function App() {
   const hash = useHash("#home");
   const belowMd = useBelowMd();
@@ -103,6 +76,8 @@ export default function App() {
     manifest.data?.product_banner ??
     "Physical / land-cover suitability proxy only. GO means worth a field look — not MoE zoning, tenure clearance, planting permission, or a carbon outcome.";
   const publicReady = manifest.data?.public_ready === true;
+  const currentStep = stepFromHash(hash);
+  const onAbout = hashPath(hash) === "about";
 
   useEffect(() => {
     document.title = publicReady
@@ -113,6 +88,10 @@ export default function App() {
   useEffect(() => {
     setNavOpen(false);
   }, [hash, belowMd]);
+
+  const goStep = (step: StepId) => {
+    window.location.hash = hrefForStep(step);
+  };
 
   const masthead = (
     <Masthead display={{ default: "inline" }}>
@@ -141,13 +120,11 @@ export default function App() {
       </MastheadMain>
       {!belowMd && (
         <MastheadContent>
-          <Nav variant="horizontal" aria-label="Main">
+          <Nav variant="horizontal" aria-label="Secondary">
             <NavList>
-              {NAV.map(([href, label]) => (
-                <NavItem key={href} itemId={href} to={href} isActive={isNavActive(hash, href)}>
-                  {label}
-                </NavItem>
-              ))}
+              <NavItem itemId="#about" to="#about" isActive={onAbout}>
+                About
+              </NavItem>
             </NavList>
           </Nav>
         </MastheadContent>
@@ -198,7 +175,53 @@ export default function App() {
             belowMd && navOpen ? (
               <PageSidebar isSidebarOpen>
                 <PageSidebarBody>
-                  <MainNav hash={hash} onNavigate={() => setNavOpen(false)} />
+                  <Nav aria-label="Main">
+                    <NavList>
+                      <NavItem
+                        itemId="#home"
+                        to="#home"
+                        isActive={currentStep === "frame"}
+                        onClick={() => setNavOpen(false)}
+                      >
+                        1. Frame
+                      </NavItem>
+                      <NavItem
+                        itemId="#change"
+                        to="#change"
+                        isActive={currentStep === "locate"}
+                        onClick={() => setNavOpen(false)}
+                      >
+                        2. Locate
+                      </NavItem>
+                      <NavItem
+                        itemId="#map"
+                        to="#map"
+                        isActive={currentStep === "read"}
+                        onClick={() => setNavOpen(false)}
+                      >
+                        3. Read
+                      </NavItem>
+                      <NavItem
+                        itemId="#cases"
+                        to="#cases"
+                        isActive={currentStep === "means"}
+                        onClick={() => setNavOpen(false)}
+                      >
+                        4. Means
+                      </NavItem>
+                      <NavItem
+                        itemId="#licence"
+                        to="#licence"
+                        isActive={currentStep === "act"}
+                        onClick={() => setNavOpen(false)}
+                      >
+                        5. Act
+                      </NavItem>
+                      <NavItem itemId="#about" to="#about" isActive={onAbout} onClick={() => setNavOpen(false)}>
+                        About
+                      </NavItem>
+                    </NavList>
+                  </Nav>
                 </PageSidebarBody>
               </PageSidebar>
             ) : null
@@ -207,6 +230,13 @@ export default function App() {
           skipToContent={<SkipToContent href="#main-content">Skip to content</SkipToContent>}
           mainContainerId="main-content"
         >
+          <PageSection
+            padding={{ default: "noPadding" }}
+            className="khm-rail-section"
+            aria-label="Decision flow"
+          >
+            <StepRail current={currentStep} onSelect={goStep} />
+          </PageSection>
           <Suspense
             fallback={
               <PageSection>
@@ -227,6 +257,8 @@ export default function App() {
           <p>
             FLAG rasters and INTERNAL case PNGs are kept offline — not in the public Pages artifact.{" "}
             <a href="#licence">Licence and evidence</a>
+            {" · "}
+            <a href="#about">About</a>
           </p>
         </footer>
       </FlexItem>

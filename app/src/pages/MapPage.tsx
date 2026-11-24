@@ -20,6 +20,14 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
+  dismissCoachStorage,
+  MapGuide,
+  readCoachDismissed,
+  readFilterTouched,
+  writeFilterTouched
+} from "../flow/MapGuide";
+import { StepNav } from "../flow/StepNav";
+import {
   CAMBODIA_COAST_BOUNDS,
   flagLabel,
   isContextLayer,
@@ -206,6 +214,11 @@ export default function MapPage() {
     const q = new URLSearchParams(window.location.hash.split("?")[1] ?? "");
     return q.get("case") || "coast";
   });
+  const [coachOpen, setCoachOpen] = useState(() => !readCoachDismissed());
+  const [filterTouched, setFilterTouched] = useState(() => readFilterTouched());
+  const [everInspected, setEverInspected] = useState(false);
+  const [inspectReviewed, setInspectReviewed] = useState(false);
+  const driversHeadingRef = useRef<HTMLHeadingElement>(null);
   const basemapChoiceRef = useRef(basemapChoice);
   basemapChoiceRef.current = basemapChoice;
   const basemapControlRef = useRef<BasemapControl | null>(null);
@@ -213,6 +226,35 @@ export default function MapPage() {
   useEffect(() => {
     saveShortlistToStorage(shortlist);
   }, [shortlist]);
+
+  useEffect(() => {
+    if (inspect) setEverInspected(true);
+  }, [inspect]);
+
+  // After a patch is open briefly, treat inspect as done so Shortlist becomes the next CTA.
+  useEffect(() => {
+    if (!inspect || inspectReviewed) return;
+    const t = window.setTimeout(() => setInspectReviewed(true), 1200);
+    return () => window.clearTimeout(t);
+  }, [inspect, inspectReviewed]);
+
+  const markFilterTouched = () => {
+    setFilterTouched(true);
+    writeFilterTouched();
+  };
+
+  const focusFilters = () => {
+    setPanelOpen(true);
+    markFilterTouched();
+    window.requestAnimationFrame(() => {
+      driversHeadingRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+  };
+
+  const dismissCoach = () => {
+    dismissCoachStorage();
+    setCoachOpen(false);
+  };
 
   const manifest = useBundle(loadManifest);
   const layers = useBundle(loadMapLayers);
@@ -620,14 +662,25 @@ export default function MapPage() {
         </div>
         <HelperText>
           <HelperTextItem>
-            Screen 2 of 2 (after <a href="#change">ecosystem change</a>). Click a patch for drivers that hold
-            a site back. Case bookmarks jump to Note 3b windows A–C.
+            Read step — after <a href="#change">Locate (ecosystem change)</a>. Demonstrated order: filter
+            drivers → click a patch → inspect → shortlist. Case bookmarks jump to Note 3b windows A–C.
           </HelperTextItem>
         </HelperText>
+        <MapGuide
+          progress={{
+            filterTouched,
+            hasInspect: everInspected,
+            inspectReviewed,
+            shortlistCount: shortlist.length
+          }}
+          coachOpen={coachOpen}
+          onDismissCoach={dismissCoach}
+          onFocusFilters={focusFilters}
+          onMarkInspectReviewed={() => setInspectReviewed(true)}
+          onAddShortlist={addInspectToShortlist}
+          canAddShortlist={Boolean(inspect)}
+        />
         <div className="khm-map-tools">
-          <Button variant="secondary" component="a" href="#change">
-            Back to change screen
-          </Button>
           <ToggleGroup aria-label="Case bookmarks">
             <ToggleGroupItem
               text="Four provinces"
@@ -728,9 +781,11 @@ export default function MapPage() {
                       />
                     </>
                   )}
-                  <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                    Hold-back drivers
-                  </Title>
+                  <div ref={driversHeadingRef}>
+                    <Title headingLevel="h2" className="pf-v6-u-mt-md">
+                      Hold-back drivers
+                    </Title>
+                  </div>
                   <p className="pf-v6-u-font-size-sm">
                     Separate why a site is held back — not one CAUTION bucket. Live = class 4 tidal today;
                     stubs are labelled until open layers ship.
@@ -742,9 +797,10 @@ export default function MapPage() {
                         isChecked={driverFilter[driver.id]}
                         isDisabled={shortlistReadyOnly || !showCaution}
                         label={`${driver.label} [${driverStatusLabel(driver.status)}]`}
-                        onChange={(_e, on) =>
-                          setDriverFilter((prev) => ({ ...prev, [driver.id]: on }))
-                        }
+                        onChange={(_e, on) => {
+                          markFilterTouched();
+                          setDriverFilter((prev) => ({ ...prev, [driver.id]: on }));
+                        }}
                       />
                       <p className="pf-v6-u-font-size-sm khm-driver-hint">{driver.holdsBack}</p>
                     </div>
@@ -1005,6 +1061,9 @@ export default function MapPage() {
       {kind === "offline" && (
         <p className="khm-basemap-note">Reference basemap unreachable; showing plain sea.</p>
       )}
+      <div className="khm-map-head">
+        <StepNav current="read" />
+      </div>
     </PageSection>
   );
 }
