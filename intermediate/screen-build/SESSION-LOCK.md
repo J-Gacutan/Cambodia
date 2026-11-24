@@ -4,7 +4,7 @@
 
 ## Active lock
 
-`khm-i6e.10` — Console polish + Pages readiness (`cursor/console-polish-pages-0127`). Do not restomp map UX / Pages docs without this claim. `public_ready` still false — `khm-i6e.2`.
+`khm-i6e.10` — Console polish + Pages readiness (`cursor/console-polish-pages-0127` / PR #16). Do not restomp map UX / Pages docs without this claim. `public_ready` still false — `khm-i6e.2`.
 
 ## Cleared / closed recently (do not reopen)
 
