@@ -27,8 +27,12 @@ import {
 } from "../lib/changeLayers";
 import {
   ATTRIBUTION,
+  applyBasemapChoice,
   collapseAttribution,
-  loadBasemapStyle,
+  loadDualBasemapStyle,
+  mapHasDualBasemap,
+  preloadStreetsBasemap,
+  rememberDualBasemap,
   type BasemapChoice,
   type BasemapKind
 } from "../map/basemap";
@@ -88,7 +92,9 @@ export default function ChangePage() {
 
   useEffect(() => {
     let cancelled = false;
-    loadBasemapStyle(basemapChoiceRef.current).then(({ style, kind: loadedKind }) => {
+    // Warm Streets JSON while dual style builds (Locate defaults to Satellite).
+    void preloadStreetsBasemap();
+    loadDualBasemapStyle(basemapChoiceRef.current).then(({ style, kind: loadedKind, streetsKind }) => {
       if (cancelled || !container.current) return;
       setKind(loadedKind);
       const map = new maplibregl.Map({
@@ -99,6 +105,7 @@ export default function ChangePage() {
         fitBoundsOptions: { padding: 24 },
         maxZoom: 16
       });
+      rememberDualBasemap(map, style, streetsKind);
       map.addControl(new maplibregl.NavigationControl(), "top-right");
       const basemapCtrl = new BasemapControl(basemapChoiceRef.current, (next) => setBasemapChoice(next));
       basemapControlRef.current = basemapCtrl;
@@ -138,32 +145,15 @@ export default function ChangePage() {
     };
   }, []);
 
-  const basemapSwitchReady = useRef(false);
+  // Visibility-only swap — never setStyle (keeps change overlays mounted).
+  // Depend on `ready` so the first user click is not eaten by a pre-map skip guard.
   useEffect(() => {
     basemapControlRef.current?.setChoice(basemapChoice);
     const map = mapRef.current;
-    if (!map) return;
-    if (!basemapSwitchReady.current) {
-      basemapSwitchReady.current = true;
-      return;
-    }
-    let cancelled = false;
-    setReady(false);
-    loadBasemapStyle(basemapChoice).then(({ style, kind: loadedKind }) => {
-      if (cancelled || mapRef.current !== map) return;
-      setKind(loadedKind);
-      map.once("style.load", () => {
-        if (!cancelled && mapRef.current === map) {
-          collapseAttribution(map);
-          setReady(true);
-        }
-      });
-      map.setStyle(style);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [basemapChoice]);
+    if (!ready || !map || !mapHasDualBasemap(map)) return;
+    setKind(applyBasemapChoice(map, basemapChoice));
+    collapseAttribution(map);
+  }, [basemapChoice, ready]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -188,7 +178,6 @@ export default function ChangePage() {
     const map = mapRef.current;
     if (!ready || !map || !index) return;
     let cancelled = false;
-    const symbol = () => map.getStyle().layers?.find((l) => l.type === "symbol")?.id;
 
     const paintFor = (layer: ChangeLayerMeta) => {
       if (layer.id === "urban-change") {
@@ -229,36 +218,31 @@ export default function ChangePage() {
         const fillId = `${sourceId}-fill`;
         const lineId = `${sourceId}-line`;
         if (!map.getLayer(fillId)) {
-          map.addLayer(
-            {
-              id: fillId,
-              type: "fill",
-              source: sourceId,
-              maxzoom: CHANGE_LAYER_MAX_ZOOM,
-              paint: {
-                "fill-color": paint.fill,
-                "fill-opacity": changeFillOpacity(layer.id === "urban-change" ? 0.48 : 0.58),
-                "fill-outline-color": paint.line
-              }
-            },
-            symbol()
-          );
+          // Append on top of dual basemap (satellite raster sits above Streets).
+          map.addLayer({
+            id: fillId,
+            type: "fill",
+            source: sourceId,
+            maxzoom: CHANGE_LAYER_MAX_ZOOM,
+            paint: {
+              "fill-color": paint.fill,
+              "fill-opacity": changeFillOpacity(layer.id === "urban-change" ? 0.48 : 0.58),
+              "fill-outline-color": paint.line
+            }
+          });
         }
         if (!map.getLayer(lineId)) {
-          map.addLayer(
-            {
-              id: lineId,
-              type: "line",
-              source: sourceId,
-              maxzoom: CHANGE_LAYER_MAX_ZOOM,
-              paint: {
-                "line-color": paint.line,
-                "line-width": changeLineWidth(),
-                "line-opacity": changeLineOpacity(layer.id === "urban-change" ? 0.9 : 0.95)
-              }
-            },
-            symbol()
-          );
+          map.addLayer({
+            id: lineId,
+            type: "line",
+            source: sourceId,
+            maxzoom: CHANGE_LAYER_MAX_ZOOM,
+            paint: {
+              "line-color": paint.line,
+              "line-width": changeLineWidth(),
+              "line-opacity": changeLineOpacity(layer.id === "urban-change" ? 0.9 : 0.95)
+            }
+          });
         }
         map.on("click", fillId, onFeatureClick(layer));
         map.on("mouseenter", fillId, () => {
@@ -277,7 +261,7 @@ export default function ChangePage() {
         map.off("click", fillId, onFeatureClick(layer));
       }
     };
-  }, [ready, index, basemapChoice]);
+  }, [ready, index]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -290,7 +274,7 @@ export default function ChangePage() {
         if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", vis);
       }
     }
-  }, [layerOn, index, ready, basemapChoice]);
+  }, [layerOn, index, ready]);
 
   const stateGaps = index?.state_gaps ?? [];
 

@@ -1,6 +1,9 @@
 /**
  * OpenFreeMap Positron reference style, Esri World Imagery satellite, and a
  * plain-sea offline fallback. No OpenStreetMap geometry enters the bundle.
+ *
+ * Satellite ↔ Streets swaps by toggling layer visibility inside one dual style
+ * (no map.setStyle). Streets JSON is fetched once and cached / preloaded.
  */
 import type { LayerSpecification, Map as MapLibreMap, StyleSpecification } from "maplibre-gl";
 import { BASEMAP } from "../theme/colours";
@@ -24,6 +27,13 @@ export const ATTRIBUTION = {
   esri: "Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
   openfreemap: "© OpenFreeMap © OpenMapTiles © OpenStreetMap contributors"
 } as const;
+
+const SAT_SOURCE_ID = "esri-world-imagery";
+const SAT_LAYER_ID = "esri-world-imagery";
+/** Layer metadata key — dual-style role for visibility toggles. */
+export const BASEMAP_ROLE_KEY = "khm-basemap";
+/** Stores the streets layer’s intended visibility when the streets basemap is on. */
+const STREETS_VIS_KEY = "khm-streets-vis";
 
 export function collapseAttribution(map: MapLibreMap) {
   const el = map.getContainer().querySelector(".maplibregl-ctrl-attrib");
@@ -78,7 +88,7 @@ export function satelliteStyle(): StyleSpecification {
   return {
     version: 8,
     sources: {
-      "esri-world-imagery": {
+      [SAT_SOURCE_ID]: {
         type: "raster",
         tiles: [ESRI_WORLD_IMAGERY_TILES],
         tileSize: 256,
@@ -86,17 +96,14 @@ export function satelliteStyle(): StyleSpecification {
         maxzoom: 19
       }
     },
-    layers: [{ id: "esri-world-imagery", type: "raster", source: "esri-world-imagery" }]
+    layers: [{ id: SAT_LAYER_ID, type: "raster", source: SAT_SOURCE_ID }]
   };
 }
 
-export async function loadBasemapStyle(
-  choice: BasemapChoice = "streets"
-): Promise<{ style: StyleSpecification; kind: BasemapKind }> {
-  if (choice === "satellite") {
-    return { style: satelliteStyle(), kind: "satellite" };
-  }
+type StreetsCache = { style: StyleSpecification; kind: BasemapKind };
+let streetsCachePromise: Promise<StreetsCache> | null = null;
 
+async function fetchStreetsStyle(): Promise<StreetsCache> {
   const controller = new AbortController();
   const timer = window.setTimeout(() => controller.abort(), STYLE_TIMEOUT_MS);
   try {
@@ -110,4 +117,191 @@ export async function loadBasemapStyle(
   } finally {
     window.clearTimeout(timer);
   }
+}
+
+/** Start (or reuse) the Streets style fetch — call on Locate mount. */
+export function preloadStreetsBasemap(): Promise<StreetsCache> {
+  if (!streetsCachePromise) streetsCachePromise = fetchStreetsStyle();
+  return streetsCachePromise;
+}
+
+function layerMeta(layer: LayerSpecification): Record<string, unknown> {
+  const meta = layer.metadata;
+  return meta && typeof meta === "object" ? { ...(meta as Record<string, unknown>) } : {};
+}
+
+/** Invisible fill that keeps Streets vector tiles warm under Satellite. */
+function streetsPreloadLayer(streets: StyleSpecification): LayerSpecification | null {
+  const vectorSource = Object.entries(streets.sources ?? {}).find(([, src]) => {
+    const s = src as { type?: string };
+    return s?.type === "vector";
+  });
+  if (!vectorSource) return null;
+  const [sourceId] = vectorSource;
+  // Prefer a common OpenMapTiles water layer; fall back to first fill’s source-layer.
+  let sourceLayer = "water";
+  for (const layer of streets.layers) {
+    if (layer.type === "fill" && "source-layer" in layer && layer["source-layer"]) {
+      sourceLayer = String(layer["source-layer"]);
+      break;
+    }
+  }
+  return {
+    id: "khm-streets-preload",
+    type: "fill",
+    source: sourceId,
+    "source-layer": sourceLayer,
+    layout: { visibility: "visible" },
+    paint: { "fill-opacity": 0 },
+    metadata: { [BASEMAP_ROLE_KEY]: "preload" }
+  } as LayerSpecification;
+}
+
+/**
+ * One style with both Esri satellite (top) and Streets layers underneath.
+ * App overlays must be added *after* the satellite raster (no beforeId / top of stack).
+ * Toggle with {@link applyBasemapChoice} — never map.setStyle for the swap.
+ */
+export function buildDualBasemapStyle(
+  streets: StyleSpecification,
+  choice: BasemapChoice
+): StyleSpecification {
+  const sat = satelliteStyle();
+  const streetsLayers: LayerSpecification[] = streets.layers.map((layer) => {
+    const layout = { ...(layer.layout as Record<string, unknown> | undefined) };
+    const intended = typeof layout.visibility === "string" ? layout.visibility : "visible";
+    layout.visibility = choice === "streets" ? intended : "none";
+    return {
+      ...layer,
+      layout,
+      metadata: {
+        ...layerMeta(layer),
+        [BASEMAP_ROLE_KEY]: "streets",
+        [STREETS_VIS_KEY]: intended
+      }
+    } as LayerSpecification;
+  });
+  const satLayers: LayerSpecification[] = sat.layers.map((layer) => {
+    const layout = { ...(layer.layout as Record<string, unknown> | undefined) };
+    layout.visibility = choice === "satellite" ? "visible" : "none";
+    return {
+      ...layer,
+      layout,
+      metadata: { ...layerMeta(layer), [BASEMAP_ROLE_KEY]: "satellite" }
+    } as LayerSpecification;
+  });
+  const preload = streetsPreloadLayer(streets);
+  return {
+    ...streets,
+    sources: { ...(streets.sources ?? {}), ...(sat.sources ?? {}) },
+    // Streets → optional preload (tiles warm) → satellite on top. Overlays append above sat.
+    layers: [...streetsLayers, ...(preload ? [preload] : []), ...satLayers]
+  };
+}
+
+export async function loadDualBasemapStyle(
+  choice: BasemapChoice = "satellite"
+): Promise<{ style: StyleSpecification; kind: BasemapKind; streetsKind: BasemapKind }> {
+  const streets = await preloadStreetsBasemap();
+  const style = buildDualBasemapStyle(streets.style, choice);
+  const kind: BasemapKind =
+    choice === "satellite" ? "satellite" : streets.kind === "offline" ? "offline" : "reference";
+  return { style, kind, streetsKind: streets.kind };
+}
+
+type DualBasemapIndex = {
+  streetsKind: BasemapKind;
+  streets: { id: string; intended: "visible" | "none" }[];
+  satellite: string[];
+};
+
+const dualByMap = new WeakMap<MapLibreMap, DualBasemapIndex>();
+
+/** Call once after `new maplibregl.Map({ style: dual })` so toggles do not depend on metadata. */
+export function rememberDualBasemap(
+  map: MapLibreMap,
+  style: StyleSpecification,
+  streetsKind: BasemapKind
+): void {
+  const streets: DualBasemapIndex["streets"] = [];
+  const satellite: string[] = [];
+  for (const layer of style.layers) {
+    const meta = layerMeta(layer);
+    const role = meta[BASEMAP_ROLE_KEY];
+    if (role === "satellite" || layer.id === SAT_LAYER_ID) {
+      satellite.push(layer.id);
+      continue;
+    }
+    if (role === "preload" || layer.id === "khm-streets-preload") continue;
+    if (role === "streets" || !layer.id.startsWith("khm-")) {
+      const fromMeta = meta[STREETS_VIS_KEY];
+      streets.push({
+        id: layer.id,
+        intended: fromMeta === "none" || fromMeta === "visible" ? fromMeta : "visible"
+      });
+    }
+  }
+  dualByMap.set(map, { streetsKind, streets, satellite });
+}
+
+/** Sync visibility toggle — keeps overlay sources/layers intact. */
+export function applyBasemapChoice(map: MapLibreMap, choice: BasemapChoice): BasemapKind {
+  const indexed = dualByMap.get(map);
+  if (indexed) {
+    for (const id of indexed.satellite) {
+      if (map.getLayer(id)) {
+        map.setLayoutProperty(id, "visibility", choice === "satellite" ? "visible" : "none");
+      }
+    }
+    for (const { id, intended } of indexed.streets) {
+      if (map.getLayer(id)) {
+        map.setLayoutProperty(id, "visibility", choice === "streets" ? intended : "none");
+      }
+    }
+    if (choice === "satellite") return "satellite";
+    return indexed.streetsKind === "offline" ? "offline" : "reference";
+  }
+
+  // Fallback if rememberDualBasemap was skipped — id heuristics, no metadata required.
+  const style = map.getStyle();
+  if (!style?.layers) return choice === "satellite" ? "satellite" : "reference";
+  let sawStreets = false;
+  let streetsOffline = false;
+  for (const layer of style.layers) {
+    if (layer.id === SAT_LAYER_ID) {
+      if (map.getLayer(layer.id)) {
+        map.setLayoutProperty(layer.id, "visibility", choice === "satellite" ? "visible" : "none");
+      }
+      continue;
+    }
+    if (layer.id === "khm-streets-preload" || layer.id.startsWith("khm-")) continue;
+    sawStreets = true;
+    if (layer.id === "ocean") streetsOffline = true;
+    if (map.getLayer(layer.id)) {
+      map.setLayoutProperty(layer.id, "visibility", choice === "streets" ? "visible" : "none");
+    }
+  }
+  if (choice === "satellite") return "satellite";
+  if (!sawStreets) return "offline";
+  return streetsOffline ? "offline" : "reference";
+}
+
+/** Whether this map was registered for dual-basemap visibility swaps. */
+export function mapHasDualBasemap(map: MapLibreMap): boolean {
+  if (dualByMap.has(map)) return true;
+  return Boolean(map.getLayer(SAT_LAYER_ID));
+}
+
+/**
+ * Legacy single-style loader (tests / callers that still need one style).
+ * Prefer {@link loadDualBasemapStyle} + {@link applyBasemapChoice} for UI toggles.
+ */
+export async function loadBasemapStyle(
+  choice: BasemapChoice = "streets"
+): Promise<{ style: StyleSpecification; kind: BasemapKind }> {
+  if (choice === "satellite") {
+    return { style: satelliteStyle(), kind: "satellite" };
+  }
+  const streets = await preloadStreetsBasemap();
+  return { style: streets.style, kind: streets.kind };
 }

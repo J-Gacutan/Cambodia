@@ -67,8 +67,12 @@ import {
 import { useBundle } from "../lib/useBundle";
 import {
   ATTRIBUTION,
+  applyBasemapChoice,
   collapseAttribution,
-  loadBasemapStyle,
+  loadDualBasemapStyle,
+  mapHasDualBasemap,
+  preloadStreetsBasemap,
+  rememberDualBasemap,
   type BasemapChoice,
   type BasemapKind
 } from "../map/basemap";
@@ -103,18 +107,19 @@ function restackScreenAboveContextFills(
   contextLayers: MapLayer[]
 ): void {
   if (!map.getLayer(FILL_ID)) return;
-  const symbol = map.getStyle().layers?.find((l) => l.type === "symbol")?.id;
+  // Dual basemap parks satellite above Streets; keep app paints above the raster
+  // (omit beforeId → top). Do not tuck under Streets symbol layers.
   for (const layer of contextLayers) {
     const fillId = `khm-ctx-${layer.id}-fill`;
     if (map.getLayer(fillId)) map.moveLayer(fillId, FILL_ID);
   }
-  if (map.getLayer(FILL_ID)) map.moveLayer(FILL_ID, symbol);
-  if (map.getLayer(LINE_ID)) map.moveLayer(LINE_ID, symbol);
+  if (map.getLayer(FILL_ID)) map.moveLayer(FILL_ID);
+  if (map.getLayer(LINE_ID)) map.moveLayer(LINE_ID);
   for (const layer of contextLayers) {
     const lineId = `khm-ctx-${layer.id}-line`;
     const circleId = `khm-ctx-${layer.id}-circle`;
-    if (map.getLayer(lineId)) map.moveLayer(lineId, symbol);
-    if (map.getLayer(circleId)) map.moveLayer(circleId, symbol);
+    if (map.getLayer(lineId)) map.moveLayer(lineId);
+    if (map.getLayer(circleId)) map.moveLayer(circleId);
   }
 }
 
@@ -333,7 +338,8 @@ export default function MapPage() {
 
   useEffect(() => {
     let cancelled = false;
-    loadBasemapStyle(basemapChoiceRef.current).then(({ style, kind: loadedKind }) => {
+    void preloadStreetsBasemap();
+    loadDualBasemapStyle(basemapChoiceRef.current).then(({ style, kind: loadedKind, streetsKind }) => {
       if (cancelled || !container.current) return;
       setKind(loadedKind);
       const map = new maplibregl.Map({
@@ -343,6 +349,7 @@ export default function MapPage() {
         bounds: CAMBODIA_COAST_BOUNDS,
         fitBoundsOptions: { padding: 24 }
       });
+      rememberDualBasemap(map, style, streetsKind);
       map.addControl(new maplibregl.NavigationControl(), "top-right");
       const basemapCtrl = new BasemapControl(basemapChoiceRef.current, (next) => setBasemapChoice(next));
       basemapControlRef.current = basemapCtrl;
@@ -377,33 +384,14 @@ export default function MapPage() {
     };
   }, []);
 
-  // Skip the first basemapChoice effect run (map already created with that style).
-  const basemapSwitchReady = useRef(false);
+  // Visibility-only swap — never setStyle (keeps GO/CAUTION overlays mounted).
   useEffect(() => {
     basemapControlRef.current?.setChoice(basemapChoice);
     const map = mapRef.current;
-    if (!map) return;
-    if (!basemapSwitchReady.current) {
-      basemapSwitchReady.current = true;
-      return;
-    }
-    let cancelled = false;
-    setReady(false);
-    loadBasemapStyle(basemapChoice).then(({ style, kind: loadedKind }) => {
-      if (cancelled || mapRef.current !== map) return;
-      setKind(loadedKind);
-      map.once("style.load", () => {
-        if (!cancelled && mapRef.current === map) {
-          collapseAttribution(map);
-          setReady(true);
-        }
-      });
-      map.setStyle(style);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [basemapChoice]);
+    if (!ready || !map || !mapHasDualBasemap(map)) return;
+    setKind(applyBasemapChoice(map, basemapChoice));
+    collapseAttribution(map);
+  }, [basemapChoice, ready]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -438,12 +426,9 @@ export default function MapPage() {
       geometryCache.current.set(screenLayer.id, fc);
       if (!map.getSource(SOURCE_ID)) {
         map.addSource(SOURCE_ID, { type: "geojson", data: fc });
-        const symbol = map.getStyle().layers?.find((l) => l.type === "symbol")?.id;
-        map.addLayer(
-          { id: FILL_ID, type: "fill", source: SOURCE_ID, paint: GO_CAUTION_FILL },
-          symbol
-        );
-        map.addLayer({ id: LINE_ID, type: "line", source: SOURCE_ID, paint: GO_CAUTION_LINE }, symbol);
+        // Append on top of dual basemap (satellite raster sits above Streets).
+        map.addLayer({ id: FILL_ID, type: "fill", source: SOURCE_ID, paint: GO_CAUTION_FILL });
+        map.addLayer({ id: LINE_ID, type: "line", source: SOURCE_ID, paint: GO_CAUTION_LINE });
       } else {
         (map.getSource(SOURCE_ID) as maplibregl.GeoJSONSource).setData(fc);
       }
@@ -457,7 +442,6 @@ export default function MapPage() {
     const map = mapRef.current;
     if (!ready || !map || !contextLayers.length) return;
     let cancelled = false;
-    const symbol = () => map.getStyle().layers?.find((l) => l.type === "symbol")?.id;
 
     Promise.all(
       contextLayers.map(async (layer) => {
@@ -478,41 +462,32 @@ export default function MapPage() {
         const startVis = layer.default_visible === true ? "visible" : "none";
         if (paint.circle) {
           if (!map.getLayer(circleId)) {
-            map.addLayer(
-              {
-                id: circleId,
-                type: "circle",
-                source: sourceId,
-                layout: { visibility: startVis },
-                paint: paint.circle
-              },
-              symbol()
-            );
+            map.addLayer({
+              id: circleId,
+              type: "circle",
+              source: sourceId,
+              layout: { visibility: startVis },
+              paint: paint.circle
+            });
           }
         } else {
           if (paint.fill && !map.getLayer(fillId)) {
-            map.addLayer(
-              {
-                id: fillId,
-                type: "fill",
-                source: sourceId,
-                layout: { visibility: startVis },
-                paint: paint.fill
-              },
-              symbol()
-            );
+            map.addLayer({
+              id: fillId,
+              type: "fill",
+              source: sourceId,
+              layout: { visibility: startVis },
+              paint: paint.fill
+            });
           }
           if (paint.line && !map.getLayer(lineId)) {
-            map.addLayer(
-              {
-                id: lineId,
-                type: "line",
-                source: sourceId,
-                layout: { visibility: startVis },
-                paint: paint.line
-              },
-              symbol()
-            );
+            map.addLayer({
+              id: lineId,
+              type: "line",
+              source: sourceId,
+              layout: { visibility: startVis },
+              paint: paint.line
+            });
           }
         }
       })
