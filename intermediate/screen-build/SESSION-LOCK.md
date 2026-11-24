@@ -4,10 +4,11 @@
 
 ## Active lock
 
-`khm-i6e.10` — Console polish + Pages readiness (`cursor/console-polish-pages-0127` / PR #16). Do not restomp map UX / Pages docs without this claim. `public_ready` still false — `khm-i6e.2`.
+None. (`public_ready` still false — `khm-i6e.2`.)
 
 ## Cleared / closed recently (do not reopen)
 
+- `khm-i6e.10` Console polish + Pages readiness — closed 24 Nov 2026. PR #16 merged; `docs/09-github-pages.md` + MapLibre UX polish. `public_ready` unchanged.
 - `khm-i6e.7` Phase 3 harden — contract pins, licence panel, handoff pack. `public_ready` unchanged.
 - `khm-i6e.5` Kenya-style Pages workflow scaffold + `public_ready` gate (live deploy waits on `khm-i6e.2`).
 - `khm-i6e.6.3` Stage Mangrove REDD+ / VCS 5071 overlap — closed 23 Nov 2026. Staged Verra KMLs; `v0.2.1` project_overlap refreshed. Koh Kong ARR portion of 5071 still unstaged.
