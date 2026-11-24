@@ -1,0 +1,49 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ramsar-centroid-999",
+        "name": "Middle Stretches of Mekong River North of Stoeng Treng",
+        "ramsarid": 999,
+        "register_id": "L18-ramsar-centroid",
+        "flag_role": "permit_gap_marker",
+        "licence_plain": "Ramsar Sites Information Service extract — CC BY 4.0.",
+        "licence_spdx": "CC-BY-4.0",
+        "redistributable": true,
+        "public_ready": false,
+        "note": "Polygon absent from RSIS features_published (22 Nov 2026). Location only."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106,
+          13.73444444
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ramsar-centroid-998",
+        "name": "Koh Kapik and Associated Islets",
+        "ramsarid": 998,
+        "register_id": "L18-ramsar-centroid",
+        "flag_role": "permit_gap_marker",
+        "licence_plain": "Ramsar Sites Information Service extract — CC BY 4.0.",
+        "licence_spdx": "CC-BY-4.0",
+        "redistributable": true,
+        "public_ready": false,
+        "note": "Polygon absent from RSIS features_published (22 Nov 2026). Location only."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.06666667,
+          11.46666667
+        ]
+      }
+    }
+  ]
+}

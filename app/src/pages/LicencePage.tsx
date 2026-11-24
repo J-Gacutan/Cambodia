@@ -14,6 +14,7 @@ import { EvidenceBadge, IllustrativeBadge } from "../common/Evidence";
 import { loadManifest, loadMapLayers } from "../lib/bundle";
 import { parseEvidenceClass } from "../lib/evidence";
 import { BUNDLE_VERSION } from "../lib/env";
+import { layerDisplayTitle } from "../lib/layerLabels";
 import { useBundle } from "../lib/useBundle";
 
 /**
@@ -181,11 +182,16 @@ export default function LicencePage() {
           return (
             <div key={layer.id} className="khm-licence-layer">
               <Title headingLevel="h3">
-                {layer.title}{" "}
+                {layerDisplayTitle(layer)}{" "}
                 {evidence && <EvidenceBadge cls={evidence} />}{" "}
                 <IllustrativeBadge publicReady={publicReady && layer.public_ready} />
               </Title>
-              <LayerProvenance layer={layer} publicReady={publicReady} />
+              <LayerProvenance
+                layer={layer}
+                publicReady={publicReady}
+                displayTitle={layerDisplayTitle(layer)}
+                variant="inline"
+              />
             </div>
           );
         })}
@@ -195,8 +201,8 @@ export default function LicencePage() {
         <Title headingLevel="h2">Product truth</Title>
         <p>{m.product_banner}</p>
         <p className="pf-v6-u-font-size-sm">
-          Permit / STOP (legal) / project-overlap flags cite instruments and overlaps — they never mean
-          approved or refused.
+          Permit / STOP (legal) / VERRA (VCS 1748 / 5071 / 5584) flags cite instruments and overlaps — they
+          never mean approved or refused.
         </p>
       </PageSection>
     </>

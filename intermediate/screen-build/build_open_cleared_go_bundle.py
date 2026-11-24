@@ -336,6 +336,15 @@ def load_provinces():
     return gpd.read_file(L20).to_crs("EPSG:4326")
 
 
+def cambodia_mask(provinces_gdf):
+    """Union of L20 coastal provinces — clip Viet Nam spill at build time."""
+    if provinces_gdf is None:
+        return None
+    from shapely.ops import unary_union
+
+    return unary_union(provinces_gdf.geometry.values)
+
+
 def load_cases() -> list:
     if not CASES_JSON.is_file():
         return []
@@ -352,6 +361,7 @@ def build_from_raster(*, include_caution: bool, version: str, out_dir: Path) -> 
         classes |= CAUTION_CLASSES
 
     provinces = load_provinces()
+    khm_mask = cambodia_mask(provinces)
     cases = load_cases()
     source_rel = str(CLASS_TIF.relative_to(ROOT))
     source_sha = sha256_file(CLASS_TIF)
@@ -377,12 +387,31 @@ def build_from_raster(*, include_caution: bool, version: str, out_dir: Path) -> 
             g = shape(geom)
             if g.is_empty:
                 continue
-            area_ha = g.area / 10_000.0
-            if area_ha < MMU_HA - 1e-9:
-                continue
             g84 = to_wgs84(g, crs)
             if not g84.is_valid:
                 g84 = g84.buffer(0)
+            if khm_mask is not None:
+                if not g84.intersects(khm_mask):
+                    continue
+                g84 = g84.intersection(khm_mask)
+                if not g84.is_valid:
+                    g84 = g84.buffer(0)
+                if g84.is_empty or g84.geom_type not in ("Polygon", "MultiPolygon"):
+                    continue
+                from pyproj import Transformer
+
+                inv = Transformer.from_crs("EPSG:4326", crs, always_xy=True)
+
+                def _back(x, y, z=None):
+                    xx, yy = inv.transform(x, y)
+                    return (xx, yy) if z is None else (xx, yy, z)
+
+                g_m = shp_transform(_back, g84)
+                area_ha = g_m.area / 10_000.0
+            else:
+                area_ha = g.area / 10_000.0
+            if area_ha < MMU_HA - 1e-9:
+                continue
             seq += 1
             fid = f"c{class_id}-{seq:05d}"
             province = province_lookup(provinces, g84)

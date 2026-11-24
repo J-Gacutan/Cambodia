@@ -1,16 +1,28 @@
 /**
- * OpenFreeMap Positron reference style, with a plain-sea offline fallback.
- * No OpenStreetMap geometry enters the bundle.
+ * OpenFreeMap Positron reference style, Esri World Imagery satellite, and a
+ * plain-sea offline fallback. No OpenStreetMap geometry enters the bundle.
  */
 import type { LayerSpecification, Map as MapLibreMap, StyleSpecification } from "maplibre-gl";
 import { BASEMAP } from "../theme/colours";
 import { CAMBODIA_COAST_BOUNDS } from "../lib/bundle";
 
-export type BasemapKind = "reference" | "offline";
+/** UI basemap choice (reference streets vs satellite imagery). */
+export type BasemapChoice = "streets" | "satellite";
+
+/** Resolved load kind after fetch / fallback. */
+export type BasemapKind = "reference" | "satellite" | "offline";
+
 export const REFERENCE_STYLE_URL = "https://tiles.openfreemap.org/styles/positron";
 export const COAST_BOUNDS = CAMBODIA_COAST_BOUNDS;
+
+/** Esri World Imagery — open tiles with required attribution. */
+export const ESRI_WORLD_IMAGERY_TILES =
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
+
 export const ATTRIBUTION = {
-  bundle: "GO±CAUTION: Cambodia open-cleared delivery bundle. Illustrative physical screen only."
+  bundle: "GO±CAUTION: Cambodia open-cleared delivery bundle. Illustrative physical screen only.",
+  esri: "Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+  openfreemap: "© OpenFreeMap © OpenMapTiles © OpenStreetMap contributors"
 } as const;
 
 export function collapseAttribution(map: MapLibreMap) {
@@ -62,7 +74,29 @@ export const OCEAN_STYLE: StyleSpecification = {
   layers: [{ id: "ocean", type: "background", paint: { "background-color": BASEMAP.sea } }]
 };
 
-export async function loadBasemapStyle(): Promise<{ style: StyleSpecification; kind: BasemapKind }> {
+export function satelliteStyle(): StyleSpecification {
+  return {
+    version: 8,
+    sources: {
+      "esri-world-imagery": {
+        type: "raster",
+        tiles: [ESRI_WORLD_IMAGERY_TILES],
+        tileSize: 256,
+        attribution: ATTRIBUTION.esri,
+        maxzoom: 19
+      }
+    },
+    layers: [{ id: "esri-world-imagery", type: "raster", source: "esri-world-imagery" }]
+  };
+}
+
+export async function loadBasemapStyle(
+  choice: BasemapChoice = "streets"
+): Promise<{ style: StyleSpecification; kind: BasemapKind }> {
+  if (choice === "satellite") {
+    return { style: satelliteStyle(), kind: "satellite" };
+  }
+
   const controller = new AbortController();
   const timer = window.setTimeout(() => controller.abort(), STYLE_TIMEOUT_MS);
   try {

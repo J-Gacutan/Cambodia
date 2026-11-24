@@ -5,7 +5,7 @@ import { loadCases } from "../lib/bundle";
 import { useBundle } from "../lib/useBundle";
 
 /**
- * Cases A–C narrative from the open-cleared bundle (cases.json).
+ * Cases A–C as short narrative cards from the open-cleared bundle (cases.json).
  * INTERNAL case PNGs from the QGIS bridge pack are NOT served here or on public Pages.
  */
 export default function CasesPage() {
@@ -32,39 +32,41 @@ export default function CasesPage() {
       <Title headingLevel="h1">Cases A–C</Title>
       <HelperText>
         <HelperTextItem>
-          Worked examples from Note 3b. Each case has a map bookmark (`#map?case=A|B|C`). Case figure PNGs stay
-          offline / INTERNAL — not shipped on public Pages.
+          Three short stories from Note 3b. Each card is one place, one reading of the screen, and a map
+          bookmark — not a dense stats dump. Case figure PNGs stay offline / INTERNAL.
         </HelperTextItem>
       </HelperText>
       {cases.error && <p role="alert">{cases.error}</p>}
       {cases.absent && <p>This bundle version has no cases family.</p>}
-      <ul className="khm-case-list">
+      <div className="khm-case-grid">
         {(cases.data ?? []).map((c) => {
           const meaning = meaningForClass(c.focus);
           return (
-            <li key={c.id} className="khm-case">
-              <Title headingLevel="h2">
-                Case {c.id} — {c.title}
-              </Title>
-              <p className="pf-v6-u-font-size-sm">
-                {c.place} · focus class {c.focus}
-                {meaning ? ` (${meaning.label})` : ""} · {c.focus_ha.toFixed(1)} ha in window
+            <article key={c.id} className="khm-case-card">
+              <p className="khm-case-eyebrow">Case {c.id}</p>
+              <Title headingLevel="h2">{c.title}</Title>
+              <p className="khm-case-place">{c.place}</p>
+              <p className="khm-case-story">{c.why}</p>
+              {meaning && (
+                <p className="khm-case-reading">
+                  Screen reading: {meaning.label}. {meaning.meaning}
+                </p>
+              )}
+              <p className="khm-case-meta">
+                About {c.focus_ha.toFixed(0)} ha of the focus class in this window
               </p>
-              <p className="khm-case-bookmark">Bookmark: #map?case={c.id}</p>
-              <p>{c.why}</p>
-              {meaning && <p className="pf-v6-u-font-size-sm">{meaning.meaning}</p>}
               <div className="khm-map-tools">
                 <Button variant="secondary" onClick={() => openOnMap(c.id)}>
-                  Open on map (case {c.id})
+                  Open on map
                 </Button>
                 <Button variant="link" onClick={() => void copyBookmark(c.id)}>
-                  {copied === c.id ? "Copied bookmark" : "Copy bookmark URL"}
+                  {copied === c.id ? "Copied bookmark" : "Copy bookmark"}
                 </Button>
               </div>
-            </li>
+            </article>
           );
         })}
-      </ul>
+      </div>
     </PageSection>
   );
 }

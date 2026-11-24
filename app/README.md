@@ -3,7 +3,7 @@
 Thin **React 18 + Vite + PatternFly 6 + MapLibre** console modelled on [`lka-msp-platform`](https://github.com/J-Gacutan/lka-msp-platform): map, legend, click-inspect class meaning, Phase 2 flag filters, cases A–C, shortlist CSV/GeoJSON, licence/evidence panel, persistent product-truth banner.
 
 **Beads:** `khm-i6e.4` (MVP) · `khm-i6e.6` (flags) · `khm-i6e.7` (harden) · `khm-i6e.10` (polish / Pages docs)  
-**Data:** `delivery/open-cleared/<version>/` (pin in `../config/bundle-versions.json` → **`v0.2.1`**)
+**Data:** `delivery/open-cleared/<version>/` (pin in `../config/bundle-versions.json` → **`v0.2.2`**)
 
 ## Run locally
 
@@ -29,7 +29,8 @@ Override the pin without editing JSON:
 ```bash
 VITE_KHM_BUNDLE_VERSION=v0.1.0-stub npm run dev   # thin-clone fallback (no contract)
 VITE_KHM_BUNDLE_VERSION=v0.2.0 npm run dev        # geometry only — needs its own contract if non-stub
-VITE_KHM_BUNDLE_VERSION=v0.2.1 npm run dev        # Phase 2 flags (default pin)
+VITE_KHM_BUNDLE_VERSION=v0.2.1 npm run dev        # Phase 2 flags (pre-clip)
+VITE_KHM_BUNDLE_VERSION=v0.2.2 npm run dev        # Cambodia-clipped + Phase 2 (default pin)
 ```
 
 ## Phase 2 flags
@@ -38,20 +39,25 @@ VITE_KHM_BUNDLE_VERSION=v0.2.1 npm run dev        # Phase 2 flags (default pin)
 | --- | --- | --- |
 | Permit gate | Filter + inspect; Ramsar context overlay | Partial — WDPA join when gpkg present on workstation; null on thin clones (no invented clearance) |
 | STOP (legal) | Filter wired; always “unavailable” until MoE core zones | Not invented from IUCN category |
-| Project overlap | Filter + VCS 1748 overlay | Southern Cardamom staged; Mangrove REDD+ / VCS 5071 gap |
+| VERRA (project overlap) | Filter + VCS 1748 / 5071 / 5584 overlays | Southern Cardamom, Mangrove ARR, Krasop Blue Carbon |
 
 Rebuild attributes:
 
 ```bash
 python3 intermediate/screen-build/build_phase2_legal_flags.py \
   --source-version v0.2.0 --out-version v0.2.1
+# Viet Nam spill clip (L20 coastal provinces) → v0.2.2
+python3 intermediate/screen-build/clip_go_caution_to_cambodia.py \
+  --source-version v0.2.1 --out-version v0.2.2
+python3 intermediate/screen-build/build_phase2_legal_flags.py \
+  --source-version v0.2.2 --out-version v0.2.2
 ```
 
 See `delivery/open-cleared/v0.2.1/flags/GAPS.md`. Do **not** copy WDPA geometries into open-cleared or a public remote.
 
 ## Bundle swap + contract pin (LKA-style)
 
-Current pin is **`v0.2.1`** (`public_ready=false`). To point at another open-cleared folder:
+Current pin is **`v0.2.2`** (`public_ready=false`). To point at another open-cleared folder:
 
 1. Ensure `delivery/open-cleared/<version>/` exists.
 2. Set `"current"` in `config/bundle-versions.json`.

@@ -1,4 +1,4 @@
 {
-  "current": "v0.2.1",
-  "note": "Pin the open-cleared delivery folder under delivery/open-cleared/<version>/. v0.2.1 = Phase 2 flag attributes + context overlays on v0.2.0 geometry (public_ready still false). Fall back to v0.2.0 or v0.1.0-stub on thin clones if needed. Never flip public_ready here — that is khm-i6e.2."
+  "current": "v0.2.2",
+  "note": "Pin the open-cleared delivery folder under delivery/open-cleared/<version>/. v0.2.2 = v0.2.1 Phase 2 flags with GO±CAUTION clipped to L20 coastal provinces (Viet Nam spill removed; public_ready still false). Fall back to v0.2.1 / v0.2.0 / v0.1.0-stub on thin clones if needed. Never flip public_ready here — that is khm-i6e.2."
 }
