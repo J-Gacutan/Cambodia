@@ -1,17 +1,41 @@
-import { Button, PageSection, Title } from "@patternfly/react-core";
+import { Banner, Button, PageSection, Title } from "@patternfly/react-core";
 import { BUNDLE_VERSION } from "../lib/env";
 import { loadManifest } from "../lib/bundle";
 import { useBundle } from "../lib/useBundle";
 
 export default function AboutPage() {
   const manifest = useBundle(loadManifest);
+  const publicReady = manifest.data?.public_ready === true;
+  const productBanner =
+    manifest.data?.product_banner ??
+    "Physical / land-cover suitability proxy only. GO means worth a field look — not MoE zoning, tenure clearance, planting permission, or a carbon outcome.";
 
   return (
-    <PageSection>
+    <PageSection className="khm-prose">
       <Title headingLevel="h1">About this console</Title>
+      <Banner
+        color={publicReady ? "blue" : "orange"}
+        className="khm-banner khm-about-banner"
+        role="region"
+        aria-label="Package banner"
+      >
+        {publicReady ? (
+          <>
+            Open-cleared P2 research package (class 8 ± 4).{" "}
+            <strong>GO = worth a field look</strong> (physical / land-cover only). {productBanner}{" "}
+            <a href="#licence">Licence</a>
+          </>
+        ) : (
+          <>
+            INTERNAL / illustrative until licence gate clears.{" "}
+            <strong>GO = worth a field look</strong> (physical / land-cover only). {productBanner}{" "}
+            <a href="#licence">Licence</a>
+          </>
+        )}
+      </Banner>
       <p>
         Thin React + PatternFly 6 + MapLibre MVP for the Cambodia four-province mangrove restoration screen
-        (Seed Fund / REDD+ scoping). Modelled on the LKA MSP platform shell — Frame → Locate → Read → Means →
+        (Seed Fund / REDD+ scoping). Modelled on the LKA MSP platform shell — Frame → Locate → Means → Read →
         Act progressive rail, map, legend, click-inspect, cases, shortlist export — not the Indonesia national
         console.
       </p>
@@ -31,6 +55,11 @@ export default function AboutPage() {
         site is approved or refused.
       </p>
       <Title headingLevel="h2">Data</Title>
+      <p>
+        Data version {manifest.data?.version ?? BUNDLE_VERSION}
+        {publicReady ? " · public_ready=true (P2 Pages)" : " · public_ready=false"}. FLAG / pond geometries stay
+        offline. Quote the original source register, not this site.
+      </p>
       <p>
         Feeds from versioned <code>delivery/open-cleared/&lt;version&gt;/</code>, synced into{" "}
         <code>public/khm-bundle/</code>. Current pin: <code>{BUNDLE_VERSION}</code>
@@ -72,8 +101,10 @@ export default function AboutPage() {
       <Title headingLevel="h2">Public Pages</Title>
       <p>
         Kenya-style Actions → GitHub Pages is scaffolded but must not go live until the open-cleared bundle has{" "}
-        <code>public_ready=true</code> (licence gate <code>khm-i6e.2</code>). FLAG rasters, WDPA geometries, and
-        INTERNAL case PNGs never enter the Pages artifact.
+        <code>public_ready=true</code> (licence gate <code>khm-i6e.2</code>). FLAG rasters and INTERNAL case PNGs
+        never enter the Pages artifact. WDPA (coastal clip) and staged VERRA project boundaries ship as{" "}
+        <em>non-commercial research</em> overlays (<code>redistributable=false</code>) — not a commercial
+        republish claim.
       </p>
     </PageSection>
   );

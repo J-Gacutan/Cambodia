@@ -8,7 +8,7 @@
     {
       "id": "mangrove-change",
       "file": "mangrove-change.geojson",
-      "title": "Mangrove loss drivers (Goldberg L4)",
+      "title": "Mangrove loss drivers",
       "register_id": "L4",
       "feature_count": 111,
       "stub": false,
@@ -25,7 +25,7 @@
     {
       "id": "urban-change",
       "file": "urban-change.geojson",
-      "title": "Urban / built proxy (Dynamic World modal)",
+      "title": "Built-up / urban change",
       "register_id": "L10",
       "feature_count": 180,
       "stub": false,

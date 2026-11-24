@@ -6,7 +6,6 @@ import {
   Label,
   Masthead,
   MastheadBrand,
-  MastheadContent,
   MastheadLogo,
   MastheadMain,
   MastheadToggle,
@@ -72,9 +71,6 @@ export default function App() {
   const [navOpen, setNavOpen] = useState(false);
   const manifest = useBundle(loadManifest);
   const version = manifest.data?.version ?? BUNDLE_VERSION;
-  const banner =
-    manifest.data?.product_banner ??
-    "Physical / land-cover suitability proxy only. GO means worth a field look — not MoE zoning, tenure clearance, planting permission, or a carbon outcome.";
   const publicReady = manifest.data?.public_ready === true;
   const currentStep = stepFromHash(hash);
   const onAbout = hashPath(hash) === "about";
@@ -93,6 +89,7 @@ export default function App() {
     window.location.hash = hrefForStep(step);
   };
 
+  // Brand-only masthead — About lives in the step rail, not a detached MastheadContent float.
   const masthead = (
     <Masthead display={{ default: "inline" }}>
       <MastheadMain>
@@ -118,17 +115,6 @@ export default function App() {
           </MastheadLogo>
         </MastheadBrand>
       </MastheadMain>
-      {!belowMd && (
-        <MastheadContent>
-          <Nav variant="horizontal" aria-label="Secondary">
-            <NavList>
-              <NavItem itemId="#about" to="#about" isActive={onAbout}>
-                About
-              </NavItem>
-            </NavList>
-          </Nav>
-        </MastheadContent>
-      )}
     </Masthead>
   );
 
@@ -140,34 +126,15 @@ export default function App() {
       spacer={{ default: "spacerNone" }}
       alignItems={{ default: "alignItemsStretch" }}
     >
-      <FlexItem>
-        <Banner
-          color={publicReady ? "blue" : "orange"}
-          className="khm-banner"
-          role="region"
-          aria-label="Product banner"
-        >
-          {publicReady ? (
-            <>
-              Open-cleared P2 research package (class 8 ± 4).{" "}
-              <strong>GO = worth a field look</strong> (physical / land-cover only). {banner}{" "}
-              <a href="#licence">Licence</a>
-            </>
-          ) : (
-            <>
-              INTERNAL / illustrative until licence gate clears.{" "}
-              <strong>GO = worth a field look</strong> (physical / land-cover only). {banner}{" "}
-              <a href="#about">About</a>
-            </>
-          )}
-        </Banner>
-        {!publicReady && (
+      {!publicReady && (
+        <FlexItem>
           <Banner color="red" className="khm-banner" role="status">
             Bundle public_ready=false ({manifest.data?.licence_gate ?? "licence gate"}). Do not publish this build to
-            public Pages until khm-i6e.2 and an open-cleared bundle with public_ready=true.
+            public Pages until khm-i6e.2 and an open-cleared bundle with public_ready=true. See{" "}
+            <a href="#about">About</a> for package notes.
           </Banner>
-        )}
-      </FlexItem>
+        </FlexItem>
+      )}
       <FlexItem className="khm-shell-page" grow={{ default: "grow" }}>
         <Page
           masthead={masthead}
@@ -194,20 +161,20 @@ export default function App() {
                         2. Locate
                       </NavItem>
                       <NavItem
-                        itemId="#map"
-                        to="#map"
-                        isActive={currentStep === "read"}
-                        onClick={() => setNavOpen(false)}
-                      >
-                        3. Read
-                      </NavItem>
-                      <NavItem
                         itemId="#cases"
                         to="#cases"
                         isActive={currentStep === "means"}
                         onClick={() => setNavOpen(false)}
                       >
-                        4. Means
+                        3. Means
+                      </NavItem>
+                      <NavItem
+                        itemId="#map"
+                        to="#map"
+                        isActive={currentStep === "read"}
+                        onClick={() => setNavOpen(false)}
+                      >
+                        4. Read
                       </NavItem>
                       <NavItem
                         itemId="#licence"
@@ -235,7 +202,7 @@ export default function App() {
             className="khm-rail-section"
             aria-label="Decision flow"
           >
-            <StepRail current={currentStep} onSelect={goStep} />
+            <StepRail current={currentStep} aboutActive={onAbout} onSelect={goStep} />
           </PageSection>
           <Suspense
             fallback={
@@ -252,13 +219,12 @@ export default function App() {
       </FlexItem>
       <FlexItem>
         <footer className="khm-footer">
-          <p>Research prototype for CI Seed Fund / REDD+ scoping. Not a CI product endorsement.</p>
-          <p>{`Data version ${version}. Quote the original source register, not this site.`}</p>
-          <p>
-            FLAG rasters and INTERNAL case PNGs are kept offline — not in the public Pages artifact.{" "}
-            <a href="#licence">Licence and evidence</a>
-            {" · "}
+          <p className="khm-footer-quiet">
+            Research prototype · not a CI product endorsement ·{" "}
             <a href="#about">About</a>
+            {" · "}
+            <a href="#licence">Licence</a>
+            {version ? ` · ${version}` : ""}
           </p>
         </footer>
       </FlexItem>

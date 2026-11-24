@@ -40,11 +40,14 @@
       "permit_gate_true": 805,
       "permit_gate_null": 0,
       "permit_gate_false": 686,
-      "project_overlap_true": 0,
-      "project_overlap_false": 0,
-      "project_overlap_null": 1491,
+      "project_overlap_true": 184,
+      "project_overlap_false": 1307,
+      "project_overlap_null": 0,
       "stop_legal_null": 1491,
-      "project_overlap_by_id": {}
+      "project_overlap_by_id": {
+        "VCS 5584": 163,
+        "VCS 5071": 21
+      }
     }
   },
   "notes": [
@@ -53,14 +56,16 @@
     "Clipped to L20 coastal four provinces (Cambodia only).",
     "P2 open-cleared (khm-i6e.2, 24 Nov 2026): class 8 \u00b1 4 only; no pond/FLAG geometries.",
     "Cases A and C only (class 8 / 4). Case B omitted (class 2 / pond-shaped).",
-    "Phase 2 flags (v0.3.0): permit_gate from WDPA+Ramsar (khm-i6e.6.1); stop_legal unavailable (khm-i6e.6.2 MoE core zones); project_overlap from none staged (khm-i6e.6.3). See flags/GAPS.md."
+    "Phase 2 flags (v0.3.0): permit_gate from WDPA+Ramsar; stop_legal unavailable; project_overlap joined from staged VCS 1748/5071/5584. WDPA + VERRA overlays ship as non-commercial research context (redistributable=false)."
   ],
   "path_policy": "Ship only under delivery/open-cleared/. Do not copy FLAG rasters or inputs/screen-layers binaries into this tree or a public remote.",
   "attribution": [
     "Global Mangrove Watch (CC BY 4.0)",
     "Dynamic World (CC BY 4.0)",
     "Murray Global Intertidal Change (CC BY 4.0)",
-    "geoBoundaries KHM ADM1 / L20 coastal provinces (CC BY 4.0)"
+    "geoBoundaries KHM ADM1 / L20 coastal provinces (CC BY 4.0)",
+    "UNEP-WCMC World Database on Protected Areas (non-commercial research context)",
+    "Staged VERRA / VCS project boundaries (research screen; not registry extracts for commercial republish)"
   ],
   "phase2": {
     "bead": "khm-i6e.6",
@@ -69,7 +74,12 @@
     "stop_legal_status": "unavailable",
     "stop_legal_bead": "khm-i6e.6.2",
     "project_overlap_bead": "khm-i6e.6.3",
-    "project_overlap_sources": [],
-    "gaps_doc": "flags/GAPS.md"
+    "project_overlap_sources": [
+      "vcs-1748",
+      "vcs-5071",
+      "vcs-5584"
+    ],
+    "gaps_doc": "flags/GAPS.md",
+    "wdpa_overlay": true
   }
 }

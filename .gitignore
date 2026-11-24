@@ -29,12 +29,15 @@ __pycache__/
 .beads/embeddeddolt/
 .beads.gate.lock
 
-# INTERNAL case / FLAG visualizations + VERRA overlaps — keep off public tip
+# INTERNAL case / FLAG visualizations — keep off public tip
 # (git history may still retain prior blobs; no history rewrite unless asked)
 inputs/screen-layers/**/visualizations/*.png
 outputs/qgis-bridge/visualizations/*.png
 outputs/qgis-bridge/styles/elevation_check_flag.qml
+# Staged VERRA boundaries: allow only under open-cleared delivery (non-commercial
+# research overlays, redistributable=false). Keep other copies off tip.
 **/project-overlap-vcs*.geojson
+!delivery/open-cleared/**/project-overlap-vcs*.geojson
 
 # App / Pages build artifacts (synced from delivery/open-cleared at build time)
 app/node_modules/

@@ -45,12 +45,11 @@ export class LayerToggleControl implements IControl {
       button.type = "button";
       button.className = "khm-basemap-ctrl-btn";
       button.dataset.layer = opt.id;
-      const stubTag = opt.stub ? " (stub)" : "";
-      button.textContent = `${opt.label}${stubTag}`;
+      button.textContent = opt.label;
       button.title = opt.stub
-        ? `${opt.label} — stub / data need; toggle shows intent`
+        ? `${opt.label} — coming soon; toggle shows intent`
         : `Toggle ${opt.label}`;
-      button.setAttribute("aria-label", `Toggle ${opt.label}${stubTag}`);
+      button.setAttribute("aria-label", `Toggle ${opt.label}`);
       button.addEventListener("click", (event) => {
         event.preventDefault();
         event.stopPropagation();

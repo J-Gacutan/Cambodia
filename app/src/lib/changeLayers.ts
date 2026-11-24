@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-/** Change-screen layers live under app/public/change-stubs/ — outside the open-cleared pin. */
+/** Change-screen layers live under public/change-stubs/ (Vite publicDir) — outside the open-cleared pin. */
 const changeAssetUrl = (path: string) => `${import.meta.env.BASE_URL}change-stubs/${path}`;
 
 

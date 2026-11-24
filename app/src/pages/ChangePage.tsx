@@ -1,17 +1,14 @@
-import {
-  HelperText,
-  HelperTextItem,
-  Label,
-  List,
-  ListItem,
-  PageSection,
-  Title
-} from "@patternfly/react-core";
+import { Button, HelperText, HelperTextItem, Label, List, ListItem, PageSection, Title } from "@patternfly/react-core";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useRef, useState } from "react";
-import { StepNav } from "../flow/StepNav";
 import { CAMBODIA_COAST_BOUNDS } from "../lib/bundle";
+import {
+  changeLayerShort,
+  changeLayerTitle,
+  parseChangeFeature,
+  type ChangeInspect
+} from "../lib/changeLabels";
 import {
   loadChangeGeometry,
   loadChangeIndex,
@@ -34,7 +31,7 @@ const URBAN_FILL = "#8B4513";
 const URBAN_LINE = "#5C2E0A";
 
 /**
- * Ecosystem change over time — open P2 samples (Goldberg L4, Dynamic World built).
+ * Ecosystem change over time — open P2 samples (mangrove loss + built-up / urban).
  * On-canvas toggles mirror BasemapControl. Continues to #map for the restoration screen.
  */
 export default function ChangePage() {
@@ -42,17 +39,20 @@ export default function ChangePage() {
   const mapRef = useRef<maplibregl.Map>();
   const basemapControlRef = useRef<BasemapControl | null>(null);
   const layerControlRef = useRef<LayerToggleControl | null>(null);
+  const indexRef = useRef<ChangeIndex | null>(null);
   const [basemapChoice, setBasemapChoice] = useState<BasemapChoice>("satellite");
   const [kind, setKind] = useState<BasemapKind | null>(null);
   const [ready, setReady] = useState(false);
   const [index, setIndex] = useState<ChangeIndex | null>(null);
   const [indexError, setIndexError] = useState<string | null>(null);
+  const [inspect, setInspect] = useState<ChangeInspect | null>(null);
   const [layerOn, setLayerOn] = useState<Record<string, boolean>>({
     "mangrove-change": true,
     "urban-change": false
   });
   const basemapChoiceRef = useRef(basemapChoice);
   basemapChoiceRef.current = basemapChoice;
+  indexRef.current = index;
 
   useEffect(() => {
     let cancelled = false;
@@ -90,8 +90,8 @@ export default function ChangePage() {
           compact: true,
           customAttribution: [
             ATTRIBUTION.bundle,
-            "Goldberg mangrove loss drivers (CC BY 4.0)",
-            "Dynamic World (CC BY 4.0)"
+            "Mangrove loss drivers (CC BY 4.0)",
+            "Built-up / urban change sample (CC BY 4.0)"
           ]
         })
       );
@@ -138,13 +138,12 @@ export default function ChangePage() {
     };
   }, [basemapChoice]);
 
-  // Attach on-canvas layer toggles once index is known
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !index || layerControlRef.current) return;
     const options = index.layers.map((layer) => ({
       id: layer.id,
-      label: layer.id === "mangrove-change" ? "Mangrove change" : "Urban",
+      label: changeLayerShort(layer.id),
       stub: layer.stub
     }));
     const ctrl = new LayerToggleControl("Change layers", options, layerOn, (id, on) => {
@@ -158,7 +157,6 @@ export default function ChangePage() {
     layerControlRef.current?.setState(layerOn);
   }, [layerOn]);
 
-  // Load / refresh change geometries after style ready
   useEffect(() => {
     const map = mapRef.current;
     if (!ready || !map || !index) return;
@@ -171,6 +169,21 @@ export default function ChangePage() {
       }
       return { fill: MANGROVE_FILL, line: MANGROVE_LINE };
     };
+
+    const onFeatureClick = (layer: ChangeLayerMeta) => (event: maplibregl.MapLayerMouseEvent) => {
+      const feature = event.features?.[0];
+      if (!feature?.properties) return;
+      setInspect(
+        parseChangeFeature(
+          layer,
+          feature.properties as Record<string, unknown>,
+          event.lngLat.lng,
+          event.lngLat.lat
+        )
+      );
+    };
+
+    const fillIds: string[] = [];
 
     Promise.all(
       index.layers.map(async (layer) => {
@@ -185,6 +198,7 @@ export default function ChangePage() {
         }
         const fillId = `${sourceId}-fill`;
         const lineId = `${sourceId}-line`;
+        fillIds.push(fillId);
         if (!map.getLayer(fillId)) {
           map.addLayer(
             {
@@ -207,11 +221,22 @@ export default function ChangePage() {
             symbol()
           );
         }
+        map.on("click", fillId, onFeatureClick(layer));
+        map.on("mouseenter", fillId, () => {
+          map.getCanvas().style.cursor = "pointer";
+        });
+        map.on("mouseleave", fillId, () => {
+          map.getCanvas().style.cursor = "";
+        });
       })
     );
 
     return () => {
       cancelled = true;
+      for (const layer of index.layers) {
+        const fillId = `khm-change-${layer.id}-fill`;
+        map.off("click", fillId, onFeatureClick(layer));
+      }
     };
   }, [ready, index, basemapChoice]);
 
@@ -229,88 +254,141 @@ export default function ChangePage() {
   }, [layerOn, index, ready, basemapChoice]);
 
   return (
-    <PageSection isFilled padding={{ default: "noPadding" }} className="khm-map-section">
-      <div className="khm-map-head">
+    <PageSection isFilled padding={{ default: "noPadding" }} className="khm-map-section khm-change-section">
+      <div className="khm-map-head khm-change-head">
         <Title headingLevel="h1">Ecosystem change over time</Title>
-        <div className="khm-go-banner" role="note">
-          Open P2 samples only — mangrove loss drivers (Goldberg L4) and a Dynamic World built proxy.
-          GMW annual change (L1) and GHS multi-epoch urban (L8) are documented data needs, not FLAG
-          rasters. Use on-canvas toggles (same pattern as Streets / Satellite).
-        </div>
         <HelperText>
           <HelperTextItem>
-            Locate step. Read change and pressure here, then continue to Read (screen map) for GO / CAUTION
-            drivers. Layer toggles stay on the map canvas.
+            Locate step — click a polygon for a plain-language reading, then continue to Means (case stories)
+            before the restoration map. Layer and basemap toggles stay on the canvas.
           </HelperTextItem>
         </HelperText>
-        <StepNav current="locate" />
       </div>
-      <div className="khm-map-frame khm-change-frame">
-        <div
-          ref={container}
-          className="khm-map"
-          role="region"
-          aria-label="Cambodia ecosystem change map"
-        />
-        <div className="khm-map-key" aria-hidden>
-          <span className="khm-key-row">
-            <span className="khm-key-swatch" style={{ background: MANGROVE_FILL }} />
-            Mangrove loss drivers (L4)
-          </span>
-          <span className="khm-key-row">
-            <span className="khm-key-swatch" style={{ background: URBAN_FILL }} />
-            Urban / built proxy (L10)
-          </span>
+      <div className="khm-change-workspace">
+        <div className="khm-map-frame khm-change-frame">
+          <div
+            ref={container}
+            className="khm-map khm-change-map"
+            role="region"
+            aria-label="Cambodia ecosystem change map"
+          />
+          <div className="khm-map-key" aria-hidden>
+            <span className="khm-key-row">
+              <span className="khm-key-swatch" style={{ background: MANGROVE_FILL }} />
+              Mangrove loss drivers
+            </span>
+            <span className="khm-key-row">
+              <span className="khm-key-swatch" style={{ background: URBAN_FILL }} />
+              Built-up / urban change
+            </span>
+          </div>
         </div>
+        <aside className="khm-inspect-panel" aria-label="Change click inspect">
+          <Title headingLevel="h2">Click inspect</Title>
+          {!inspect && (
+            <p className="pf-v6-u-font-size-sm">
+              Click a mangrove-loss or built-up polygon. Details appear here in plain language.
+            </p>
+          )}
+          {inspect && (
+            <div className="khm-inspect">
+              <p>
+                <strong>{inspect.layerTitle}</strong>
+              </p>
+              <p className="pf-v6-u-font-size-sm">{inspect.classPlain}</p>
+              <dl className="khm-facts">
+                <div>
+                  <dt>Reading</dt>
+                  <dd>{inspect.classPlain}</dd>
+                </div>
+                <div>
+                  <dt>Approx. area</dt>
+                  <dd>{inspect.areaHa != null ? `${inspect.areaHa.toFixed(1)} ha` : "—"}</dd>
+                </div>
+                <div>
+                  <dt>Feature</dt>
+                  <dd>{inspect.id}</dd>
+                </div>
+              </dl>
+              {inspect.layerId === "mangrove-change" && (
+                <p className="pf-v6-u-font-size-sm">
+                  Mangrove loss driver from an open coastal sample (2000–2016). Use it as pressure context
+                  before judging restoration patches on the screen map.
+                </p>
+              )}
+              {inspect.layerId === "urban-change" && (
+                <p className="pf-v6-u-font-size-sm">
+                  Built-up / urban proxy from an open coastal sample — pressure context, not a multi-year
+                  change series.
+                </p>
+              )}
+              <Button variant="link" isInline onClick={() => setInspect(null)}>
+                Clear selection
+              </Button>
+            </div>
+          )}
+        </aside>
       </div>
       {indexError && (
         <p className="khm-basemap-note" role="alert">
-          Change stubs failed to load: {indexError}
+          Change samples failed to load: {indexError}
         </p>
       )}
-      {index && (
-        <div className="khm-change-meta">
-          <Title headingLevel="h2">Layers on this screen</Title>
-          <List isPlain>
-            {index.layers.map((layer) => (
-              <ListItem key={layer.id}>
-                <strong>{layer.title}</strong>{" "}
-                <Label isCompact color={layer.stub ? "orange" : "blue"}>
-                  {layer.stub ? "Stub" : "Open sample"}
-                </Label>
-                {" · "}
-                {layer.feature_count ?? 0} features · {layer.register_id}
-                {layer.note ? <div className="pf-v6-u-font-size-sm">{layer.note}</div> : null}
-              </ListItem>
-            ))}
-          </List>
-          {index.data_needs && index.data_needs.length > 0 && (
-            <>
-              <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                Documented data needs
-              </Title>
-              <List>
-                {index.data_needs.map((need) => (
-                  <ListItem key={need}>{need}</ListItem>
-                ))}
-              </List>
-            </>
-          )}
-          <p className="pf-v6-u-font-size-sm pf-v6-u-mt-sm">
-            {index.licence} Change stubs sit outside the open-cleared contract pin (
-            {index.not_in_open_cleared_pin ? "not in pin" : "check pin"}).
-          </p>
-        </div>
-      )}
-      <p className="khm-basemap-note">
-        Streets basemap names are from OpenStreetMap. Satellite tiles © Esri. Goldberg L4 and Dynamic
-        World are CC BY 4.0.
-      </p>
-      {kind === "offline" && (
-        <p className="khm-basemap-note">Reference basemap unreachable; showing plain sea.</p>
-      )}
-      <div className="khm-map-head">
-        <StepNav current="locate" />
+      <div className="khm-change-meta">
+        <p className="pf-v6-u-font-size-sm">
+          Open research samples only — mangrove loss drivers and a built-up / urban proxy. Annual mangrove
+          extent change and multi-epoch urban expansion remain documented data needs (not FLAG rasters).
+          Provenance codes live under <a href="#about">About</a> / licence notes.
+        </p>
+        {index && (
+          <>
+            <Title headingLevel="h2">Layers on this screen</Title>
+            <List isPlain>
+              {index.layers.map((layer) => (
+                <ListItem key={layer.id}>
+                  <strong>{changeLayerTitle(layer)}</strong>{" "}
+                  <Label isCompact color={layer.stub ? "orange" : "blue"}>
+                    {layer.stub ? "Coming soon" : "Open sample"}
+                  </Label>
+                  {" · "}
+                  {layer.feature_count ?? 0} features
+                  <span className="pf-v6-u-font-size-sm">
+                    {" "}
+                    · register {layer.register_id} (provenance)
+                  </span>
+                  {layer.note ? (
+                    <div className="pf-v6-u-font-size-sm">
+                      {layer.note.replace(/\bL\d+\b/g, "").replace(/\s{2,}/g, " ").trim()}
+                    </div>
+                  ) : null}
+                </ListItem>
+              ))}
+            </List>
+            {index.data_needs && index.data_needs.length > 0 && (
+              <>
+                <Title headingLevel="h2" className="pf-v6-u-mt-md">
+                  Documented data needs
+                </Title>
+                <List>
+                  {index.data_needs.map((need) => (
+                    <ListItem key={need}>{need.replace(/\s*\(L\d+\)/g, "")}</ListItem>
+                  ))}
+                </List>
+              </>
+            )}
+            <p className="pf-v6-u-font-size-sm pf-v6-u-mt-sm">
+              {index.licence.replace(/\bL\d+\b/g, "").replace(/\s{2,}/g, " ").trim()} Samples sit outside the
+              open-cleared contract pin ({index.not_in_open_cleared_pin ? "not in pin" : "check pin"}).
+            </p>
+          </>
+        )}
+        <p className="khm-basemap-note">
+          Streets basemap names are from OpenStreetMap. Satellite tiles © Esri. Mangrove loss and built-up
+          samples are CC BY 4.0.
+        </p>
+        {kind === "offline" && (
+          <p className="khm-basemap-note">Reference basemap unreachable; showing plain sea.</p>
+        )}
       </div>
     </PageSection>
   );

@@ -58,6 +58,7 @@ Heavy rasters under `inputs/screen-layers/` are gitignored (~**13 GB** on a full
 | [07-migration.md](docs/07-migration.md) | Cut list; what lifts vs stays on disk |
 | [08-handoff.md](docs/08-handoff.md) | Phase 3 handoff: pin, licence panel, Pages gate |
 | [09-github-pages.md](docs/09-github-pages.md) | Pages enablement, SPA 404, `public_ready` deploy gate |
+| [10-lessons-from-nsw-liip.md](docs/10-lessons-from-nsw-liip.md) | Advisory: LIIP structure and UI lessons for the console |
 
 ### outputs/
 

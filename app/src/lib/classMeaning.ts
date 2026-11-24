@@ -28,7 +28,7 @@ export const CLASS_MEANINGS: Record<number, ClassMeaning> = {
   4: {
     class_id: 4,
     suitability: "caution",
-    label: "CAUTION: tidal flat",
+    label: "CAUTION: tidal flat hold-back",
     meaning: "Tidal flat. No planting on mudflats; natural recruitment only after a hydrology check."
   },
   5: {
@@ -52,7 +52,7 @@ export const CLASS_MEANINGS: Record<number, ClassMeaning> = {
   8: {
     class_id: 8,
     suitability: "go",
-    label: "GO: open or accreted land",
+    label: "GO: open/accreted opportunity",
     meaning: "Open or accreted land on historic mangrove. Worth a field look — not MoE zoning or planting permission."
   },
   9: {

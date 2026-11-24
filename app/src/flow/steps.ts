@@ -8,46 +8,60 @@ export type FlowStep = {
   label: string;
   /** Primary hash for this step. */
   href: string;
+  /** One-line narrative under the step name (home detail title + rail cue). */
   does: string;
   /** Short cue shown under the rail on the current step. */
   cue: string;
+  /** Longer home-panel story for this step. */
+  detail: string;
 };
 
+/** Demonstrated order: Frame → Locate → Means → Read → Act (Means before Read). */
 export const FLOW_STEPS: FlowStep[] = [
   {
     id: "frame",
     label: "Frame",
     href: "#home",
-    does: "States what you are screening for.",
-    cue: "Physical / land-cover restoration screen — not MoE zoning or a carbon outcome."
+    does: "Decide what kind of screen this is before you open the map.",
+    cue: "You are shortlisting physical restoration potential — not clearing a project or scoring carbon.",
+    detail:
+      "Cambodia’s four coastal provinces are the scene. This console asks where mangrove restoration looks physically plausible so a team can plan a field look — not whether MoE would zone it, whether tenure is clear, or whether a credit buyer would buy it."
   },
   {
     id: "locate",
     label: "Locate",
     href: "#change",
-    does: "Reads ecosystem change, then the screen map.",
-    cue: "Start with mangrove loss and urban pressure, then continue to GO / CAUTION."
-  },
-  {
-    id: "read",
-    label: "Read",
-    href: "#map",
-    does: "Reads what each patch holds.",
-    cue: "Filter hold-back drivers, click a patch, inspect, then shortlist."
+    does: "See how the coast has been changing before you judge a patch.",
+    cue: "Skim mangrove loss and nearby built pressure, then read the case stories before the screen map.",
+    detail:
+      "Loss and pressure set the scene: where mangroves have retreated, and where built land is closing in. The change map is open samples only — enough context before the case stories and the GO / CAUTION map."
   },
   {
     id: "means",
     label: "Means",
     href: "#cases",
-    does: "Reads what that means for a field look.",
-    cue: "Case stories show how GO and CAUTION read at named places."
+    does: "Learn the legend — GO, CAUTION drivers, Ramsar and VERRA — before you open the map.",
+    cue: "Walk the colours and case examples here, then continue to Read with the legend already in mind.",
+    detail:
+      "Means explains what each map colour and overlay means, with Case A (open/accreted GO) and Case C (tidal CAUTION) as worked examples. Elevation, converted land and VERRA hold-backs stay visible as not assessed until those layers paint. Then continue to the screen map."
+  },
+  {
+    id: "read",
+    label: "Read",
+    href: "#map",
+    does: "Open the screen map and ask what each patch is telling you.",
+    cue: "Narrow the hold-back drivers, click a polygon, read why it is GO or CAUTION, then keep it if it earns a field look.",
+    detail:
+      "GO is open or accreted ground that still looks worth walking. CAUTION is not a single red light — it names the hold-back (tide on the public map today; elevation, converted land, tenure/legal, VERRA as they ship) so you can filter noise and keep a shortlist you trust."
   },
   {
     id: "act",
     label: "Act",
     href: "#licence",
-    does: "Takes a next step from the screen.",
-    cue: "Check evidence and licence lines; shortlist export stays on the map."
+    does: "Leave with evidence you can quote, and a shortlist you can take offline.",
+    cue: "Licence lines live here; CSV / GeoJSON export stays on the map.",
+    detail:
+      "When a patch earns a place on the shortlist, export it from the map. Come here for evidence class, attribution, and the open-cleared licence gate so you know what you may share."
   }
 ];
 
