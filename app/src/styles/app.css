@@ -22,6 +22,15 @@
 .khm-banner {
   white-space: normal;
 }
+.khm-go-banner {
+  margin: 0.5rem 0 0.25rem;
+  padding: 0.55rem 0.75rem;
+  max-width: 52rem;
+  border-inline-start: 3px solid var(--pf-t--global--color--status--info--default, #0066cc);
+  background: var(--pf-t--global--background--color--secondary--default, #f0f0f0);
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
 .khm-brand {
   display: inline-flex;
   align-items: center;
@@ -150,6 +159,31 @@
 }
 .khm-context-layer {
   margin-block-end: 0.5rem;
+}
+.khm-shortlist-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+}
+.khm-shortlist-zoom {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--pf-t--global--text--color--link--default, #0066cc);
+  text-align: start;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: underline;
+}
+.khm-shortlist-zoom:hover,
+.khm-shortlist-zoom:focus-visible {
+  text-decoration-thickness: 2px;
+}
+.khm-case-bookmark {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8125rem;
 }
 .khm-licence-layer + .khm-licence-layer {
   margin-block-start: 1.25rem;

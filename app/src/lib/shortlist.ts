@@ -1,6 +1,8 @@
 import type { FeatureProps } from "./bundle";
 import { flagLabel } from "./bundle";
 
+export type ShortlistGeometry = GeoJSON.Polygon | GeoJSON.MultiPolygon;
+
 export type ShortlistItem = {
   id: string;
   class_id: number;
@@ -13,13 +15,20 @@ export type ShortlistItem = {
   lon: number;
   lat: number;
   permit_gate: boolean | null;
+  permit_instrument?: string;
   stop_legal: boolean | null;
   stop_legal_status?: string;
+  stop_legal_note?: string;
   project_overlap: boolean | null;
   project_overlap_ids?: string[] | null;
+  project_overlap_note?: string;
+  /** Full patch geometry for GeoJSON export (centroid alone is not enough for desk work). */
+  geometry: ShortlistGeometry;
 };
 
-function centroid(geometry: GeoJSON.Polygon | GeoJSON.MultiPolygon): [number, number] {
+const STORAGE_KEY = "khm-shortlist-v1";
+
+function centroid(geometry: ShortlistGeometry): [number, number] {
   const rings =
     geometry.type === "Polygon" ? geometry.coordinates : geometry.coordinates.flatMap((poly) => poly);
   let x = 0;
@@ -41,10 +50,7 @@ function tri(v: unknown): boolean | null {
   return null;
 }
 
-export function featureToShortlist(
-  props: FeatureProps,
-  geometry: GeoJSON.Polygon | GeoJSON.MultiPolygon
-): ShortlistItem {
+export function featureToShortlist(props: FeatureProps, geometry: ShortlistGeometry): ShortlistItem {
   const [lon, lat] = centroid(geometry);
   return {
     id: props.id,
@@ -58,10 +64,14 @@ export function featureToShortlist(
     lon: Math.round(lon * 1e5) / 1e5,
     lat: Math.round(lat * 1e5) / 1e5,
     permit_gate: tri(props.permit_gate),
+    permit_instrument: props.permit_instrument,
     stop_legal: tri(props.stop_legal),
     stop_legal_status: props.stop_legal_status,
+    stop_legal_note: props.stop_legal_note,
     project_overlap: tri(props.project_overlap),
-    project_overlap_ids: props.project_overlap_ids ?? null
+    project_overlap_ids: props.project_overlap_ids ?? null,
+    project_overlap_note: props.project_overlap_note,
+    geometry
   };
 }
 
@@ -77,10 +87,13 @@ export function shortlistToCsv(rows: ShortlistItem[]): string {
     "lon",
     "lat",
     "permit_gate",
+    "permit_instrument",
     "stop_legal",
     "stop_legal_status",
+    "stop_legal_note",
     "project_overlap",
     "project_overlap_ids",
+    "project_overlap_note",
     "note"
   ];
   const escape = (v: string | number | boolean | null | undefined) => {
@@ -101,17 +114,21 @@ export function shortlistToCsv(rows: ShortlistItem[]): string {
         row.lon,
         row.lat,
         flagLabel(row.permit_gate),
+        row.permit_instrument ?? "",
         flagLabel(row.stop_legal),
         row.stop_legal_status ?? "",
+        row.stop_legal_note ?? "",
         flagLabel(row.project_overlap),
         (row.project_overlap_ids ?? []).join("|"),
+        row.project_overlap_note ?? "",
         row.note ?? ""
       ]
         .map(escape)
         .join(",")
     );
   }
-  return `${lines.join("\n")}\n`;
+  // UTF-8 BOM helps Excel open CSV without mangling ids.
+  return `\uFEFF${lines.join("\n")}\n`;
 }
 
 export function shortlistToGeoJson(rows: ShortlistItem[]): GeoJSON.FeatureCollection {
@@ -128,23 +145,76 @@ export function shortlistToGeoJson(rows: ShortlistItem[]): GeoJSON.FeatureCollec
         province: row.province,
         place: row.place ?? null,
         note: row.note ?? null,
+        lon: row.lon,
+        lat: row.lat,
         permit_gate: row.permit_gate,
+        permit_instrument: row.permit_instrument ?? null,
         stop_legal: row.stop_legal,
         stop_legal_status: row.stop_legal_status ?? null,
+        stop_legal_note: row.stop_legal_note ?? null,
         project_overlap: row.project_overlap,
-        project_overlap_ids: row.project_overlap_ids ?? null
+        project_overlap_ids: row.project_overlap_ids ?? null,
+        project_overlap_note: row.project_overlap_note ?? null,
+        product_note:
+          "Physical / land-cover suitability proxy only. GO = worth a field look. Flags cite instruments — never approved/refused."
       },
-      geometry: { type: "Point", coordinates: [row.lon, row.lat] }
+      geometry: row.geometry
     }))
   };
 }
 
 export function downloadText(filename: string, text: string, mime: string) {
-  const blob = new Blob([text], { type: mime });
+  const blob = new Blob([text], { type: `${mime};charset=utf-8` });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   a.download = filename;
   a.click();
   URL.revokeObjectURL(url);
+}
+
+export function loadShortlistFromStorage(): ShortlistItem[] {
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as ShortlistItem[];
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (row) =>
+        row &&
+        typeof row.id === "string" &&
+        row.geometry &&
+        (row.geometry.type === "Polygon" || row.geometry.type === "MultiPolygon")
+    );
+  } catch {
+    return [];
+  }
+}
+
+export function saveShortlistToStorage(rows: ShortlistItem[]) {
+  try {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(rows));
+  } catch {
+    // Quota / private mode — ignore; shortlist still works in-memory.
+  }
+}
+
+/** Approximate bbox from a shortlist polygon for map fitBounds. */
+export function geometryBounds(geometry: ShortlistGeometry): [number, number, number, number] {
+  const rings =
+    geometry.type === "Polygon" ? geometry.coordinates : geometry.coordinates.flatMap((poly) => poly);
+  let w = Infinity;
+  let s = Infinity;
+  let e = -Infinity;
+  let n = -Infinity;
+  for (const ring of rings) {
+    for (const [lon, lat] of ring) {
+      if (lon < w) w = lon;
+      if (lon > e) e = lon;
+      if (lat < s) s = lat;
+      if (lat > n) n = lat;
+    }
+  }
+  if (!Number.isFinite(w)) return [0, 0, 0, 0];
+  return [w, s, e, n];
 }

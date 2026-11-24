@@ -145,7 +145,8 @@ export default function LicencePage() {
         <p className="pf-v6-u-font-size-sm pf-v6-u-mt-md">
           Living register: <code>intermediate/screen-build/phase-0-licence-register.md</code>. First-share
           gate: <code>intermediate/screen-build/first-public-share-gate.md</code>. Module:{" "}
-          <code>docs/04-data-and-licences.md</code>.
+          <code>docs/04-data-and-licences.md</code>. Pages enablement (when ready):{" "}
+          <code>docs/09-github-pages.md</code>.
         </p>
       </PageSection>
 

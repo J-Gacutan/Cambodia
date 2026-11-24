@@ -20,7 +20,7 @@ Heavy rasters under `inputs/screen-layers/` are gitignored (~**13 GB** on a full
 | Restoration screen | Phase 0 QGIS pack + open-cleared `v0.2.1` (Phase 2 flags; `public_ready` false). Licence gate `khm-i6e.2`. | [docs/03](docs/03-restoration-screen.md) · [SESSION-LOCK](intermediate/screen-build/SESSION-LOCK.md) |
 | Data / licences | Living register; FLAG rows. Full stack ≈13 GB when staged. | [docs/04](docs/04-data-and-licences.md) |
 | Build pipeline | Scripts + lock in `intermediate/screen-build/`. | [docs/05](docs/05-build-pipeline.md) |
-| Screen console | React + PF6 + MapLibre on `v0.2.1`; contract pin; `#licence` panel; Pages gated on `public_ready`. | [app/](app/README.md) · [docs/08](docs/08-handoff.md) |
+| Screen console | React + PF6 + MapLibre on `v0.2.1`; contract pin; `#licence` panel; Pages gated on `public_ready`. | [app/](app/README.md) · [docs/08](docs/08-handoff.md) · [docs/09](docs/09-github-pages.md) |
 
 ## Map
 
@@ -57,6 +57,7 @@ Heavy rasters under `inputs/screen-layers/` are gitignored (~**13 GB** on a full
 | [06-related-artifacts.md](docs/06-related-artifacts.md) | Work outside / copied into `related/` |
 | [07-migration.md](docs/07-migration.md) | Cut list; what lifts vs stays on disk |
 | [08-handoff.md](docs/08-handoff.md) | Phase 3 handoff: pin, licence panel, Pages gate |
+| [09-github-pages.md](docs/09-github-pages.md) | Pages enablement, SPA 404, `public_ready` deploy gate |
 
 ### outputs/
 

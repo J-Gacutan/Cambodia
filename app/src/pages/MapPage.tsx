@@ -40,6 +40,9 @@ import { meaningForClass, suitabilityLabel } from "../lib/classMeaning";
 import {
   downloadText,
   featureToShortlist,
+  geometryBounds,
+  loadShortlistFromStorage,
+  saveShortlistToStorage,
   shortlistToCsv,
   shortlistToGeoJson,
   type ShortlistItem
@@ -144,11 +147,16 @@ export default function MapPage() {
   const [shortlistReadyOnly, setShortlistReadyOnly] = useState(false);
   const [contextOn, setContextOn] = useState<Record<string, boolean>>({});
   const [inspect, setInspect] = useState<Inspect | null>(null);
-  const [shortlist, setShortlist] = useState<ShortlistItem[]>([]);
+  const [shortlist, setShortlist] = useState<ShortlistItem[]>(() => loadShortlistFromStorage());
+  const [copiedCase, setCopiedCase] = useState<string | null>(null);
   const [place, setPlace] = useState<string>(() => {
     const q = new URLSearchParams(window.location.hash.split("?")[1] ?? "");
     return q.get("case") || "coast";
   });
+
+  useEffect(() => {
+    saveShortlistToStorage(shortlist);
+  }, [shortlist]);
 
   const manifest = useBundle(loadManifest);
   const layers = useBundle(loadMapLayers);
@@ -313,24 +321,22 @@ export default function MapPage() {
   useEffect(() => {
     const map = mapRef.current;
     if (!map?.getLayer(FILL_ID)) return;
-    const wanted = [showGo ? "go" : null, showCaution ? "caution" : null].filter(
-      (v): v is string => Boolean(v)
-    );
+    // Shortlist-ready mode: GO ∩ no known flag hits (overrides class toggles).
+    const wanted = shortlistReadyOnly
+      ? (["go"] as string[])
+      : ([showGo ? "go" : null, showCaution ? "caution" : null].filter(Boolean) as string[]);
     const parts: maplibregl.FilterSpecification[] = [];
     if (wanted.length === 0) {
       parts.push(["==", ["get", "suitability"], "__none__"]);
     } else {
       parts.push(["in", ["get", "suitability"], ["literal", wanted]]);
     }
-    if (hidePermitHits) parts.push(["!=", ["get", "permit_gate"], true]);
-    if (hideStopHits) parts.push(["!=", ["get", "stop_legal"], true]);
-    if (hideOverlapHits) parts.push(["!=", ["get", "project_overlap"], true]);
-    if (shortlistReadyOnly) {
-      parts.push(["==", ["get", "suitability"], "go"]);
-      parts.push(["!=", ["get", "permit_gate"], true]);
-      parts.push(["!=", ["get", "stop_legal"], true]);
-      parts.push(["!=", ["get", "project_overlap"], true]);
-    }
+    const hidePermit = hidePermitHits || shortlistReadyOnly;
+    const hideStop = hideStopHits || shortlistReadyOnly;
+    const hideOverlap = hideOverlapHits || shortlistReadyOnly;
+    if (hidePermit) parts.push(["!=", ["get", "permit_gate"], true]);
+    if (hideStop) parts.push(["!=", ["get", "stop_legal"], true]);
+    if (hideOverlap) parts.push(["!=", ["get", "project_overlap"], true]);
     const filter: maplibregl.FilterSpecification =
       parts.length === 1 ? parts[0]! : (["all", ...parts] as maplibregl.FilterSpecification);
     map.setFilter(FILL_ID, filter);
@@ -356,7 +362,7 @@ export default function MapPage() {
         [w, s],
         [e, n]
       ],
-      { padding: 32, duration: 0 }
+      { padding: 32, duration: 600 }
     );
   }, [ready, cases.data, place]);
 
@@ -366,7 +372,7 @@ export default function MapPage() {
         [CAMBODIA_COAST_BOUNDS[0], CAMBODIA_COAST_BOUNDS[1]],
         [CAMBODIA_COAST_BOUNDS[2], CAMBODIA_COAST_BOUNDS[3]]
       ],
-      { padding: 24, duration: 0 }
+      { padding: 24, duration: 600 }
     );
     setPlace("coast");
     if (window.location.hash.startsWith("#map")) window.history.replaceState(null, "", "#map");
@@ -379,10 +385,49 @@ export default function MapPage() {
         [w, s],
         [e, n]
       ],
-      { padding: 32, duration: 0 }
+      { padding: 32, duration: 600 }
     );
     setPlace(c.id);
     window.history.replaceState(null, "", `#map?case=${c.id}`);
+  };
+
+  const copyCaseBookmark = async (c: CaseStudy) => {
+    const url = `${window.location.origin}${window.location.pathname}#map?case=${c.id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedCase(c.id);
+      window.setTimeout(() => setCopiedCase((cur) => (cur === c.id ? null : cur)), 2000);
+    } catch {
+      window.prompt("Copy case bookmark", url);
+    }
+  };
+
+  const setProjectOverlays = (on: boolean) => {
+    setContextOn((prev) => {
+      const next = { ...prev };
+      for (const layer of contextLayers) {
+        if (layer.flag_role === "project_overlap" || layer.id.includes("project-overlap")) {
+          next[layer.id] = on;
+        }
+      }
+      return next;
+    });
+  };
+
+  const setPermitOverlays = (on: boolean) => {
+    setContextOn((prev) => {
+      const next = { ...prev };
+      for (const layer of contextLayers) {
+        if (
+          layer.flag_role === "permit_context" ||
+          layer.flag_role === "permit_gap_marker" ||
+          layer.id.includes("ramsar")
+        ) {
+          next[layer.id] = on;
+        }
+      }
+      return next;
+    });
   };
 
   const addInspectToShortlist = () => {
@@ -399,31 +444,84 @@ export default function MapPage() {
     setShortlist((prev) => (prev.some((p) => p.id === item.id) ? prev : [...prev, item]));
   };
 
+  const zoomShortlistItem = (row: ShortlistItem) => {
+    const [w, s, e, n] = geometryBounds(row.geometry);
+    mapRef.current?.fitBounds(
+      [
+        [w, s],
+        [e, n]
+      ],
+      { padding: 48, duration: 600, maxZoom: 14 }
+    );
+    const props: FeatureProps = {
+      id: row.id,
+      class_id: row.class_id,
+      class_name: row.class_name,
+      suitability: row.suitability,
+      area_ha: row.area_ha,
+      province: row.province,
+      place: row.place,
+      note: row.note,
+      permit_gate: row.permit_gate,
+      permit_instrument: row.permit_instrument,
+      stop_legal: row.stop_legal,
+      stop_legal_status: row.stop_legal_status,
+      stop_legal_note: row.stop_legal_note,
+      project_overlap: row.project_overlap,
+      project_overlap_ids: row.project_overlap_ids,
+      project_overlap_note: row.project_overlap_note
+    };
+    setInspect({ props, lng: row.lon, lat: row.lat });
+    setPanelOpen(true);
+  };
+
+  const removeShortlistItem = (id: string) => {
+    setShortlist((prev) => prev.filter((row) => row.id !== id));
+  };
+
   const meaning = inspect ? meaningForClass(inspect.props.class_id) : null;
 
   return (
     <PageSection isFilled padding={{ default: "noPadding" }} className="khm-map-section">
       <div className="khm-map-head">
         <Title headingLevel="h1">Screen map</Title>
+        <div className="khm-go-banner" role="note">
+          <strong>GO means worth a field look</strong> — physical / land-cover suitability only. Not MoE
+          zoning, tenure clearance, planting permission, or a carbon outcome. Flags cite instruments and
+          overlaps; they never mean approved or refused.
+        </div>
         <HelperText>
           <HelperTextItem>
-            Click a GO or CAUTION patch to read class meaning and Phase 2 flags. Flags cite instruments and
-            overlaps — they never mean approved or refused. Shortlist exports include flag columns.
+            Click a patch to inspect class meaning and Phase 2 flags. Use case bookmarks to jump to Note 3b
+            windows A–C. Shortlist exports include full polygons plus flag columns.
           </HelperTextItem>
         </HelperText>
         <div className="khm-map-tools">
-          <ToggleGroup aria-label="Zoom to">
-            <ToggleGroupItem text="Four provinces" buttonId="zoom-coast" isSelected={place === "coast"} onChange={zoomCoast} />
+          <ToggleGroup aria-label="Case bookmarks">
+            <ToggleGroupItem
+              text="Four provinces"
+              buttonId="zoom-coast"
+              isSelected={place === "coast"}
+              onChange={zoomCoast}
+            />
             {(cases.data ?? []).map((c) => (
               <ToggleGroupItem
                 key={c.id}
-                text={`Case ${c.id}`}
+                text={`${c.id}: ${c.place.split(",")[0] ?? c.title}`}
                 buttonId={`zoom-case-${c.id}`}
                 isSelected={place === c.id}
                 onChange={() => zoomCase(c)}
               />
             ))}
           </ToggleGroup>
+          {place !== "coast" &&
+            (cases.data ?? [])
+              .filter((c) => c.id === place)
+              .map((c) => (
+                <Button key={`copy-${c.id}`} variant="link" onClick={() => void copyCaseBookmark(c)}>
+                  {copiedCase === c.id ? "Copied bookmark" : `Copy #map?case=${c.id}`}
+                </Button>
+              ))}
           {!panelOpen && (
             <Button variant="secondary" onClick={() => setPanelOpen(true)}>
               Show panel
@@ -473,10 +571,17 @@ export default function MapPage() {
                         publicReady={manifest.data?.public_ready === true && screenLayer.public_ready}
                       />
                     </p>
-                    <Checkbox id="show-go" isChecked={showGo} label="Show GO" onChange={(_e, on) => setShowGo(on)} />
+                    <Checkbox
+                      id="show-go"
+                      isChecked={shortlistReadyOnly ? true : showGo}
+                      isDisabled={shortlistReadyOnly}
+                      label="Show GO"
+                      onChange={(_e, on) => setShowGo(on)}
+                    />
                     <Checkbox
                       id="show-caution"
-                      isChecked={showCaution}
+                      isChecked={shortlistReadyOnly ? false : showCaution}
+                      isDisabled={shortlistReadyOnly}
                       label="Show CAUTION"
                       onChange={(_e, on) => setShowCaution(on)}
                     />
@@ -490,38 +595,64 @@ export default function MapPage() {
                   Phase 2 flag filters
                 </Title>
                 <p className="pf-v6-u-font-size-sm">
-                  Null means incomplete coverage — not a clearance. STOP (legal) stays unavailable until MoE
-                  core zones exist.
+                  “Unknown / incomplete” is not a clearance. STOP (legal) stays unavailable until MoE core
+                  zones exist. Shortlist-ready mode forces GO and hides known flag hits.
                 </p>
                 <Checkbox
                   id="hide-permit"
-                  isChecked={hidePermitHits}
-                  label="Hide permit-gate hits"
+                  isChecked={hidePermitHits || shortlistReadyOnly}
+                  isDisabled={shortlistReadyOnly}
+                  label="Hide patches with permit-gate hit"
                   onChange={(_e, on) => setHidePermitHits(on)}
                 />
                 <Checkbox
                   id="hide-stop"
-                  isChecked={hideStopHits}
-                  label="Hide STOP (legal) hits"
+                  isChecked={hideStopHits || shortlistReadyOnly}
+                  isDisabled={shortlistReadyOnly}
+                  label="Hide patches with STOP (legal) hit"
                   onChange={(_e, on) => setHideStopHits(on)}
                 />
                 <Checkbox
                   id="hide-overlap"
-                  isChecked={hideOverlapHits}
-                  label="Hide project-overlap hits"
+                  isChecked={hideOverlapHits || shortlistReadyOnly}
+                  isDisabled={shortlistReadyOnly}
+                  label="Hide patches with project-overlap hit"
                   onChange={(_e, on) => setHideOverlapHits(on)}
                 />
                 <Checkbox
                   id="shortlist-ready"
                   isChecked={shortlistReadyOnly}
-                  label="GO ∩ no known flag hits (shortlist filter)"
-                  onChange={(_e, on) => setShortlistReadyOnly(on)}
+                  label="Shortlist-ready: GO ∩ no known flag hits"
+                  onChange={(_e, on) => {
+                    setShortlistReadyOnly(on);
+                    if (on) {
+                      setShowGo(true);
+                      setShowCaution(false);
+                    }
+                  }}
                 />
                 {contextLayers.length > 0 && (
                   <>
                     <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                      Context overlays
+                      Flag overlays
                     </Title>
+                    <div className="khm-map-tools pf-v6-u-mb-sm">
+                      <Button variant="secondary" onClick={() => setProjectOverlays(true)}>
+                        Show project boundaries
+                      </Button>
+                      <Button variant="secondary" onClick={() => setPermitOverlays(true)}>
+                        Show Ramsar context
+                      </Button>
+                      <Button
+                        variant="link"
+                        onClick={() => {
+                          setProjectOverlays(false);
+                          setPermitOverlays(false);
+                        }}
+                      >
+                        Hide overlays
+                      </Button>
+                    </div>
                     {contextLayers.map((layer) => (
                       <div key={layer.id} className="khm-context-layer">
                         <Checkbox
@@ -605,15 +736,23 @@ export default function MapPage() {
                 <Title headingLevel="h2" className="pf-v6-u-mt-md">
                   Shortlist ({shortlist.length})
                 </Title>
+                <p className="pf-v6-u-font-size-sm">
+                  Kept for this browser tab (session). CSV is Excel-friendly; GeoJSON exports full polygons.
+                </p>
                 {shortlist.length === 0 && <p className="pf-v6-u-font-size-sm">No patches yet.</p>}
                 {shortlist.length > 0 && (
                   <>
                     <ul className="khm-plain-list pf-v6-u-font-size-sm">
                       {shortlist.map((row) => (
-                        <li key={row.id}>
-                          {row.id} · {suitabilityLabel(row.suitability)} · {row.area_ha.toFixed(1)} ha
-                          {row.project_overlap === true ? " · overlap" : ""}
-                          {row.permit_gate === true ? " · permit" : ""}
+                        <li key={row.id} className="khm-shortlist-row">
+                          <button type="button" className="khm-shortlist-zoom" onClick={() => zoomShortlistItem(row)}>
+                            {row.id} · {suitabilityLabel(row.suitability)} · {row.area_ha.toFixed(1)} ha
+                            {row.project_overlap === true ? " · overlap" : ""}
+                            {row.permit_gate === true ? " · permit" : ""}
+                          </button>
+                          <Button variant="link" isInline onClick={() => removeShortlistItem(row.id)}>
+                            Remove
+                          </Button>
                         </li>
                       ))}
                     </ul>
@@ -640,7 +779,7 @@ export default function MapPage() {
                           )
                         }
                       >
-                        Export GeoJSON
+                        Export GeoJSON (polygons)
                       </Button>
                       <Button variant="link" onClick={() => setShortlist([])}>
                         Clear
