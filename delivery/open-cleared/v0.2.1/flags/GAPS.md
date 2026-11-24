@@ -1,14 +1,14 @@
 # Phase 2 flag gaps (`khm-i6e.6`)
 
-Built: 2026-11-23T07:12:43Z
+Built: 2026-11-23T07:26:06Z
 
 ## What shipped (without inventing clearances)
 
 | Flag | Status in this bundle | Source used |
 | --- | --- | --- |
 | **permit_gate** | Partial — boolean when a known PA/Ramsar polygon hits; **null** when WDPA absent (do not invent “clear”) | L17 WDPA gpkg when present (yes, n≈128; bead `khm-i6e.6.1`); L18 Ramsar polygons (3 coastal-usable inland sites only) |
-| **STOP (legal)** | **Unavailable** (`stop_legal=null`, `stop_legal_status=unavailable`) | MoE core-zone GIS not provided (L19 digital GIS closed). Instrument cited only: ENR Code Art. 364 |
-| **project_overlap** | Partial — Southern Cardamom REDD+ (VCS 1748) when KML present (5544 rings parsed) | `inputs/vcs-1748-southern-cardamom-boundary.kml`. Mangrove REDD+ / VCS 5071 **not staged** |
+| **STOP (legal)** | **Unavailable** (`stop_legal=null`, `stop_legal_status=unavailable`) | MoE protected-area **core-zone** GIS not provided (`khm-i6e.6.2`). L19 Forest Cover digital GIS closed and is **not** a substitute. Instrument cited only: ENR Code Art. 364 |
+| **project_overlap** | Partial — staged Verra boundaries (5621 rings across projects) | Staged: vcs-1748-southern-cardamom, vcs-5071-mangrove-arr, vcs-5584-krasop-mangrove-redd. See `inputs/vcs-5071-5584-PROVENANCE.txt`. VCS 5071 Koh Kong ARR portion (if any) not in registry KML — not invented |
 | **elevation_check** | Not burned into GO attributes here | Raster already on disk (`L13/elevation_check_flag_10m.tif`); wire in a later pass if needed |
 
 ### Counts (this run)
@@ -19,21 +19,26 @@ Built: 2026-11-23T07:12:43Z
   "permit_gate_true": 4866,
   "permit_gate_null": 0,
   "permit_gate_false": 5637,
-  "project_overlap_true": 115,
-  "project_overlap_false": 10388,
+  "project_overlap_true": 1085,
+  "project_overlap_false": 9418,
   "project_overlap_null": 0,
-  "stop_legal_null": 10503
+  "stop_legal_null": 10503,
+  "project_overlap_by_id": {
+    "vcs-1748-southern-cardamom": 115,
+    "vcs-5071-mangrove-arr": 125,
+    "vcs-5584-krasop-mangrove-redd": 845
+  }
 }
 ```
 
 ## Explicit gaps (block full Note 3 gate-2)
 
-1. **WDPA geometries** — research/non-commercial OK for the screen; **must not** be pushed to a public remote. Derived `permit_gate` attributes joined on the workstation (`khm-i6e.6.1`; n≈128 polygons). Thin/cloud clones without the gitignored gpkg still get `permit_gate=null` until re-run locally.
+1. **WDPA geometries** — research/non-commercial OK for the screen; **must not** be pushed to a public remote. Derived `permit_gate` attributes joined on the workstation (`khm-i6e.6.1`; n≈128 polygons). Thin/cloud clones without the gitignored gpkg still get `permit_gate=null` until re-run locally (or use `--preserve-permit-gate` on a bundle that already carries WDPA-joined attributes).
 2. **Koh Kapik Ramsar (998)** — RSIS publishes centroid only; no polygon for coastal permit intersection.
 3. **CFi / CPA / MFMA boundaries** — not staged; permit_gate cannot name GDF vs MoE completely.
-4. **MoE protected-area core zones** — required for STOP (legal); do **not** proxy with IUCN category alone.
-5. **Mangrove REDD+ and VCS 5071** — named in Note 3b / CI Cambodia 2026; polygons not in-repo.
-6. **`public_ready`** — remains false until `khm-i6e.2` (licence gate). Derived WDPA attributes stay research/INTERNAL.
+4. **MoE protected-area core zones** (`khm-i6e.6.2`) — required for STOP (legal); blocked until MoE provides mapped core zones. Do **not** proxy with IUCN category or L19 Forest Cover.
+5. **VCS 5071 Koh Kong ARR geometry** — registry document is `Kep, Kampot.kml` only; any Trend Tech Koh Kong ARR extent remains unstaged (do not invent).
+6. **`public_ready`** — remains false until `khm-i6e.2` (licence gate). Derived WDPA attributes and project-boundary overlays stay research/INTERNAL.
 
 ## Product language (UI must keep)
 

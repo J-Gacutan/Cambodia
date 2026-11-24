@@ -1,20 +1,33 @@
 {
-  "built": "2026-11-23T07:12:43Z",
+  "built": "2026-11-23T07:26:06Z",
   "bead": "khm-i6e.6",
   "wdpa_join_bead": "khm-i6e.6.1",
+  "project_overlap_bead": "khm-i6e.6.3",
+  "stop_legal_bead": "khm-i6e.6.2",
   "wdpa_present": true,
   "wdpa_polygon_count": 128,
+  "wdpa_join_mode": "preserved",
   "ramsar_polygon_count": 3,
-  "project_ring_count": 5544,
+  "project_ring_count": 5621,
+  "project_sources_staged": [
+    "vcs-1748-southern-cardamom",
+    "vcs-5071-mangrove-arr",
+    "vcs-5584-krasop-mangrove-redd"
+  ],
   "stats": {
     "features": 10503,
     "permit_gate_true": 4866,
     "permit_gate_null": 0,
     "permit_gate_false": 5637,
-    "project_overlap_true": 115,
-    "project_overlap_false": 10388,
+    "project_overlap_true": 1085,
+    "project_overlap_false": 9418,
     "project_overlap_null": 0,
-    "stop_legal_null": 10503
+    "stop_legal_null": 10503,
+    "project_overlap_by_id": {
+      "vcs-1748-southern-cardamom": 115,
+      "vcs-5071-mangrove-arr": 125,
+      "vcs-5584-krasop-mangrove-redd": 845
+    }
   },
   "public_ready": false,
   "stop_legal_status": "unavailable"

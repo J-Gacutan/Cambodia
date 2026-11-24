@@ -50,6 +50,11 @@
   },
   "phase2_flags": {
     "bead": "khm-i6e.6",
+    "children": [
+      "khm-i6e.6.1",
+      "khm-i6e.6.2",
+      "khm-i6e.6.3"
+    ],
     "ui_rule": "Cite instruments and overlaps; never say approved or refused.",
     "filter_example": [
       "all",
