@@ -5,17 +5,6 @@ import { FLOW_STEPS, type StepId } from "../flow/steps";
 import { loadManifest } from "../lib/bundle";
 import { useBundle } from "../lib/useBundle";
 
-const STEP_DETAIL: Record<StepId, string> = {
-  frame:
-    "This console is a physical / land-cover restoration screen for four coastal provinces — not MoE zoning, tenure clearance, planting permission, or a carbon outcome.",
-  locate:
-    "Mangrove loss drivers (L4) and urban/built proxy (L10) on the change map — on-canvas toggles, open P2 samples only. Then continue to Read for GO / CAUTION.",
-  read: "Filter hold-back drivers → click a patch → inspect → shortlist. Basemap toggle stays on the canvas.",
-  means:
-    "Case stories for open/accreted GO (A) and tidal-flat CAUTION (C). GO means worth a field look; CAUTION is split by drivers — flags never mean approved or refused.",
-  act: "Evidence class, attribution, and the P2 open-cleared gate on Licence. Shortlist CSV / GeoJSON export stays on the map."
-};
-
 /**
  * LKA-style decision-flow landing: five steps that lead into Locate → Read.
  * PatternFly 6 + hash routing; no hero photo required for this research console.
@@ -48,8 +37,8 @@ export default function HomePage() {
         Every decision follows the same five steps
       </Title>
       <p className="pf-v6-u-font-size-sm">
-        Steps are views, not gates — the rail above tracks current / next / done. Choose a step to see what
-        this release supports there, then continue in order.
+        Same path every time: set the question, read the coast, judge a patch, check a story, take the
+        shortlist. Choose a step for the story; the rail above keeps your place.
       </p>
       <div className="khm-step-flow">
         <ol className="khm-flow-row">
@@ -78,9 +67,10 @@ export default function HomePage() {
           {info && open && (
             <>
               <p className="khm-flow-detail-title">
-                {index + 1}. {info.label}: {info.does}
+                {index + 1}. {info.label}
               </p>
-              <p>{STEP_DETAIL[open]}</p>
+              <p className="khm-flow-detail-does">{info.does}</p>
+              <p>{info.detail}</p>
               <p>
                 <a href={info.href}>Continue to {info.label} →</a>
               </p>

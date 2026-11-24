@@ -538,6 +538,11 @@
   margin: 0 0 0.35rem;
   font-weight: 600;
 }
+.khm-flow-detail-does {
+  margin: 0 0 0.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
 .khm-home-doors {
   list-style: none;
   margin: 0.75rem 0 0;

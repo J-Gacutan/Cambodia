@@ -82,7 +82,8 @@ export function StepRail({
       )}
       {aboutActive && !current && (
         <p className="khm-step-cue" aria-live="polite">
-          <strong>About:</strong> Console notes and provenance — outside the five screening steps.
+          <strong>About:</strong> Package notes, data version, and provenance — the quiet shelf beside the
+          five screening steps.
         </p>
       )}
     </nav>
