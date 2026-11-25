@@ -185,10 +185,11 @@ export function isContextLayer(layer: MapLayer): boolean {
   return layer.kind === "context_overlay" || Boolean(layer.flag_role);
 }
 
+/** Three-state flag wording for UI, CSV, and Act report — plain ESL-friendly phrases. */
 export function flagLabel(value: boolean | null | undefined): string {
-  if (value === true) return "hit";
-  if (value === false) return "no hit (known sources)";
-  return "unknown / incomplete coverage";
+  if (value === true) return "Known flag";
+  if (value === false) return "No known flag";
+  return "Not fully checked";
 }
 
 /** Four coastal provinces — approximate bounds for the MVP camera. */

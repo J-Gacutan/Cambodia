@@ -77,7 +77,7 @@ export const CAUTION_DRIVERS: CautionDriver[] = [
     short: "Rights",
     holdsBack:
       "A protected-area or similar rights flag is present (for example Ramsar). Confirm access before any claim. Ministry core-zone stops are not on this pack yet.",
-    source: "Ramsar and protected-area attributes. A hit is not a clearance.",
+    source: "Ramsar and protected-area attributes. A known flag is not a clearance.",
     status: "partial",
     color: "#6B4C9A"
   },

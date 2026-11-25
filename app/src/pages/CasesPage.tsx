@@ -126,7 +126,7 @@ export default function CasesPage() {
         <ol className="khm-means-read-path">
           <li>
             <strong>Filter</strong> reasons to pause (tide, height, converted land, ponds; rights and carbon
-            projects when flags hit).
+            projects when a known flag appears).
           </li>
           <li>
             <strong>Click</strong> a coloured patch on the map.

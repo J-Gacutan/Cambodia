@@ -891,15 +891,15 @@ export default function MapPage() {
               <dd>{inspect.props.province ?? "—"}</dd>
             </div>
             <div>
-              <dt>Permit gate</dt>
+              <dt>Protected area</dt>
               <dd>{flagLabel(inspect.props.permit_gate)}</dd>
             </div>
             <div>
-              <dt>Legal STOP</dt>
+              <dt>Legal stop</dt>
               <dd>{flagLabel(inspect.props.stop_legal)}</dd>
             </div>
             <div>
-              <dt>VERRA</dt>
+              <dt>Carbon project</dt>
               <dd>
                 {flagLabel(inspect.props.project_overlap)}
                 {verraIds ? ` · ${verraIds}` : ""}
