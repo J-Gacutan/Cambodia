@@ -2,6 +2,8 @@
 
 **Date.** 24 Nov 2026. **Audience.** Jordan. **Status.** Advisory. This note does not change the screen, the pin, or the licence gate.
 
+**Correction, 25 Nov 2026.** The pack table below says this pin is class 4 and class 8 only, and that elevation and converted cannot run. That is stale. `v0.3.0` includes class 5, and `elevation_fail` is filled. The panel assessment and the design to build are in [11-screen-panel-design.md](11-screen-panel-design.md). The structural lessons in this note still stand.
+
 **Prerequisites.** [01-overview.md](01-overview.md), [03-restoration-screen.md](03-restoration-screen.md), [../app/README.md](../app/README.md). Bundle authority is [`../config/bundle-versions.json`](../config/bundle-versions.json) and [`../delivery/open-cleared/v0.3.0/README.md`](../delivery/open-cleared/v0.3.0/README.md), not the status table in the root README (that table still describes `v0.2.1`).
 
 **Compared with.** NSW LIIP as built: `docs/reporting-user-journey.md`, `docs/filter-registry.md`, `app/src/liip/registry/doors.ts`, `app/src/liip/ui/headlineCopy.ts` in `nsw-dcceew-liip`.
