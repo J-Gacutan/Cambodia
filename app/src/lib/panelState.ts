@@ -1,5 +1,5 @@
 /**
- * Read-panel state for module 11 — place, drawn classes, narrowing flags,
+ * Read-panel state — place, drawn classes, narrowing flags,
  * overlays, and case presets. Hash is the shareable view; shortlist stays out.
  */
 
@@ -7,7 +7,7 @@ import type { FilterSpecification } from "maplibre-gl";
 
 export type PlaceId = "coast" | "koh-kong" | "preah-sihanouk" | "kampot" | "kep";
 
-export type DrawnClassId = 4 | 5 | 8;
+export type DrawnClassId = 4 | 5 | 7 | 8;
 
 export type HideFlag = "permit" | "verra";
 
@@ -34,7 +34,7 @@ export const PLACE_OPTIONS: { id: PlaceId; label: string; province: string | nul
   { id: "kep", label: "Kep", province: "Kep" }
 ];
 
-export const DEFAULT_CLASSES: DrawnClassId[] = [4, 5, 8];
+export const DEFAULT_CLASSES: DrawnClassId[] = [4, 5, 7, 8];
 
 export function defaultPanelState(): PanelState {
   return {
@@ -62,7 +62,7 @@ function parseClassList(raw: string | null): DrawnClassId[] {
   const out: DrawnClassId[] = [];
   for (const part of raw.split(",")) {
     const n = Number(part.trim());
-    if (n === 4 || n === 5 || n === 8) {
+    if (n === 4 || n === 5 || n === 7 || n === 8) {
       if (!out.includes(n)) out.push(n);
     }
   }
@@ -145,7 +145,8 @@ export function panelStateToHashQuery(state: PanelState): string {
 
   const classesSorted = [...state.classes].sort((a, b) => a - b);
   const defaultClasses =
-    classesSorted.length === 3 && classesSorted[0] === 4 && classesSorted[1] === 5 && classesSorted[2] === 8;
+    classesSorted.length === DEFAULT_CLASSES.length &&
+    DEFAULT_CLASSES.every((id, i) => classesSorted[i] === id);
   if (!defaultClasses) q.set("class", classesSorted.join(",") || "");
 
   if (state.elevation) q.set("elevation", "1");
@@ -206,6 +207,9 @@ export function buildScreenFilter(state: PanelState): FilterSpecification {
   if (state.classes.includes(5)) {
     classParts.push(["==", ["get", "class_id"], 5]);
   }
+  if (state.classes.includes(7)) {
+    classParts.push(["==", ["get", "class_id"], 7]);
+  }
   if (state.classes.includes(8)) {
     classParts.push([
       "all",
@@ -264,6 +268,7 @@ export function featureMatchesPanel(
   const elevFail = props.elevation_fail === true;
   if (props.class_id === 4 && state.classes.includes(4)) return true;
   if (props.class_id === 5 && state.classes.includes(5)) return true;
+  if (props.class_id === 7 && state.classes.includes(7)) return true;
   if (props.class_id === 8 && !elevFail && state.classes.includes(8)) return true;
   if (props.class_id === 8 && elevFail && state.elevation) return true;
   return false;

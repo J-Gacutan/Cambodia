@@ -17,8 +17,8 @@ export function layerDisplayTitle(layer: MapLayer): string {
   if (isVerraLayer(layer)) {
     return layer.title.replace(/^Project overlap\s*[—–-]?\s*/i, "VERRA — ");
   }
-  if (layer.id === "go-caution" || /GO class 8|≥ MMU|CAUTION class 4/i.test(layer.title)) {
-    return "Open/accreted opportunity and tidal hold-backs (≥ 0.5 ha patches)";
+  if (layer.id === "go-caution" || /GO open land|GO class 8|≥ MMU|CAUTION/i.test(layer.title)) {
+    return "Open land and hold-backs (tide, converted, ponds, height) — patches ≥ 0.5 ha";
   }
   if (layer.id === "mangrove-extent" || layer.flag_role === "extent_context") {
     return "Mangrove extent 2025 (living stock)";

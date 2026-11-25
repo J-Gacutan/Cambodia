@@ -10,8 +10,6 @@ import {
   DrawerPanelBody,
   DrawerPanelContent,
   Label,
-  List,
-  ListItem,
   Title
 } from "@patternfly/react-core";
 import maplibregl from "maplibre-gl";
@@ -21,9 +19,7 @@ import { CAMBODIA_COAST_BOUNDS } from "../lib/bundle";
 import {
   buildLocateHeadline,
   changeLayerShort,
-  changeLayerTitle,
   parseChangeFeature,
-  stripRegisterCodes,
   type ChangeInspect
 } from "../lib/changeLabels";
 import {
@@ -302,7 +298,6 @@ export default function ChangePage() {
     return () => window.clearTimeout(id);
   }, [panelOpen, ready]);
 
-  const stateGaps = index?.state_gaps ?? [];
   const headline = useMemo(
     () =>
       buildLocateHeadline({
@@ -529,92 +524,11 @@ export default function ChangePage() {
 
       <div className="khm-change-meta">
         <p className="pf-v6-u-font-size-sm">
-          Locate answers what is happening with mangroves along this coast today — 2025 extent plus loss
-          or gain since 1996. A full year-by-year slider, multi-year urban expansion, and any health
-          product remain gaps. Source notes live under <a href="#about">About</a>.
+          Locate shows 2025 extent plus loss or gain since 1996. Layer notes, gaps, and licences live under{" "}
+          <a href="#about">About this pack</a>.
         </p>
-        {index && (
-          <>
-            <Title headingLevel="h2">Layers on this screen</Title>
-            <List isPlain>
-              {index.layers.map((layer) => (
-                <ListItem key={layer.id}>
-                  <strong>{changeLayerTitle(layer)}</strong>{" "}
-                  <Label isCompact color={layer.stub ? "orange" : "blue"}>
-                    {layer.stub
-                      ? "Coming soon"
-                      : layer.state_role === "extent"
-                        ? "Open stock"
-                        : "Open sample"}
-                  </Label>
-                  {layer.state_role ? (
-                    <>
-                      {" "}
-                      <Label isCompact color="grey">
-                        {layer.state_role}
-                      </Label>
-                    </>
-                  ) : null}
-                  {" · "}
-                  {layer.feature_count ?? 0} features
-                  {layer.display_resolution_m != null ? (
-                    <span className="pf-v6-u-font-size-sm">
-                      {" "}
-                      · ~{layer.display_resolution_m} m display scale
-                    </span>
-                  ) : null}
-                  {layer.resolution_plain || layer.note ? (
-                    <div className="pf-v6-u-font-size-sm">
-                      {stripRegisterCodes(layer.resolution_plain || layer.note || "")}
-                    </div>
-                  ) : null}
-                </ListItem>
-              ))}
-            </List>
-            {stateGaps.length > 0 && (
-              <>
-                <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                  Gaps on this view
-                </Title>
-                <List>
-                  {stateGaps.map((gap) => (
-                    <ListItem key={gap.facet}>
-                      <strong>{gap.facet}</strong>{" "}
-                      <Label isCompact color={gap.status === "sample" ? "blue" : "orange"}>
-                        {gap.status}
-                      </Label>
-                      {" — "}
-                      {gap.plain}
-                    </ListItem>
-                  ))}
-                </List>
-              </>
-            )}
-            {index.data_needs && index.data_needs.length > 0 && (
-              <>
-                <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                  Documented data needs
-                </Title>
-                <List>
-                  {index.data_needs.map((need) => (
-                    <ListItem key={need}>
-                      {stripRegisterCodes(need)
-                        .replace(/\s*\([^)]*\)/g, "")
-                        .trim()}
-                    </ListItem>
-                  ))}
-                </List>
-              </>
-            )}
-            <p className="pf-v6-u-font-size-sm pf-v6-u-mt-sm">
-              {stripRegisterCodes(index.licence)} These samples sit beside the main restoration package (
-              {index.not_in_open_cleared_pin ? "not in the pinned pack" : "check pack"}).
-            </p>
-          </>
-        )}
         <p className="khm-basemap-note">
-          Streets basemap names are from OpenStreetMap. Satellite tiles © Esri. Extent, loss/gain
-          (1996–2025), and built-up samples are CC BY 4.0.
+          Streets basemap names are from OpenStreetMap. Satellite tiles © Esri.
         </p>
         {kind === "offline" && (
           <p className="khm-basemap-note">Reference basemap unreachable; showing plain sea.</p>

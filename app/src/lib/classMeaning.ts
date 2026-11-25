@@ -1,4 +1,4 @@
-/** Class meanings for click-inspect. Land cover only. */
+/** Plain meanings for click-inspect. Land cover only. */
 export type ClassMeaning = {
   class_id: number;
   suitability: "go" | "caution" | "stop" | "conserve";
@@ -23,19 +23,19 @@ export const CLASS_MEANINGS: Record<number, ClassMeaning> = {
     class_id: 3,
     suitability: "conserve",
     label: "Existing mangrove: conserve",
-    meaning: "Current mangrove. Conserve; not a restoration GO."
+    meaning: "Living mangrove now. Conserve it — not a restoration GO."
   },
   4: {
     class_id: 4,
     suitability: "caution",
-    label: "CAUTION: tidal flat",
-    meaning: "Tidal flat. Do not plant on mudflats; natural recovery only after a water check on site."
+    label: "CAUTION: tide / mudflat",
+    meaning: "Tide flat or mudflat. Do not plant here; natural recovery only after a water check on site."
   },
   5: {
     class_id: 5,
     suitability: "caution",
     label: "CAUTION: converted land",
-    meaning: "Converted use on former mangrove. Needs a named check before planting or claiming restoration."
+    meaning: "Former mangrove now used for something else. Check use and rights before planting or claiming restoration."
   },
   6: {
     class_id: 6,
@@ -47,19 +47,19 @@ export const CLASS_MEANINGS: Record<number, ClassMeaning> = {
     class_id: 7,
     suitability: "caution",
     label: "CAUTION: active pond",
-    meaning: "Active or intermittent pond. Needs a rights / use check before any restoration claim."
+    meaning: "Active or on-and-off pond. Check who uses it and what rights apply before any restoration claim."
   },
   8: {
     class_id: 8,
     suitability: "go",
-    label: "GO: open opportunity",
-    meaning: "Open or newly built land on former mangrove. Worth a field visit — not zoning or planting permission."
+    label: "GO: open land",
+    meaning: "Open land that was once mangrove. Worth a field visit — not zoning or planting permission."
   },
   9: {
     class_id: 9,
     suitability: "caution",
     label: "CAUTION: history unproven",
-    meaning: "Inside the habitat mask without proven historic mangrove under the history rule."
+    meaning: "Inside the habitat area without proven historic mangrove under the history rule."
   },
   10: {
     class_id: 10,

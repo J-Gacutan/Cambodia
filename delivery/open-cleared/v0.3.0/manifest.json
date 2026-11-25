@@ -1,11 +1,11 @@
 {
   "version": "v0.3.0",
-  "built": "2026-11-24T00:53:32Z",
+  "built": "2026-11-25T06:22:27Z",
   "stub": false,
   "completeness": "full_raster_vectorised",
   "public_ready": true,
   "licence_gate": "cleared_p2_open_pages",
-  "product_banner": "Physical / land-cover suitability proxy (open-cleared class 8 \u00b1 4/5 + elevation demote). GO = worth a field look. CAUTION paints tidal, converted (class 5), and elevation-fail. Tenure/VERRA via flags and overlays. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome. Non-commercial / research use.",
+  "product_banner": "Land-cover screen for four coastal provinces (open land, tide, converted land, active ponds, height check). GO = worth a field look. Not ministry zoning, land rights, planting permission, or a carbon score. Non-commercial / research use.",
   "crs_geometry": "EPSG:4326",
   "source_grid": "EPSG:32648",
   "resolution_m": 10.0,
@@ -17,7 +17,8 @@
     ],
     "caution": [
       4,
-      5
+      5,
+      7
     ]
   },
   "open_cleared": true,
@@ -31,11 +32,11 @@
     "flags"
   ],
   "stats": {
-    "feature_count": 5165,
+    "feature_count": 5666,
     "go_features": 1038,
-    "caution_features": 4127,
+    "caution_features": 4628,
     "go_ha": 3021.6251,
-    "caution_ha": 22698.9636,
+    "caution_ha": 24048.7503,
     "phase2": {
       "features": 1491,
       "permit_gate_true": 805,
@@ -53,15 +54,16 @@
     "by_class": {
       "4": 261,
       "8": 1230,
-      "5": 3674
+      "5": 3674,
+      "7": 501
     },
-    "elevation_fail_features": 1007
+    "elevation_fail_features": 1034
   },
   "notes": [
-    "Classes included: [4, 5, 8] (class 7 ponds excluded \u2014 FLAG). MMU 0.5 ha.",
+    "Classes included: [4, 5, 7, 8]. Class 7 = active pond CAUTION (\u22650.5 ha). Pond source rasters stay offline.",
     "Vectorised from inputs/screen-layers/L_class_10m/class_step3.tif with MMU 0.5 ha (50 px).",
     "Clipped to L20 coastal four provinces (Cambodia only).",
-    "Cases A and C only (class 8 / 4). Case B omitted (class 2 / pond-shaped).",
+    "Cases A and C only (open land / tide). Case B is not in this pack.",
     "Elevation hold-back: L13 elevation_check_flag_10m joined; 1007 patches elevation_fail=true (GO demoted to CAUTION paint). Converted: class 5 open limb only.",
     "Phase 2 flags: permit_gate from WDPA+Ramsar overlays; project_overlap from staged VCS 1748/5071/5584; stop_legal unavailable. Overlays redistributable=false where marked.",
     "Locate extent stock: GMW 2025 mangrove-extent overlay (CC BY 4.0 coastal clip) added for P2/CI share; condition still missing."
@@ -76,7 +78,8 @@
     "Staged VERRA / VCS project boundaries (research screen; not registry extracts for commercial republish)",
     "DeltaDTM v1.1 (Pronk et al. 2024) + FES2022 amplitude-sum proxy \u2014 elevation check research screen",
     "Dynamic World (CC BY 4.0) \u2014 class 5 converted limb",
-    "Global Mangrove Watch v4.1.12 2025 extent (CC BY 4.0) \u2014 Locate stock overlay"
+    "Global Mangrove Watch v4.1.12 2025 extent (CC BY 4.0) \u2014 Locate stock overlay",
+    "Note 3b class 7 active-pond screen (research polygons; source pond rasters offline)"
   ],
   "phase2": {
     "bead": "khm-i6e.6",

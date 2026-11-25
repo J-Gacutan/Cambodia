@@ -32,7 +32,7 @@ export function LayerProvenanceBody({
       {layer.flag_role && <li>{`Role: ${layer.flag_role}`}</li>}
       {layer.note && <li>{layer.note.replace(/\bL\d+\b/g, "").replace(/\s{2,}/g, " ").trim()}</li>}
       <li>
-        More on sharing: <a href="#about">About</a>
+        More on sharing: <a href="#licence">About this pack</a>
       </li>
     </ul>
   );

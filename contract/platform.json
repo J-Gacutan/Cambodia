@@ -2,21 +2,21 @@
   "note": "Pinned exchange for the Cambodia screen console (LKA-style). Paths relative to delivery/open-cleared/<bundle_version>/. Sync verifies every sha256 before copying into public/khm-bundle/. Never invent public_ready — that is khm-i6e.2.",
   "platform_repo": "Cambodia",
   "bundle_version": "v0.3.0",
-  "cambodia_commit": "db72566",
+  "cambodia_commit": "e5907a5",
   "public_ready": true,
   "licence_gate": "cleared_p2_open_pages",
   "files": [
     {
       "path": "README.md",
-      "sha256": "638464af7fbee922398c2000d4eb28e177752f8a203cdff6a669f2906f6ee036"
+      "sha256": "f77cc896d002fe362721ea9f856bdad4c576e8b95c7fe9676ea1ba6072ba414e"
     },
     {
       "path": "cases/cases.json",
-      "sha256": "180d896d657f4393dcacdeb68abe2587b2d84700bfdae53335071811c8da6198"
+      "sha256": "01015e4e00bdf87a8b3634625576744837f159705960f3ba6eeee33b005a9c6f"
     },
     {
       "path": "flags/GAPS.md",
-      "sha256": "c9dbba01f7c68b55043f43c5242585bc2ad00b9556bb50025023c05b750e02c0"
+      "sha256": "80cdfdfa7efafd22edcf3fb936d70e4fd4c4392c7760caffdbffc1338ac9c939"
     },
     {
       "path": "flags/coverage.json",
@@ -24,11 +24,11 @@
     },
     {
       "path": "layers/go-caution.geojson",
-      "sha256": "32a7643173fb06204f7ac686b67254ed191b8c62d9f7abf55b5af8f3d248431b"
+      "sha256": "60f1b33fb8e894a60ef0900f06535f2620bdcced74a981751695f04ab2838777"
     },
     {
       "path": "layers/index.json",
-      "sha256": "ab7b2fc0d25a2443fdb57205772d2a1075f06078260b025692785937ed1c9a14"
+      "sha256": "462023858f7c54b691fa31c39168d37d55580366c4026f902e81052638d04d27"
     },
     {
       "path": "layers/mangrove-change.geojson",
@@ -64,7 +64,7 @@
     },
     {
       "path": "manifest.json",
-      "sha256": "67a457d10205e8d540425eaa4a42c78061bec188dabd5f027d9e62bcf3ee8122"
+      "sha256": "05958ebcdcd45c7946815e008b45244ffe86ea0ff41f6f1ec66146f0ea3b61e2"
     },
     {
       "path": "schema/feature-properties.json",
