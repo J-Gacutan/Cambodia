@@ -122,9 +122,9 @@ export default function AboutPage() {
           mangrove).
         </li>
         <li>
-          <strong>Active pond</strong> (berry / magenta on the map, not the amber tide colour) — reads as an
-          active or on-and-off pond. Check who uses it before any claim. About 500 pond patches (~1,350 ha)
-          ship on this pack; source pond maps stay offline.
+          <strong>Active pond</strong> (magenta <code>#C2185B</code> on the map — not the amber tide colour
+          <code>#F0AB00</code>) — reads as an active or on-and-off pond. Check who uses it before any claim.
+          About 500 pond patches (~1,350 ha) ship on this pack; source pond maps stay offline.
         </li>
         <li>
           <strong>Height above the tide</strong> — optional filter that holds back open land that sits too high.
