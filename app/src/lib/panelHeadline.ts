@@ -1,5 +1,5 @@
 /**
- * Settled headline for the Read panel — fixed phrase order from module 11.
+ * Settled Interpretation copy for the Read panel — short prose, same facts.
  */
 
 import type { DrawnClassId, PanelState } from "./panelState";
@@ -29,17 +29,26 @@ function formatCount(n: number): string {
   return n.toLocaleString("en-AU");
 }
 
-function drawnClassClause(state: PanelState): string {
+function drawnClassBits(state: PanelState): string[] {
   const bits: string[] = [];
   const sorted = [...state.classes].sort((a, b) => a - b);
   for (const id of sorted) bits.push(CLASS_PHRASE[id]);
   if (state.elevation) bits.push("elevation failures");
-  if (bits.length === 0) return "No classes drawn";
-  if (bits.length === 1) return bits[0]!.replace(/^./, (c) => c.toUpperCase());
-  if (bits.length === 2) return `${bits[0]} and ${bits[1]}`.replace(/^./, (c) => c.toUpperCase());
-  return `${bits.slice(0, -1).join(", ")}, and ${bits[bits.length - 1]}`.replace(/^./, (c) =>
-    c.toUpperCase()
-  );
+  return bits;
+}
+
+function joinEnglish(bits: string[]): string {
+  if (bits.length === 0) return "";
+  if (bits.length === 1) return bits[0]!;
+  if (bits.length === 2) return `${bits[0]} and ${bits[1]}`;
+  return `${bits.slice(0, -1).join(", ")}, and ${bits[bits.length - 1]}`;
+}
+
+function placeLead(place: string): string {
+  if (/^four coastal provinces$/i.test(place.trim())) {
+    return "Across the four coastal provinces";
+  }
+  return `In ${place}`;
 }
 
 export type HeadlineCounts = {
@@ -58,30 +67,39 @@ export type HeadlineInput = {
 };
 
 /**
- * Panel headline. Legal STOP is the only "not assessed" clause on this pin.
+ * Panel Interpretation. Legal STOP is the only "not assessed" clause on this pin.
+ * One or two skim sentences: place, what is drawn, counts, pack version, GO, legal STOP.
  */
 export function buildPanelHeadline(input: HeadlineInput): string {
   const place = placeLabel(input.state.place, input.casePlaceLine);
-  const drawn =
+  const lead = placeLead(place);
+  const patches = formatCount(input.counts.patches);
+  const ha = formatCount(Math.round(input.counts.hectares));
+  const pack = input.bundleVersion;
+  const closing =
+    "GO means worth a field look; legal STOP is not assessed on this pack.";
+
+  const class8Only =
     input.class8OnlyOpenCover &&
     input.state.classes.length === 1 &&
     input.state.classes[0] === 8 &&
-    !input.state.elevation
-      ? "Class 8, historic mangrove now open cover"
-      : drawnClassClause(input.state);
-  const patches = formatCount(input.counts.patches);
-  const ha = formatCount(Math.round(input.counts.hectares));
-  return [
-    `${place}.`,
-    `${drawn}.`,
-    `${patches} patches, ${ha} hectares.`,
-    `Counted from bundle ${input.bundleVersion}.`,
-    GO_ONCE,
-    "Legal STOP not assessed."
-  ].join(" ");
+    !input.state.elevation;
+
+  if (class8Only) {
+    return `${lead}, class 8 — historic mangrove now open cover — shows ${patches} patches covering about ${ha} hectares, counted from pack ${pack}. ${closing}`;
+  }
+
+  const bits = drawnClassBits(input.state);
+  if (bits.length === 0) {
+    return `${lead}, no classes are drawn right now (0 patches from pack ${pack}). ${closing}`;
+  }
+
+  const drawn = joinEnglish(bits);
+  const verb = bits.length === 1 ? "is" : "are";
+  return `${lead}, ${drawn} ${verb} drawn — ${patches} patches covering about ${ha} hectares, counted from pack ${pack}. ${closing}`;
 }
 
-/** Per-patch inspect sentence — same phrase order, one-decimal hectares. */
+/** Per-patch inspect sentence — same facts, short prose, one-decimal hectares. */
 export function buildPatchHeadline(input: {
   province: string | null;
   classId: number;
@@ -91,18 +109,21 @@ export function buildPatchHeadline(input: {
   /** Class meaning middle clause from classMeaning.ts. */
   classMeaning: string | null;
 }): string {
-  const place = input.province ?? "Four coastal provinces";
+  const lead = placeLead(input.province ?? "Four coastal provinces");
   const middle =
     input.classMeaning ??
     (input.classId === 8
-      ? "Class 8, historic mangrove now open cover"
-      : `Class ${input.classId}`);
+      ? "class 8 — historic mangrove now open cover"
+      : `class ${input.classId}`);
+  const mid = middle.replace(/^Class\b/, "class");
   const ha = input.areaHa.toFixed(1);
   const goOrHold =
-    input.suitability === "go" ? "Worth a field look." : "Held back on this screen.";
+    input.suitability === "go"
+      ? "It is worth a field look"
+      : "It is held back on this screen";
   const assessedGap =
     input.elevationFail == null
-      ? "Elevation and legal STOP not assessed on this patch."
-      : "Legal STOP not assessed on this patch.";
-  return `${place}. ${middle}. ${ha} hectares. ${goOrHold} ${assessedGap}`;
+      ? "elevation and legal STOP are not assessed on this patch"
+      : "legal STOP is not assessed on this patch";
+  return `${lead}, this patch is ${mid} (${ha} hectares). ${goOrHold}; ${assessedGap}.`;
 }
