@@ -1,6 +1,6 @@
 {
   "bundle_version": "v0.3.0",
-  "cambodia_commit": "0a1af6d",
+  "cambodia_commit": "38d2897",
   "public_ready": true,
   "licence_gate": "cleared_p2_open_pages",
   "files": {
@@ -18,7 +18,7 @@
     "layers/ramsar-gap-centroids.geojson": "1855c0f26a8536d14c003f48bc4d0623e28053810f32f0b5889190ee3f3d3782",
     "layers/wdpa-context.geojson": "7115399854a458de0b05df46907e284268d1cecf3b6dab8037c5299db3edb7a3",
     "manifest.json": "6fb69ed31089c3108e47013458a9dc73c7982c2fa2a6a9e60f8759bebfef2281",
-    "README.md": "638464af7fbee922398c2000d4eb28e177752f8a203cdff6a669f2906f6ee036",
+    "README.md": "9624849f0d521be1bc486aaa2ff9aa59a651b1eb7f43db3fcab821846edd0cee",
     "schema/feature-properties.json": "4cd5dc9858897faabd1a8380bce318928f56afd6361c6624aa8c498e4f569ea0"
   }
 }
