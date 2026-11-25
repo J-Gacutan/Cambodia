@@ -308,6 +308,35 @@
   max-height: min(85dvh, 52rem);
   overflow: auto;
 }
+.khm-panel-select {
+  width: 100%;
+  max-width: 100%;
+  margin-block-start: 0.35rem;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.khm-panel-select .pf-v6-c-menu-toggle,
+.khm-panel-select .pf-v6-c-menu-toggle__text {
+  overflow-wrap: normal;
+  word-break: normal;
+  white-space: nowrap;
+}
+.khm-panel-select-help {
+  margin: 0.25rem 0 0;
+  color: var(--pf-t--global--text--color--subtle, #6a6e73);
+  line-height: 1.4;
+}
+/* Place / Preset menus render in a popper; keep labels on one line. */
+.khm-panel-select-menu .pf-v6-c-menu__item-text {
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.khm-panel-select-menu .pf-v6-c-menu__item-description {
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
 .khm-panel-headline {
   margin: 0 0 0.75rem;
   font-size: 0.9375rem;

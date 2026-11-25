@@ -9,9 +9,11 @@ import {
   DrawerHead,
   DrawerPanelBody,
   DrawerPanelContent,
-  Title,
-  ToggleGroup,
-  ToggleGroupItem
+  MenuToggle,
+  Select,
+  SelectList,
+  SelectOption,
+  Title
 } from "@patternfly/react-core";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -65,6 +67,7 @@ import {
   presetCoast,
   presetFieldLook,
   type DrawnClassId,
+  type PanelPreset,
   type PanelState,
   type PlaceId
 } from "../lib/panelState";
@@ -209,6 +212,34 @@ function isRamsarLayer(layer: MapLayer): boolean {
   );
 }
 
+const PRESET_OPTIONS: {
+  id: PanelPreset;
+  label: string;
+  description: string;
+}[] = [
+  {
+    id: "coast",
+    label: "Four provinces",
+    description: "Reset filters and zoom out to all four coastal provinces."
+  },
+  {
+    id: "A",
+    label: "Case A — open land (GO)",
+    description: "Zoom to the Peam Krasaop example. Shows open former mangrove worth a field look."
+  },
+  {
+    id: "C",
+    label: "Case C — tide / mudflat",
+    description: "Zoom to the Preah Sihanouk / Kampot example. Shows tidal flats to pause on — do not plant."
+  },
+  {
+    id: "field",
+    label: "Field look, no known flag hit",
+    description:
+      "Keep your current place. Show only open (GO) patches and hide known permit / project flag hits."
+  }
+];
+
 const NEXT_CHECKS: { check: string; source: string; onPack: string }[] = [
   {
     check: "Hydrology and natural recruitment on flats",
@@ -241,6 +272,8 @@ export default function MapPage() {
     () => !window.matchMedia("(max-width: 47.9375rem)").matches
   );
   const [panel, setPanel] = useState<PanelState>(() => panelStateFromHash(window.location.hash));
+  const [placeOpen, setPlaceOpen] = useState(false);
+  const [presetOpen, setPresetOpen] = useState(false);
   const [contextOn, setContextOn] = useState<Record<string, boolean>>({});
   const contextOnRef = useRef(contextOn);
   contextOnRef.current = contextOn;
@@ -676,6 +709,28 @@ export default function MapPage() {
     });
   };
 
+  const placeLabelSelected =
+    PLACE_OPTIONS.find((opt) => opt.id === panel.place)?.label ?? "Four coastal provinces";
+  const presetSelected = PRESET_OPTIONS.find((opt) => opt.id === panel.preset) ?? null;
+
+  const applyPreset = (id: PanelPreset) => {
+    if (id === "coast") {
+      applyPanel(presetCoast(), { fitCoast: true });
+      return;
+    }
+    if (id === "A") {
+      const c = cases.data?.find((row) => row.id === "A");
+      applyPanel(presetCaseA(), { fitCase: c ?? null });
+      return;
+    }
+    if (id === "C") {
+      const c = cases.data?.find((row) => row.id === "C");
+      applyPanel(presetCaseC(), { fitCase: c ?? null });
+      return;
+    }
+    applyPanel(presetFieldLook(panel));
+  };
+
   const setOverlay = (id: "ramsar" | "verra", on: boolean) => {
     const overlay = on
       ? panel.overlay.includes(id)
@@ -863,17 +918,46 @@ export default function MapPage() {
       <Title headingLevel="h2" className="pf-v6-u-mt-md pf-v6-u-font-size-md">
         Place
       </Title>
-      <ToggleGroup aria-label="Place">
-        {PLACE_OPTIONS.map((opt) => (
-          <ToggleGroupItem
-            key={opt.id}
-            text={opt.label}
-            buttonId={`place-${opt.id}`}
-            isSelected={panel.place === opt.id && !panel.caseId}
-            onChange={() => setPlace(opt.id)}
-          />
-        ))}
-      </ToggleGroup>
+      <p className="pf-v6-u-font-size-sm khm-panel-select-help">
+        Zoom and filter the map to one province, or keep all four coastal provinces.
+      </p>
+      <div className="khm-panel-select">
+        <Select
+          id="place-select"
+          className="khm-panel-select-menu"
+          isOpen={placeOpen}
+          selected={panel.place}
+          onOpenChange={(open) => setPlaceOpen(open)}
+          onSelect={(_event, value) => {
+            setPlaceOpen(false);
+            if (typeof value === "string") setPlace(value as PlaceId);
+          }}
+          toggle={(toggleRef) => (
+            <MenuToggle
+              ref={toggleRef}
+              onClick={() => setPlaceOpen((open) => !open)}
+              isExpanded={placeOpen}
+              isFullWidth
+              aria-label="Place"
+            >
+              {placeLabelSelected}
+            </MenuToggle>
+          )}
+          shouldFocusToggleOnSelect
+        >
+          <SelectList>
+            {PLACE_OPTIONS.map((opt) => (
+              <SelectOption
+                key={opt.id}
+                value={opt.id}
+                isSelected={panel.place === opt.id && !panel.caseId}
+              >
+                {opt.label}
+              </SelectOption>
+            ))}
+          </SelectList>
+        </Select>
+      </div>
 
       <Title headingLevel="h2" className="pf-v6-u-mt-md pf-v6-u-font-size-md">
         Drawn class
@@ -1034,39 +1118,55 @@ export default function MapPage() {
       <Title headingLevel="h2" className="pf-v6-u-mt-md pf-v6-u-font-size-md">
         Presets
       </Title>
-      <div className="khm-map-tools">
-        <Button
-          variant={panel.preset === "coast" ? "secondary" : "link"}
-          onClick={() => applyPanel(presetCoast(), { fitCoast: true })}
-        >
-          Four provinces
-        </Button>
-        <Button
-          variant={panel.preset === "A" ? "secondary" : "link"}
-          onClick={() => {
-            const c = cases.data?.find((row) => row.id === "A");
-            applyPanel(presetCaseA(), { fitCase: c ?? null });
+      <p className="pf-v6-u-font-size-sm khm-panel-select-help">
+        A preset sets which patches show and where the map focuses. Use Case A or Case C for the worked
+        examples from Means, or Field look to keep open land without known flag hits.
+      </p>
+      <div className="khm-panel-select">
+        <Select
+          id="preset-select"
+          className="khm-panel-select-menu"
+          isOpen={presetOpen}
+          selected={panel.preset ?? undefined}
+          onOpenChange={(open) => setPresetOpen(open)}
+          onSelect={(_event, value) => {
+            setPresetOpen(false);
+            if (typeof value === "string") applyPreset(value as PanelPreset);
           }}
+          toggle={(toggleRef) => (
+            <MenuToggle
+              ref={toggleRef}
+              onClick={() => setPresetOpen((open) => !open)}
+              isExpanded={presetOpen}
+              isFullWidth
+              isPlaceholder={!presetSelected}
+              aria-label="Presets"
+            >
+              {presetSelected?.label ?? "Choose a preset…"}
+            </MenuToggle>
+          )}
+          shouldFocusToggleOnSelect
         >
-          Case A
-        </Button>
-        <Button
-          variant={panel.preset === "C" ? "secondary" : "link"}
-          onClick={() => {
-            const c = cases.data?.find((row) => row.id === "C");
-            applyPanel(presetCaseC(), { fitCase: c ?? null });
-          }}
-        >
-          Case C
-        </Button>
-        <Button
-          variant={panel.preset === "field" ? "secondary" : "link"}
-          onClick={() => applyPanel(presetFieldLook(panel))}
-        >
-          Field look, no known flag hit
-        </Button>
+          <SelectList>
+            {PRESET_OPTIONS.map((opt) => (
+              <SelectOption
+                key={opt.id}
+                value={opt.id}
+                isSelected={panel.preset === opt.id}
+                description={opt.description}
+              >
+                {opt.label}
+              </SelectOption>
+            ))}
+          </SelectList>
+        </Select>
       </div>
-      <p className="pf-v6-u-font-size-sm khm-means-omitted">{CASE_B_MISSING}</p>
+      {presetSelected && (
+        <p className="pf-v6-u-font-size-sm khm-panel-select-help">{presetSelected.description}</p>
+      )}
+      <p className="pf-v6-u-font-size-sm khm-means-omitted" role="note">
+        {CASE_B_MISSING}
+      </p>
 
       <Title headingLevel="h2" className="pf-v6-u-mt-md pf-v6-u-font-size-md">
         Shortlist ({shortlist.length})

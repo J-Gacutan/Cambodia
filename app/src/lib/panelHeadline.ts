@@ -14,7 +14,7 @@ export const LEGAL_STOP_NOT_ASSESSED =
 export const PONDS_NOT_IN_PACK =
   "Not in this pack. Pond geometries stay off the public bundle.";
 export const CASE_B_MISSING =
-  "Case B is not in this pack. It is the open-water override of first-pass mangrove (class 2). The rule order is in Note 3b.";
+  "Case B is not in this pack. It would show open water that overrides a first mangrove reading. Name that gap when you brief — do not invent a Case B window from this console.";
 export const EMPTY_SHORTLIST = "No patches kept.";
 export const EMPTY_MAP =
   "No patches match these rows. Turn a class back on, or clear a hide.";
