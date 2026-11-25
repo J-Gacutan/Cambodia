@@ -6,6 +6,7 @@ import {
   Label,
   Masthead,
   MastheadBrand,
+  MastheadContent,
   MastheadLogo,
   MastheadMain,
   MastheadToggle,
@@ -90,7 +91,7 @@ export default function App() {
     window.location.hash = hrefForStep(step);
   };
 
-  // Brand-only masthead — About lives in the step rail, not a detached MastheadContent float.
+  // Brand masthead — About / Licence are text links (module 11); steps stay in the rail elsewhere.
   const masthead = (
     <Masthead display={{ default: "inline" }}>
       <MastheadMain>
@@ -110,12 +111,18 @@ export default function App() {
             <span className="khm-brand">
               <span className="khm-brand-name">Cambodia restoration screen</span>
               <Label isCompact color={publicReady ? "blue" : "orange"}>
-                {publicReady ? "Research" : "Internal"}
+                {publicReady ? "Open-cleared" : "INTERNAL"}
               </Label>
             </span>
           </MastheadLogo>
         </MastheadBrand>
       </MastheadMain>
+      <MastheadContent>
+        <div className="khm-masthead-links">
+          <a href="#about">About</a>
+          <a href="#licence">Licence</a>
+        </div>
+      </MastheadContent>
     </Masthead>
   );
 
@@ -197,13 +204,15 @@ export default function App() {
           skipToContent={<SkipToContent href="#main-content">Skip to content</SkipToContent>}
           mainContainerId="main-content"
         >
-          <PageSection
-            padding={{ default: "noPadding" }}
-            className="khm-rail-section"
-            aria-label="Decision flow"
-          >
-            <StepRail current={currentStep} aboutActive={onAbout} onSelect={goStep} />
-          </PageSection>
+          {currentStep !== "read" && (
+            <PageSection
+              padding={{ default: "noPadding" }}
+              className="khm-rail-section"
+              aria-label="Decision flow"
+            >
+              <StepRail current={currentStep} aboutActive={onAbout} onSelect={goStep} />
+            </PageSection>
+          )}
           <Suspense
             fallback={
               <PageSection>

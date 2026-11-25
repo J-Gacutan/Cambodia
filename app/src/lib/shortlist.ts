@@ -84,6 +84,12 @@ export type ShortlistExportMeta = {
   generatedAt?: string;
   /** Reopen URL from reportQr (optional; also on printable HTML). */
   reportQrUrl?: string;
+  /** GO claim ceiling sentence for export header. */
+  goSentence?: string;
+  /** Class rule for this pack. */
+  classRule?: string;
+  /** Settled panel headline at export time. */
+  headline?: string;
 };
 
 function asProps(row: ShortlistItem): FeatureProps {
@@ -139,12 +145,16 @@ export function shortlistToCsv(rows: ShortlistItem[], meta?: ShortlistExportMeta
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
   const preamble: string[] = [
-    `# Cambodia screen — Act shortlist CSV`,
-    `# Land-cover screen only. GO = worth a field visit. Not planting permission.`,
+    `# Cambodia screen — shortlist CSV`,
+    meta?.goSentence
+      ? `# ${meta.goSentence}`
+      : `# GO means worth a field look. Physical and land-cover only. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.`,
+    meta?.classRule ? `# ${meta.classRule}` : `# Classes 4, 5, and 8. Legal STOP not assessed.`,
+    meta?.headline ? `# Headline: ${meta.headline}` : null,
     meta?.bundleVersion ? `# Bundle: ${meta.bundleVersion}` : null,
     meta?.generatedAt ? `# Generated: ${meta.generatedAt}` : null,
     meta?.reportQrUrl ? `# Reopen (report QR URL): ${meta.reportQrUrl}` : null,
-    `# Sites: ${rows.length}. Pair with map polygons + printable HTML/MD decision report.`
+    `# Patches: ${rows.length}.`
   ].filter((line): line is string => Boolean(line));
   const lines = [...preamble, header.join(",")];
   for (const row of rows) {
@@ -217,8 +227,13 @@ export function shortlistToGeoJson(
           bundle_version: meta?.bundleVersion ?? null,
           generated_at: meta?.generatedAt ?? null,
           report_qr_url: meta?.reportQrUrl ?? null,
+          go_sentence:
+            meta?.goSentence ??
+            "GO means worth a field look. Physical and land-cover only. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.",
+          class_rule: meta?.classRule ?? "Classes 4, 5, and 8. Legal STOP not assessed.",
+          headline: meta?.headline ?? null,
           product_note:
-            "Land-cover screen only. GO = worth a field visit. Flags name instruments — never approved/refused."
+            "GO means worth a field look. Physical and land-cover only. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome."
         },
         geometry: row.geometry
       };
@@ -238,7 +253,7 @@ export function downloadText(filename: string, text: string, mime: string) {
 
 export function loadShortlistFromStorage(): ShortlistItem[] {
   try {
-    const raw = sessionStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(STORAGE_KEY) ?? sessionStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw) as ShortlistItem[];
     if (!Array.isArray(parsed)) return [];
@@ -256,7 +271,7 @@ export function loadShortlistFromStorage(): ShortlistItem[] {
 
 export function saveShortlistToStorage(rows: ShortlistItem[]) {
   try {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(rows));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(rows));
   } catch {
     // Quota / private mode — ignore; shortlist still works in-memory.
   }

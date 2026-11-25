@@ -262,7 +262,11 @@ export default function CasesPage() {
               >
                 <Swatch
                   color={driver.color}
-                  label={`CAUTION · ${driver.short} — ${driverStatusLabel(driver.status)}`}
+                  label={
+                    driverStatusLabel(driver.status)
+                      ? `CAUTION · ${driver.short} — ${driverStatusLabel(driver.status)}`
+                      : `CAUTION · ${driver.short}`
+                  }
                 />
                 <span className="khm-means-driver-chevron" aria-hidden>
                   {isOpen ? "▾" : "▸"}

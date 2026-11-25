@@ -21,10 +21,10 @@ export default function HomePage() {
         <Title headingLevel="h1">Cambodia mangrove restoration screen</Title>
         <p className="khm-home-lead">
           A land-cover screen of four coastal provinces to shortlist sites worth a field visit.{" "}
-          <strong>GO</strong> marks open opportunity; <strong>CAUTION</strong> names a reason to pause
-          (tide, height, converted land; rights and carbon projects via flags). Learn the legend first,
-          then decide from your shortlist on Act. Not zoning, tenure clearance, planting permission, or a
-          carbon outcome.
+          <strong>GO</strong> means worth a field look; <strong>CAUTION</strong> names a reason to pause
+          (tide, converted land, elevation; rights and carbon projects via flags). Learn the legend first,
+          then decide from your shortlist on Act. Physical and land-cover only — not MoE zoning, tenure
+          clearance, planting permission, or a carbon outcome.
         </p>
       </div>
 

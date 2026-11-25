@@ -44,7 +44,10 @@
   color: inherit;
   text-decoration: none;
 }
-/* Brand-only masthead: no empty MastheadContent column that floats About aside. */
+/* Brand masthead with end-side text links (About / Licence). */
+.pf-v6-c-masthead {
+  align-items: center;
+}
 .khm-shell .pf-v6-c-masthead {
   --pf-v6-c-masthead--GridTemplateColumns: minmax(0, 1fr);
 }
@@ -255,6 +258,11 @@
 .khm-map-section {
   min-width: 0;
 }
+.khm-map-section-workspace {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - 8rem);
+}
 .khm-map-head {
   padding: 0.75rem 1rem 0.5rem;
   min-width: 0;
@@ -266,6 +274,10 @@
   align-items: center;
   margin-block-start: 0.5rem;
 }
+.khm-map-layers-open {
+  padding: 0.5rem 1rem 0;
+  margin: 0;
+}
 .khm-map-workspace {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
@@ -273,14 +285,77 @@
   align-items: stretch;
   min-width: 0;
 }
+.khm-map-workspace-solo {
+  grid-template-columns: minmax(0, 1fr);
+  flex: 1 1 auto;
+  min-height: 0;
+}
 .khm-map-drawer {
   min-height: 20rem;
   min-width: 0;
+  height: 100%;
+}
+.khm-map-frame-fill {
+  min-height: min(70dvh, 40rem);
+  height: 100%;
+}
+.khm-map-frame-fill .khm-map {
+  min-height: min(70dvh, 40rem);
+  height: 100%;
 }
 .khm-layer-panel {
   overflow-wrap: anywhere;
-  max-height: min(70dvh, 40rem);
+  max-height: min(85dvh, 52rem);
   overflow: auto;
+}
+.khm-panel-headline {
+  margin: 0 0 0.75rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+.khm-panel-headline-sm {
+  font-size: 0.875rem;
+}
+.khm-tabular {
+  font-variant-numeric: tabular-nums;
+}
+.khm-not-assessed-row {
+  margin: 0.5rem 0 0;
+  padding: 0.45rem 0.55rem;
+  border-inline-start: 3px solid var(--pf-t--global--border--color--default, #c7c7c7);
+  color: var(--pf-t--global--text--color--subtle, #6a6e73);
+}
+.khm-inspect-in-panel {
+  margin: 0 0 1rem;
+  padding: 0.65rem 0.75rem 0.85rem;
+  border: 1px solid var(--pf-t--global--border--color--default);
+  background: var(--pf-t--global--background--color--secondary--default, #f5f5f5);
+}
+.khm-map-empty {
+  position: absolute;
+  inset-inline: 0.75rem;
+  inset-block-start: 0.75rem;
+  margin: 0;
+  max-width: 22rem;
+  padding: 0.5rem 0.65rem;
+  background: var(--pf-t--global--background--color--primary--default, #fff);
+  border: 1px solid var(--pf-t--global--border--color--default);
+  font-size: 0.875rem;
+  z-index: 1;
+}
+.khm-masthead-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-inline-start: auto;
+  padding-inline-end: 1rem;
+  font-size: 0.875rem;
+}
+.khm-masthead-links a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
 }
 .khm-inspect-panel {
   border-inline-start: 1px solid var(--pf-t--global--border--color--default);

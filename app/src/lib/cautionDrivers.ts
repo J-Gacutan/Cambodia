@@ -29,51 +29,51 @@ export type CautionDriver = {
 export const CAUTION_DRIVERS: CautionDriver[] = [
   {
     id: "tidal",
-    label: "Tide / mudflat",
+    label: "Tidal flat",
     short: "Tide",
     holdsBack:
       "Tidal flat or mudflat — do not plant here; natural recovery only after a water check on site.",
-    source: "Intertidal change and land-cover products for tidal flats",
+    source: "Note 3b class 4. Murray Global Intertidal Change.",
     status: "live",
     color: "#C4A35A"
   },
   {
     id: "elevation",
-    label: "Height above the tide",
-    short: "Height",
+    label: "Elevation",
+    short: "Elevation",
     holdsBack:
       "Ground sits above the usual tidal range (within elevation-model error) — check height before planting.",
-    source: "Elevation model checked against highest tide",
+    source: "L12 DeltaDTM against L13 FES2022. Filled on this pack.",
     status: "live",
     color: "#7A8F6A"
   },
   {
     id: "converted",
-    label: "Converted land",
+    label: "Converted",
     short: "Converted",
     holdsBack:
       "Former mangrove now in another use (crops or trees outside mangrove) — needs a named check before any restoration claim.",
-    source: "Land-cover screen for converted cover on historic mangrove",
+    source: "Land-cover screen for converted cover on historic mangrove.",
     status: "live",
     color: "#A67C52"
   },
   {
     id: "tenure",
-    label: "Rights / protected area",
-    short: "Rights",
+    label: "Permit gate",
+    short: "Permit",
     holdsBack:
       "Protected-area or legal context (for example Ramsar) — confirm access before any claim. Ministry core-zone stops are not on this pack yet.",
-    source: "Protected-area attributes joined to patches",
+    source: "Ramsar and WDPA attributes. A hit is not a clearance.",
     status: "partial",
     color: "#6B4C9A"
   },
   {
     id: "verra",
-    label: "Existing carbon project",
-    short: "Carbon project",
+    label: "VERRA overlap",
+    short: "VERRA",
     holdsBack:
       "Inside or overlapping an existing carbon-project outline — check double-counting and access.",
-    source: "Staged project boundaries for research awareness",
+    source: "Staged VCS 1748, 5071, 5584. Non-commercial research.",
     status: "partial",
     color: "#B85C38"
   }
@@ -100,7 +100,7 @@ export function primaryDriver(props: FeatureProps): CautionDriverId | null {
 }
 
 export function driverStatusLabel(status: CautionDriver["status"]): string {
-  if (status === "live") return "On map";
+  if (status === "live") return "";
   if (status === "partial") return "Partial";
   return "Not assessed";
 }
@@ -109,8 +109,8 @@ export function holdsBackSummary(props: FeatureProps): string {
   const ids = driversForFeature(props);
   if (ids.length === 0) {
     return props.suitability === "go"
-      ? "No mapped hold-back on this site (physical GO only — still not planting permission)."
-      : "CAUTION without a named reason yet — treat as a generic check.";
+      ? "No mapped hold-back on this patch. Physical screen only. Not planting permission."
+      : "CAUTION, driver not named.";
   }
   return ids.map((id) => DRIVER_BY_ID[id].holdsBack).join(" ");
 }
