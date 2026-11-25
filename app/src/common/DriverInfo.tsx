@@ -6,12 +6,12 @@ import { driverStatusLabel } from "../lib/cautionDrivers";
 /** Info-icon popover for hold-back driver prose — sits inline to the right of the label. */
 export function DriverInfo({ driver }: { driver: CautionDriver }) {
   const status = driverStatusLabel(driver.status);
-  const paintNote =
+  const statusLine =
     driver.status === "live"
-      ? " — painted on the map when this driver is the primary hold-back."
+      ? driver.source
       : driver.status === "partial"
-        ? " — paints when a flag hits the patch; also available as a toggleable overlay."
-        : " — listed as a reason path, not painted as its own colour on this public pack yet.";
+        ? `Partial. ${driver.source}`
+        : `Not assessed. ${driver.source}`;
 
   return (
     <Popover
@@ -19,10 +19,12 @@ export function DriverInfo({ driver }: { driver: CautionDriver }) {
       bodyContent={
         <div className="pf-v6-u-font-size-sm">
           <p>{driver.holdsBack}</p>
-          <p className="pf-v6-u-mt-sm">
-            Status: <strong>{status}</strong>
-            {paintNote}
-          </p>
+          <p className="pf-v6-u-mt-sm">{statusLine}</p>
+          {status ? (
+            <p className="pf-v6-u-mt-sm">
+              Status: <strong>{status}</strong>
+            </p>
+          ) : null}
         </div>
       }
       position="right"

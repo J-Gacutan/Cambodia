@@ -1,48 +1,44 @@
 import type { LayerSpecification } from "maplibre-gl";
 import { DRIVER_BY_ID } from "../lib/cautionDrivers";
-import { FLAGS, SUITABILITY } from "../theme/colours";
+import { FLAGS, KEY, SUITABILITY } from "../theme/colours";
 
 type FillPaint = NonNullable<Extract<LayerSpecification, { type: "fill" }>["paint"]>;
 type LinePaint = NonNullable<Extract<LayerSpecification, { type: "line" }>["paint"]>;
 type CirclePaint = NonNullable<Extract<LayerSpecification, { type: "circle" }>["paint"]>;
 
-function driverColorExpr(fallback: string): FillPaint["fill-color"] {
+/**
+ * Fill from class_id + elevation_fail (module 11). Do not read primary_driver —
+ * the open pack does not write it. Order: tidal → converted → elev-fail class 8 → GO.
+ */
+function classColorExpr(): FillPaint["fill-color"] {
   return [
     "case",
+    ["==", ["get", "class_id"], 4],
+    DRIVER_BY_ID.tidal.color,
+    ["==", ["get", "class_id"], 5],
+    DRIVER_BY_ID.converted.color,
     [
-      "in",
-      ["get", "primary_driver"],
-      ["literal", ["tidal", "elevation", "converted", "tenure", "verra"]]
+      "all",
+      ["==", ["get", "class_id"], 8],
+      ["==", ["get", "elevation_fail"], true]
     ],
-    [
-      "match",
-      ["get", "primary_driver"],
-      "tidal",
-      DRIVER_BY_ID.tidal.color,
-      "elevation",
-      DRIVER_BY_ID.elevation.color,
-      "converted",
-      DRIVER_BY_ID.converted.color,
-      "tenure",
-      DRIVER_BY_ID.tenure.color,
-      "verra",
-      DRIVER_BY_ID.verra.color,
-      fallback
-    ],
+    DRIVER_BY_ID.elevation.color,
+    ["==", ["get", "class_id"], 8],
+    SUITABILITY.go,
     ["==", ["get", "suitability"], "go"],
     SUITABILITY.go,
-    fallback
+    KEY.notAssessed
   ];
 }
 
-/** Prefer hold-back driver colour when set; else GO / generic CAUTION. */
+/** Prefer named class / elevation colours; never fall back to tidal gold for unknown CAUTION. */
 export const GO_CAUTION_FILL: FillPaint = {
-  "fill-color": driverColorExpr(SUITABILITY.caution),
+  "fill-color": classColorExpr(),
   "fill-opacity": 0.45
 };
 
 export const GO_CAUTION_LINE: LinePaint = {
-  "line-color": driverColorExpr(SUITABILITY.caution) as LinePaint["line-color"],
+  "line-color": classColorExpr() as LinePaint["line-color"],
   "line-width": 1.5
 };
 
@@ -97,6 +93,6 @@ export const LOSS_CONTEXT_FILL: FillPaint = {
 };
 
 export const LOSS_CONTEXT_LINE: LinePaint = {
-  "line-color": "#5C7A1A",
+  "line-color": "#7D1007",
   "line-width": 1.25
 };

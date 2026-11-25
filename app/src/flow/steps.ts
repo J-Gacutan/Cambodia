@@ -22,28 +22,28 @@ export const FLOW_STEPS: FlowStep[] = [
     id: "frame",
     label: "Frame",
     href: "#home",
-    does: "Set the question before you open the map.",
-    cue: "You are shortlisting sites that look worth a field visit — not approving a project or scoring carbon.",
+    does: "Name what you are asking before you open the map.",
+    cue: "You are looking for sites that look worth a field visit — not approving a project or scoring carbon.",
     detail:
-      "Cambodia’s four coastal provinces are the scene. This screen asks where mangrove restoration looks physically promising so a team can plan a field visit — not whether the ministry would zone it, whether tenure is clear, or whether a buyer would buy a credit."
+      "Across Cambodia’s four coastal provinces, this screen asks where mangrove restoration looks physically promising so a team can plan a field visit. It does not say whether the ministry would zone a site, whether tenure is clear, or whether anyone would buy a carbon credit."
   },
   {
     id: "locate",
     label: "Locate",
     href: "#change",
     does: "See what this console can say about mangroves now — and what it cannot.",
-    cue: "Extent stock (2025) and GMW 1996→2025 loss are on; condition is still a gap; built sample is optional pressure context.",
+    cue: "Living mangrove extent (2025) and loss since 1996 are on; mangrove health is not assessed here; built-up nearby is optional context.",
     detail:
-      "Locate is the current-state step: extent (GMW 2025 stock), condition (health — not assessed), and change (GMW 1996→2025 loss/gain from extent differencing, plus a built-up proxy). Overlays are generalised and fade as you zoom. Satellite shows the shore; Means and Read carry the restoration screen."
+      "Locate shows today’s mangrove picture: where mangroves still stand (2025 extent), where they were lost or gained since 1996, and optional built-up nearby. Mangrove health is not assessed on this pack. Overlays are generalised and fade as you zoom. Satellite shows the shore; Means and Read carry the restoration screen."
   },
   {
     id: "means",
     label: "Means",
     href: "#cases",
-    does: "Learn the legend — GO, CAUTION reasons, protected areas and carbon projects — before the map.",
-    cue: "Walk the colours and examples here, then open Read with the legend already in mind.",
+    does: "Practice GO and tide readings, then open Read ready to shortlist.",
+    cue: "Pick Case A or Case C, learn the colour, then continue to Read: filter → click → inspect → shortlist.",
     detail:
-      "Means explains what each map colour and overlay means, with Case A (open GO) and Case C (tidal CAUTION) as worked examples. Then continue to the restoration map."
+      "Means teaches the palette in the same groups you will use on the map — what you keep (GO), why you pause (named CAUTION reasons), and context overlays. Case A (open GO) and Case C (tide) are worked examples. Then Read is filter reasons, click a site, inspect, and shortlist."
   },
   {
     id: "read",

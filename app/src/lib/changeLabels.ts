@@ -98,3 +98,27 @@ export function parseChangeFeature(
 export function stripRegisterCodes(text: string): string {
   return text.replace(/\bL\d+\b/g, "").replace(/\s{2,}/g, " ").trim();
 }
+
+/** Skim Interpretation for Locate — same tone as the Read panel headline. */
+export function buildLocateHeadline(input: {
+  layerOn: Record<string, boolean>;
+  resolutionPlain?: string | null;
+}): string {
+  const bits: string[] = [];
+  if (input.layerOn["mangrove-extent"]) bits.push("2025 mangrove extent");
+  if (input.layerOn["mangrove-change"]) bits.push("loss since 1996");
+  if (input.layerOn["mangrove-gain"]) bits.push("gain since 1996");
+  if (input.layerOn["urban-change"]) bits.push("built-up nearby");
+  const drawn =
+    bits.length === 0
+      ? "no mangrove overlays"
+      : bits.length === 1
+        ? bits[0]!
+        : bits.length === 2
+          ? `${bits[0]} and ${bits[1]}`
+          : `${bits.slice(0, -1).join(", ")}, and ${bits[bits.length - 1]}`;
+  const scale =
+    input.resolutionPlain?.trim() ||
+    "Overlays are generalised and fade as you zoom so they do not look like patch-level data.";
+  return `Across the four coastal provinces, this Locate view shows ${drawn}. Mangrove health is not assessed on this pack. ${scale}`;
+}

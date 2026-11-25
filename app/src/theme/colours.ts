@@ -11,7 +11,8 @@ export const BASEMAP = {
 /** Suitability paints from delivery schema maplibre_hint. */
 export const SUITABILITY = {
   go: "#0099AA",
-  caution: "#C4A35A",
+  /** Aligns with tidal CAUTION (PatternFly warning). */
+  caution: "#F0AB00",
   stop: "#A33E5A"
 } as const;
 
@@ -22,8 +23,8 @@ export const FLAGS = {
   gapMarker: "#5C6570",
   /** GMW living mangrove stock (matches Locate extent teal). */
   extent: "#1B6B4A",
-  /** GMW 1996→2025 loss (matches Locate loss lime). */
-  loss: "#C6F06A"
+  /** GMW 1996→2025 loss (matches Locate loss — PatternFly danger). */
+  loss: "#C9190B"
 } as const;
 
 export const KEY = {

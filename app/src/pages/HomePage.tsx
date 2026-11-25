@@ -20,11 +20,11 @@ export default function HomePage() {
         </p>
         <Title headingLevel="h1">Cambodia mangrove restoration screen</Title>
         <p className="khm-home-lead">
-          A land-cover screen of four coastal provinces to shortlist sites worth a field visit.{" "}
-          <strong>GO</strong> marks open opportunity; <strong>CAUTION</strong> names a reason to pause
-          (tide, height, converted land; rights and carbon projects via flags). Learn the legend first,
-          then decide from your shortlist on Act. Not zoning, tenure clearance, planting permission, or a
-          carbon outcome.
+          Across Cambodia’s four coastal provinces, this screen helps you shortlist places that look worth
+          a field visit. <strong>GO</strong> means worth a field look; <strong>CAUTION</strong> names a
+          reason to pause — tide, converted land, height, or a rights or carbon-project flag. Learn the
+          legend first, then take a shortlist into Act. It is physical and land-cover only — not zoning,
+          tenure clearance, planting permission, or a carbon score.
         </p>
       </div>
 
@@ -32,8 +32,9 @@ export default function HomePage() {
         Every decision follows the same five steps
       </Title>
       <p className="pf-v6-u-font-size-sm">
-        Same path every time: set the question, skim the coast, learn from an example, judge a site, take
-        the shortlist. Choose a step for the story; the rail above keeps your place.
+        You walk the same path every time: set the question, skim the coast, learn from an example, judge
+        a site, then take a shortlist forward. Open a step below for the story; the rail above keeps your
+        place.
       </p>
       <div className="khm-step-flow">
         <ol className="khm-flow-row">
@@ -76,10 +77,10 @@ export default function HomePage() {
 
       <div className="khm-map-tools pf-v6-u-mt-md">
         <Button variant="primary" component="a" href="#change">
-          Next: Locate (current state)
+          Next: Locate — see the coast today
         </Button>
         <Button variant="link" component="a" href="#map">
-          Skip to map
+          Skip to the map
         </Button>
       </div>
     </PageSection>
