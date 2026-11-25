@@ -20,11 +20,10 @@ export default function HomePage() {
         </p>
         <Title headingLevel="h1">Cambodia mangrove restoration screen</Title>
         <p className="khm-home-lead">
-          Across Cambodia’s four coastal provinces, this screen helps you shortlist places that look worth
-          a field visit. <strong>GO</strong> means worth a field look; <strong>CAUTION</strong> names a
-          reason to pause — tide, converted land, height, or a rights or carbon-project flag. Learn the
-          legend first, then take a shortlist into Act. It is physical and land-cover only — not zoning,
-          tenure clearance, planting permission, or a carbon score.
+          Shortlist places that look worth a field visit across Cambodia’s four coastal provinces.{" "}
+          <strong>GO</strong> means worth a field look; <strong>CAUTION</strong> names a reason to pause.
+          Learn the legend, then take a shortlist into Act.{" "}
+          <a href="#about">About this pack</a> covers scope, layers, and sharing.
         </p>
       </div>
 
@@ -69,6 +68,8 @@ export default function HomePage() {
               <p>{info.detail}</p>
               <p>
                 <a href={info.href}>Continue to {info.label} →</a>
+                {" · "}
+                <a href="#about">About this pack</a>
               </p>
             </>
           )}

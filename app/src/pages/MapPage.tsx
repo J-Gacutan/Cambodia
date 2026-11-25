@@ -1112,7 +1112,7 @@ export default function MapPage() {
           </div>
         ))}
       <p className="pf-v6-u-font-size-sm">
-        <a href="#licence">Licence and evidence</a>
+        <a href="#licence">About this pack — licence and evidence</a>
       </p>
 
       <Title headingLevel="h2" className="pf-v6-u-mt-md pf-v6-u-font-size-md">
@@ -1232,7 +1232,7 @@ export default function MapPage() {
         ))}
       </ul>
       <p className="pf-v6-u-font-size-sm">
-        <a href="#licence">Licence and evidence</a>
+        <a href="#licence">About this pack — licence and evidence</a>
       </p>
     </>
   );

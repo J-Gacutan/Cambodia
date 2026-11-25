@@ -316,10 +316,10 @@ export default function CasesPage() {
         </li>
       </ul>
 
-      <Title headingLevel="h2">Both examples on this pack</Title>
+      <Title headingLevel="h2">Both examples</Title>
       <p className="pf-v6-u-font-size-sm">
-        Cases A and C ship with this open research package. Case B (open water overriding first-pass mangrove)
-        is omitted — say so when you brief.
+        Cases A and C are the worked examples here. What ships in this pack — and what is omitted — is under{" "}
+        <a href="#about">About this pack</a>.
       </p>
       {cases.error && <p role="alert">{cases.error}</p>}
       {cases.absent && <p>This package has no case stories.</p>}
@@ -375,8 +375,8 @@ export default function CasesPage() {
         <Label isCompact color="orange">
           Case B omitted
         </Label>{" "}
-        Open water overriding first-pass mangrove is not in this package. Name the gap when you brief — do not
-        invent a Case B window from this console.
+        See <a href="#about">About this pack</a> for the Case B gap — do not invent that window from this
+        console.
       </p>
 
       <div className="khm-means-exit khm-map-tools pf-v6-u-mt-xl">

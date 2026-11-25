@@ -86,8 +86,8 @@ Workflow: `.github/workflows/pages.yml`. Enablement checklist: [`docs/09-github-
 | `#change` | Locate — current state (GMW 2025 extent + 1996→2025 loss/gain; condition gap) |
 | `#cases` | Means — practice GO/tide readings, grouped legend, then Read |
 | `#map` | Read — GO/CAUTION map, filters, shortlist |
-| `#act` | Act — shortlist report + downloads + reopen QR (`#licence` alias) |
-| `#about` | Product context, layers, sharing / licence posture |
+| `#act` | Act — shortlist report + downloads + reopen QR |
+| `#about` / `#licence` | Product context, Locate + map layers, sharing / licence posture (AU spelling) |
 
 Change stubs (`public/change-stubs/`) are open CC BY samples **outside** the open-cleared contract pin. Rebuild extent: `python3 intermediate/screen-build/build_locate_extent_stub.py`. Rebuild GMW loss/gain: `python3 intermediate/screen-build/build_locate_gmw_change.py`. Urban sample (and demoted Goldberg drivers): `python3 intermediate/screen-build/build_change_stubs.py`.
 

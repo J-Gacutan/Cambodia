@@ -57,9 +57,11 @@ function route(hash: string) {
     case "cases":
       return <CasesPage />;
     case "act":
-    case "licence":
       return <LicencePage />;
+    case "licence":
     case "about":
+      // Masthead Licence opens the methods / pack notes page (AU spelling).
+      // Act is only `#act` — `#licence` is no longer an Act alias.
       return <AboutPage />;
     case "home":
     default:
@@ -75,7 +77,8 @@ export default function App() {
   const version = manifest.data?.version ?? BUNDLE_VERSION;
   const publicReady = manifest.data?.public_ready === true;
   const currentStep = stepFromHash(hash);
-  const onAbout = hashPath(hash) === "about";
+  const path = hashPath(hash);
+  const onAbout = path === "about" || path === "licence";
 
   useEffect(() => {
     document.title = publicReady
@@ -209,7 +212,7 @@ export default function App() {
             className="khm-rail-section"
             aria-label="Decision flow"
           >
-            <StepRail current={currentStep} aboutActive={onAbout} onSelect={goStep} />
+            <StepRail current={currentStep} onSelect={goStep} />
           </PageSection>
           <Suspense
             fallback={

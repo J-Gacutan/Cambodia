@@ -26,7 +26,7 @@ export type BuildActReportUrlInput = {
   /** Prefer `window.location.origin + pathname` when in-browser. */
   pageBase?: string;
   bundleVersion: string;
-  /** Hash route for Act (default `#licence`). */
+  /** Hash route for Act (default `#act`). */
   hash?: string;
   patchCount?: number;
 };

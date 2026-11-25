@@ -139,7 +139,7 @@ export default function LicencePage() {
         <p>
           Sites you kept on the map arrive here. Review why each one is held back (if at all), download a
           short report, then plan the next visit. This step does not approve a project or clear land rights —
-          see <a href="#about">About</a> for how the screen works and what you may share.
+          see <a href="#about">About this pack</a> for how the screen works and what you may share.
         </p>
         <IllustrativeBadge publicReady={publicReady} />
       </PageSection>
@@ -348,7 +348,7 @@ export default function LicencePage() {
           </li>
           <li>
             <strong>Share carefully</strong> — this is a research screen. Read{" "}
-            <a href="#about">About</a> before redistributing maps or project outlines.
+            <a href="#licence">About this pack</a> (licence) before redistributing maps or project outlines.
           </li>
         </ol>
       </PageSection>

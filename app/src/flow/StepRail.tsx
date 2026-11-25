@@ -4,15 +4,13 @@ import { FLOW_STEPS, hrefForStep, nextStep, prevStep, stepIndex, stepMeta, type 
 /**
  * Progressive decision rail.
  * Shows current / next / done — not a flat equal-weight tab strip.
- * About + Back/Next sit in this same row (not detached lines).
+ * Back/Next sit in this same row; About lives only in the masthead.
  */
 export function StepRail({
   current,
-  aboutActive = false,
   onSelect
 }: {
   current: StepId | null;
-  aboutActive?: boolean;
   onSelect?: (step: StepId) => void;
 }) {
   const currentIndex = current ? stepIndex(current) : -1;
@@ -66,8 +64,8 @@ export function StepRail({
             );
           })}
         </ol>
-        <div className="khm-rail-actions">
-          {current && (
+        {current && (
+          <div className="khm-rail-actions">
             <div className="khm-step-nav khm-step-nav-inline" role="navigation" aria-label="Step navigation">
               {back && (
                 <Button variant="secondary" size="sm" component="a" href={hrefForStep(back)}>
@@ -85,15 +83,8 @@ export function StepRail({
                 </Button>
               )}
             </div>
-          )}
-          <a
-            href="#about"
-            className="khm-rail-about"
-            aria-current={aboutActive ? "page" : undefined}
-          >
-            About
-          </a>
-        </div>
+          </div>
+        )}
       </div>
       {current && (
         <p className="khm-step-cue" aria-live="polite">
@@ -101,12 +92,6 @@ export function StepRail({
             {stepIndex(current) + 1}. {FLOW_STEPS[stepIndex(current)]!.label}:
           </strong>{" "}
           {FLOW_STEPS[stepIndex(current)]!.cue}
-        </p>
-      )}
-      {aboutActive && !current && (
-        <p className="khm-step-cue" aria-live="polite">
-          <strong>About:</strong> What this screen is, how layers work, and what you may share — beside the
-          five steps.
         </p>
       )}
     </nav>
