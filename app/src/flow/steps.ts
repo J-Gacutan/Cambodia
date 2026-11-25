@@ -22,19 +22,19 @@ export const FLOW_STEPS: FlowStep[] = [
     id: "frame",
     label: "Frame",
     href: "#home",
-    does: "Set the question before you open the map.",
-    cue: "You are shortlisting sites that look worth a field visit — not approving a project or scoring carbon.",
+    does: "Name what you are asking before you open the map.",
+    cue: "You are looking for sites that look worth a field visit — not approving a project or scoring carbon.",
     detail:
-      "Cambodia’s four coastal provinces are the scene. This screen asks where mangrove restoration looks physically promising so a team can plan a field visit — not whether the ministry would zone it, whether tenure is clear, or whether a buyer would buy a credit."
+      "Across Cambodia’s four coastal provinces, this screen asks where mangrove restoration looks physically promising so a team can plan a field visit. It does not say whether the ministry would zone a site, whether tenure is clear, or whether anyone would buy a carbon credit."
   },
   {
     id: "locate",
     label: "Locate",
     href: "#change",
     does: "See what this console can say about mangroves now — and what it cannot.",
-    cue: "Extent stock (2025) and GMW 1996→2025 loss are on; condition is still a gap; built sample is optional pressure context.",
+    cue: "Living mangrove extent (2025) and loss since 1996 are on; mangrove health is not assessed here; built-up nearby is optional context.",
     detail:
-      "Locate is the current-state step: extent (GMW 2025 stock), condition (health — not assessed), and change (GMW 1996→2025 loss/gain from extent differencing, plus a built-up proxy). Overlays are generalised and fade as you zoom. Satellite shows the shore; Means and Read carry the restoration screen."
+      "Locate shows today’s mangrove picture: where mangroves still stand (2025 extent), where they were lost or gained since 1996, and optional built-up nearby. Mangrove health is not assessed on this pack. Overlays are generalised and fade as you zoom. Satellite shows the shore; Means and Read carry the restoration screen."
   },
   {
     id: "means",

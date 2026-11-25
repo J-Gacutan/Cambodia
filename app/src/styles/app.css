@@ -126,6 +126,7 @@
   inset-block-start: 5.5rem;
 }
 .khm-change-meta {
+  flex: 0 0 auto;
   padding: 0.75rem 1rem 1rem;
   max-width: 52rem;
 }
@@ -594,32 +595,8 @@
   flex-direction: column;
   min-height: 0;
 }
-.khm-change-head {
-  flex: 0 0 auto;
-}
-.khm-change-workspace {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(14rem, 18rem);
-  align-items: stretch;
-  min-height: 0;
-  flex: 0 0 auto;
-}
-.khm-change-map {
-  height: calc(100dvh - 14.5rem);
-  max-height: calc(100dvh - 14.5rem);
-  min-height: 16rem;
-}
-.khm-change-frame .khm-map-key {
-  inset-block-start: 5.5rem;
-}
-@media (max-width: 47.9375rem) {
-  .khm-change-workspace {
-    grid-template-columns: 1fr;
-  }
-  .khm-change-map {
-    height: min(55dvh, 28rem);
-    max-height: none;
-  }
+.khm-change-section .khm-map-workspace {
+  flex: 1 1 auto;
 }
 .khm-rail-about:hover,
 .khm-rail-about:focus-visible {

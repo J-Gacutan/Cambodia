@@ -204,15 +204,13 @@ export default function App() {
           skipToContent={<SkipToContent href="#main-content">Skip to content</SkipToContent>}
           mainContainerId="main-content"
         >
-          {currentStep !== "read" && (
-            <PageSection
-              padding={{ default: "noPadding" }}
-              className="khm-rail-section"
-              aria-label="Decision flow"
-            >
-              <StepRail current={currentStep} aboutActive={onAbout} onSelect={goStep} />
-            </PageSection>
-          )}
+          <PageSection
+            padding={{ default: "noPadding" }}
+            className="khm-rail-section"
+            aria-label="Decision flow"
+          >
+            <StepRail current={currentStep} aboutActive={onAbout} onSelect={goStep} />
+          </PageSection>
           <Suspense
             fallback={
               <PageSection>

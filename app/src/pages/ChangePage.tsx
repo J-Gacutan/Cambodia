@@ -1,18 +1,25 @@
 import {
   Button,
-  HelperText,
-  HelperTextItem,
+  Checkbox,
+  Drawer,
+  DrawerActions,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerContentBody,
+  DrawerHead,
+  DrawerPanelBody,
+  DrawerPanelContent,
   Label,
   List,
   ListItem,
-  PageSection,
   Title
 } from "@patternfly/react-core";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CAMBODIA_COAST_BOUNDS } from "../lib/bundle";
 import {
+  buildLocateHeadline,
   changeLayerShort,
   changeLayerTitle,
   parseChangeFeature,
@@ -52,7 +59,6 @@ import {
   URBAN_CHANGE_FILL,
   URBAN_CHANGE_LINE
 } from "../map/changeTheme";
-import { LayerToggleControl } from "../map/LayerToggleControl";
 
 /**
  * Locate — current mangrove state for a non-technical reader.
@@ -63,11 +69,14 @@ export default function ChangePage() {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map>();
   const basemapControlRef = useRef<BasemapControl | null>(null);
-  const layerControlRef = useRef<LayerToggleControl | null>(null);
+  const headlineRef = useRef<HTMLParagraphElement>(null);
   const indexRef = useRef<ChangeIndex | null>(null);
   const [basemapChoice, setBasemapChoice] = useState<BasemapChoice>("satellite");
   const [kind, setKind] = useState<BasemapKind | null>(null);
   const [ready, setReady] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(
+    () => !window.matchMedia("(max-width: 47.9375rem)").matches
+  );
   const [index, setIndex] = useState<ChangeIndex | null>(null);
   const [indexError, setIndexError] = useState<string | null>(null);
   const [inspect, setInspect] = useState<ChangeInspect | null>(null);
@@ -147,7 +156,6 @@ export default function ChangePage() {
       mapRef.current?.remove();
       mapRef.current = undefined;
       basemapControlRef.current = null;
-      layerControlRef.current = null;
       setReady(false);
     };
   }, []);
@@ -161,25 +169,6 @@ export default function ChangePage() {
     setKind(applyBasemapChoice(map, basemapChoice));
     collapseAttribution(map);
   }, [basemapChoice, ready]);
-
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map || !index || layerControlRef.current) return;
-    const options = index.layers.map((layer) => ({
-      id: layer.id,
-      label: changeLayerShort(layer.id),
-      stub: layer.stub
-    }));
-    const ctrl = new LayerToggleControl("Locate layers", options, layerOn, (id, on) => {
-      setLayerOn((prev) => ({ ...prev, [id]: on }));
-    });
-    layerControlRef.current = ctrl;
-    map.addControl(ctrl, "top-left");
-  }, [index, ready]); // eslint-disable-line react-hooks/exhaustive-deps -- attach once
-
-  useEffect(() => {
-    layerControlRef.current?.setState(layerOn);
-  }, [layerOn]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -217,6 +206,10 @@ export default function ChangePage() {
           event.lngLat.lat
         )
       );
+      setPanelOpen(true);
+      window.requestAnimationFrame(() => {
+        headlineRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
     };
 
     Promise.all(
@@ -302,191 +295,243 @@ export default function ChangePage() {
     }
   }, [layerOn, index, ready]);
 
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!ready || !map) return;
+    const id = window.setTimeout(() => map.resize(), 50);
+    return () => window.clearTimeout(id);
+  }, [panelOpen, ready]);
+
   const stateGaps = index?.state_gaps ?? [];
+  const headline = useMemo(
+    () =>
+      buildLocateHeadline({
+        layerOn,
+        resolutionPlain: index?.resolution_plain ?? null
+      }),
+    [layerOn, index?.resolution_plain]
+  );
 
-  return (
-    <PageSection isFilled padding={{ default: "noPadding" }} className="khm-map-section khm-change-section">
-      <div className="khm-map-head khm-change-head">
-        <Title headingLevel="h1">Locate — current state of the coast</Title>
-        <HelperText>
-          <HelperTextItem>
-            Skim what this console can say about mangroves <em>now</em>: living extent stock (2025), GMW
-            loss since 1996, optional gain, and a built-up proxy. Condition scores are not on this map —
-            named below. Prefer Satellite; overlays fade as you zoom so generalised outlines do not look
-            like patch-level data.
-          </HelperTextItem>
-        </HelperText>
-      </div>
+  const layers = index?.layers ?? [];
 
-      <div className="khm-change-primer" role="region" aria-label="What current state means">
-        <Title headingLevel="h2">What “current state” means here</Title>
-        <List isPlain>
-          <ListItem>
-            <strong>Extent</strong> — where mangroves still stand as a stock layer.{" "}
-            <Label isCompact color="blue">
-              On Locate
-            </Label>{" "}
-            GMW 2025 mangrove extent (coastal clip). Toggle off to compare Satellite alone; Read still
-            shortlists open/accreted restoration patches, not this stock layer.
-          </ListItem>
-          <ListItem>
-            <strong>Condition</strong> — health, degradation, or canopy quality.{" "}
-            <Label isCompact color="orange">
-              Not assessed
-            </Label>{" "}
-            No condition score ships on this console.
-          </ListItem>
-          <ListItem>
-            <strong>Change</strong> — where mangroves were lost (or gained) since 1996, and where built land
-            sits nearby.{" "}
-            <Label isCompact color="blue">
-              GMW differencing
-            </Label>{" "}
-            Loss = GMW extent in 1996 minus 2025; gain is the reverse (default off). Built-up remains a
-            coarse proxy — not an annual time slider.
-          </ListItem>
-        </List>
-        {(index?.resolution_plain || stateGaps.length > 0) && (
-          <p className="khm-change-resolution pf-v6-u-font-size-sm">
-            <strong>Resolution.</strong>{" "}
-            {index?.resolution_plain ??
-              "These polygons are generalised (~100–300 m). They are coarser than the Read screen’s 10 m class map and will look blocky if you zoom past their scale — so they fade on purpose."}
-          </p>
-        )}
-      </div>
+  const panelInner = (
+    <>
+      <p ref={headlineRef} className="khm-panel-headline">
+        {headline}
+      </p>
 
-      <div className="khm-change-workspace">
-        <div className="khm-map-frame khm-change-frame">
-          <div
-            ref={container}
-            className="khm-map khm-change-map"
-            role="region"
-            aria-label="Cambodia mangrove locate map"
-          />
-          <div className="khm-map-key" aria-hidden>
-            <span className="khm-key-row">
-              <span className="khm-key-swatch" style={{ background: MANGROVE_EXTENT_FILL }} />
-              Mangrove extent 2025
-            </span>
-            <span className="khm-key-row">
-              <span className="khm-key-swatch" style={{ background: MANGROVE_CHANGE_FILL }} />
-              Mangrove loss 1996–2025
-            </span>
-            <span className="khm-key-row">
-              <span className="khm-key-swatch" style={{ background: MANGROVE_GAIN_FILL }} />
-              Mangrove gain 1996–2025
-            </span>
-            <span className="khm-key-row">
-              <span className="khm-key-swatch" style={{ background: URBAN_CHANGE_FILL }} />
-              Built-up nearby (sample)
-            </span>
-            <span className="khm-key-note">~100 m GMW · fades past ~z11.5</span>
-          </div>
-          {zoomPastScale && (
-            <div className="khm-change-zoom-note" role="status">
-              Overlays fade here on purpose — they are generalised samples (~100–300 m), not patch outlines.
-              Keep Satellite to read the coast; judge restoration patches on{" "}
-              <a href="#map">Read</a> after <a href="#cases">Means</a>.
-            </div>
-          )}
-          {basemapChoice !== "satellite" && (
-            <div className="khm-change-basemap-hint" role="note">
-              Satellite pairs better with these coarse samples. Streets names do not add mangrove detail.
-              <Button
-                variant="link"
-                isInline
-                className="pf-v6-u-ml-sm"
-                onClick={() => setBasemapChoice("satellite")}
-              >
-                Switch to Satellite
-              </Button>
-            </div>
-          )}
-        </div>
-        <aside className="khm-inspect-panel" aria-label="Locate click inspect">
-          <Title headingLevel="h2">Click inspect</Title>
-          {!inspect && (
-            <p className="pf-v6-u-font-size-sm">
-              Click extent, loss, gain, or built-up polygons for a plain reading. Extent is 2025 living
-              stock; loss/gain are GMW 1996→2025 differencing; built is pressure context — none is a
-              condition score.
-            </p>
-          )}
-          {inspect && (
-            <div className="khm-inspect">
-              <p>
-                <strong>{inspect.layerTitle}</strong>
-              </p>
-              <p className="pf-v6-u-font-size-sm">{inspect.classPlain}</p>
-              <dl className="khm-facts">
-                <div>
-                  <dt>Reading</dt>
-                  <dd>{inspect.classPlain}</dd>
-                </div>
-                <div>
-                  <dt>Approx. area</dt>
-                  <dd>{inspect.areaHa != null ? `${inspect.areaHa.toFixed(1)} ha` : "—"}</dd>
-                </div>
-                <div>
-                  <dt>Scale</dt>
-                  <dd>
-                    {inspect.resolutionPlain ??
-                      "Generalised sample — coarser than the Read class map."}
-                  </dd>
-                </div>
-                <div>
-                  <dt>Feature</dt>
-                  <dd>{inspect.id}</dd>
-                </div>
-              </dl>
-              {inspect.layerId === "mangrove-extent" && (
-                <p className="pf-v6-u-font-size-sm">
-                  Living mangrove stock from Global Mangrove Watch 2025 (open CC BY coastal clip). This is
-                  extent only — not health, canopy, or degradation, and not a restoration shortlist.
-                </p>
-              )}
-              {inspect.layerId === "mangrove-change" && (
-                <p className="pf-v6-u-font-size-sm">
-                  Mangrove present in Global Mangrove Watch 1996 and absent in 2025 (extent differencing, CC
-                  BY coastal clip). Not a driver attribution and not today’s living stock — toggle Extent
-                  2025 for that.
-                </p>
-              )}
-              {inspect.layerId === "mangrove-gain" && (
-                <p className="pf-v6-u-font-size-sm">
-                  Mangrove absent in Global Mangrove Watch 1996 and present in 2025. Includes recovery and
-                  mapping refinement — treat as context, not a restoration score.
-                </p>
-              )}
-              {inspect.layerId === "urban-change" && (
-                <p className="pf-v6-u-font-size-sm">
-                  Built-up / urban proxy from an open coastal sample — nearby pressure, not a multi-year
-                  expansion series or a condition score.
-                </p>
-              )}
-              <Button variant="link" isInline onClick={() => setInspect(null)}>
-                Clear selection
-              </Button>
-            </div>
-          )}
-          <div className="khm-change-next pf-v6-u-mt-md">
-            <Button variant="primary" component="a" href="#cases">
-              Next: Means (legend + cases)
-            </Button>
-          </div>
-        </aside>
-      </div>
+      <Title headingLevel="h2" className="pf-v6-u-mt-md pf-v6-u-font-size-md">
+        What this view covers
+      </Title>
+      <ul className="khm-plain-list pf-v6-u-font-size-sm">
+        <li>
+          <strong>Extent</strong> — where mangroves still stand in 2025. Toggle off to compare Satellite
+          alone.
+        </li>
+        <li>
+          <strong>Condition</strong> — mangrove health.{" "}
+          <Label isCompact color="orange">
+            Not assessed
+          </Label>
+        </li>
+        <li>
+          <strong>Change</strong> — loss or gain since 1996, plus optional built-up nearby as pressure
+          context.
+        </li>
+      </ul>
+
+      <Title headingLevel="h2" className="pf-v6-u-mt-md pf-v6-u-font-size-md">
+        Layers
+      </Title>
       {indexError && (
-        <p className="khm-basemap-note" role="alert">
+        <p className="pf-v6-u-font-size-sm" role="alert">
           Locate samples failed to load: {indexError}
         </p>
       )}
+      {layers.map((layer) => (
+        <div key={layer.id} className="khm-driver-toggle">
+          <Checkbox
+            id={`locate-${layer.id}`}
+            isChecked={layerOn[layer.id] === true}
+            isDisabled={layer.stub}
+            label={
+              <span className="khm-driver-label">
+                {changeLayerShort(layer.id)}
+                {layer.stub ? (
+                  <Label isCompact color="orange">
+                    Coming soon
+                  </Label>
+                ) : null}
+              </span>
+            }
+            onChange={(_e, on) => setLayerOn((prev) => ({ ...prev, [layer.id]: on }))}
+          />
+        </div>
+      ))}
+      {!index && !indexError && <p className="pf-v6-u-font-size-sm">Loading layers…</p>}
+
+      {inspect ? (
+        <div className="khm-inspect khm-inspect-in-panel">
+          <Title headingLevel="h2" className="pf-v6-u-font-size-md">
+            Selected feature
+          </Title>
+          <p className="khm-panel-headline khm-panel-headline-sm">
+            {inspect.layerTitle}. {inspect.classPlain}
+            {inspect.areaHa != null ? ` · ${inspect.areaHa.toFixed(1)} ha` : ""}.
+          </p>
+          <dl className="khm-facts">
+            <div>
+              <dt>Reading</dt>
+              <dd>{inspect.classPlain}</dd>
+            </div>
+            <div>
+              <dt>Approx. area</dt>
+              <dd>{inspect.areaHa != null ? `${inspect.areaHa.toFixed(1)} ha` : "—"}</dd>
+            </div>
+            <div>
+              <dt>Scale</dt>
+              <dd>
+                {inspect.resolutionPlain ?? "Generalised sample — coarser than the Read class map."}
+              </dd>
+            </div>
+            <div>
+              <dt>Feature</dt>
+              <dd>{inspect.id}</dd>
+            </div>
+          </dl>
+          {inspect.layerId === "mangrove-extent" && (
+            <p className="pf-v6-u-font-size-sm">
+              Living mangrove from Global Mangrove Watch 2025. Extent only — not health, and not a
+              restoration shortlist.
+            </p>
+          )}
+          {inspect.layerId === "mangrove-change" && (
+            <p className="pf-v6-u-font-size-sm">
+              Mangrove present in 1996 and absent in 2025. Not a driver attribution and not today’s living
+              stock — turn on Extent 2025 for that.
+            </p>
+          )}
+          {inspect.layerId === "mangrove-gain" && (
+            <p className="pf-v6-u-font-size-sm">
+              Mangrove absent in 1996 and present in 2025. Includes recovery and mapping refinement —
+              treat as context, not a restoration score.
+            </p>
+          )}
+          {inspect.layerId === "urban-change" && (
+            <p className="pf-v6-u-font-size-sm">
+              Built-up nearby from an open coastal sample — pressure context, not a multi-year expansion
+              series or a health score.
+            </p>
+          )}
+          <div className="khm-map-tools">
+            <Button variant="link" isInline onClick={() => setInspect(null)}>
+              Clear selection
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <p className="pf-v6-u-font-size-sm pf-v6-u-mt-md">
+          Click extent, loss, gain, or built-up on the map for a plain reading. None of these layers is a
+          mangrove-health score.
+        </p>
+      )}
+
+      <div className="khm-change-next pf-v6-u-mt-md">
+        <Button variant="primary" component="a" href="#cases">
+          Next: Means — learn the legend
+        </Button>
+      </div>
+    </>
+  );
+
+  return (
+    <section className="khm-map-section khm-map-section-workspace khm-change-section">
+      {!panelOpen && (
+        <div className="khm-map-tools khm-map-layers-open">
+          <Button variant="secondary" onClick={() => setPanelOpen(true)}>
+            Layers
+          </Button>
+        </div>
+      )}
+      <div className="khm-map-workspace khm-map-workspace-solo">
+        <Drawer isInline isExpanded={panelOpen} position="start" className="khm-map-drawer">
+          <DrawerContent
+            panelContent={
+              <DrawerPanelContent
+                isResizable
+                defaultSize="20rem"
+                minSize="16rem"
+                resizeAriaLabel="Resize layers panel"
+              >
+                <DrawerHead>
+                  <span id="locate-panel-title">Layers</span>
+                  <DrawerActions>
+                    <DrawerCloseButton onClick={() => setPanelOpen(false)} />
+                  </DrawerActions>
+                </DrawerHead>
+                <DrawerPanelBody className="khm-layer-panel">{panelInner}</DrawerPanelBody>
+              </DrawerPanelContent>
+            }
+          >
+            <DrawerContentBody>
+              <div className="khm-map-frame khm-map-frame-fill">
+                <div
+                  ref={container}
+                  className="khm-map"
+                  role="region"
+                  aria-label="Cambodia mangrove locate map"
+                />
+                <div className="khm-map-key" aria-hidden>
+                  <span className="khm-key-row">
+                    <span className="khm-key-swatch" style={{ background: MANGROVE_EXTENT_FILL }} />
+                    Mangrove extent 2025
+                  </span>
+                  <span className="khm-key-row">
+                    <span className="khm-key-swatch" style={{ background: MANGROVE_CHANGE_FILL }} />
+                    Mangrove loss 1996–2025
+                  </span>
+                  <span className="khm-key-row">
+                    <span className="khm-key-swatch" style={{ background: MANGROVE_GAIN_FILL }} />
+                    Mangrove gain 1996–2025
+                  </span>
+                  <span className="khm-key-row">
+                    <span className="khm-key-swatch" style={{ background: URBAN_CHANGE_FILL }} />
+                    Built-up nearby (sample)
+                  </span>
+                  <span className="khm-key-note">~100 m · fades past ~z11.5</span>
+                </div>
+                {zoomPastScale && (
+                  <div className="khm-change-zoom-note" role="status">
+                    Overlays fade here on purpose — they are generalised samples (~100–300 m), not patch
+                    outlines. Keep Satellite to read the coast; judge restoration patches on{" "}
+                    <a href="#map">Read</a> after <a href="#cases">Means</a>.
+                  </div>
+                )}
+                {basemapChoice !== "satellite" && (
+                  <div className="khm-change-basemap-hint" role="note">
+                    Satellite pairs better with these coarse samples. Streets names do not add mangrove
+                    detail.
+                    <Button
+                      variant="link"
+                      isInline
+                      className="pf-v6-u-ml-sm"
+                      onClick={() => setBasemapChoice("satellite")}
+                    >
+                      Switch to Satellite
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </DrawerContentBody>
+          </DrawerContent>
+        </Drawer>
+      </div>
+
       <div className="khm-change-meta">
         <p className="pf-v6-u-font-size-sm">
-          Locate answers “what is going on with mangroves along this coast?” with 2025 extent stock plus
-          GMW 1996→2025 loss/gain. A full annual time slider, multi-year urban expansion, and any condition
-          product remain documented gaps — sensitive pond maps stay offline. Source notes live under{" "}
-          <a href="#about">About</a>.
+          Locate answers what is happening with mangroves along this coast today — 2025 extent plus loss
+          or gain since 1996. A full year-by-year slider, multi-year urban expansion, and any health
+          product remain gaps. Source notes live under <a href="#about">About</a>.
         </p>
         {index && (
           <>
@@ -518,10 +563,6 @@ export default function ChangePage() {
                       · ~{layer.display_resolution_m} m display scale
                     </span>
                   ) : null}
-                  <span className="pf-v6-u-font-size-sm">
-                    {" "}
-                    · source {layer.register_id}
-                  </span>
                   {layer.resolution_plain || layer.note ? (
                     <div className="pf-v6-u-font-size-sm">
                       {stripRegisterCodes(layer.resolution_plain || layer.note || "")}
@@ -533,7 +574,7 @@ export default function ChangePage() {
             {stateGaps.length > 0 && (
               <>
                 <Title headingLevel="h2" className="pf-v6-u-mt-md">
-                  State gaps (plain)
+                  Gaps on this view
                 </Title>
                 <List>
                   {stateGaps.map((gap) => (
@@ -556,7 +597,11 @@ export default function ChangePage() {
                 </Title>
                 <List>
                   {index.data_needs.map((need) => (
-                    <ListItem key={need}>{stripRegisterCodes(need).replace(/\s*\([^)]*\)/g, "").trim()}</ListItem>
+                    <ListItem key={need}>
+                      {stripRegisterCodes(need)
+                        .replace(/\s*\([^)]*\)/g, "")
+                        .trim()}
+                    </ListItem>
                   ))}
                 </List>
               </>
@@ -568,13 +613,13 @@ export default function ChangePage() {
           </>
         )}
         <p className="khm-basemap-note">
-          Streets basemap names are from OpenStreetMap. Satellite tiles © Esri. GMW extent, GMW
-          loss/gain (1996–2025), and built-up samples are CC BY 4.0.
+          Streets basemap names are from OpenStreetMap. Satellite tiles © Esri. Extent, loss/gain
+          (1996–2025), and built-up samples are CC BY 4.0.
         </p>
         {kind === "offline" && (
           <p className="khm-basemap-note">Reference basemap unreachable; showing plain sea.</p>
         )}
       </div>
-    </PageSection>
+    </section>
   );
 }
