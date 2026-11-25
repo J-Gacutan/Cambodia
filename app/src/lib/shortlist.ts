@@ -14,7 +14,9 @@ export type ShortlistItem = {
   province: string | null;
   place?: string;
   note?: string;
+  /** Polygon centroid longitude (vertex mean of rings). */
   lon: number;
+  /** Polygon centroid latitude (vertex mean of rings). */
   lat: number;
   permit_gate: boolean | null;
   permit_instrument?: string;
@@ -32,7 +34,8 @@ export type ShortlistItem = {
 
 const STORAGE_KEY = "khm-shortlist-v1";
 
-function centroid(geometry: ShortlistGeometry): [number, number] {
+/** Vertex-mean centroid of polygon rings → `[lon, lat]`. */
+export function polygonCentroid(geometry: ShortlistGeometry): [number, number] {
   const rings =
     geometry.type === "Polygon" ? geometry.coordinates : geometry.coordinates.flatMap((poly) => poly);
   let x = 0;
@@ -55,7 +58,7 @@ function tri(v: unknown): boolean | null {
 }
 
 export function featureToShortlist(props: FeatureProps, geometry: ShortlistGeometry): ShortlistItem {
-  const [lon, lat] = centroid(geometry);
+  const [lon, lat] = polygonCentroid(geometry);
   return {
     id: props.id,
     class_id: props.class_id,
@@ -125,6 +128,8 @@ export function shortlistToCsv(rows: ShortlistItem[], meta?: ShortlistExportMeta
     "area_ha",
     "province",
     "place",
+    "centroid_lat",
+    "centroid_lon",
     "lon",
     "lat",
     "hold_drivers",
@@ -155,6 +160,7 @@ export function shortlistToCsv(rows: ShortlistItem[], meta?: ShortlistExportMeta
     meta?.bundleVersion ? `# Bundle: ${meta.bundleVersion}` : null,
     meta?.generatedAt ? `# Generated: ${meta.generatedAt}` : null,
     meta?.reportQrUrl ? `# Reopen (report QR URL): ${meta.reportQrUrl}` : null,
+    `# centroid_lat / centroid_lon = polygon centroid (vertex mean); lon/lat kept as aliases.`,
     `# Patches: ${rows.length}.`
   ].filter((line): line is string => Boolean(line));
   const lines = [...preamble, header.join(",")];
@@ -169,6 +175,8 @@ export function shortlistToCsv(rows: ShortlistItem[], meta?: ShortlistExportMeta
         row.area_ha,
         row.province,
         row.place ?? "",
+        row.lat,
+        row.lon,
         row.lon,
         row.lat,
         drivers.join("|"),
@@ -213,6 +221,9 @@ export function shortlistToGeoJson(
           province: row.province,
           place: row.place ?? null,
           note: row.note ?? null,
+          // Polygon centroid (vertex mean) for field navigation.
+          centroid_lat: row.lat,
+          centroid_lon: row.lon,
           lon: row.lon,
           lat: row.lat,
           hold_drivers: drivers,

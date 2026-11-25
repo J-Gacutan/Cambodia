@@ -143,7 +143,7 @@ export function shortlistReportMarkdown(rows: ShortlistItem[], meta: ShortlistRe
     );
     lines.push(`- **Area:** ${row.area_ha.toFixed(2)} ha`);
     if (row.province) lines.push(`- **Province:** ${row.province}`);
-    lines.push(`- **Centre point:** ${row.lon}, ${row.lat}`);
+    lines.push(`- **Centroid (lat, lon):** ${row.lat}, ${row.lon}`);
     lines.push(
       `- **Reasons to pause:** ${drivers.length ? drivers.map((id) => DRIVER_BY_ID[id].short).join(", ") : "none mapped"}`
     );
@@ -202,7 +202,7 @@ export function shortlistReportHtml(rows: ShortlistItem[], meta: ShortlistReport
     <li><strong>Reading:</strong> ${esc(suitabilityLabel(row.suitability))}${meaning ? ` · ${esc(meaning.label)}` : ""}</li>
     <li><strong>Area:</strong> ${row.area_ha.toFixed(2)} ha</li>
     ${row.province ? `<li><strong>Province:</strong> ${esc(row.province)}</li>` : ""}
-    <li><strong>Centre point:</strong> ${row.lon}, ${row.lat}</li>
+    <li><strong>Centroid (lat, lon):</strong> ${row.lat}, ${row.lon}</li>
     <li><strong>Reasons to pause:</strong> ${drivers.length ? esc(drivers.map((id) => DRIVER_BY_ID[id].short).join(", ")) : "none mapped"}</li>
     <li><strong>Protected area:</strong> ${esc(flagLabel(row.permit_gate))}</li>
     <li><strong>Legal stop:</strong> ${esc(flagLabel(row.stop_legal))}${row.stop_legal_status ? ` (${esc(row.stop_legal_status)})` : ""}</li>
