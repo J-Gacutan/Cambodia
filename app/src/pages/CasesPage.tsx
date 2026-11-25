@@ -1,6 +1,11 @@
 import { Button, Label, PageSection, Title } from "@patternfly/react-core";
 import { useMemo, useState } from "react";
-import { CAUTION_DRIVERS, driverStatusLabel, type CautionDriverId } from "../lib/cautionDrivers";
+import {
+  CAUTION_DRIVERS,
+  DRIVER_BY_ID,
+  driverStatusLabel,
+  type CautionDriverId
+} from "../lib/cautionDrivers";
 import { meaningForClass } from "../lib/classMeaning";
 import { loadCases, type CaseStudy } from "../lib/bundle";
 import { useBundle } from "../lib/useBundle";
@@ -62,7 +67,7 @@ const PRACTICE: Record<
   tidal: {
     label: "CAUTION · Tide",
     caseId: "C",
-    color: "#C4A35A",
+    color: DRIVER_BY_ID.tidal.color,
     swatch: "CAUTION · Tide — pause",
     meaning:
       "Tidal flat or mudflat. Held back so you do not plant on the wrong wetness — natural recovery only after a water check.",

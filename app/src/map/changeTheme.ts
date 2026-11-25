@@ -8,15 +8,15 @@ type LinePaint = NonNullable<Extract<LayerSpecification, { type: "line" }>["pain
  * Read’s 10 m class polygons. Fade and hide them before close satellite zoom
  * so blocky outlines do not look like broken fine data.
  */
-/** Living mangrove stock — deep teal, distinct from lime loss samples. */
+/** Living mangrove stock — deep teal, distinct from loss/gain samples. */
 export const MANGROVE_EXTENT_FILL = "#1B6B4A";
 export const MANGROVE_EXTENT_LINE = "#0D3D2A";
-/** Bright lime on Satellite so GMW loss stays findable against dark canopy. */
-export const MANGROVE_CHANGE_FILL = "#C6F06A";
-export const MANGROVE_CHANGE_LINE = "#5C7A1A";
-/** Soft blue-green for optional GMW gain (recovery / mapping refinement). */
-export const MANGROVE_GAIN_FILL = "#7EC8B8";
-export const MANGROVE_GAIN_LINE = "#2F6F62";
+/** PatternFly danger red — high chroma on Satellite; colourblind-safer vs gain blue. */
+export const MANGROVE_CHANGE_FILL = "#C9190B";
+export const MANGROVE_CHANGE_LINE = "#7D1007";
+/** PatternFly info blue — cool recovery signal, not a second green on canopy. */
+export const MANGROVE_GAIN_FILL = "#2B9AF3";
+export const MANGROVE_GAIN_LINE = "#002F5C";
 /** Warm clay — readable on imagery without competing with GO/CAUTION on Read. */
 export const URBAN_CHANGE_FILL = "#E09A5A";
 export const URBAN_CHANGE_LINE = "#8B4513";

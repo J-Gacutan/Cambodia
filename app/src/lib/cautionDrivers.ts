@@ -35,7 +35,8 @@ export const CAUTION_DRIVERS: CautionDriver[] = [
       "Tidal flat or mudflat — do not plant here; natural recovery only after a water check on site.",
     source: "Note 3b class 4. Murray Global Intertidal Change.",
     status: "live",
-    color: "#C4A35A"
+    /** PatternFly warning — amber tide, clear of GO cyan and converted red. */
+    color: "#F0AB00"
   },
   {
     id: "elevation",
@@ -55,7 +56,8 @@ export const CAUTION_DRIVERS: CautionDriver[] = [
       "Former mangrove now in another use (crops or trees outside mangrove) — needs a named check before any restoration claim.",
     source: "Land-cover screen for converted cover on historic mangrove.",
     status: "live",
-    color: "#A67C52"
+    /** PatternFly danger — red land-use hold, not a second gold. */
+    color: "#C9190B"
   },
   {
     id: "tenure",

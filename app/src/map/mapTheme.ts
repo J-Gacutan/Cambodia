@@ -93,6 +93,6 @@ export const LOSS_CONTEXT_FILL: FillPaint = {
 };
 
 export const LOSS_CONTEXT_LINE: LinePaint = {
-  "line-color": "#5C7A1A",
+  "line-color": "#7D1007",
   "line-width": 1.25
 };
