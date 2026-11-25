@@ -44,7 +44,6 @@ import { meaningForClass } from "../lib/classMeaning";
 import { parseEvidenceClass } from "../lib/evidence";
 import { formatVerraIds, isVerraLayer, layerDisplayTitle } from "../lib/layerLabels";
 import {
-  CASE_B_MISSING,
   CLAIM_CEILING,
   CLASS_RULE_V03,
   EMPTY_MAP,
@@ -1189,9 +1188,6 @@ export default function MapPage() {
       {presetSelected && (
         <p className="pf-v6-u-font-size-sm khm-panel-select-help">{presetSelected.description}</p>
       )}
-      <p className="pf-v6-u-font-size-sm khm-means-omitted" role="note">
-        {CASE_B_MISSING}
-      </p>
 
       <Title headingLevel="h2" className="pf-v6-u-mt-md pf-v6-u-font-size-md">
         Shortlist ({shortlist.length})

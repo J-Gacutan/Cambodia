@@ -15,8 +15,6 @@ export const LEGAL_STOP_NOT_ASSESSED =
 /** @deprecated Ponds ship on this pack; kept for older imports. */
 export const PONDS_NOT_IN_PACK =
   "Active ponds are on this pack as a hold-back colour. Check rights before any claim.";
-export const CASE_B_MISSING =
-  "Case B is not in this pack. It would show open water that overrides a first mangrove reading. Say that gap when you brief — do not invent a Case B window from this console.";
 export const EMPTY_SHORTLIST = "No sites kept yet.";
 export const EMPTY_MAP =
   "Nothing matches these filters. Turn a colour back on, or clear a hide.";

@@ -63,7 +63,7 @@
     "Classes included: [4, 5, 7, 8]. Class 7 = active pond CAUTION (\u22650.5 ha). Pond source rasters stay offline.",
     "Vectorised from inputs/screen-layers/L_class_10m/class_step3.tif with MMU 0.5 ha (50 px).",
     "Clipped to L20 coastal four provinces (Cambodia only).",
-    "Cases A and C only (class 8 / 4). Case B omitted (class 2 / pond-shaped).",
+    "Cases A and C only (open land / tide). Case B is not in this pack.",
     "Elevation hold-back: L13 elevation_check_flag_10m joined; 1007 patches elevation_fail=true (GO demoted to CAUTION paint). Converted: class 5 open limb only.",
     "Phase 2 flags: permit_gate from WDPA+Ramsar overlays; project_overlap from staged VCS 1748/5071/5584; stop_legal unavailable. Overlays redistributable=false where marked.",
     "Locate extent stock: GMW 2025 mangrove-extent overlay (CC BY 4.0 coastal clip) added for P2/CI share; condition still missing."

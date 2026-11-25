@@ -2,17 +2,17 @@
   "note": "Pinned exchange for the Cambodia screen console (LKA-style). Paths relative to delivery/open-cleared/<bundle_version>/. Sync verifies every sha256 before copying into public/khm-bundle/. Never invent public_ready — that is khm-i6e.2.",
   "platform_repo": "Cambodia",
   "bundle_version": "v0.3.0",
-  "cambodia_commit": "b5cc12d",
+  "cambodia_commit": "ee14bd6",
   "public_ready": true,
   "licence_gate": "cleared_p2_open_pages",
   "files": [
     {
       "path": "README.md",
-      "sha256": "9624849f0d521be1bc486aaa2ff9aa59a651b1eb7f43db3fcab821846edd0cee"
+      "sha256": "f77cc896d002fe362721ea9f856bdad4c576e8b95c7fe9676ea1ba6072ba414e"
     },
     {
       "path": "cases/cases.json",
-      "sha256": "180d896d657f4393dcacdeb68abe2587b2d84700bfdae53335071811c8da6198"
+      "sha256": "01015e4e00bdf87a8b3634625576744837f159705960f3ba6eeee33b005a9c6f"
     },
     {
       "path": "flags/GAPS.md",
@@ -64,7 +64,7 @@
     },
     {
       "path": "manifest.json",
-      "sha256": "6fb69ed31089c3108e47013458a9dc73c7982c2fa2a6a9e60f8759bebfef2281"
+      "sha256": "05958ebcdcd45c7946815e008b45244ffe86ea0ff41f6f1ec66146f0ea3b61e2"
     },
     {
       "path": "schema/feature-properties.json",

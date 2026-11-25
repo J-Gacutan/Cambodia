@@ -122,8 +122,9 @@ export default function AboutPage() {
           mangrove).
         </li>
         <li>
-          <strong>Active pond</strong> — reads as an active or on-and-off pond. Check who uses it before any
-          claim. About 500 pond patches (~1,350 ha) ship on this pack; source pond maps stay offline.
+          <strong>Active pond</strong> (berry / magenta on the map, not the amber tide colour) — reads as an
+          active or on-and-off pond. Check who uses it before any claim. About 500 pond patches (~1,350 ha)
+          ship on this pack; source pond maps stay offline.
         </li>
         <li>
           <strong>Height above the tide</strong> — optional filter that holds back open land that sits too high.
@@ -134,8 +135,7 @@ export default function AboutPage() {
       <p>
         The map is a land-cover filter. Flags name instruments and overlaps; they do not mean a site is
         approved or refused. Ministry core-zone stops are not on this pack yet — until they are, that check
-        stays unavailable. Case B (open water overriding a first mangrove reading) is omitted from the Means
-        examples — say so when you brief.
+        stays unavailable. Case B is not in this pack (no open-water override example or data).
       </p>
 
       <Title headingLevel="h2">Data on this build</Title>

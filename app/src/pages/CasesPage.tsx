@@ -1,4 +1,4 @@
-import { Button, Label, PageSection, Title } from "@patternfly/react-core";
+import { Button, PageSection, Title } from "@patternfly/react-core";
 import { useMemo, useState } from "react";
 import {
   CAUTION_DRIVERS,
@@ -316,7 +316,7 @@ export default function CasesPage() {
 
       <Title headingLevel="h2">Both examples</Title>
       <p className="pf-v6-u-font-size-sm">
-        Cases A and C are the worked examples here. What ships in this pack — and what is omitted — is under{" "}
+        Cases A and C are the worked examples on this pack. Pack scope is under{" "}
         <a href="#about">About this pack</a>.
       </p>
       {cases.error && <p role="alert">{cases.error}</p>}
@@ -369,14 +369,6 @@ export default function CasesPage() {
           );
         })}
       </div>
-      <p className="khm-means-omitted" role="note">
-        <Label isCompact color="orange">
-          Case B omitted
-        </Label>{" "}
-        See <a href="#about">About this pack</a> for the Case B gap — do not invent that window from this
-        console.
-      </p>
-
       <div className="khm-means-exit khm-map-tools pf-v6-u-mt-xl">
         <Button variant="primary" onClick={() => openOnMap()}>
           Continue to Read — filter, click, shortlist

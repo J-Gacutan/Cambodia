@@ -38,4 +38,4 @@ Research / non-commercial. Pond **source rasters** stay offline; screened class 
 - Classes included: **4, 5, 7, 8** (tide, converted, active pond, open land).
 - Clipped to L20 coastal four provinces (Cambodia only).
 - public_ready=true for public GitHub Pages (non-commercial / research).
-- Cases A and C only (open land / tide). Case B omitted.
+- Cases A and C only (open land / tide). Case B is not in this pack.
