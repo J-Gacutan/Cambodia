@@ -1,6 +1,7 @@
 import type { FeatureProps } from "./bundle";
 import { flagLabel } from "./bundle";
 import { driversForFeature } from "./cautionDrivers";
+import { CLASS_RULE_V03 } from "./panelHeadline";
 
 export type ShortlistGeometry = GeoJSON.Polygon | GeoJSON.MultiPolygon;
 
@@ -148,7 +149,7 @@ export function shortlistToCsv(rows: ShortlistItem[], meta?: ShortlistExportMeta
     `# Cambodia screen — shortlist CSV`,
     meta?.goSentence
       ? `# ${meta.goSentence}`
-      : `# GO means worth a field look. Physical and land-cover only. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.`,
+      : `# GO means worth a field look. Land cover only. Not ministry zoning, land rights, planting permission, or a carbon score.`,
     meta?.classRule ? `# ${meta.classRule}` : `# Classes 4, 5, and 8. Legal STOP not assessed.`,
     meta?.headline ? `# Headline: ${meta.headline}` : null,
     meta?.bundleVersion ? `# Bundle: ${meta.bundleVersion}` : null,
@@ -229,11 +230,11 @@ export function shortlistToGeoJson(
           report_qr_url: meta?.reportQrUrl ?? null,
           go_sentence:
             meta?.goSentence ??
-            "GO means worth a field look. Physical and land-cover only. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome.",
-          class_rule: meta?.classRule ?? "Classes 4, 5, and 8. Legal STOP not assessed.",
+            "GO means worth a field look. Land cover only. Not ministry zoning, land rights, planting permission, or a carbon score.",
+          class_rule: meta?.classRule ?? CLASS_RULE_V03,
           headline: meta?.headline ?? null,
           product_note:
-            "GO means worth a field look. Physical and land-cover only. Not MoE zoning, tenure clearance, planting permission, or a carbon outcome."
+            "GO means worth a field look. Land cover only. Not ministry zoning, land rights, planting permission, or a carbon score."
         },
         geometry: row.geometry
       };

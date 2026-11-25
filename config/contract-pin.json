@@ -1,14 +1,14 @@
 {
   "bundle_version": "v0.3.0",
-  "cambodia_commit": "db72566",
+  "cambodia_commit": "0a1af6d",
   "public_ready": true,
   "licence_gate": "cleared_p2_open_pages",
   "files": {
     "cases/cases.json": "180d896d657f4393dcacdeb68abe2587b2d84700bfdae53335071811c8da6198",
     "flags/coverage.json": "051336d9a2ecfafea417de76f2613d85526a5a36ca13a41dbd5df296356b339d",
-    "flags/GAPS.md": "c9dbba01f7c68b55043f43c5242585bc2ad00b9556bb50025023c05b750e02c0",
-    "layers/go-caution.geojson": "32a7643173fb06204f7ac686b67254ed191b8c62d9f7abf55b5af8f3d248431b",
-    "layers/index.json": "ab7b2fc0d25a2443fdb57205772d2a1075f06078260b025692785937ed1c9a14",
+    "flags/GAPS.md": "80cdfdfa7efafd22edcf3fb936d70e4fd4c4392c7760caffdbffc1338ac9c939",
+    "layers/go-caution.geojson": "60f1b33fb8e894a60ef0900f06535f2620bdcced74a981751695f04ab2838777",
+    "layers/index.json": "462023858f7c54b691fa31c39168d37d55580366c4026f902e81052638d04d27",
     "layers/mangrove-change.geojson": "db43d0d8af8f48ba1333938b72f3da97d0993b1ebeaccb388ff6686dc2b61900",
     "layers/mangrove-extent.geojson": "b687d5db377deef9a283839c5ecfd5c06c44933a56b39041b02a2f89647d0b21",
     "layers/project-overlap-vcs1748.geojson": "6ff5ffef72efca658f5130cdf0566478769aeb6300a13b08a2a8b6b259a2ea92",
@@ -17,7 +17,7 @@
     "layers/ramsar-context.geojson": "6e6b8e0dce5e900222b4c54d34f103af523444ee4dd76919ceb4df33d65765b4",
     "layers/ramsar-gap-centroids.geojson": "1855c0f26a8536d14c003f48bc4d0623e28053810f32f0b5889190ee3f3d3782",
     "layers/wdpa-context.geojson": "7115399854a458de0b05df46907e284268d1cecf3b6dab8037c5299db3edb7a3",
-    "manifest.json": "67a457d10205e8d540425eaa4a42c78061bec188dabd5f027d9e62bcf3ee8122",
+    "manifest.json": "6fb69ed31089c3108e47013458a9dc73c7982c2fa2a6a9e60f8759bebfef2281",
     "README.md": "638464af7fbee922398c2000d4eb28e177752f8a203cdff6a669f2906f6ee036",
     "schema/feature-properties.json": "4cd5dc9858897faabd1a8380bce318928f56afd6361c6624aa8c498e4f569ea0"
   }

@@ -36,7 +36,6 @@ import {
   type MapLayer
 } from "../lib/bundle";
 import {
-  CAUTION_DRIVERS,
   DRIVER_BY_ID,
   driversForFeature,
   type CautionDriverId
@@ -52,7 +51,6 @@ import {
   EMPTY_SHORTLIST,
   GO_ONCE,
   LEGAL_STOP_NOT_ASSESSED,
-  PONDS_NOT_IN_PACK,
   buildPanelHeadline,
   buildPatchHeadline
 } from "../lib/panelHeadline";
@@ -220,44 +218,49 @@ const PRESET_OPTIONS: {
   {
     id: "coast",
     label: "Four provinces",
-    description: "Reset filters and zoom out to all four coastal provinces."
+    description: "Clear filters and zoom out to all four coastal provinces."
   },
   {
     id: "A",
     label: "Case A — open land (GO)",
-    description: "Zoom to the Peam Krasaop example. Shows open former mangrove worth a field look."
+    description: "Zoom to the Peam Krasaop example. Shows open land that was once mangrove — worth a field look."
   },
   {
     id: "C",
     label: "Case C — tide / mudflat",
-    description: "Zoom to the Preah Sihanouk / Kampot example. Shows tidal flats to pause on — do not plant."
+    description: "Zoom to the Preah Sihanouk / Kampot example. Shows mudflats to pause on — do not plant."
   },
   {
     id: "field",
-    label: "Field look, no known flag hit",
+    label: "Field look — open land only",
     description:
-      "Keep your current place. Show only open (GO) patches and hide known permit / project flag hits."
+      "Keep your current place. Show only open (GO) sites and hide known rights or carbon-project flags."
   }
 ];
 
 const NEXT_CHECKS: { check: string; source: string; onPack: string }[] = [
   {
-    check: "Hydrology and natural recruitment on flats",
-    source: "Note 3b class 4. Murray Global Intertidal Change",
-    onPack: "The CAUTION reading for class 4. Not a planting clearance."
+    check: "Water and natural recovery on mudflats",
+    source: "Tide / mudflat colour on this map",
+    onPack: "Shown as CAUTION. Not planting permission."
   },
   {
-    check: "Elevation against highest astronomical tide",
-    source: "L12 DeltaDTM against L13 FES2022",
-    onPack: "Filled. A true flag demotes class 8. Still a screen, not a survey."
+    check: "Height against the usual tide",
+    source: "Height model vs tide model",
+    onPack: "Filled on this pack. A fail turns open land into a hold-back. Still a screen, not a survey."
   },
   {
-    check: "MoE core zone",
-    source: "MoE protected-area core zones",
-    onPack: "Not assessed. Do not infer from an IUCN category."
+    check: "Active ponds and who uses them",
+    source: "Active-pond colour on this map",
+    onPack: "Shown as CAUTION. Check rights before any claim."
   },
-  { check: "Tenure willingness", source: "Not held", onPack: "Not held." },
-  { check: "Carbon outcome", source: "Not held", onPack: "Not held. Do not report tonnes." }
+  {
+    check: "Ministry core zone",
+    source: "Ministry protected-area core zones",
+    onPack: "Not assessed on this pack. Do not guess from an IUCN label."
+  },
+  { check: "Land rights willingness", source: "Not held here", onPack: "Not held on this pack." },
+  { check: "Carbon score", source: "Not held here", onPack: "Not held. Do not report tonnes." }
 ];
 
 export default function MapPage() {
@@ -326,7 +329,15 @@ export default function MapPage() {
   const rowCounts = useMemo(() => {
     const empty = { patches: 0, hectares: 0 };
     if (!screenFc) {
-      return { tidal: empty, converted: empty, open: empty, elevation: empty, permit: empty, verra: empty };
+      return {
+        tidal: empty,
+        converted: empty,
+        pond: empty,
+        open: empty,
+        elevation: empty,
+        permit: empty,
+        verra: empty
+      };
     }
     const province = PLACE_OPTIONS.find((r) => r.id === panel.place)?.province ?? null;
     const tally = (pred: (p: FeatureProps) => boolean) => {
@@ -344,6 +355,7 @@ export default function MapPage() {
     return {
       tidal: tally((p) => p.class_id === 4),
       converted: tally((p) => p.class_id === 5),
+      pond: tally((p) => p.class_id === 7),
       open: tally((p) => p.class_id === 8 && p.elevation_fail !== true),
       elevation: tally((p) => p.class_id === 8 && p.elevation_fail === true),
       permit: tally((p) => p.permit_gate === true),
@@ -960,7 +972,7 @@ export default function MapPage() {
       </div>
 
       <Title headingLevel="h2" className="pf-v6-u-mt-md pf-v6-u-font-size-md">
-        Drawn class
+        Colours on the map
       </Title>
       {layers.error && <p role="alert">{layers.error}</p>}
       {screenLayer && (
@@ -980,7 +992,7 @@ export default function MapPage() {
           isChecked={panel.classes.includes(4)}
           label={
             <span className="khm-driver-label">
-              <Swatch color={CAUTION_DRIVERS[0]!.color} label="Tidal flat" />
+              <Swatch color={DRIVER_BY_ID.tidal.color} label="Tide / mudflat" />
               <span className="khm-tabular pf-v6-u-font-size-sm">
                 {fmtCount(rowCounts.tidal.patches, rowCounts.tidal.hectares)}
               </span>
@@ -996,7 +1008,7 @@ export default function MapPage() {
           isChecked={panel.classes.includes(5)}
           label={
             <span className="khm-driver-label">
-              <Swatch color={CAUTION_DRIVERS[2]!.color} label="Converted" />
+              <Swatch color={DRIVER_BY_ID.converted.color} label="Converted land" />
               <span className="khm-tabular pf-v6-u-font-size-sm">
                 {fmtCount(rowCounts.converted.patches, rowCounts.converted.hectares)}
               </span>
@@ -1008,11 +1020,27 @@ export default function MapPage() {
       </div>
       <div className="khm-driver-toggle">
         <Checkbox
+          id="class-pond"
+          isChecked={panel.classes.includes(7)}
+          label={
+            <span className="khm-driver-label">
+              <Swatch color={DRIVER_BY_ID.pond.color} label="Active pond" />
+              <span className="khm-tabular pf-v6-u-font-size-sm">
+                {fmtCount(rowCounts.pond.patches, rowCounts.pond.hectares)}
+              </span>
+              <DriverInfo driver={DRIVER_BY_ID.pond} />
+            </span>
+          }
+          onChange={(_e, on) => toggleClass(7, on)}
+        />
+      </div>
+      <div className="khm-driver-toggle">
+        <Checkbox
           id="class-open"
           isChecked={panel.classes.includes(8)}
           label={
             <span className="khm-driver-label">
-              <Swatch color={SUITABILITY.go} label="Open or accreted" />
+              <Swatch color={SUITABILITY.go} label="Open land" />
               <span className="khm-tabular pf-v6-u-font-size-sm">
                 {fmtCount(rowCounts.open.patches, rowCounts.open.hectares)}
               </span>
@@ -1023,7 +1051,7 @@ export default function MapPage() {
       </div>
 
       <Title headingLevel="h2" className="pf-v6-u-mt-md pf-v6-u-font-size-md">
-        Narrowing
+        Narrow the list
       </Title>
       <div className="khm-driver-toggle">
         <Checkbox
@@ -1031,7 +1059,7 @@ export default function MapPage() {
           isChecked={panel.elevation}
           label={
             <span className="khm-driver-label">
-              <Swatch color={CAUTION_DRIVERS[1]!.color} label="Elevation" />
+              <Swatch color={DRIVER_BY_ID.elevation.color} label="Height above the tide" />
               <span className="khm-tabular pf-v6-u-font-size-sm">
                 {fmtCount(rowCounts.elevation.patches, rowCounts.elevation.hectares)}
               </span>
@@ -1048,7 +1076,7 @@ export default function MapPage() {
           isChecked={panel.hide.includes("permit")}
           label={
             <span className="khm-driver-label">
-              Hide patches inside a permit gate
+              Hide sites inside a protected-area flag
               <span className="khm-tabular pf-v6-u-font-size-sm">
                 {fmtCount(rowCounts.permit.patches, rowCounts.permit.hectares)}
               </span>
@@ -1065,7 +1093,7 @@ export default function MapPage() {
           isChecked={panel.hide.includes("verra")}
           label={
             <span className="khm-driver-label">
-              Hide patches inside a VERRA project
+              Hide sites inside a carbon-project outline
               <span className="khm-tabular pf-v6-u-font-size-sm">
                 {fmtCount(rowCounts.verra.patches, rowCounts.verra.hectares)}
               </span>
@@ -1080,9 +1108,6 @@ export default function MapPage() {
       <p className="khm-not-assessed-row pf-v6-u-font-size-sm">
         <strong>Legal STOP.</strong> {LEGAL_STOP_NOT_ASSESSED}
       </p>
-      <p className="khm-not-assessed-row pf-v6-u-font-size-sm">
-        <strong>Class 7 ponds.</strong> {PONDS_NOT_IN_PACK}
-      </p>
 
       <Title headingLevel="h2" className="pf-v6-u-mt-md pf-v6-u-font-size-md">
         Context overlays
@@ -1090,13 +1115,13 @@ export default function MapPage() {
       <Checkbox
         id="overlay-ramsar"
         isChecked={panel.overlay.includes("ramsar")}
-        label="Ramsar context"
+        label="Protected-area context"
         onChange={(_e, on) => setOverlay("ramsar", on)}
       />
       <Checkbox
         id="overlay-verra"
         isChecked={panel.overlay.includes("verra")}
-        label="VERRA boundaries"
+        label="Carbon-project outlines"
         onChange={(_e, on) => setOverlay("verra", on)}
       />
       {contextLayers
@@ -1275,10 +1300,11 @@ export default function MapPage() {
                   aria-label="Cambodia restoration screen map"
                 />
                 <div className="khm-map-key" aria-hidden>
-                  <Swatch color={SUITABILITY.go} label="Open or accreted" />
-                  <Swatch color={CAUTION_DRIVERS[0]!.color} label="Tidal flat" />
-                  <Swatch color={CAUTION_DRIVERS[2]!.color} label="Converted" />
-                  <Swatch color={CAUTION_DRIVERS[1]!.color} label="Elevation" />
+                  <Swatch color={SUITABILITY.go} label="Open land" />
+                  <Swatch color={DRIVER_BY_ID.tidal.color} label="Tide / mudflat" />
+                  <Swatch color={DRIVER_BY_ID.converted.color} label="Converted" />
+                  <Swatch color={DRIVER_BY_ID.pond.color} label="Active pond" />
+                  <Swatch color={DRIVER_BY_ID.elevation.color} label="Height" />
                 </div>
                 {counts.patches === 0 && screenFc && (
                   <p className="khm-map-empty" role="status">

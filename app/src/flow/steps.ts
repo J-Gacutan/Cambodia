@@ -22,16 +22,16 @@ export const FLOW_STEPS: FlowStep[] = [
     id: "frame",
     label: "Frame",
     href: "#home",
-    does: "Name what you are asking before you open the map.",
-    cue: "You are looking for sites that look worth a field visit — not approving a project or scoring carbon.",
-    detail: "Name the question before you open the map. Pack scope and what this screen is not live under About."
+    does: "Say what you are asking before you open the map.",
+    cue: "You are looking for places that look worth a field visit — not approving a project or scoring carbon.",
+    detail: "Name the question first. Pack scope and what this screen is not live under About."
   },
   {
     id: "locate",
     label: "Locate",
     href: "#change",
     does: "See what this console can say about mangroves now — and what it cannot.",
-    cue: "Living mangrove extent (2025) and loss since 1996 are on; mangrove health is not assessed here; built-up nearby is optional context.",
+    cue: "Living mangrove (2025) and loss since 1996 are on; mangrove health is not assessed here; built-up nearby is optional.",
     detail:
       "Skim today’s mangrove picture on the map. Layer notes, gaps, and licences for this pack live under About."
   },
@@ -42,7 +42,7 @@ export const FLOW_STEPS: FlowStep[] = [
     does: "Practice GO and tide readings, then open Read ready to shortlist.",
     cue: "Pick Case A or Case C, learn the colour, then continue to Read: filter → click → inspect → shortlist.",
     detail:
-      "Learn the palette with Case A and Case C, then continue to Read. Which examples ship in this pack is listed under About."
+      "Learn the colours with Case A and Case C, then continue to Read. What ships in this pack is listed under About."
   },
   {
     id: "read",
@@ -51,7 +51,7 @@ export const FLOW_STEPS: FlowStep[] = [
     does: "Open the map and ask what each site is telling you.",
     cue: "Filter reasons to pause, click a site, read why it is GO or CAUTION, then keep it if it earns a field visit.",
     detail:
-      "Filter, click, inspect, and shortlist. GO and CAUTION meanings, plus layer licences, are summarised under About."
+      "Filter, click, inspect, and shortlist. GO and CAUTION meanings, plus licences, are summarised under About."
   },
   {
     id: "act",
@@ -60,7 +60,7 @@ export const FLOW_STEPS: FlowStep[] = [
     does: "Take your shortlist forward — summary, download, then plan the next visit.",
     cue: "Sites you kept on the map arrive here; download a report and plan the walk.",
     detail:
-      "Summarise holds, download a report, then plan the visit. Sharing rules and layer licences live under About — not on this step."
+      "Summarise holds, download a report, then plan the visit. Sharing rules and licences live under About — not on this step."
   }
 ];
 
@@ -117,7 +117,7 @@ export const MAP_ACTIONS: { id: MapActionId; label: string; cta: string }[] = [
   {
     id: "filter",
     label: "Filter reasons",
-    cta: "Open Reasons to pause in the layers panel and keep only the ones you care about."
+    cta: "Open reasons to pause in the layers panel and keep only the ones you care about."
   },
   {
     id: "click",

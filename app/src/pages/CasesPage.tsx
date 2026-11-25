@@ -30,17 +30,17 @@ const CASE_PLAIN: Record<
   A: {
     title: "Open land worth a visit",
     story:
-      "Behind the living mangrove fringe near Peam Krasaop, some former mangrove now reads as open ground — bare, grass, or shrub rather than trees, crops, water, or built-up. That is a GO reading: candidate for natural recovery or planting only after height and rights checks on site. It is not a pond.",
+      "Near Peam Krasaop, some land that was once mangrove now looks open — bare, grass, or shrub, not trees, crops, water, or buildings. That is a GO reading: worth a field visit after height and rights checks. It is not a pond.",
     onRead:
-      "Keep GO on, click a teal patch, read the side panel, then shortlist it if a field visit still makes sense.",
+      "Keep open land on, click a teal patch, read the side panel, then shortlist it if a field visit still makes sense.",
     practice: "go"
   },
   C: {
     title: "Tide / mudflat — pause",
     story:
-      "Along the Preah Sihanouk / Kampot coast, some cells are tidal flat or mudflat. That is a CAUTION reading: do not plant here; natural recovery only after a water check on site.",
+      "Along the Preah Sihanouk / Kampot coast, some places are tidal flat or mudflat. That is a CAUTION reading: do not plant here; natural recovery only after a water check on site.",
     onRead:
-      "Open Reasons to pause, keep Tide on, click a gold patch, read why it is held back — usually leave it off the shortlist for planting.",
+      "Keep Tide on, click a gold patch, read why it is held back — usually leave it off the shortlist for planting.",
     practice: "tidal"
   }
 };
@@ -57,12 +57,12 @@ const PRACTICE: Record<
   }
 > = {
   go: {
-    label: "GO — open opportunity",
+    label: "GO — open land",
     caseId: "A",
     color: SUITABILITY.go,
-    swatch: "GO — open opportunity",
+    swatch: "GO — open land",
     meaning:
-      "Former mangrove that now looks open. Worth shortlisting for a field visit after height and rights checks — not zoning or planting permission."
+      "Land that was once mangrove and now looks open. Worth shortlisting for a field visit after height and rights checks — not zoning or planting permission."
   },
   tidal: {
     label: "CAUTION · Tide",
@@ -70,7 +70,7 @@ const PRACTICE: Record<
     color: DRIVER_BY_ID.tidal.color,
     swatch: "CAUTION · Tide — pause",
     meaning:
-      "Tidal flat or mudflat. Held back so you do not plant on the wrong wetness — natural recovery only after a water check.",
+      "Tide flat or mudflat. Held back so you do not plant on the wrong wetness — natural recovery only after a water check.",
     driverId: "tidal"
   }
 };
@@ -116,20 +116,20 @@ export default function CasesPage() {
     <PageSection className="khm-prose khm-means">
       <Title headingLevel="h1">Means — learn the colours before the map</Title>
       <p className="khm-home-lead">
-        This step teaches what GO and CAUTION mean, with two worked places. Then you open Read: filter reasons
-        to pause, click a site, inspect it, and shortlist only what earns a field visit. Colours are land-cover
-        readings — they never approve or refuse a site.
+        Learn what GO and CAUTION mean with two example places. Then open Read: filter reasons to pause, click
+        a site, inspect it, and shortlist only what earns a field visit. Colours are land-cover readings —
+        they never approve or refuse a site.
       </p>
 
       <div className="khm-means-primer" role="region" aria-label="How Means sets up Read">
         <Title headingLevel="h2">What you will do next on Read</Title>
         <ol className="khm-means-read-path">
           <li>
-            <strong>Filter</strong> reasons to pause (tide, height, converted land; rights and carbon projects
-            when flags hit).
+            <strong>Filter</strong> reasons to pause (tide, height, converted land, ponds; rights and carbon
+            projects when flags hit).
           </li>
           <li>
-            <strong>Click</strong> a coloured patch on the restoration map.
+            <strong>Click</strong> a coloured patch on the map.
           </li>
           <li>
             <strong>Inspect</strong> the side panel — GO worth a visit, or a named hold-back.
@@ -230,10 +230,10 @@ export default function CasesPage() {
           role="button"
           tabIndex={0}
         >
-          <Swatch color={SUITABILITY.go} label="GO — open opportunity" />
+          <Swatch color={SUITABILITY.go} label="GO — open land" />
           <p>
-            Former mangrove that now reads as open cover. Shortlist for a field visit after height and rights
-            checks. Worked example: Case A.
+            Land that was once mangrove and now looks open. Shortlist for a field visit after height and
+            rights checks. Worked example: Case A.
           </p>
         </li>
       </ul>
@@ -242,11 +242,11 @@ export default function CasesPage() {
         Why you pause
       </Title>
       <p className="pf-v6-u-font-size-sm">
-        CAUTION is not one bucket — each colour names a hold-back. Open a row for the plain reason; Tide is
-        the live coastal example (Case C).
+        CAUTION is not one bucket — each colour names a hold-back. Open a row for the plain reason. Tide is
+        the live coastal example (Case C). Active ponds are on the map too.
       </p>
       <ul className="khm-means-legend khm-means-drivers">
-        {CAUTION_DRIVERS.map((driver) => {
+        {CAUTION_DRIVERS.filter((d) => d.id !== "tenure" && d.id !== "verra").map((driver) => {
           const isOpen = openDriver === driver.id;
           const isPractice = practice === "tidal" && driver.id === "tidal";
           return (
@@ -282,13 +282,11 @@ export default function CasesPage() {
                   {driver.holdsBack}{" "}
                   {driver.id === "tidal"
                     ? "Worked example: Case C — this hold-back is painted on the map today."
-                    : driver.id === "verra"
-                      ? "On this pack it lights when a site meets a staged project outline; toggle that overlay on Read to see the boundary."
-                      : driver.id === "tenure"
-                        ? "On this pack it lights when a protected-area attribute is joined; toggle those overlays on Read."
-                        : driver.status === "live"
-                          ? "Painted on the map when this reason applies."
-                          : "Not painted as its own colour on this pack yet — listed so you know what is still coming."}
+                    : driver.id === "pond"
+                      ? "Painted on the map as its own colour on this pack."
+                      : driver.status === "live"
+                        ? "Painted on the map when this reason applies."
+                        : "Listed so you know what is still coming."}
                 </p>
               )}
             </li>

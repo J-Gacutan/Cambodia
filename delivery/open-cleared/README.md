@@ -7,7 +7,7 @@ copied into a shippable tree.
 | Rule | Detail |
 | --- | --- |
 | Path | `delivery/open-cleared/<version>/` only |
-| Public Pages | **P2** class **8 ± 4** only (`v0.3.0`, `public_ready=true`) |
+| Public Pages | **P2** classes **4, 5, 7, 8** (`v0.3.0`, `public_ready=true`; pond source rasters offline) |
 | Nation-scale GeoTIFF | Never; vectorise ≥ MMU (0.5 ha) only |
 | Product truth | Physical / land-cover proxy — GO ≠ planting permission |
 | Geography | Clip to Cambodia L20 coastal provinces — no Viet Nam spill |
@@ -15,7 +15,7 @@ copied into a shippable tree.
 
 ## Current
 
-- [`v0.3.0/`](v0.3.0/) — **pinned for Pages**. Open-cleared class 8 ± 4; L20 clip; Ramsar context; **no** pond/VERRA geometries; `public_ready: true` (khm-i6e.2 P2, 24 Nov 2026).
+- [`v0.3.0/`](v0.3.0/) — **pinned for Pages**. Classes 4, 5, 7, 8 (tide, converted, active pond, open land); L20 clip; Ramsar context; pond source rasters offline; `public_ready: true` (research / non-commercial).
 - [`v0.2.2/`](v0.2.2/) — full GO±CAUTION + Phase 2 flags (INTERNAL research; `public_ready: false`).
 - [`v0.2.1/`](v0.2.1/) — Phase 2 flags pre-clip.
 - [`v0.2.0/`](v0.2.0/) — full vectorise from `class_step3.tif`.

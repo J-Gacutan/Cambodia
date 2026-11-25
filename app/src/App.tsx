@@ -141,7 +141,7 @@ export default function App() {
         <FlexItem>
           <Banner color="red" className="khm-banner" role="status">
             This build is still an internal draft — not cleared for public sharing. See{" "}
-            <a href="#about">About</a> for package notes.
+            <a href="#about">About this pack</a> for notes.
           </Banner>
         </FlexItem>
       )}

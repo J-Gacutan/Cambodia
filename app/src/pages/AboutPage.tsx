@@ -53,22 +53,22 @@ export default function AboutPage() {
       >
         {publicReady ? (
           <>
-            Research package for four coastal provinces.{" "}
-            <strong>GO means worth a field visit</strong> — based on land cover only, not a permit or a
-            carbon credit.
+            Research pack for four coastal provinces.{" "}
+            <strong>GO means worth a field visit</strong> — from land cover only, not a permit or a carbon
+            credit.
           </>
         ) : (
           <>
             Internal draft — not cleared for public sharing yet.{" "}
-            <strong>GO means worth a field visit</strong> — based on land cover only.
+            <strong>GO means worth a field visit</strong> — from land cover only.
           </>
         )}
       </Banner>
 
       <p>
-        This console helps a team shortlist mangrove restoration sites that look physically promising, so
-        people can plan a field visit. It covers Cambodia’s four coastal provinces. It is not zoning advice,
-        tenure clearance, planting permission, or a carbon outcome.
+        This console helps a team shortlist mangrove restoration sites that look worth walking, so people can
+        plan a field visit. It covers Cambodia’s four coastal provinces. It is not zoning advice, land-rights
+        clearance, planting permission, or a carbon score.
       </p>
 
       <div className="khm-map-tools">
@@ -89,16 +89,15 @@ export default function AboutPage() {
       <Title headingLevel="h2">How the screen works</Title>
       <p>
         Five steps keep the same path every time: set the question (Frame), skim how the coast has changed
-        (Locate), learn the legend with examples (Means), judge patches on the map (Read), then take the
-        shortlist forward (Act). Colours and overlays are readings you can quote — they never approve or
-        refuse a site.
+        (Locate), learn the colours with examples (Means), judge sites on the map (Read), then take the
+        shortlist forward (Act). Colours are readings you can quote — they never approve or refuse a site.
       </p>
       <ul>
         <li>
-          <strong>GO</strong> — open or newly built-up land on former mangrove that still looks worth walking.
+          <strong>GO</strong> — open land that was once mangrove and still looks worth walking.
         </li>
         <li>
-          <strong>CAUTION</strong> — a named reason to pause (tide, height above the tide, converted land,
+          <strong>CAUTION</strong> — a named reason to pause (tide, height, converted land, active pond,
           rights context, or an existing carbon project).
         </li>
         <li>
@@ -106,12 +105,37 @@ export default function AboutPage() {
         </li>
       </ul>
 
+      <Title headingLevel="h2">What the colours mean (once)</Title>
+      <p>
+        On Read, the map draws four live colours from this pack, plus a height filter. Plain names first;
+        method codes stay in the layer list below.
+      </p>
+      <ul>
+        <li>
+          <strong>Open land (GO)</strong> — former mangrove that now reads as open cover.
+        </li>
+        <li>
+          <strong>Tide / mudflat</strong> — pause; do not plant on mudflats.
+        </li>
+        <li>
+          <strong>Converted land</strong> — former mangrove now in another use (crops or trees that are not
+          mangrove).
+        </li>
+        <li>
+          <strong>Active pond</strong> — reads as an active or on-and-off pond. Check who uses it before any
+          claim. About 500 pond patches (~1,350 ha) ship on this pack; source pond maps stay offline.
+        </li>
+        <li>
+          <strong>Height above the tide</strong> — optional filter that holds back open land that sits too high.
+        </li>
+      </ul>
+
       <Title headingLevel="h2">What this is not</Title>
       <p>
-        The map is a land-cover filter and restoration proxy. Flags name instruments and overlaps; they do
-        not mean a site is approved or refused. Legal stop-zones for ministry core areas are not on this
-        pack yet — until they are, that check stays unavailable. Case B (open water overriding first-pass
-        mangrove) is omitted from the worked examples on Means — say so when you brief.
+        The map is a land-cover filter. Flags name instruments and overlaps; they do not mean a site is
+        approved or refused. Ministry core-zone stops are not on this pack yet — until they are, that check
+        stays unavailable. Case B (open water overriding a first mangrove reading) is omitted from the Means
+        examples — say so when you brief.
       </p>
 
       <Title headingLevel="h2">Data on this build</Title>
@@ -121,27 +145,28 @@ export default function AboutPage() {
         {publicReady
           ? " Cleared for this research share."
           : " Still illustrative — do not publish as a public product."}{" "}
-        Sensitive pond outlines stay offline. For redistribution decisions, quote the original source
-        register, not this website alone.
+        For redistribution decisions, quote the original source register, not this website alone.
       </p>
 
       <Title headingLevel="h2" id="licence">
-        Sharing and licence posture
+        Sharing and licence
       </Title>
       <p>
-        This console is aimed at public research sharing (GitHub Pages). Sensitive working rasters and
-        internal case images never go into the public site. Protected-area and carbon-project outlines may
-        appear as research context only — not for commercial republishing, and not as planting permission.
+        This console is aimed at public research sharing (GitHub Pages). Sensitive working rasters never go
+        into the public site. Protected-area and carbon-project outlines may appear as research context only —
+        not for commercial republishing, and not as planting permission. Active-pond polygons ship for a
+        research hold-back; the original pond maps stay offline.
       </p>
       <ul>
         <li>
-          <strong>Public research site</strong> — {publicReady ? "allowed for this pack" : "blocked until the pack is cleared"}.
+          <strong>Public research site</strong> —{" "}
+          {publicReady ? "allowed for this pack" : "blocked until the pack is cleared"}.
         </li>
         <li>
           <strong>Local preview</strong> — fine for team review against the pinned package.
         </li>
         <li>
-          <strong>Sensitive pond maps</strong> — stay offline; never publish with the public site.
+          <strong>Source pond maps</strong> — stay offline; only screened polygons appear here.
         </li>
         <li>
           <strong>Protected-area and project overlays</strong> — research use on this console; do not claim
@@ -151,9 +176,9 @@ export default function AboutPage() {
 
       <Title headingLevel="h2">Locate layers (coast picture)</Title>
       <p className="pf-v6-u-font-size-sm">
-        Locate answers what is happening with mangroves along this coast today — 2025 extent plus loss or
-        gain since 1996. A full year-by-year slider, multi-year urban expansion, and any health product
-        remain gaps. Toggle those overlays on <a href="#change">Locate</a>.
+        Locate shows what is happening with mangroves along this coast today — 2025 extent plus loss or gain
+        since 1996. A year-by-year slider, multi-year urban expansion, and any health product remain gaps.
+        Toggle those overlays on <a href="#change">Locate</a>.
       </p>
       {changeError && <p role="alert">{changeError}</p>}
       {changeIndex && (
@@ -240,7 +265,7 @@ export default function AboutPage() {
       <Title headingLevel="h2">Layers in this package</Title>
       <p className="pf-v6-u-font-size-sm">
         Each layer carries a plain-language licence line. Toggle overlays on the map; take the shortlist to{" "}
-        <a href="#act">Act</a>.
+        <a href="#act">Act</a>. Active ponds are part of the main restoration layer on this pack.
       </p>
       {layers.error && <p role="alert">{layers.error}</p>}
       {layers.data?.map((layer) => {

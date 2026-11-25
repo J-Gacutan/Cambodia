@@ -130,16 +130,16 @@ export default function LicencePage() {
 
   const version = manifest.data.version ?? BUNDLE_VERSION;
   const plainBanner =
-    "GO means worth a field visit. This screen does not grant planting permission or settle tenure.";
+    "GO means worth a field visit. This screen does not grant planting permission or settle land rights.";
 
   return (
     <>
       <PageSection className="khm-prose">
         <Title headingLevel="h1">Act — decide from your shortlist</Title>
         <p>
-          Sites you kept on the map arrive here. Review why each one is held back (if at all), download a
-          short report, then plan the next visit. This step does not approve a project or clear land rights —
-          see <a href="#about">About this pack</a> for how the screen works and what you may share.
+          Sites you kept on the map arrive here. Review why any are held back, download a short report, then
+          plan the next visit. This step does not approve a project or clear land rights — see{" "}
+          <a href="#about">About this pack</a> for how the screen works and what you may share.
         </p>
         <IllustrativeBadge publicReady={publicReady} />
       </PageSection>
@@ -340,11 +340,11 @@ export default function LicencePage() {
         <ol className="khm-act-next">
           <li>
             <strong>Visit the ground</strong> — walk GO sites first. Treat each CAUTION reason as a named
-            check (tide, height, converted land), not a blanket “no”.
+            check (tide, height, converted land, ponds), not a blanket “no”.
           </li>
           <li>
-            <strong>Check rights and projects</strong> — where the map shows a protected area or an existing
-            carbon project, confirm with the right authorities before any claim.
+            <strong>Check rights and projects</strong> — where the map shows a protected area, a pond hold-back,
+            or an existing carbon project, confirm with the right authorities before any claim.
           </li>
           <li>
             <strong>Share carefully</strong> — this is a research screen. Read{" "}

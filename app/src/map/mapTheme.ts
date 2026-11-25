@@ -7,8 +7,8 @@ type LinePaint = NonNullable<Extract<LayerSpecification, { type: "line" }>["pain
 type CirclePaint = NonNullable<Extract<LayerSpecification, { type: "circle" }>["paint"]>;
 
 /**
- * Fill from class_id + elevation_fail (module 11). Do not read primary_driver —
- * the open pack does not write it. Order: tidal → converted → elev-fail class 8 → GO.
+ * Fill from class_id + elevation_fail. Do not read primary_driver —
+ * the open pack does not write it. Order: tide → converted → pond → elev-fail → GO.
  */
 function classColorExpr(): FillPaint["fill-color"] {
   return [
@@ -17,6 +17,8 @@ function classColorExpr(): FillPaint["fill-color"] {
     DRIVER_BY_ID.tidal.color,
     ["==", ["get", "class_id"], 5],
     DRIVER_BY_ID.converted.color,
+    ["==", ["get", "class_id"], 7],
+    DRIVER_BY_ID.pond.color,
     [
       "all",
       ["==", ["get", "class_id"], 8],

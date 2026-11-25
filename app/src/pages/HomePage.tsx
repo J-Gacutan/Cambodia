@@ -21,9 +21,10 @@ export default function HomePage() {
         <Title headingLevel="h1">Cambodia mangrove restoration screen</Title>
         <p className="khm-home-lead">
           Shortlist places that look worth a field visit across Cambodia’s four coastal provinces.{" "}
-          <strong>GO</strong> means worth a field look; <strong>CAUTION</strong> names a reason to pause.
-          Learn the legend, then take a shortlist into Act.{" "}
-          <a href="#about">About this pack</a> covers scope, layers, and sharing.
+          <strong>GO</strong> means worth a look. <strong>CAUTION</strong> names a reason to pause — tide,
+          converted land, ponds, height, or a rights or carbon-project flag. Learn the colours, then take a
+          shortlist into Act. Land cover only — not zoning, land rights, planting permission, or a carbon
+          score. <a href="#about">About this pack</a> covers scope, layers, and sharing.
         </p>
       </div>
 
@@ -31,9 +32,8 @@ export default function HomePage() {
         Every decision follows the same five steps
       </Title>
       <p className="pf-v6-u-font-size-sm">
-        You walk the same path every time: set the question, skim the coast, learn from an example, judge
-        a site, then take a shortlist forward. Open a step below for the story; the rail above keeps your
-        place.
+        You walk the same path every time: set the question, skim the coast, learn from an example, judge a
+        site, then take a shortlist forward. Open a step below for the story; the rail above keeps your place.
       </p>
       <div className="khm-step-flow">
         <ol className="khm-flow-row">
