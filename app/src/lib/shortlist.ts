@@ -155,9 +155,9 @@ export function shortlistToCsv(rows: ShortlistItem[], meta?: ShortlistExportMeta
     meta?.goSentence
       ? `# ${meta.goSentence}`
       : `# GO means worth a field look. Land cover only. Not ministry zoning, land rights, planting permission, or a carbon score.`,
-    meta?.classRule ? `# ${meta.classRule}` : `# Classes 4, 5, and 8. Legal STOP not assessed.`,
+    meta?.classRule ? `# ${meta.classRule}` : `# Classes 4, 5, and 8. Legal stop not assessed.`,
     meta?.headline ? `# Headline: ${meta.headline}` : null,
-    meta?.bundleVersion ? `# Bundle: ${meta.bundleVersion}` : null,
+    meta?.bundleVersion ? `# Data pack: ${meta.bundleVersion}` : null,
     meta?.generatedAt ? `# Generated: ${meta.generatedAt}` : null,
     meta?.reportQrUrl ? `# Reopen (report QR URL): ${meta.reportQrUrl}` : null,
     `# centroid_lat / centroid_lon = polygon centroid (vertex mean); lon/lat kept as aliases.`,

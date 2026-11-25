@@ -24,13 +24,13 @@ export const FLOW_STEPS: FlowStep[] = [
     href: "#home",
     does: "Say what you are asking before you open the map.",
     cue: "You are looking for places that look worth a field visit — not approving a project or scoring carbon.",
-    detail: "Name the question first. Pack scope and what this screen is not live under About."
+    detail: "Name the question first. Pack scope and what this check is not live under About."
   },
   {
     id: "locate",
     label: "Locate",
     href: "#change",
-    does: "See what this console can say about mangroves now — and what it cannot.",
+    does: "See what this tool can say about mangroves now — and what it cannot.",
     cue: "Living mangrove (2025) and loss since 1996 are on; mangrove health is not assessed here; built-up nearby is optional.",
     detail:
       "Skim today’s mangrove picture on the map. Layer notes, gaps, and licences for this pack live under About."

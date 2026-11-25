@@ -39,7 +39,7 @@ export function reportQrCaption(bundleVersion: string, patchCount?: number): str
     patchCount == null
       ? "this shortlist"
       : `${patchCount} shortlisted site${patchCount === 1 ? "" : "s"}`;
-  return `Scan to reopen Act on the Cambodia screen (bundle ${bundleVersion}). Paper / file carries ${patches} — QR does not encode map shapes. Land-cover screen only; not planting permission.`;
+  return `Scan to reopen Act on the Cambodia check (data pack ${bundleVersion}). Paper / file carries ${patches} — QR does not encode map shapes. Land-cover check only; not planting permission.`;
 }
 
 /**

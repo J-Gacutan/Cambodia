@@ -2,9 +2,9 @@ import type { ChangeLayerMeta } from "./changeLayers";
 
 /** Client-facing layer titles — register codes stay in About / provenance only. */
 export function changeLayerTitle(layer: Pick<ChangeLayerMeta, "id" | "title">): string {
-  if (layer.id === "mangrove-extent") return "Mangrove extent 2025 (stock)";
-  if (layer.id === "mangrove-change") return "Mangrove loss 1996–2025 (GMW)";
-  if (layer.id === "mangrove-gain") return "Mangrove gain 1996–2025 (GMW)";
+  if (layer.id === "mangrove-extent") return "Mangrove extent 2025 (living cover)";
+  if (layer.id === "mangrove-change") return "Mangrove loss 1996–2025";
+  if (layer.id === "mangrove-gain") return "Mangrove gain 1996–2025";
   if (layer.id === "urban-change") return "Built-up nearby (sample)";
   return layer.title
     .replace(/\s*\(Goldberg\s*L4\)/gi, "")
@@ -32,10 +32,10 @@ const LOSS_DRIVER_LABELS: Record<string, string> = {
 
 const CLASS_LABELS: Record<string, string> = {
   ...LOSS_DRIVER_LABELS,
-  mangrove_extent_2025: "Living mangrove (2025 stock)",
+  mangrove_extent_2025: "Living mangrove (2025 cover)",
   gmw_loss_1996_2025: "Lost since 1996 (absent in 2025)",
   gmw_gain_1996_2025: "Gained since 1996 (present in 2025)",
-  built_dynamic_world: "Built-up land (urban proxy)",
+  built_dynamic_world: "Built-up land (urban sample)",
   built: "Built-up land"
 };
 
@@ -111,7 +111,7 @@ export function buildLocateHeadline(input: {
   if (input.layerOn["urban-change"]) bits.push("built-up nearby");
   const drawn =
     bits.length === 0
-      ? "no mangrove overlays"
+      ? "no mangrove layers"
       : bits.length === 1
         ? bits[0]!
         : bits.length === 2
@@ -119,6 +119,6 @@ export function buildLocateHeadline(input: {
           : `${bits.slice(0, -1).join(", ")}, and ${bits[bits.length - 1]}`;
   const scale =
     input.resolutionPlain?.trim() ||
-    "Overlays are generalised and fade as you zoom so they do not look like patch-level data.";
+    "These layers are generalised and fade as you zoom so they do not look like site-level data.";
   return `Across the four coastal provinces, this Locate view shows ${drawn}. Mangrove health is not assessed on this pack. ${scale}`;
 }

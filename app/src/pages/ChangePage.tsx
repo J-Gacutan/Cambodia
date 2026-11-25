@@ -340,7 +340,7 @@ export default function ChangePage() {
       </Title>
       {indexError && (
         <p className="pf-v6-u-font-size-sm" role="alert">
-          Locate samples failed to load: {indexError}
+          Locate layers failed to load: {indexError}
         </p>
       )}
       {layers.map((layer) => (
@@ -368,7 +368,7 @@ export default function ChangePage() {
       {inspect ? (
         <div className="khm-inspect khm-inspect-in-panel">
           <Title headingLevel="h2" className="pf-v6-u-font-size-md">
-            Selected feature
+            Selected area
           </Title>
           <p className="khm-panel-headline khm-panel-headline-sm">
             {inspect.layerTitle}. {inspect.classPlain}
@@ -386,11 +386,11 @@ export default function ChangePage() {
             <div>
               <dt>Scale</dt>
               <dd>
-                {inspect.resolutionPlain ?? "Generalised sample — coarser than the Read class map."}
+                {inspect.resolutionPlain ?? "Generalised sample — coarser than the Read site map."}
               </dd>
             </div>
             <div>
-              <dt>Feature</dt>
+              <dt>Area id</dt>
               <dd>{inspect.id}</dd>
             </div>
           </dl>
@@ -493,18 +493,18 @@ export default function ChangePage() {
                     <span className="khm-key-swatch" style={{ background: URBAN_CHANGE_FILL }} />
                     Built-up nearby (sample)
                   </span>
-                  <span className="khm-key-note">~100 m · fades past ~z11.5</span>
+                  <span className="khm-key-note">~100 m · fades when you zoom in close</span>
                 </div>
                 {zoomPastScale && (
                   <div className="khm-change-zoom-note" role="status">
-                    Overlays fade here on purpose — they are generalised samples (~100–300 m), not patch
-                    outlines. Keep Satellite to read the coast; judge restoration patches on{" "}
+                    These layers fade here on purpose — they are generalised samples (~100–300 m), not site
+                    outlines. Keep Satellite to read the coast; judge restoration sites on{" "}
                     <a href="#map">Read</a> after <a href="#cases">Means</a>.
                   </div>
                 )}
                 {basemapChoice !== "satellite" && (
                   <div className="khm-change-basemap-hint" role="note">
-                    Satellite pairs better with these coarse samples. Streets names do not add mangrove
+                    Satellite pairs better with these coarse samples. Street names do not add mangrove
                     detail.
                     <Button
                       variant="link"

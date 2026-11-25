@@ -1,5 +1,5 @@
 /**
- * Hold-back reasons that separate CAUTION sites — not one bucket.
+ * Reasons to pause that separate CAUTION sites — not one bucket.
  * Tide, height, converted land, and ponds paint on this pack; rights and
  * carbon-project flags attach when present.
  */
@@ -45,7 +45,7 @@ export const CAUTION_DRIVERS: CautionDriver[] = [
     short: "Height",
     holdsBack:
       "The ground sits higher than the usual tide range (within model error). Check height before planting.",
-    source: "Height model checked against a tide model. Filled on this pack.",
+    source: "Height model checked against a tide model. Included on this pack.",
     status: "live",
     color: "#7A8F6A"
   },
@@ -55,7 +55,7 @@ export const CAUTION_DRIVERS: CautionDriver[] = [
     short: "Converted",
     holdsBack:
       "Former mangrove now used for something else (crops or trees that are not mangrove). Needs a named check before any restoration claim.",
-    source: "Land-cover screen for converted cover on historic mangrove.",
+    source: "Land-cover check for converted cover on historic mangrove.",
     status: "live",
     /** PatternFly danger — red land-use hold, not a second gold. */
     color: "#C9190B"
@@ -66,7 +66,7 @@ export const CAUTION_DRIVERS: CautionDriver[] = [
     short: "Pond",
     holdsBack:
       "This place reads as an active or on-and-off pond. Check who uses it and what rights apply before any restoration claim.",
-    source: "Active-pond screen on this pack. Source pond maps stay offline.",
+    source: "Active-pond check on this pack. Source pond maps stay offline.",
     status: "live",
     /** Berry / magenta — distinct from tide amber (#F0AB00) and converted red; not blue. */
     color: "#9B2D5F"
@@ -87,7 +87,7 @@ export const CAUTION_DRIVERS: CautionDriver[] = [
     short: "Carbon project",
     holdsBack:
       "Inside or overlapping an existing carbon-project outline. Check double-counting and access.",
-    source: "Staged project outlines for research. Not for commercial republish.",
+    source: "Project outlines included for research. Not for commercial republish.",
     status: "partial",
     color: "#B85C38"
   }
@@ -116,7 +116,7 @@ export function primaryDriver(props: FeatureProps): CautionDriverId | null {
 
 export function driverStatusLabel(status: CautionDriver["status"]): string {
   if (status === "live") return "";
-  if (status === "partial") return "Partial";
+  if (status === "partial") return "Partly checked";
   return "Not assessed";
 }
 
@@ -124,7 +124,7 @@ export function holdsBackSummary(props: FeatureProps): string {
   const ids = driversForFeature(props);
   if (ids.length === 0) {
     return props.suitability === "go"
-      ? "No mapped hold-back on this patch. Physical screen only. Not planting permission."
+      ? "No hold reason on this site. Land-cover check only. Not planting permission."
       : "CAUTION, but the reason is not named on this pack.";
   }
   return ids.map((id) => DRIVER_BY_ID[id].holdsBack).join(" ");

@@ -38,6 +38,7 @@ import {
 import {
   DRIVER_BY_ID,
   driversForFeature,
+  holdsBackSummary,
   type CautionDriverId
 } from "../lib/cautionDrivers";
 import { meaningForClass } from "../lib/classMeaning";
@@ -246,7 +247,7 @@ const NEXT_CHECKS: { check: string; source: string; onPack: string }[] = [
   {
     check: "Height against the usual tide",
     source: "Height model vs tide model",
-    onPack: "Filled on this pack. A fail turns open land into a hold-back. Still a screen, not a survey."
+    onPack: "Included on this pack. A fail turns open land into a reason to pause. Still a check, not a survey."
   },
   {
     check: "Active ponds and who uses them",
@@ -839,7 +840,7 @@ export default function MapPage() {
     : null;
 
   const fmtCount = (n: number, ha: number) =>
-    `${n.toLocaleString("en-AU")} patches · ${Math.round(ha).toLocaleString("en-AU")} ha`;
+    `${n.toLocaleString("en-AU")} sites · ${Math.round(ha).toLocaleString("en-AU")} ha`;
 
   const panelInner = (
     <>
@@ -851,13 +852,11 @@ export default function MapPage() {
       {inspect && patchSentence && (
         <div className="khm-inspect khm-inspect-in-panel">
           <Title headingLevel="h2" className="pf-v6-u-font-size-md">
-            Selected patch
+            Selected site
           </Title>
           <p className="khm-panel-headline khm-panel-headline-sm">{patchSentence}</p>
-          {inspectDrivers.length === 0 && inspect.props.suitability === "go" ? (
-            <p className="pf-v6-u-font-size-sm">
-              No mapped hold-back on this patch. Physical screen only. Not planting permission.
-            </p>
+          {inspectDrivers.length === 0 ? (
+            <p className="pf-v6-u-font-size-sm">{holdsBackSummary(inspect.props)}</p>
           ) : (
             <ul className="khm-plain-list pf-v6-u-font-size-sm">
               {inspectDrivers.map((id: CautionDriverId) => {
@@ -872,11 +871,11 @@ export default function MapPage() {
           )}
           <dl className="khm-facts">
             <div>
-              <dt>Patch id</dt>
+              <dt>Site id</dt>
               <dd>{inspect.props.id}</dd>
             </div>
             <div>
-              <dt>Class</dt>
+              <dt>Land class</dt>
               <dd>
                 {inspect.props.class_id}
                 {meaning ? ` · ${meaning.label}` : ""}
@@ -1105,11 +1104,11 @@ export default function MapPage() {
       <p className="pf-v6-u-font-size-sm">{DRIVER_BY_ID.verra.source}</p>
 
       <p className="khm-not-assessed-row pf-v6-u-font-size-sm">
-        <strong>Legal STOP.</strong> {LEGAL_STOP_NOT_ASSESSED}
+        <strong>Legal stop.</strong> {LEGAL_STOP_NOT_ASSESSED}
       </p>
 
       <Title headingLevel="h2" className="pf-v6-u-mt-md pf-v6-u-font-size-md">
-        Context overlays
+        Extra map layers
       </Title>
       <Checkbox
         id="overlay-ramsar"
@@ -1143,8 +1142,8 @@ export default function MapPage() {
         Presets
       </Title>
       <p className="pf-v6-u-font-size-sm khm-panel-select-help">
-        A preset sets which patches show and where the map focuses. Use Case A or Case C for the worked
-        examples from Means, or Field look to keep open land without known flag hits.
+        A preset sets which sites show and where the map focuses. Use Case A or Case C for the worked
+        examples from Means, or Field look to keep open land without known flags.
       </p>
       <div className="khm-panel-select">
         <Select
@@ -1233,7 +1232,7 @@ export default function MapPage() {
             )
           }
         >
-          Export GeoJSON
+          Export map shapes
         </Button>
         {shortlist.length > 0 && (
           <Button variant="link" onClick={() => setShortlist([])}>

@@ -23,7 +23,7 @@ export const ESRI_WORLD_IMAGERY_TILES =
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
 
 export const ATTRIBUTION = {
-  bundle: "GO±CAUTION: Cambodia open-cleared delivery bundle. Illustrative physical screen only.",
+  bundle: "GO and CAUTION: Cambodia research map pack. Land-cover check only.",
   esri: "Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
   openfreemap: "© OpenFreeMap © OpenMapTiles © OpenStreetMap contributors"
 } as const;
