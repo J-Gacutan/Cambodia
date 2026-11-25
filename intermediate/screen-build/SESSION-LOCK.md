@@ -4,14 +4,16 @@
 
 ## Active lock
 
-- `CSR-38` GMW multi-year change for Locate loss — claimed by worker `bc-bb373802…`. Branch `cursor/gmw-locate-loss-f5a7` off `e6ec7f5` (#29 Streets dual-basemap). Includes cherry-picked GMW 2025 extent from `cursor/public-pack-extent-layers-2b85`. Shipping GMW 1996→2025 loss/gain (CC BY 4.0) into `public/change-stubs/` + open-cleared context; Goldberg L4 demoted. Do not restomp change-stubs or open-cleared pin without coordinating.
+- `CSR-39` Means page presentation — claimed by worker `bc-8f762fe2…`. Branch `cursor/means-presentation-8bb9` off `a3d5e39` (main after #31 GMW loss). UI-only on `CasesPage` / Means copy + CSS; do not restomp change-stubs or open-cleared pin.
 
 ## Cleared / closed recently (do not reopen)
 
+- `CSR-38` GMW Locate loss — PR #31 merged (`a3d5e39`).
 - Locate basemap-swap (`cursor/locate-basemap-swap-c0ec`) — PR #29 merged (`e6ec7f5`).
 - Act report QR (`khm-e8c`) / Act-About plain-copy — merged via PR #25 / #26 (24 Nov 2026).
-- Locate fitness (`cursor/locate-mangrove-state-c0ec`) — PR #27 merged; extent/condition were named gaps (extent filled by `khm-6bx` / this branch).
+- Locate fitness (`cursor/locate-mangrove-state-c0ec`) — PR #27 merged; extent/condition were named gaps (extent filled by `khm-6bx` / #30).
 - Overlay toggle — PR #28 merged.
+- Public pack GMW extent — PR #30 merged.
 - `khm-i6e.10` Console polish + Pages readiness — closed 24 Nov 2026. PR #16 merged; `docs/09-github-pages.md` + MapLibre UX polish. `public_ready` unchanged.
 - `khm-i6e.7` Phase 3 harden — contract pins, licence panel, handoff pack. `public_ready` unchanged.
 - `khm-i6e.5` Kenya-style Pages workflow scaffold + `public_ready` gate (live deploy waits on `khm-i6e.2`).

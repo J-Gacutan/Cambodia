@@ -40,10 +40,10 @@ export const FLOW_STEPS: FlowStep[] = [
     id: "means",
     label: "Means",
     href: "#cases",
-    does: "Learn the legend — GO, CAUTION reasons, protected areas and carbon projects — before the map.",
-    cue: "Walk the colours and examples here, then open Read with the legend already in mind.",
+    does: "Practice GO and tide readings, then open Read ready to shortlist.",
+    cue: "Pick Case A or Case C, learn the colour, then continue to Read: filter → click → inspect → shortlist.",
     detail:
-      "Means explains what each map colour and overlay means, with Case A (open GO) and Case C (tidal CAUTION) as worked examples. Then continue to the restoration map."
+      "Means teaches the palette in the same groups you will use on the map — what you keep (GO), why you pause (named CAUTION reasons), and context overlays. Case A (open GO) and Case C (tide) are worked examples. Then Read is filter reasons, click a site, inspect, and shortlist."
   },
   {
     id: "read",
