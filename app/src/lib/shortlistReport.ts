@@ -17,6 +17,7 @@ import {
 } from "./cautionDrivers";
 import { flagLabel, type FeatureProps } from "./bundle";
 import { meaningForClass, suitabilityLabel } from "./classMeaning";
+import { reportMapShotHtml } from "./reportMapShots";
 import type { ShortlistItem } from "./shortlist";
 
 function asProps(row: ShortlistItem): FeatureProps {
@@ -47,6 +48,11 @@ export type ShortlistReportMeta = {
   productBanner?: string;
   /** Reopen QR for the printable pack (optional). */
   reportQr?: Pick<ReportQrMeta, "svg" | "url" | "caption">;
+  /**
+   * Per-patch map PNG data URLs (or null when capture failed).
+   * Missing keys also render as placeholders so export never blocks.
+   */
+  mapShots?: Record<string, string | null>;
 };
 
 function holdCounts(rows: ShortlistItem[]): { id: CautionDriverId; count: number; ha: number }[] {
@@ -120,14 +126,24 @@ export function shortlistReportMarkdown(rows: ShortlistItem[], meta: ShortlistRe
   for (const row of rows) {
     const meaning = meaningForClass(row.class_id);
     const drivers = driversForFeature(asProps(row));
+    const shot = meta.mapShots?.[row.id];
     lines.push(`### ${row.id}`);
     lines.push(``);
+    if (meta.mapShots) {
+      // HTML report embeds PNGs; MD stays text-sized (data URLs would bloat notes + HTML twin comment).
+      lines.push(
+        shot
+          ? `*Map snapshot: included in the printable HTML report for this site.*`
+          : `*Map snapshot unavailable for ${row.id} — pair with printable HTML or map-polygon download.*`
+      );
+      lines.push(``);
+    }
     lines.push(
       `- **Reading:** ${suitabilityLabel(row.suitability)}${meaning ? ` · ${meaning.label}` : ""}`
     );
     lines.push(`- **Area:** ${row.area_ha.toFixed(2)} ha`);
     if (row.province) lines.push(`- **Province:** ${row.province}`);
-    lines.push(`- **Centre point:** ${row.lon}, ${row.lat}`);
+    lines.push(`- **Centroid (lat, lon):** ${row.lat}, ${row.lon}`);
     lines.push(
       `- **Reasons to pause:** ${drivers.length ? drivers.map((id) => DRIVER_BY_ID[id].short).join(", ") : "none mapped"}`
     );
@@ -175,13 +191,18 @@ export function shortlistReportHtml(rows: ShortlistItem[], meta: ShortlistReport
     .map((row) => {
       const meaning = meaningForClass(row.class_id);
       const drivers = driversForFeature(asProps(row));
+      const shotHtml =
+        meta.mapShots !== undefined
+          ? reportMapShotHtml(row.id, meta.mapShots[row.id] ?? null, esc)
+          : "";
       return `<article class="patch" id="patch-${esc(row.id)}">
   <h3>${esc(row.id)}</h3>
+  ${shotHtml}
   <ul>
     <li><strong>Reading:</strong> ${esc(suitabilityLabel(row.suitability))}${meaning ? ` · ${esc(meaning.label)}` : ""}</li>
     <li><strong>Area:</strong> ${row.area_ha.toFixed(2)} ha</li>
     ${row.province ? `<li><strong>Province:</strong> ${esc(row.province)}</li>` : ""}
-    <li><strong>Centre point:</strong> ${row.lon}, ${row.lat}</li>
+    <li><strong>Centroid (lat, lon):</strong> ${row.lat}, ${row.lon}</li>
     <li><strong>Reasons to pause:</strong> ${drivers.length ? esc(drivers.map((id) => DRIVER_BY_ID[id].short).join(", ")) : "none mapped"}</li>
     <li><strong>Protected area:</strong> ${esc(flagLabel(row.permit_gate))}</li>
     <li><strong>Legal stop:</strong> ${esc(flagLabel(row.stop_legal))}${row.stop_legal_status ? ` (${esc(row.stop_legal_status)})` : ""}</li>
@@ -206,10 +227,15 @@ export function shortlistReportHtml(rows: ShortlistItem[], meta: ShortlistReport
     th { background: #f3f3f3; }
     .banner { border-left: 4px solid #0099AA; padding: 0.5rem 0.75rem; background: #f4fafb; margin: 1rem 0; }
     .patch { break-inside: avoid; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e5e5e5; }
+    .map-shot { margin: 0.5rem 0 0.75rem; max-width: 22.5rem; }
+    .map-shot img { display: block; width: 100%; height: auto; border: 1px solid #ccc; background: #d0dee2; }
+    .map-shot figcaption { font-size: 0.8rem; color: #444; margin-top: 0.25rem; }
+    .map-shot--missing { border: 1px dashed #999; padding: 0.75rem 1rem; background: #f7f7f7; color: #555; font-family: system-ui, sans-serif; font-size: 0.9rem; }
+    .map-shot--missing .hint { font-size: 0.8rem; margin: 0.35rem 0 0; }
     .report-qr svg { display: block; width: 8rem; height: 8rem; }
     .mast { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: flex-start; justify-content: space-between; }
     .mast-text { flex: 1 1 16rem; min-width: 0; }
-    @media print { body { margin: 0; max-width: none; } .no-print { display: none; } }
+    @media print { body { margin: 0; max-width: none; } .no-print { display: none; } .map-shot img { max-width: 100%; } }
   </style>
 </head>
 <body>

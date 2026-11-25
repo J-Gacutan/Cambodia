@@ -28,6 +28,7 @@ import {
   shortlistReportHtml,
   shortlistReportMarkdown
 } from "../lib/shortlistReport";
+import { captureShortlistMapShots } from "../lib/reportMapShots";
 import { useBundle } from "../lib/useBundle";
 import { meaningForClass, suitabilityLabel } from "../lib/classMeaning";
 import { IllustrativeBadge } from "../common/Evidence";
@@ -74,10 +75,13 @@ export default function LicencePage() {
   const [shortlist, setShortlist] = useState<ShortlistItem[]>(() => loadShortlistFromStorage());
   const [reportQr, setReportQr] = useState<ReportQrMeta | null>(null);
   const [qrBusy, setQrBusy] = useState(false);
+  const [mapShotBusy, setMapShotBusy] = useState(false);
+  const [mapShotProgress, setMapShotProgress] = useState<string | null>(null);
   const holds = useMemo(() => holdSummary(shortlist), [shortlist]);
   const goCount = shortlist.filter((r) => r.suitability === "go").length;
   const cautionCount = shortlist.length - goCount;
   const ha = shortlist.reduce((s, r) => s + (Number.isFinite(r.area_ha) ? r.area_ha : 0), 0);
+  const reportBusy = qrBusy || mapShotBusy;
 
   const refresh = () => setShortlist(loadShortlistFromStorage());
 
@@ -107,6 +111,27 @@ export default function LicencePage() {
       return qr;
     } finally {
       setQrBusy(false);
+    }
+  };
+
+  /** Capture per-site map PNGs; never throws — failed shots become placeholders in the report. */
+  const ensureMapShots = async (
+    rows: ShortlistItem[]
+  ): Promise<Record<string, string | null>> => {
+    setMapShotBusy(true);
+    setMapShotProgress(rows.length ? `Map shots 0/${rows.length}` : null);
+    try {
+      return await captureShortlistMapShots(rows, {
+        onProgress: (done, total) => setMapShotProgress(`Map shots ${done}/${total}`)
+      });
+    } catch (err) {
+      console.warn("Report map shots failed; continuing with placeholders.", err);
+      const empty: Record<string, string | null> = {};
+      for (const row of rows) empty[row.id] = null;
+      return empty;
+    } finally {
+      setMapShotBusy(false);
+      setMapShotProgress(null);
     }
   };
 
@@ -210,43 +235,57 @@ export default function LicencePage() {
             </Title>
             <p className="pf-v6-u-font-size-sm">
               Printable page (use the browser Print dialog to save a PDF), Markdown notes, spreadsheet
-              table, or map polygons. A QR code on the printable pack reopens Act — it does not replace the
-              shortlist itself.
+              table, or map polygons. The printable pack embeds a small map snapshot per site when capture
+              succeeds; failed shots show a placeholder and still download. A QR code reopens Act — it does
+              not replace the shortlist itself.
             </p>
+            {mapShotProgress && (
+              <p className="pf-v6-u-font-size-sm" role="status">
+                Preparing {mapShotProgress}…
+              </p>
+            )}
             <div className="khm-act-report-layout pf-v6-u-mt-md">
               <div className="khm-map-tools">
                 <Button
                   variant="primary"
-                  isDisabled={qrBusy}
+                  isDisabled={reportBusy}
                   onClick={() => {
                     void (async () => {
-                      const qr = await ensureReportQr(version, shortlist.length);
+                      const [qr, mapShots] = await Promise.all([
+                        ensureReportQr(version, shortlist.length),
+                        ensureMapShots(shortlist)
+                      ]);
                       openPrintableReport(
                         shortlistReportHtml(shortlist, {
                           bundleVersion: version,
                           generatedAt: sydneyStamp(),
                           productBanner: plainBanner,
-                          reportQr: qr
+                          reportQr: qr,
+                          mapShots
                         })
                       );
                     })();
                   }}
                 >
-                  Open printable report
+                  {mapShotBusy ? "Capturing map shots…" : "Open printable report"}
                 </Button>
                 <Button
                   variant="secondary"
-                  isDisabled={qrBusy}
+                  isDisabled={reportBusy}
                   onClick={() => {
                     void (async () => {
-                      const qr = await ensureReportQr(version, shortlist.length);
+                      const [qr, mapShots] = await Promise.all([
+                        ensureReportQr(version, shortlist.length),
+                        ensureMapShots(shortlist)
+                      ]);
                       downloadText(
                         `cambodia-shortlist-report-${version}.md`,
                         shortlistReportMarkdown(shortlist, {
                           bundleVersion: version,
                           generatedAt: sydneyStamp(),
                           productBanner: plainBanner,
-                          reportQr: qr
+                          reportQr: qr,
+                          mapShots
                         }),
                         "text/markdown"
                       );
@@ -257,7 +296,7 @@ export default function LicencePage() {
                 </Button>
                 <Button
                   variant="secondary"
-                  isDisabled={qrBusy}
+                  isDisabled={reportBusy}
                   onClick={() => {
                     void (async () => {
                       const qr = await ensureReportQr(version, shortlist.length);
@@ -277,7 +316,7 @@ export default function LicencePage() {
                 </Button>
                 <Button
                   variant="secondary"
-                  isDisabled={qrBusy}
+                  isDisabled={reportBusy}
                   onClick={() => {
                     void (async () => {
                       const qr = await ensureReportQr(version, shortlist.length);
@@ -301,7 +340,7 @@ export default function LicencePage() {
                 </Button>
                 <Button
                   variant="secondary"
-                  isDisabled={qrBusy}
+                  isDisabled={reportBusy}
                   onClick={() => {
                     void ensureReportQr(version, shortlist.length);
                   }}
