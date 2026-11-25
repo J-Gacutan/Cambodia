@@ -11,12 +11,12 @@ type LinePaint = NonNullable<Extract<LayerSpecification, { type: "line" }>["pain
 /** Living mangrove stock — deep teal, distinct from loss/gain samples. */
 export const MANGROVE_EXTENT_FILL = "#1B6B4A";
 export const MANGROVE_EXTENT_LINE = "#0D3D2A";
-/** PatternFly danger red — high chroma on Satellite; colourblind-safer vs gain blue. */
+/** PatternFly danger red — high chroma on Satellite; colourblind-safer vs gain lime. */
 export const MANGROVE_CHANGE_FILL = "#C9190B";
 export const MANGROVE_CHANGE_LINE = "#7D1007";
-/** PatternFly info blue — cool recovery signal, not a second green on canopy. */
-export const MANGROVE_GAIN_FILL = "#2B9AF3";
-export const MANGROVE_GAIN_LINE = "#002F5C";
+/** Bright lime / yellow-green — not ocean-blue; pops on Satellite against loss red. */
+export const MANGROVE_GAIN_FILL = "#C6F06A";
+export const MANGROVE_GAIN_LINE = "#5C7A1A";
 /** Warm clay — readable on imagery without competing with GO/CAUTION on Read. */
 export const URBAN_CHANGE_FILL = "#E09A5A";
 export const URBAN_CHANGE_LINE = "#8B4513";
