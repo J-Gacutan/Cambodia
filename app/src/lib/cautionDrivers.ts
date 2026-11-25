@@ -68,8 +68,8 @@ export const CAUTION_DRIVERS: CautionDriver[] = [
       "This place reads as an active or on-and-off pond. Check who uses it and what rights apply before any restoration claim.",
     source: "Active-pond screen on this pack. Source pond maps stay offline.",
     status: "live",
-    /** Berry / magenta — distinct from tide amber (#F0AB00) and converted red; not blue. */
-    color: "#9B2D5F"
+    /** Magenta #C2185B — clearly off tide amber (#F0AB00) and converted red; not blue. */
+    color: "#C2185B"
   },
   {
     id: "tenure",
