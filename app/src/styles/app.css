@@ -526,6 +526,63 @@
   max-width: 40rem;
   white-space: normal;
 }
+.khm-about-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  margin: 0.75rem 0 1rem;
+  padding: 0.65rem 0.75rem 0.75rem;
+  max-width: 40rem;
+  box-sizing: border-box;
+  border: 1px solid var(--pf-t--global--border--color--default, #c7c7c7);
+  background: var(--pf-t--global--background--color--primary--default, #fff);
+  box-shadow: 0 1px 0 var(--pf-t--global--border--color--default, #c7c7c7);
+}
+.khm-about-nav-hint {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--pf-t--global--text--color--subtle, #6a6e73);
+}
+.khm-about-nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.khm-about-nav-btn {
+  font-size: 0.8125rem;
+}
+.khm-about-nav-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-block-start: 0.65rem;
+}
+.khm-about-filter {
+  flex: 1 1 14rem;
+  min-width: 0;
+  max-width: 24rem;
+}
+.khm-about-nav-expand {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.khm-about-accordion {
+  max-width: 40rem;
+}
+.khm-about-section {
+  scroll-margin-top: 7.5rem;
+}
+.khm-about .khm-about-accordion .pf-v6-c-accordion__toggle-text {
+  font-weight: 600;
+}
+.khm-about .pf-v6-c-accordion__expandable-content-body > p,
+.khm-about .pf-v6-c-accordion__expandable-content-body > ul {
+  max-width: 40rem;
+  line-height: 1.5;
+}
 .khm-home-hero {
   padding: 1.25rem 0 0.5rem;
 }
