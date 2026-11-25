@@ -301,6 +301,6 @@ export function reportMapShotHtml(
   }
   return `<div class="map-shot map-shot--missing" role="img" aria-label="Map snapshot unavailable for ${esc(rowId)}">
   <p>Map snapshot unavailable for ${esc(rowId)}.</p>
-  <p class="hint">Export continued without this image. Pair with the map-polygon download from Act.</p>
+  <p class="hint">Export continued without this image. Pair with the map shapes download from Act.</p>
 </div>`;
 }

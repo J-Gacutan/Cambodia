@@ -155,7 +155,7 @@ export default function LicencePage() {
 
   const version = manifest.data.version ?? BUNDLE_VERSION;
   const plainBanner =
-    "GO means worth a field visit. This screen does not grant planting permission or settle land rights.";
+    "GO means worth a field visit. This check does not grant planting permission or settle land rights.";
 
   return (
     <>
@@ -164,7 +164,7 @@ export default function LicencePage() {
         <p>
           Sites you kept on the map arrive here. Review why any are held back, download a short report, then
           plan the next visit. This step does not approve a project or clear land rights — see{" "}
-          <a href="#about">About this pack</a> for how the screen works and what you may share.
+          <a href="#about">About this pack</a> for how this check works and what you may share.
         </p>
         <IllustrativeBadge publicReady={publicReady} />
       </PageSection>
@@ -223,7 +223,7 @@ export default function LicencePage() {
                     {row.province ? ` · ${row.province}` : ""}
                     {drivers.length > 0
                       ? ` · held by: ${drivers.map((d) => DRIVER_BY_ID[d].short).join(", ")}`
-                      : " · no mapped hold-back"}
+                      : " · no hold reason"}
                     {row.permit_gate === true ? " · protected-area context" : ""}
                     {row.project_overlap === true ? " · existing carbon project nearby" : ""}
                   </li>
@@ -235,8 +235,8 @@ export default function LicencePage() {
             </Title>
             <p className="pf-v6-u-font-size-sm">
               Printable page (use the browser Print dialog to save a PDF), Markdown notes, spreadsheet
-              table, or map polygons. The printable pack embeds a small map snapshot per site when capture
-              succeeds; failed shots show a placeholder and still download. A QR code reopens Act — it does
+              table, or map shapes. The printable pack embeds a small map picture per site when capture
+              succeeds; failed pictures show a placeholder and still download. A QR code reopens Act — it does
               not replace the shortlist itself.
             </p>
             {mapShotProgress && (
@@ -267,7 +267,7 @@ export default function LicencePage() {
                     })();
                   }}
                 >
-                  {mapShotBusy ? "Capturing map shots…" : "Open printable report"}
+                  {mapShotBusy ? "Capturing map pictures…" : "Open printable report"}
                 </Button>
                 <Button
                   variant="secondary"
@@ -336,7 +336,7 @@ export default function LicencePage() {
                     })();
                   }}
                 >
-                  Download map polygons
+                  Download map shapes
                 </Button>
                 <Button
                   variant="secondary"
@@ -382,12 +382,12 @@ export default function LicencePage() {
             check (tide, height, converted land, ponds), not a blanket “no”.
           </li>
           <li>
-            <strong>Check rights and projects</strong> — where the map shows a protected area, a pond hold-back,
+            <strong>Check rights and projects</strong> — where the map shows a protected area, a pond reason to pause,
             or an existing carbon project, confirm with the right authorities before any claim.
           </li>
           <li>
-            <strong>Share carefully</strong> — this is a research screen. Read{" "}
-            <a href="#licence">About this pack</a> (licence) before redistributing maps or project outlines.
+            <strong>Share carefully</strong> — this is a research check. Read{" "}
+            <a href="#licence">About this pack</a> (licence) before sharing maps or project outlines.
           </li>
         </ol>
       </PageSection>

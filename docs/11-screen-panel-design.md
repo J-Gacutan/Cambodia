@@ -162,7 +162,7 @@ Predicates are derived in the client from attributes the file has. Do not filter
 | Converted | Drawn class | `class_id` 5 | 3,674 patches, 19,767 ha | On. Swatch `#A67C52` |
 | Open or accreted | Drawn class | `class_id` 8 and `elevation_fail` is not true | 1,038 patches, 3,022 ha | On. Swatch `#0099AA`. Label "Open or accreted". The word GO is in the headline, not repeated as a second checkbox called Show GO |
 | Elevation | Narrowing | `elevation_fail` is true | 1,007 patches. Of those, 192 are class 8 (384 ha) and are the only class 8 patches that are CAUTION | Off on arrival, so class 8 GO stays visible. Turning it on keeps only elevation failures. Source line: "L12 DeltaDTM against L13 FES2022. Filled on this pack." |
-| Permit gate | Narrowing | `permit_gate` is true | 2,831 true, 2,334 false, no nulls | Off on arrival. Label "Hide patches inside a permit gate". Source: "Ramsar and WDPA attributes. A hit is not a clearance." |
+| Permit gate | Narrowing | `permit_gate` is true | 2,831 true, 2,334 false, no nulls | Off on arrival. Label "Hide patches inside a permit gate". Source: "Ramsar and WDPA attributes. A known flag is not a clearance." |
 | VERRA overlap | Narrowing | `project_overlap` is true | 608 true, 4,557 false, no nulls | Off on arrival. Label "Hide patches inside a VERRA project". Name the staged ids in the source line: VCS 1748, 5071, 5584. Non-commercial research. |
 | Legal STOP | Not assessed | `stop_legal` is true | Null on all 5,165 | No checkbox. "Not assessed. MoE protected-area core zones. Do not infer from an IUCN category." |
 | Class 7 ponds | Not assessed | `class_id` 7 | Not in the file | No checkbox. "Not in this pack. Pond geometries stay off the public bundle." |
@@ -219,7 +219,7 @@ Block order:
 
 1. The settled sentence for this patch, same phrase order as the panel headline. Example shape: "Koh Kong. Class 8, historic mangrove now open cover. 12.4 hectares. Worth a field look. Elevation and legal STOP not assessed on this patch." Use the class meaning from `classMeaning.ts` for the middle clause. Province from the feature. Hectares to one decimal.
 2. Every driver `driversForFeature` returns, each as the catalogue swatch plus the holds-back sentence. If the list is empty and suitability is GO: "No mapped hold-back on this patch. Physical screen only. Not planting permission."
-3. Facts, one line each: patch id, class, hectares, province, permit gate, legal STOP, VERRA. Values for the three flags use `flagLabel` and nothing else: "hit", "no hit (known sources)", "unknown / incomplete coverage". Legal STOP on this pack is always the third.
+3. Facts, one line each: patch id, class, hectares, province, protected area, legal stop, carbon project. Values for the three flags use `flagLabel` and nothing else: "Known flag", "No known flag", "Not fully checked". Legal stop on this pack is always the third.
 4. Instrument or note lines only when the feature has them.
 5. Actions: "Add to shortlist" (or "On the shortlist" once added), and "Clear selection".
 

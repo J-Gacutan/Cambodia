@@ -68,7 +68,7 @@ Use the same sentence in the inspect drawer. Drop "restoration potential" from t
 
 Driver toggles live in page state. The shortlist is a separate list in local storage. A shared link reopens a case id only (`#map?case=`).
 
-The CSV already keeps three states through `flagLabel`: `hit`, `no hit (known sources)`, `unknown / incomplete coverage`. It does not carry the bundle version or the GO sentence. A file that leaves the console without those two lines will be read as a site list.
+The CSV already keeps three states through `flagLabel`: `Known flag`, `No known flag`, `Not fully checked`. It does not carry the bundle version or the GO sentence. A file that leaves the console without those two lines will be read as a site list.
 
 Put the version, the class rule and the claim ceiling in the CSV header and in the GeoJSON properties. Write province and driver state into the hash so a link reopens the same view.
 
@@ -105,7 +105,7 @@ Keep these. They are the LIIP pattern in this console.
 | Product banner | `app/src/App.tsx` | GO means worth a field look. Physical / land-cover only. |
 | Class meanings | `app/src/lib/classMeaning.ts` | Each class restates the ceiling in the inspect text. |
 | Evidence and illustrative badges | `app/src/common/Evidence.tsx` | A figure wears its evidence class. `public_ready=false` stays labelled illustrative. |
-| Three-state flags | `flagLabel` in `app/src/lib/bundle.ts` | Null is `unknown / incomplete coverage`, not a pass. |
+| Three-state flags | `flagLabel` in `app/src/lib/bundle.ts` | Null is `Not fully checked`, not a pass. |
 | Driver catalogue | `app/src/lib/cautionDrivers.ts` | One row: id, label, holds-back sentence, source, live / partial / stub. |
 | Public artifact boundary | open-cleared bundle, Pages workflow | FLAG rasters, WDPA geometries and INTERNAL case PNGs stay out. |
 

@@ -32,7 +32,7 @@ const CASE_PLAIN: Record<
     story:
       "Near Peam Krasaop, some land that was once mangrove now looks open — bare, grass, or shrub, not trees, crops, water, or buildings. That is a GO reading: worth a field visit after height and rights checks. It is not a pond.",
     onRead:
-      "Keep open land on, click a teal patch, read the side panel, then shortlist it if a field visit still makes sense.",
+      "Keep open land on, click a teal site, read the side panel, then shortlist it if a field visit still makes sense.",
     practice: "go"
   },
   C: {
@@ -40,7 +40,7 @@ const CASE_PLAIN: Record<
     story:
       "Along the Preah Sihanouk / Kampot coast, some places are tidal flat or mudflat. That is a CAUTION reading: do not plant here; natural recovery only after a water check on site.",
     onRead:
-      "Keep Tide on, click a gold patch, read why it is held back — usually leave it off the shortlist for planting.",
+      "Keep Tide on, click a gold site, read why it is held back — usually leave it off the shortlist for planting.",
     practice: "tidal"
   }
 };
@@ -126,13 +126,13 @@ export default function CasesPage() {
         <ol className="khm-means-read-path">
           <li>
             <strong>Filter</strong> reasons to pause (tide, height, converted land, ponds; rights and carbon
-            projects when flags hit).
+            projects when a known flag appears).
           </li>
           <li>
-            <strong>Click</strong> a coloured patch on the map.
+            <strong>Click</strong> a coloured site on the map.
           </li>
           <li>
-            <strong>Inspect</strong> the side panel — GO worth a visit, or a named hold-back.
+            <strong>Inspect</strong> the side panel — GO worth a visit, or a named reason to pause.
           </li>
           <li>
             <strong>Shortlist</strong> sites you still want to walk, then continue to Act.
@@ -242,7 +242,7 @@ export default function CasesPage() {
         Why you pause
       </Title>
       <p className="pf-v6-u-font-size-sm">
-        CAUTION is not one bucket — each colour names a hold-back. Open a row for the plain reason. Tide is
+        CAUTION is not one bucket — each colour names a reason to pause. Open a row for the plain reason. Tide is
         the live coastal example (Case C). Active ponds are on the map too.
       </p>
       <ul className="khm-means-legend khm-means-drivers">
@@ -281,7 +281,7 @@ export default function CasesPage() {
                 <p>
                   {driver.holdsBack}{" "}
                   {driver.id === "tidal"
-                    ? "Worked example: Case C — this hold-back is painted on the map today."
+                    ? "Worked example: Case C — this reason to pause is painted on the map today."
                     : driver.id === "pond"
                       ? "Painted on the map as its own colour on this pack."
                       : driver.status === "live"
@@ -302,7 +302,7 @@ export default function CasesPage() {
           <Swatch color={FLAGS.permit} label="Protected-area context" />
           <p>
             Named designations for a rights check. Toggle on Read when you want to see them. Not planting
-            permission. Research use only on this console.
+            permission. Research use only on this tool.
           </p>
         </li>
         <li>

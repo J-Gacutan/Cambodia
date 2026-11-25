@@ -81,7 +81,7 @@ function esc(s: string): string {
 
 function driversCell(row: ShortlistItem): string {
   const drivers = driversForFeature(asProps(row));
-  return drivers.length ? drivers.map((id) => DRIVER_BY_ID[id].short).join(", ") : "none mapped";
+  return drivers.length ? drivers.map((id) => DRIVER_BY_ID[id].short).join(", ") : "None listed";
 }
 
 function readingCell(row: ShortlistItem): string {
@@ -95,10 +95,10 @@ function overlaysCell(row: ShortlistItem): string {
     : "";
   const legalExtra = row.stop_legal_status ? ` (${row.stop_legal_status})` : "";
   return [
-    `Protected: ${flagLabel(row.permit_gate)}`,
+    `Protected area: ${flagLabel(row.permit_gate)}`,
     `Legal stop: ${flagLabel(row.stop_legal)}${legalExtra}`,
-    `Carbon: ${flagLabel(row.project_overlap)}${carbonExtra}`,
-    `Height fail: ${flagLabel(row.elevation_fail ?? null)}`
+    `Carbon project: ${flagLabel(row.project_overlap)}${carbonExtra}`,
+    `Height above tide: ${flagLabel(row.elevation_fail ?? null)}`
   ].join("; ");
 }
 
@@ -109,7 +109,7 @@ function siteMarkdownTable(row: ShortlistItem, meta: ShortlistReportMeta): strin
     lines.push(
       shot
         ? `*Map snapshot: included in the printable HTML report for this site.*`
-        : `*Map snapshot unavailable for ${row.id} — pair with printable HTML or map-polygon download.*`,
+        : `*Map snapshot unavailable for ${row.id} — pair with printable HTML or the map shapes download.*`,
       ``
     );
   }
@@ -121,14 +121,14 @@ function siteMarkdownTable(row: ShortlistItem, meta: ShortlistReportMeta): strin
   );
   if (row.province) lines.push(`| Province | ${row.province} |`);
   lines.push(
-    `| Centroid lat | ${row.lat} |`,
-    `| Centroid lon | ${row.lon} |`,
-    `| Drivers | ${driversCell(row)} |`,
+    `| Centre latitude | ${row.lat} |`,
+    `| Centre longitude | ${row.lon} |`,
+    `| Hold reasons | ${driversCell(row)} |`,
     `| Protected area | ${flagLabel(row.permit_gate)} |`,
     `| Legal stop | ${flagLabel(row.stop_legal)}${row.stop_legal_status ? ` (${row.stop_legal_status})` : ""} |`,
     `| Carbon project | ${flagLabel(row.project_overlap)}${(row.project_overlap_ids ?? []).length ? ` · ${(row.project_overlap_ids ?? []).join(", ")}` : ""} |`,
-    `| Height check fail | ${flagLabel(row.elevation_fail ?? null)} |`,
-    `| Geometry | ${row.geometry.type} (full rings in companion map-polygon download) |`
+    `| Height above tide | ${flagLabel(row.elevation_fail ?? null)} |`,
+    `| Shape | ${row.geometry.type} (full outline in the map shapes download) |`
   );
   if (row.note) lines.push(`| Note | ${row.note} |`);
   lines.push(``);
@@ -142,12 +142,12 @@ export function shortlistReportMarkdown(rows: ShortlistItem[], meta: ShortlistRe
   const ha = rows.reduce((s, r) => s + (Number.isFinite(r.area_ha) ? r.area_ha : 0), 0);
   const holds = holdCounts(rows);
   const lines: string[] = [
-    `# Cambodia screen — shortlist decision report`,
+    `# Cambodia screen — shortlist report`,
     ``,
     `Generated: ${meta.generatedAt} (Australia/Sydney local machine time as reported by the browser).`,
-    `Bundle: \`${meta.bundleVersion}\`.`,
+    `Data pack: \`${meta.bundleVersion}\`.`,
     ``,
-    `> Land-cover screen only. GO = worth a field visit. Flags name instruments and overlaps — never approved or refused. Not planting permission.`,
+    `> Land-cover check only. GO = worth a field visit. Flags name rules and project overlaps — they do not mean approved or refused. Not planting permission.`,
     ``
   ];
   if (meta.reportQr) {
@@ -163,13 +163,13 @@ export function shortlistReportMarkdown(rows: ShortlistItem[], meta: ShortlistRe
     `| CAUTION | ${caution.length} |`,
     `| Area (ha) | ${ha.toFixed(2)} |`,
     ``,
-    `## Hold-backs on this shortlist`,
+    `## Why these sites are held back`,
     ``
   );
   if (holds.length === 0) {
-    lines.push(`No mapped hold-back on these sites (physical GO only where listed).`, ``);
+    lines.push(`No hold reasons on these sites (GO here is from land cover only).`, ``);
   } else {
-    lines.push(`| Reason | Sites | ha | Reading |`, `| --- | ---: | ---: | --- |`);
+    lines.push(`| Reason | Sites | ha | What it means |`, `| --- | ---: | ---: | --- |`);
     for (const h of holds) {
       const d = DRIVER_BY_ID[h.id];
       lines.push(`| ${d.label} | ${h.count} | ${h.ha.toFixed(2)} | ${d.holdsBack} |`);
@@ -179,9 +179,9 @@ export function shortlistReportMarkdown(rows: ShortlistItem[], meta: ShortlistRe
   lines.push(
     `## Shortlist sites (overview)`,
     ``,
-    `First-class content of this decision pack — same rows carried from Read → Act.`,
+    `Sites on this shortlist — same list from Read and Act.`,
     ``,
-    `| Site | Reading | ha | Lat | Lon | Drivers | Overlays |`,
+    `| Site | Reading | ha | Lat | Lon | Hold reasons | Flags |`,
     `| --- | --- | ---: | ---: | ---: | --- | --- |`
   );
   for (const row of rows) {
@@ -198,13 +198,13 @@ export function shortlistReportMarkdown(rows: ShortlistItem[], meta: ShortlistRe
     ``,
     `| Step | Action |`,
     `| --- | --- |`,
-    `| 1 | Field visit — walk GO first; treat CAUTION holds as named checks. |`,
-    `| 2 | Rights / access — confirm authorities or project holders where protected-area or carbon-project flags hit. |`,
-    `| 3 | Share carefully — quote the package evidence lines; no commercial republish of protected-area or project extracts. |`,
+    `| 1 | Field visit — walk GO sites first; treat each CAUTION reason as a named check. |`,
+    `| 2 | Rights / access — confirm with authorities or project holders where a protected-area or carbon-project flag appears. |`,
+    `| 3 | Share carefully — quote the evidence lines from this pack; do not republish protected-area or project extracts for commercial use. |`,
     ``,
     `## Companion downloads`,
     ``,
-    `Pair this report with the spreadsheet table and map polygons from Act (same shortlist, same session).`,
+    `Pair this report with the spreadsheet table and map shapes from Act (same shortlist, same session).`,
     ``
   );
   if (meta.productBanner) {
@@ -228,14 +228,14 @@ function siteDetailHtml(row: ShortlistItem, meta: ShortlistReportMeta): string {
     attrRows.push(`<tr><th scope="row">Province</th><td>${esc(row.province)}</td></tr>`);
   }
   attrRows.push(
-    `<tr><th scope="row">Centroid lat</th><td class="num">${row.lat}</td></tr>`,
-    `<tr><th scope="row">Centroid lon</th><td class="num">${row.lon}</td></tr>`,
-    `<tr><th scope="row">Drivers</th><td>${drivers.length ? esc(drivers.map((id) => DRIVER_BY_ID[id].short).join(", ")) : "none mapped"}</td></tr>`,
+    `<tr><th scope="row">Centre latitude</th><td class="num">${row.lat}</td></tr>`,
+    `<tr><th scope="row">Centre longitude</th><td class="num">${row.lon}</td></tr>`,
+    `<tr><th scope="row">Hold reasons</th><td>${drivers.length ? esc(drivers.map((id) => DRIVER_BY_ID[id].short).join(", ")) : "None listed"}</td></tr>`,
     `<tr><th scope="row">Protected area</th><td>${esc(flagLabel(row.permit_gate))}</td></tr>`,
     `<tr><th scope="row">Legal stop</th><td>${esc(flagLabel(row.stop_legal))}${row.stop_legal_status ? ` (${esc(row.stop_legal_status)})` : ""}</td></tr>`,
     `<tr><th scope="row">Carbon project</th><td>${esc(flagLabel(row.project_overlap))}${(row.project_overlap_ids ?? []).length ? ` · ${esc((row.project_overlap_ids ?? []).join(", "))}` : ""}</td></tr>`,
-    `<tr><th scope="row">Height check fail</th><td>${esc(flagLabel(row.elevation_fail ?? null))}</td></tr>`,
-    `<tr><th scope="row">Geometry</th><td>${esc(row.geometry.type)} (rings in companion map-polygon download)</td></tr>`
+    `<tr><th scope="row">Height above tide</th><td>${esc(flagLabel(row.elevation_fail ?? null))}</td></tr>`,
+    `<tr><th scope="row">Shape</th><td>${esc(row.geometry.type)} (full outline in the map shapes download)</td></tr>`
   );
   if (row.note) {
     attrRows.push(`<tr><th scope="row">Note</th><td>${esc(row.note)}</td></tr>`);
@@ -305,10 +305,10 @@ export function shortlistReportHtml(rows: ShortlistItem[], meta: ShortlistReport
 
   const holdsHtml =
     holds.length === 0
-      ? "<p class=\"empty\">No mapped hold-back on these sites.</p>"
+      ? "<p class=\"empty\">No hold reasons on these sites.</p>"
       : `<table class="data">
         <thead>
-          <tr><th>Reason</th><th class="num">Sites</th><th class="num">ha</th><th>Reading</th></tr>
+          <tr><th>Reason</th><th class="num">Sites</th><th class="num">ha</th><th>What it means</th></tr>
         </thead>
         <tbody>
           ${holds
@@ -325,7 +325,7 @@ export function shortlistReportHtml(rows: ShortlistItem[], meta: ShortlistReport
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cambodia screen — shortlist decision report (${esc(meta.bundleVersion)})</title>
+  <title>Cambodia screen — shortlist report (${esc(meta.bundleVersion)})</title>
   <style>
     @page {
       size: A4;
@@ -595,9 +595,9 @@ export function shortlistReportHtml(rows: ShortlistItem[], meta: ShortlistReport
 
   <header class="mast">
     <div class="mast-text">
-      <h1>Cambodia screen — shortlist decision report</h1>
-      <p class="meta">Generated: ${esc(meta.generatedAt)}. Bundle: <code>${esc(meta.bundleVersion)}</code>.</p>
-      <div class="banner">Land-cover screen only. GO = worth a field visit. Flags name instruments — never approved or refused. Not planting permission. Sites below are the decision content; pair with spreadsheet + map polygons from Act.</div>
+      <h1>Cambodia screen — shortlist report</h1>
+      <p class="meta">Generated: ${esc(meta.generatedAt)}. Data pack: <code>${esc(meta.bundleVersion)}</code>.</p>
+      <div class="banner">Land-cover check only. GO = worth a field visit. Flags name rules and project overlaps — they do not mean approved or refused. Not planting permission. Sites below are the shortlist; pair with the spreadsheet and map shapes from Act.</div>
     </div>
     ${qrBlock}
   </header>
@@ -613,13 +613,13 @@ export function shortlistReportHtml(rows: ShortlistItem[], meta: ShortlistReport
       </tbody>
     </table>
 
-    <h2>Hold-backs</h2>
+    <h2>Why these sites are held back</h2>
     ${holdsHtml}
   </section>
 
   <section aria-labelledby="sites-overview-heading">
     <h2 id="sites-overview-heading">Shortlist sites</h2>
-    <p>First-class content of this decision pack — carried from Read → Act.</p>
+    <p>Sites on this shortlist — same list from Read and Act.</p>
     <table class="data overview">
       <thead>
         <tr>
@@ -628,8 +628,8 @@ export function shortlistReportHtml(rows: ShortlistItem[], meta: ShortlistReport
           <th class="num">ha</th>
           <th class="num">Lat</th>
           <th class="num">Lon</th>
-          <th>Drivers</th>
-          <th>Overlays</th>
+          <th>Hold reasons</th>
+          <th>Flags</th>
           ${includeMap ? "<th>Map</th>" : ""}
         </tr>
       </thead>
@@ -651,14 +651,14 @@ export function shortlistReportHtml(rows: ShortlistItem[], meta: ShortlistReport
         <tr><th>Step</th><th>Action</th></tr>
       </thead>
       <tbody>
-        <tr><td class="num">1</td><td>Field visit — walk GO first; treat CAUTION holds as named checks.</td></tr>
-        <tr><td class="num">2</td><td>Rights / access — confirm authorities or project holders where protected-area or carbon-project flags hit.</td></tr>
-        <tr><td class="num">3</td><td>Share carefully — quote package evidence; no commercial republish of protected-area or project extracts.</td></tr>
+        <tr><td class="num">1</td><td>Field visit — walk GO sites first; treat each CAUTION reason as a named check.</td></tr>
+        <tr><td class="num">2</td><td>Rights / access — confirm with authorities or project holders where a protected-area or carbon-project flag appears.</td></tr>
+        <tr><td class="num">3</td><td>Share carefully — quote the evidence lines from this pack; do not republish protected-area or project extracts for commercial use.</td></tr>
       </tbody>
     </table>
   </section>
 
-  <p class="foot">Pair with spreadsheet + map-polygon downloads from Act (same shortlist). ${meta.productBanner ? esc(meta.productBanner) : ""}</p>
+  <p class="foot">Pair with the spreadsheet and map shapes downloads from Act (same shortlist). ${meta.productBanner ? esc(meta.productBanner) : ""}</p>
   <!-- Markdown twin available as .md download from Act.
 ${esc(mdish)}
   -->

@@ -9,12 +9,12 @@ export const GO_ONCE = "GO means worth a field look.";
 export const CLAIM_CEILING =
   "Land cover only. Not ministry zoning, land rights, planting permission, or a carbon score.";
 export const CLASS_RULE_V03 =
-  "This pack draws tide flats, converted land, active ponds, and open land. Legal STOP is not assessed.";
+  "This pack draws tide flats, converted land, active ponds, and open land. Legal stop is not assessed.";
 export const LEGAL_STOP_NOT_ASSESSED =
   "Not assessed yet. Ministry protected-area core zones are not on this pack. Do not guess from an IUCN label.";
 /** @deprecated Ponds ship on this pack; kept for older imports. */
 export const PONDS_NOT_IN_PACK =
-  "Active ponds are on this pack as a hold-back colour. Check rights before any claim.";
+  "Active ponds are on this pack as a pause colour. Check rights before any claim.";
 export const EMPTY_SHORTLIST = "No sites kept yet.";
 export const EMPTY_MAP =
   "Nothing matches these filters. Turn a colour back on, or clear a hide.";
@@ -34,7 +34,7 @@ function drawnClassBits(state: PanelState): string[] {
   const bits: string[] = [];
   const sorted = [...state.classes].sort((a, b) => a - b);
   for (const id of sorted) bits.push(CLASS_PHRASE[id]);
-  if (state.elevation) bits.push("height fails");
+  if (state.elevation) bits.push("sites too high for the tide");
   return bits;
 }
 
@@ -68,8 +68,8 @@ export type HeadlineInput = {
 };
 
 /**
- * Panel Interpretation. Legal STOP is the only "not assessed" clause on this pin.
- * One or two skim sentences: place, what is drawn, counts, pack version, GO, legal STOP.
+ * Panel Interpretation. Legal stop is the only "not assessed" clause on this pin.
+ * One or two skim sentences: place, what is drawn, counts, pack version, GO, legal stop.
  */
 export function buildPanelHeadline(input: HeadlineInput): string {
   const place = placeLabel(input.state.place, input.casePlaceLine);
@@ -78,7 +78,7 @@ export function buildPanelHeadline(input: HeadlineInput): string {
   const ha = formatCount(Math.round(input.counts.hectares));
   const pack = input.bundleVersion;
   const closing =
-    "GO means worth a field look. Legal STOP is not assessed on this pack.";
+    "GO means worth a field look. Legal stop is not assessed on this pack.";
 
   const class8Only =
     input.class8OnlyOpenCover &&
@@ -87,17 +87,17 @@ export function buildPanelHeadline(input: HeadlineInput): string {
     !input.state.elevation;
 
   if (class8Only) {
-    return `${lead}, open land that was once mangrove shows ${patches} patches covering about ${ha} hectares (pack ${pack}). ${closing}`;
+    return `${lead}, open land that was once mangrove shows ${patches} sites covering about ${ha} hectares (pack ${pack}). ${closing}`;
   }
 
   const bits = drawnClassBits(input.state);
   if (bits.length === 0) {
-    return `${lead}, no colours are drawn right now (0 patches from pack ${pack}). ${closing}`;
+    return `${lead}, no colours are drawn right now (0 sites from pack ${pack}). ${closing}`;
   }
 
   const drawn = joinEnglish(bits);
   const verb = bits.length === 1 ? "is" : "are";
-  return `${lead}, ${drawn} ${verb} drawn — ${patches} patches covering about ${ha} hectares (pack ${pack}). ${closing}`;
+  return `${lead}, ${drawn} ${verb} drawn — ${patches} sites covering about ${ha} hectares (pack ${pack}). ${closing}`;
 }
 
 /** Per-patch inspect sentence — same facts, short prose, one-decimal hectares. */
@@ -116,17 +116,17 @@ export function buildPatchHeadline(input: {
     (input.classId === 8
       ? "open land that was once mangrove"
       : input.classId === 7
-        ? "an active pond hold-back"
+        ? "an active pond reason to pause"
         : `class ${input.classId}`);
   const mid = middle.replace(/^Class\b/, "class");
   const ha = input.areaHa.toFixed(1);
   const goOrHold =
     input.suitability === "go"
       ? "It is worth a field look"
-      : "It is held back on this screen";
+      : "It is held back on this check";
   const assessedGap =
     input.elevationFail == null
-      ? "height and legal STOP are not assessed on this patch"
-      : "legal STOP is not assessed on this patch";
-  return `${lead}, this patch is ${mid} (${ha} hectares). ${goOrHold}; ${assessedGap}.`;
+      ? "height and legal stop are not assessed on this site"
+      : "legal stop is not assessed on this site";
+  return `${lead}, this site is ${mid} (${ha} hectares). ${goOrHold}; ${assessedGap}.`;
 }

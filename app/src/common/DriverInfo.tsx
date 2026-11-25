@@ -3,14 +3,14 @@ import InfoCircleIcon from "@patternfly/react-icons/dist/esm/icons/info-circle-i
 import type { CautionDriver } from "../lib/cautionDrivers";
 import { driverStatusLabel } from "../lib/cautionDrivers";
 
-/** Info-icon popover for hold-back driver prose — sits inline to the right of the label. */
+/** Info-icon popover for reason-to-pause prose — sits inline to the right of the label. */
 export function DriverInfo({ driver }: { driver: CautionDriver }) {
   const status = driverStatusLabel(driver.status);
   const statusLine =
     driver.status === "live"
       ? driver.source
       : driver.status === "partial"
-        ? `Partial. ${driver.source}`
+        ? `Partly checked. ${driver.source}`
         : `Not assessed. ${driver.source}`;
 
   return (

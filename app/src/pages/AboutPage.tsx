@@ -263,7 +263,7 @@ export default function AboutPage() {
       <Accordion headingLevel="h2" className="khm-about-accordion">
         <AccordionItem isExpanded={expanded.has("how")} id="how" className="khm-about-section">
           <AccordionToggle id="about-toggle-how" onClick={() => toggleSection("how")}>
-            How the screen works
+            How this check works
           </AccordionToggle>
           <AccordionContent id="about-expand-how">
             <p>
@@ -280,7 +280,7 @@ export default function AboutPage() {
                 rights context, or an existing carbon project).
               </li>
               <li>
-                <strong>Overlays</strong> — protected-area context and existing project outlines for awareness only.
+                <strong>Extra layers</strong> — protected-area context and existing project outlines for awareness only.
               </li>
             </ul>
           </AccordionContent>
@@ -308,7 +308,7 @@ export default function AboutPage() {
               </li>
               <li>
                 <strong>Active pond</strong> (berry / magenta on the map, not the amber tide colour) — reads as an
-                active or on-and-off pond. Check who uses it before any claim. About 500 pond patches (~1,350 ha)
+                active or on-and-off pond. Check who uses it before any claim. About 500 pond sites (~1,350 ha)
                 ship on this pack; source pond maps stay offline.
               </li>
               <li>
@@ -324,7 +324,7 @@ export default function AboutPage() {
           </AccordionToggle>
           <AccordionContent id="about-expand-limits">
             <p>
-              The map is a land-cover filter. Flags name instruments and overlaps; they do not mean a site is
+              The map is a land-cover filter. Flags name rules and project overlaps; they do not mean a site is
               approved or refused. Ministry core-zone stops are not on this pack yet — until they are, that check
               stays unavailable. Case B is not in this pack (no open-water override example or data).
             </p>
@@ -342,7 +342,7 @@ export default function AboutPage() {
               {publicReady
                 ? " Cleared for this research share."
                 : " Still illustrative — do not publish as a public product."}{" "}
-              For redistribution decisions, quote the original source register, not this website alone.
+              For sharing decisions, quote the original source register, not this website alone.
             </p>
           </AccordionContent>
         </AccordionItem>
@@ -353,10 +353,10 @@ export default function AboutPage() {
           </AccordionToggle>
           <AccordionContent id="about-expand-licence">
             <p>
-              This console is aimed at public research sharing (GitHub Pages). Sensitive working rasters never go
+              This tool is aimed at public research sharing (GitHub Pages). Sensitive working maps never go
               into the public site. Protected-area and carbon-project outlines may appear as research context only —
-              not for commercial republishing, and not as planting permission. Active-pond polygons ship for a
-              research hold-back; the original pond maps stay offline.
+              not for commercial republishing, and not as planting permission. Active-pond shapes ship as a
+              research reason to pause; the original pond maps stay offline.
             </p>
             <ul>
               <li>
@@ -367,11 +367,11 @@ export default function AboutPage() {
                 <strong>Local preview</strong> — fine for team review against the pinned package.
               </li>
               <li>
-                <strong>Source pond maps</strong> — stay offline; only screened polygons appear here.
+                <strong>Source pond maps</strong> — stay offline; only screened shapes appear here.
               </li>
               <li>
-                <strong>Protected-area and project overlays</strong> — research use on this console; do not claim
-                commercial redistribution.
+                <strong>Protected-area and project layers</strong> — research use on this tool; do not claim
+                commercial republishing.
               </li>
             </ul>
           </AccordionContent>
@@ -385,7 +385,7 @@ export default function AboutPage() {
             <p className="pf-v6-u-font-size-sm">
               Locate shows what is happening with mangroves along this coast today — 2025 extent plus loss or gain
               since 1996. A year-by-year slider, multi-year urban expansion, and any health product remain gaps.
-              Toggle those overlays on <a href="#change">Locate</a>.
+              Toggle those layers on <a href="#change">Locate</a>.
             </p>
             {changeError && <p role="alert">{changeError}</p>}
             {changeIndex && (
@@ -408,7 +408,7 @@ export default function AboutPage() {
                         {layer.stub
                           ? "Coming soon"
                           : layer.state_role === "extent"
-                            ? "Open stock"
+                            ? "Living cover"
                             : "Open sample"}
                       </Label>
                       {layer.state_role ? (
@@ -492,7 +492,7 @@ export default function AboutPage() {
           </AccordionToggle>
           <AccordionContent id="about-expand-layers">
             <p className="pf-v6-u-font-size-sm">
-              Each layer carries a plain-language licence line. Toggle overlays on the map; take the shortlist to{" "}
+              Each layer carries a plain-language licence line. Toggle layers on the map; take the shortlist to{" "}
               <a href="#act">Act</a>. Active ponds are part of the main restoration layer on this pack.
             </p>
             {layers.error && <p role="alert">{layers.error}</p>}
